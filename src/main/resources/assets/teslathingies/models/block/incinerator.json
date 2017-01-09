@@ -1,0 +1,6 @@
+{
+  "parent": "teslacorelib:block/generator",
+  "textures": {
+    "north": "teslathingies:blocks/generator-front-incinerator"
+  }
+}
