@@ -6,17 +6,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import net.ndrei.teslapoweredthingies.gui.DualTankEntityRenderer;
 
 /**
- * Created by CF on 2017-01-09.
+ * Created by CF on 2017-01-11.
  */
-public class FluidBurnerBlock extends BaseThingyBlock<FluidBurnerEntity> {
-    public FluidBurnerBlock() {
-        super("fluid_burner", FluidBurnerEntity.class);
+public class FluidSolidifierBlock extends BaseThingyBlock<FluidSolidifierEntity> {
+    public FluidSolidifierBlock() {
+        super("fluid_solidifier", FluidSolidifierEntity.class);
     }
 
     @SideOnly(Side.CLIENT)
     public void registerRenderer() {
         super.registerRenderer();
 
-        ClientRegistry.bindTileEntitySpecialRenderer(FluidBurnerEntity.class, new DualTankEntityRenderer());
+        ClientRegistry.bindTileEntitySpecialRenderer(FluidSolidifierEntity.class, new DualTankEntityRenderer());
     }
 }

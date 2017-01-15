@@ -12,5 +12,6 @@ public class BlockRendererRegistry {
     static void registerBlockRenderers() {
         BlocksRegistry.incinerator.registerRenderer();
         BlocksRegistry.fluidBurner.registerRenderer();
+        BlocksRegistry.fluidSolidifier.registerRenderer();
     }
 }

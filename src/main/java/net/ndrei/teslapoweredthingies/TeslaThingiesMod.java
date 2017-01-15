@@ -4,8 +4,10 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -39,6 +41,13 @@ public class TeslaThingiesMod
         @Override
         public ItemStack getTabIconItem() { return this.getIconItemStack(); }
     };
+
+    @Mod.EventHandler
+    public void construction(FMLConstructionEvent event)
+    {
+        // Use forge universal bucket
+        FluidRegistry.enableUniversalBucket();
+    }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){

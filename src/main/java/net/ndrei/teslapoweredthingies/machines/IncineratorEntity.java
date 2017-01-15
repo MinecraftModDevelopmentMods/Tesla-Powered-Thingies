@@ -183,12 +183,12 @@ public class IncineratorEntity extends ElectricGenerator implements IWorkItemPro
 
     @Override
     protected long getEnergyOutputRate() {
-        return 60;
+        return 40;
     }
 
     @Override
     protected long getEnergyFillRate() {
-        return 120;
+        return 40;
     }
 
     @Override

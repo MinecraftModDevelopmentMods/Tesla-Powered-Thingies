@@ -51,6 +51,10 @@ public class FluidBurnerTankPiece extends BasicContainerGuiPiece {
     }
 
     private void drawFluid(BasicTeslaGuiContainer container, Fluid fluid, int x, int y, int w, int h) {
+        if (fluid == null) {
+            return;
+        }
+
         int color = fluid.getColor();
         ResourceLocation still = fluid.getFlowing(); //.getStill(stack);
         if (still != null) {

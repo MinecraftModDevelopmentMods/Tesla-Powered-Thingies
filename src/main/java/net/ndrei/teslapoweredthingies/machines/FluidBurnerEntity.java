@@ -25,6 +25,7 @@ import net.ndrei.teslapoweredthingies.TeslaThingiesMod;
 import net.ndrei.teslapoweredthingies.common.FluidUtils;
 import net.ndrei.teslapoweredthingies.gui.FluidBurnerTankPiece;
 import net.ndrei.teslapoweredthingies.gui.GeneratorBurnPiece;
+import net.ndrei.teslapoweredthingies.gui.IDualTankMachine;
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerCoolant;
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerFuel;
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerRecipes;
@@ -35,7 +36,7 @@ import java.util.List;
 /**
  * Created by CF on 2017-01-09.
  */
-public class FluidBurnerEntity extends ElectricGenerator {
+public class FluidBurnerEntity extends ElectricGenerator implements IDualTankMachine {
     private FluidTank coolantTank;
     private FluidTank fuelTank;
     private ItemStackHandler coolantItems;
@@ -223,16 +224,16 @@ public class FluidBurnerEntity extends ElectricGenerator {
 
     @Override
     protected long getEnergyOutputRate() {
-        return 60;
+        return 80;
     }
 
     @Override
     protected long getEnergyFillRate() {
-        return 120;
+        return 80;
     }
 
-    public Fluid getCoolantInUse() { return FluidRegistry.WATER; } // this.coolantInUse; }
-    public Fluid getFuelInUse() { return FluidRegistry.LAVA; } // this.fuelInUse; }
+    public Fluid getCoolantInUse() { return this.coolantInUse; }
+    public Fluid getFuelInUse() { return this.fuelInUse; }
 
     @Override
     public List<IGuiContainerPiece> getGuiContainerPieces(BasicTeslaGuiContainer container) {
@@ -271,5 +272,23 @@ public class FluidBurnerEntity extends ElectricGenerator {
         if (compound.hasKey("coolantInUse")) {
             this.coolantInUse = FluidRegistry.getFluid(compound.getString("coolantInUse"));
         }
+    }
+
+    public float getLeftTankPercent() {
+        return Math.min(1, Math.max(0, (float)this.coolantTank.getFluidAmount() / (float)this.coolantTank.getCapacity()));
+    }
+
+    public float getRightTankPercent() {
+        return Math.min(1, Math.max(0, (float)this.fuelTank.getFluidAmount() / (float)this.fuelTank.getCapacity()));
+    }
+
+    public Fluid getLeftTankFluid() {
+        FluidStack stack = this.coolantTank.getFluid();
+        return (stack == null) ? null : stack.getFluid();
+    }
+
+    public Fluid getRightTankFluid() {
+        FluidStack stack = this.fuelTank.getFluid();
+        return (stack == null) ? null : stack.getFluid();
     }
 }
