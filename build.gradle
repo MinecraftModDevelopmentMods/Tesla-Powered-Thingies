@@ -75,7 +75,7 @@ processResources {
         // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
-        
+
     from(sourceSets.main.resources.srcDirs) {
         exclude '**/*.info'
         exclude '**/*.properties'
@@ -115,3 +115,4 @@ def getDate() {
     def formattedDate = date.format('yyyyMMdd') // HHmmss')
     return formattedDate
 }
+
