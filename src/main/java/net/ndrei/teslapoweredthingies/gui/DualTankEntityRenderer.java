@@ -77,7 +77,7 @@ public class DualTankEntityRenderer extends TileEntitySpecialRenderer<ElectricTi
                     float height = 14.02f * fluidPercent;
                     this.drawRectangle(
                             tankX + 0.99f, 5.99f + 14.02f - height, 6.02f, height,
-                            fluidSprite.getMinU(), fluidSprite.getMinV(), fluidSprite.getMaxU(), fluidSprite.getMaxV());
+                                fluidSprite.getMinU(), fluidSprite.getMinV(), fluidSprite.getMaxU(), fluidSprite.getMaxV());
                 }
             }
         }

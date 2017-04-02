@@ -29,7 +29,7 @@ public class GeneratorBurnPiece extends BasicContainerGuiPiece {
         container.drawTexturedRect(this.getLeft(), this.getTop(), 44, 27, 14, 14);
         long generated = this.te.getGeneratedPowerCapacity();
         long stored = this.te.getGeneratedPowerStored();
-        int percent = Math.round(14 * Math.min(Math.max((float)stored / (float)generated, 0), 1));
+        int percent = Math.round(14 * Math.min(Math.max((float)(generated - stored) / (float)generated, 0), 1));
         if (percent > 0) {
             container.drawTexturedRect(this.getLeft(), this.getTop() + percent, 8, 27 + percent, 14, 14 - percent);
         }

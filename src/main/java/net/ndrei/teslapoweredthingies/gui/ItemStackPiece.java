@@ -3,6 +3,7 @@ package net.ndrei.teslapoweredthingies.gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.ndrei.teslacorelib.compatibility.FontRendererUtil;
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil;
 import net.ndrei.teslacorelib.gui.BasicContainerGuiPiece;
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer;
@@ -30,7 +31,7 @@ public class ItemStackPiece extends BasicContainerGuiPiece {
             GlStateManager.pushMatrix();
             GlStateManager.enableDepth();
             container.getItemRenderer().renderItemAndEffectIntoGUI(stack, guiX + x, guiY + y);
-            container.getItemRenderer().renderItemOverlayIntoGUI(container.mc.fontRendererObj, stack, x, y, null);
+            container.getItemRenderer().renderItemOverlayIntoGUI(FontRendererUtil.getFontRenderer(), stack, x, y, null);
             GlStateManager.popMatrix();
             RenderHelper.disableStandardItemLighting();
         }
