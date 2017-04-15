@@ -54,4 +54,12 @@ public final class FluidBurnerRecipes {
         }
         return null;
     }
+
+    public static List<FluidBurnerFuelRecipe> getFuels() {
+        return fuelRecipes;
+    }
+
+    public static List<FluidBurnerCoolantRecipe> getCoolants() {
+        return coolantRecipes;
+    }
 }

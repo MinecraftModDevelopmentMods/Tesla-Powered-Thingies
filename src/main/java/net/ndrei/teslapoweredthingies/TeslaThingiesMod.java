@@ -1,7 +1,6 @@
 package net.ndrei.teslapoweredthingies;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidRegistry;
@@ -11,6 +10,7 @@ import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.ndrei.teslapoweredthingies.common.BlocksRegistry;
 import net.ndrei.teslapoweredthingies.common.CommonProxy;
 import org.apache.logging.log4j.Logger;
 
@@ -21,6 +21,7 @@ public class TeslaThingiesMod
     public static final String VERSION = "@@VERSION@@";
 
     public static final ResourceLocation MACHINES_TEXTURES = new ResourceLocation(TeslaThingiesMod.MODID, "textures/gui/machines.png");
+    public static final ResourceLocation JEI_TEXTURES = new ResourceLocation(TeslaThingiesMod.MODID, "textures/gui/jei.png");
 
     @Mod.Instance
     @SuppressWarnings("unused")
@@ -33,9 +34,8 @@ public class TeslaThingiesMod
 
     public static CreativeTabs creativeTab =  new CreativeTabs("Tesla Powered Thingies") {
         @Override
-        public ItemStack getIconItemStack()
-        {
-            return new ItemStack(Items.BEETROOT_SOUP);
+        public ItemStack getIconItemStack() {
+            return new ItemStack(BlocksRegistry.fluidBurner);
         }
 
         @Override

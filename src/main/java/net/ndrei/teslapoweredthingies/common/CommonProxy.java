@@ -7,6 +7,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod;
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerRecipes;
 import net.ndrei.teslapoweredthingies.machines.incinerator.IncineratorRecipes;
+import net.ndrei.teslapoweredthingies.machines.itemliquefier.LiquefierRecipes;
 
 /**
  * Created by CF on 2017-01-06.
@@ -28,6 +29,7 @@ public class CommonProxy {
 
         IncineratorRecipes.registerRecipes();
         FluidBurnerRecipes.registerRecipes();
+        LiquefierRecipes.registerRecipes();
     }
 
     public Side getSide() {

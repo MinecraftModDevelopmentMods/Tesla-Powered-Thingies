@@ -24,7 +24,7 @@ public class ItemStackPiece extends BasicContainerGuiPiece {
     public void drawMiddleLayer(BasicTeslaGuiContainer container, int guiX, int guiY, float partialTicks, int mouseX, int mouseY) {
         ItemStack stack = (this.provider == null) ? ItemStack.EMPTY : this.provider.getWorkItem();
         if (!ItemStackUtil.isEmpty(stack)) {
-            int x = this.getLeft() + (this.getWidth() - 16) / 2 + 1;
+            int x = this.getLeft() + (this.getWidth() - 16) / 2;
             int y = this.getTop() + (this.getHeight() - 16) / 2;
 
             RenderHelper.enableGUIStandardItemLighting();

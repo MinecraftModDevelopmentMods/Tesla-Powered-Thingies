@@ -200,7 +200,7 @@ public class IncineratorEntity extends ElectricGenerator implements IWorkItemPro
 
         pieces.add(new GeneratorBurnPiece(99, 64, this));
 
-        pieces.add(new ItemStackPiece(94, 41, 22, 22, this) {
+        pieces.add(new ItemStackPiece(95, 41, 22, 22, this) {
             @Override
             public void drawForegroundTopLayer(BasicTeslaGuiContainer container, int guiX, int guiY, int mouseX, int mouseY) {
                 if (!this.isInside(container, mouseX, mouseY)) {

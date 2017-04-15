@@ -13,5 +13,6 @@ public class BlockRendererRegistry {
         BlocksRegistry.incinerator.registerRenderer();
         BlocksRegistry.fluidBurner.registerRenderer();
         BlocksRegistry.fluidSolidifier.registerRenderer();
+        BlocksRegistry.itemLiquefierBlock.registerRenderer();
     }
 }
