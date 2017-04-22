@@ -22,6 +22,7 @@ public class IncineratorBlock extends BaseThingyBlock<IncineratorEntity> {
                 'f', Blocks.FURNACE,
                 'c', TeslaCoreLib.machineCase,
                 's', Blocks.STONE,
-                'g', Items.FLINT_AND_STEEL);
+                'g', Items.FLINT_AND_STEEL
+        );
     }
 }

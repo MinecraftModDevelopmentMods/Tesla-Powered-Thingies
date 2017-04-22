@@ -1,6 +1,5 @@
 package net.ndrei.teslapoweredthingies.machines;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -32,7 +31,8 @@ public class FluidSolidifierBlock extends BaseThingyBlock<FluidSolidifierEntity>
                 "bob", "oco", "ogo",
                 'b', Items.BUCKET,
                 'c', TeslaCoreLib.machineCase,
-                'o', Blocks.OBSIDIAN,
-                'g', TeslaCoreLib.gearIron);
+                'o', "obsidian", // Blocks.OBSIDIAN,
+                'g', "gearIron" // TeslaCoreLib.gearIron
+        );
     }
 }

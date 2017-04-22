@@ -1,6 +1,5 @@
 package net.ndrei.teslapoweredthingies.machines;
 
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -32,7 +31,8 @@ public class FluidBurnerBlock extends BaseThingyBlock<FluidBurnerEntity> {
                 "bsb", "scs", "sgs",
                 'b', Items.BUCKET,
                 'c', TeslaCoreLib.machineCase,
-                's', Blocks.STONE,
-                'g', TeslaCoreLib.gearIron);
+                's', "stone", // Blocks.STONE,
+                'g', "gearIcon" // TeslaCoreLib.gearIron
+        );
     }
 }

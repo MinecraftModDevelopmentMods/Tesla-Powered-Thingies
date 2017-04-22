@@ -17,6 +17,7 @@ public class ItemsRegistry {
         GameRegistry.register(ItemsRegistry.ASH = new BaseThingyItem("ash"));
         CraftingManager.getInstance().addRecipe(new ShapedOreRecipe(new ItemStack(Items.DYE, 1, 15),
                 "xx", "xx",
-                'x', ItemsRegistry.ASH ));
+                'x', ItemsRegistry.ASH
+        ));
     }
 }
