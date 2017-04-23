@@ -52,7 +52,8 @@ public class LiquefierRecipes {
             recipes.add(new LiquefierRecipe(b, FluidRegistry.LAVA, VANILLA_STONE_TO_LAVA_RATE * 4));
         }
 
-        recipes.add(new LiquefierRecipe(Items.APPLE, 1, FluidRegistry.WATER, 100));
+        recipes.add(new LiquefierRecipe(Items.APPLE, 1, FluidRegistry.WATER, 50));
+        recipes.add(new LiquefierRecipe(Items.POTATO, 1, FluidRegistry.WATER, 50));
     }
 
     public static LiquefierRecipe getRecipe(Item item) {

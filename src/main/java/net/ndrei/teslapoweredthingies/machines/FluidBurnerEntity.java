@@ -46,7 +46,7 @@ public class FluidBurnerEntity extends ElectricGenerator implements IDualTankMac
     private Fluid fuelInUse = null;
 
     public FluidBurnerEntity() {
-        super(FluidBurnerEntity.class.hashCode());
+        super(FluidBurnerEntity.class.getName().hashCode());
     }
 
     @Override

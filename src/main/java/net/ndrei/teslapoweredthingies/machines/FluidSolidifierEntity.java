@@ -38,7 +38,7 @@ public class FluidSolidifierEntity extends ElectricMachine implements IDualTankM
     private FluidSolidifierResult lastWorkResult = null;
 
     public FluidSolidifierEntity() {
-        super(FluidSolidifierEntity.class.hashCode());
+        super(FluidSolidifierEntity.class.getName().hashCode());
     }
 
     //region Inventory and GUI stuff

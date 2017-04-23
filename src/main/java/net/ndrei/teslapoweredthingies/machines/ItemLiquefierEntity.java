@@ -38,7 +38,7 @@ public class ItemLiquefierEntity extends ElectricMachine implements IWorkItemPro
     private LiquefierRecipe currentRecipe = null;
 
     public ItemLiquefierEntity() {
-        super(ItemLiquefierEntity.class.hashCode());
+        super(ItemLiquefierEntity.class.getName().hashCode());
     }
 
     //region Inventory and GUI stuff
@@ -231,7 +231,7 @@ public class ItemLiquefierEntity extends ElectricMachine implements IWorkItemPro
 
     @Override
     protected int getEnergyForWork() {
-        return 12000;
+        return 6000;
     }
 
     @Override

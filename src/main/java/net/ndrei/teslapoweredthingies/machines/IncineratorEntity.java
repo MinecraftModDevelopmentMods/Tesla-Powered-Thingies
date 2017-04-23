@@ -35,7 +35,7 @@ public class IncineratorEntity extends ElectricGenerator implements IWorkItemPro
     private ItemStackHandler currentItem;
 
     public IncineratorEntity() {
-        super(IncineratorEntity.class.hashCode());
+        super(IncineratorEntity.class.getName().hashCode());
     }
 
     @Override
