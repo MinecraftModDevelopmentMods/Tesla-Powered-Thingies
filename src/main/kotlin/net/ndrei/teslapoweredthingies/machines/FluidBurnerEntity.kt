@@ -179,12 +179,12 @@ class FluidBurnerEntity : ElectricGenerator(FluidBurnerEntity::class.java.name.h
     }
 
     override fun consumeFuel(): Long {
-        val fuel = FluidBurnerRecipes.drainFuel(this.fuelTank, true)
+        val fuel = FluidBurnerRecipes.drainFuel(this.fuelTank!!, true)
         if (fuel != null) {
             var power = fuel.recipe.baseTicks.toLong()
             this.fuelInUse = fuel.fuel.fluid
 
-            val coolant = FluidBurnerRecipes.drainCoolant(this.coolantTank, true)
+            val coolant = FluidBurnerRecipes.drainCoolant(this.coolantTank!!, true)
             if (coolant != null) {
                 power *= coolant.recipe.timeMultiplier.toLong()
                 this.coolantInUse = coolant.coolant.fluid

@@ -111,7 +111,7 @@ class FluidSolidifierEntity : ElectricMachine(FluidSolidifierEntity::class.java.
 
             override fun clicked() {
                 this@FluidSolidifierEntity.resultType = FluidSolidifierResult.fromStateIndex(
-                        (this@FluidSolidifierEntity.resultType.stateIndex + 1) % FluidSolidifierResult.VALUES.size)
+                        (this@FluidSolidifierEntity.resultType.stateIndex + 1) % FluidSolidifierResult.values().size)
 
                 val nbt = this@FluidSolidifierEntity.setupSpecialNBTMessage("SET_RESULT_TYPE")
                 nbt.setInteger("result_type", this@FluidSolidifierEntity.resultType.stateIndex)
