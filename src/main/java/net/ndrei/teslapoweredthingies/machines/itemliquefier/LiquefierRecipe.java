@@ -55,7 +55,7 @@ public class LiquefierRecipe {
         else {
             ItemStack input = new ItemStack(nbt.getCompoundTag("input"));
             FluidStack output = FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag("output"));
-            return new LiquefierRecipe(input.getItem(), ItemStackUtil.getSize(input), output.getFluid(), output.amount);
+            return new LiquefierRecipe(input.getItem(), ItemStackUtil.INSTANCE.getSize(input), output.getFluid(), output.amount);
         }
     }
 }

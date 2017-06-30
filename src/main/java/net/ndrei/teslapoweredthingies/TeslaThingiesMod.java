@@ -10,8 +10,8 @@ import net.minecraftforge.fml.common.event.FMLConstructionEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.ndrei.teslapoweredthingies.common.BlocksRegistry;
 import net.ndrei.teslapoweredthingies.common.CommonProxy;
+import net.ndrei.teslapoweredthingies.machines.FluidBurnerBlock;
 import org.apache.logging.log4j.Logger;
 
 @Mod(modid = TeslaThingiesMod.MODID, version = TeslaThingiesMod.VERSION, name = "Tesla Core Lib", dependencies = "after:tesla", useMetadata = true)
@@ -35,7 +35,7 @@ public class TeslaThingiesMod
     public static CreativeTabs creativeTab =  new CreativeTabs("Tesla Powered Thingies") {
         @Override
         public ItemStack getIconItemStack() {
-            return new ItemStack(BlocksRegistry.fluidBurner);
+            return new ItemStack(FluidBurnerBlock.INSTANCE);
         }
 
         @Override

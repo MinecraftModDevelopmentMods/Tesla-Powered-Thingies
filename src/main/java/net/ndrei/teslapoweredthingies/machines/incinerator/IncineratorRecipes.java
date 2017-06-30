@@ -8,8 +8,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
-import net.ndrei.teslapoweredthingies.common.ItemsRegistry;
 import net.ndrei.teslapoweredthingies.common.SecondaryOutput;
+import net.ndrei.teslapoweredthingies.items.AshItem;
 
 import java.util.List;
 
@@ -24,34 +24,34 @@ public class IncineratorRecipes {
         IncineratorRecipes.recipes = Lists.newArrayList();
 
         // vanilla recipes
-        registerVanillaRecipe(Items.COAL, new SecondaryOutput(.02f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.COAL_BLOCK, new SecondaryOutput(.05f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.PLANKS, new SecondaryOutput(.10f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.LOG, new SecondaryOutput(.15f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.LOG2, new SecondaryOutput(.15f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.WOOL, new SecondaryOutput(.01f, ItemsRegistry.ASH));
+        registerVanillaRecipe(Items.COAL, new SecondaryOutput(.02f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.COAL_BLOCK, new SecondaryOutput(.05f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.PLANKS, new SecondaryOutput(.10f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.LOG, new SecondaryOutput(.15f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.LOG2, new SecondaryOutput(.15f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.WOOL, new SecondaryOutput(.01f, AshItem.INSTANCE));
 
-        registerVanillaRecipe(Blocks.SAPLING, new SecondaryOutput(.15f, ItemsRegistry.ASH));
+        registerVanillaRecipe(Blocks.SAPLING, new SecondaryOutput(.15f, AshItem.INSTANCE));
 
-        registerVanillaRecipe(Blocks.ACACIA_FENCE, new SecondaryOutput(.05f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.BIRCH_FENCE, new SecondaryOutput(.05f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.JUNGLE_FENCE, new SecondaryOutput(.05f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.OAK_FENCE, new SecondaryOutput(.05f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.SPRUCE_FENCE, new SecondaryOutput(.05f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.DARK_OAK_FENCE, new SecondaryOutput(.05f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.ACACIA_FENCE_GATE, new SecondaryOutput(.05f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.BIRCH_FENCE_GATE, new SecondaryOutput(.05f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.JUNGLE_FENCE_GATE, new SecondaryOutput(.05f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.OAK_FENCE_GATE, new SecondaryOutput(.05f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.SPRUCE_FENCE_GATE, new SecondaryOutput(.05f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Blocks.DARK_OAK_FENCE_GATE, new SecondaryOutput(.05f, ItemsRegistry.ASH));
+        registerVanillaRecipe(Blocks.ACACIA_FENCE, new SecondaryOutput(.05f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.BIRCH_FENCE, new SecondaryOutput(.05f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.JUNGLE_FENCE, new SecondaryOutput(.05f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.OAK_FENCE, new SecondaryOutput(.05f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.SPRUCE_FENCE, new SecondaryOutput(.05f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.DARK_OAK_FENCE, new SecondaryOutput(.05f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.ACACIA_FENCE_GATE, new SecondaryOutput(.05f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.BIRCH_FENCE_GATE, new SecondaryOutput(.05f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.JUNGLE_FENCE_GATE, new SecondaryOutput(.05f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.OAK_FENCE_GATE, new SecondaryOutput(.05f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.SPRUCE_FENCE_GATE, new SecondaryOutput(.05f, AshItem.INSTANCE));
+        registerVanillaRecipe(Blocks.DARK_OAK_FENCE_GATE, new SecondaryOutput(.05f, AshItem.INSTANCE));
 
-        registerVanillaRecipe(Items.STICK, new SecondaryOutput(.01f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Items.WOODEN_AXE, new SecondaryOutput(.03f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Items.WOODEN_HOE, new SecondaryOutput(.03f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Items.WOODEN_PICKAXE, new SecondaryOutput(.03f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Items.WOODEN_SHOVEL, new SecondaryOutput(.03f, ItemsRegistry.ASH));
-        registerVanillaRecipe(Items.WOODEN_SWORD, new SecondaryOutput(.03f, ItemsRegistry.ASH));
+        registerVanillaRecipe(Items.STICK, new SecondaryOutput(.01f, AshItem.INSTANCE));
+        registerVanillaRecipe(Items.WOODEN_AXE, new SecondaryOutput(.03f, AshItem.INSTANCE));
+        registerVanillaRecipe(Items.WOODEN_HOE, new SecondaryOutput(.03f, AshItem.INSTANCE));
+        registerVanillaRecipe(Items.WOODEN_PICKAXE, new SecondaryOutput(.03f, AshItem.INSTANCE));
+        registerVanillaRecipe(Items.WOODEN_SHOVEL, new SecondaryOutput(.03f, AshItem.INSTANCE));
+        registerVanillaRecipe(Items.WOODEN_SWORD, new SecondaryOutput(.03f, AshItem.INSTANCE));
     }
 
     private static void registerVanillaRecipe(Block block, SecondaryOutput secondary) {

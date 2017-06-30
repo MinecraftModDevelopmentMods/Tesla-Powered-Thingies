@@ -8,26 +8,27 @@ import mezz.jei.api.gui.IGuiFluidStackGroup;
 import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.BlankRecipeCategory;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod;
-import net.ndrei.teslapoweredthingies.common.BlocksRegistry;
+import net.ndrei.teslapoweredthingies.machines.FluidSolidifierBlock;
 import net.ndrei.teslapoweredthingies.machines.fluidsolidifier.FluidSolidifierResult;
 
 /**
  * Created by CF on 2017-04-14.
  */
 @SuppressWarnings("NullableProblems")
-public class FluidSolidifierCategory extends BlankRecipeCategory<FluidSolidifierCategory.FluidSolidifierRecipeWrapper> {
+public class FluidSolidifierCategory extends BaseCategory<FluidSolidifierCategory.FluidSolidifierRecipeWrapper> {
     public static final String UID = "FluidSolidifier";
 
     public static void register(IModRegistry registry, IGuiHelper guiHelper) {
         registry.addRecipeCategories(new FluidSolidifierCategory(guiHelper));
-        registry.addRecipeCategoryCraftingItem(new ItemStack(BlocksRegistry.fluidSolidifier), UID);
+        registry.addRecipeCategoryCraftingItem(new ItemStack(FluidSolidifierBlock.INSTANCE), UID);
         registry.handleRecipes(FluidSolidifierResult.class, FluidSolidifierCategory.FluidSolidifierRecipeWrapper::new, UID);
         registry.addRecipes(Lists.newArrayList(FluidSolidifierResult.VALUES), UID);
     }
@@ -51,7 +52,7 @@ public class FluidSolidifierCategory extends BlankRecipeCategory<FluidSolidifier
 
     @Override
     public String getTitle() {
-        return BlocksRegistry.fluidSolidifier.getLocalizedName();
+        return FluidSolidifierBlock.INSTANCE.getLocalizedName();
     }
 
     @Override
@@ -97,6 +98,7 @@ public class FluidSolidifierCategory extends BlankRecipeCategory<FluidSolidifier
         }
 
         @Override
+        @SideOnly(Side.CLIENT)
         public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
             super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
 

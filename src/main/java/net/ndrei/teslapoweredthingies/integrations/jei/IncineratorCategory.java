@@ -8,15 +8,17 @@ import mezz.jei.api.gui.IGuiItemStackGroup;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import mezz.jei.api.ingredients.IIngredients;
-import mezz.jei.api.recipe.BlankRecipeCategory;
 import mezz.jei.api.recipe.BlankRecipeWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod;
-import net.ndrei.teslapoweredthingies.common.BlocksRegistry;
 import net.ndrei.teslapoweredthingies.common.SecondaryOutput;
+import net.ndrei.teslapoweredthingies.machines.IncineratorBlock;
 import net.ndrei.teslapoweredthingies.machines.incinerator.IncineratorRecipe;
 import net.ndrei.teslapoweredthingies.machines.incinerator.IncineratorRecipes;
 
@@ -27,12 +29,12 @@ import java.util.List;
  * Created by CF on 2017-04-14.
  */
 @SuppressWarnings("NullableProblems")
-public class IncineratorCategory extends BlankRecipeCategory<IncineratorCategory.IncineratorRecipeWrapper> {
+public class IncineratorCategory extends BaseCategory<IncineratorCategory.IncineratorRecipeWrapper> {
     public static final String UID = "Incinerator";
 
     public static void register(IModRegistry registry, IGuiHelper guiHelper) {
         registry.addRecipeCategories(new IncineratorCategory(guiHelper));
-        registry.addRecipeCategoryCraftingItem(new ItemStack(BlocksRegistry.incinerator), UID);
+        registry.addRecipeCategoryCraftingItem(new ItemStack(IncineratorBlock.INSTANCE), UID);
         registry.handleRecipes(IncineratorRecipe.class, IncineratorRecipeWrapper::new, UID);
         registry.addRecipes(IncineratorRecipes.getRecipes(), UID);
     }
@@ -54,7 +56,7 @@ public class IncineratorCategory extends BlankRecipeCategory<IncineratorCategory
 
     @Override
     public String getTitle() {
-        return BlocksRegistry.incinerator.getLocalizedName();
+        return IncineratorBlock.INSTANCE.getLocalizedName();
     }
 
     @Override
@@ -77,11 +79,12 @@ public class IncineratorCategory extends BlankRecipeCategory<IncineratorCategory
                     private SecondaryOutput so;
 
                     @Override
+                    @SideOnly(Side.CLIENT)
                     public void render(Minecraft minecraft, int xPosition, int yPosition, @Nullable ItemStack ingredient) {
                         minecraft.getRenderItem().renderItemIntoGUI(ingredient, xPosition, yPosition);
                         minecraft.getRenderItem().renderItemOverlayIntoGUI(minecraft.fontRenderer, ingredient, xPosition + 1, yPosition + 1, null);
 
-                        String percent = "" + Math.round(so.chance * 100.0f) + "%";
+                        String percent = "" + Math.round(so.getChance() * 100.0f) + "%";
                         GlStateManager.pushMatrix();
                         GlStateManager.translate(xPosition + 8, yPosition + 20, 0);
                         GlStateManager.scale(.75f, .75f, 1f);
@@ -92,8 +95,9 @@ public class IncineratorCategory extends BlankRecipeCategory<IncineratorCategory
                     }
 
                     @Override
-                    public List<String> getTooltip(Minecraft minecraft, ItemStack ingredient) {
-                        return ingredient.getTooltip(minecraft.player, minecraft.gameSettings.advancedItemTooltips);
+                    @SideOnly(Side.CLIENT)
+                    public List<String> getTooltip(Minecraft minecraft, ItemStack ingredient, ITooltipFlag tooltipFlag) {
+                        return ingredient.getTooltip(minecraft.player, tooltipFlag);
                     }
 
                     @Override
@@ -106,7 +110,7 @@ public class IncineratorCategory extends BlankRecipeCategory<IncineratorCategory
                         return this;
                     }
                 }.init(so), 6 + (index - 1) * 18, 45, 18, 18, 1, 1);
-                stacks.set(index, so.stack);
+                stacks.set(index, so.getStack());
                 stacks.setBackground(index, this.slotBackground);
                 index++;
             }
@@ -128,13 +132,14 @@ public class IncineratorCategory extends BlankRecipeCategory<IncineratorCategory
             if ((this.recipe.secondaryOutputs != null) && (this.recipe.secondaryOutputs.length > 0)) {
                 List<ItemStack> secondary = Lists.newArrayList();
                 for (SecondaryOutput so : this.recipe.secondaryOutputs) {
-                    secondary.add(so.stack.copy());
+                    secondary.add(so.getStack().copy());
                 }
                 ingredients.setOutputs(ItemStack.class, secondary);
             }
         }
 
         @Override
+        @SideOnly(Side.CLIENT)
         public void drawInfo(Minecraft minecraft, int recipeWidth, int recipeHeight, int mouseX, int mouseY) {
             super.drawInfo(minecraft, recipeWidth, recipeHeight, mouseX, mouseY);
 
