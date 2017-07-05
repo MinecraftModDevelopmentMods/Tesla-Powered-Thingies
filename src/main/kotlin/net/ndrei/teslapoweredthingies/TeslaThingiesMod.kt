@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger
 /**
  * Created by CF on 2017-06-30.
  */
-@Mod(modid = TeslaThingiesMod.MODID, version = TeslaThingiesMod.VERSION, name = "Tesla Power Thingies", dependencies = "after:tesla,teslacorelib", useMetadata = true,
+@Mod(modid = TeslaThingiesMod.MODID, /*version = TeslaThingiesMod.VERSION, name = "Tesla Power Thingies", dependencies = "after:tesla,teslacorelib",*/ useMetadata = true,
         modLanguage = "kotlin", modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter")
 class TeslaThingiesMod {
     @Mod.EventHandler
@@ -45,7 +45,7 @@ class TeslaThingiesMod {
 
     companion object {
         const val MODID = "teslathingies"
-        const val VERSION = "@@VERSION@@"
+        const val VERSION = "@VERSION@"
 
         val MACHINES_TEXTURES = ResourceLocation(MODID, "textures/gui/machines.png")
         val JEI_TEXTURES = ResourceLocation(MODID, "textures/gui/jei.png")

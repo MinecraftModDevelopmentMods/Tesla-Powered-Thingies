@@ -17,5 +17,6 @@ class TheJeiThing : IModPlugin {
         FluidBurnerCategory.register(registry, guiHelper)
         FluidSolidifierCategory.register(registry, guiHelper)
         IncineratorCategory.register(registry, guiHelper)
+        PowderMakerCategory.register(registry, guiHelper)
     }
 }

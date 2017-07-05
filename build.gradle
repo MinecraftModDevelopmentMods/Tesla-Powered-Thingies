@@ -36,6 +36,9 @@ minecraft {
     mappings = "${mcp_version}"
     runDir = "run"
     makeObfSourceJar = false
+
+    replace "@VERSION@", project.version
+    replaceIn "TeslaThingiesMod.kt"
 }
 
 configurations {
@@ -103,8 +106,7 @@ artifacts {
     archives sourceJar, deobfJar
 }
 
-if (project.hasProperty('mavenFTPServer') && project.hasProperty('mavenFTPUser') && project.hasProperty('mavenFTPPassword')
-        && !project.hasProperty('mavenLocalPath')) {
+if (project.hasProperty('mavenFTPServer') && project.hasProperty('mavenFTPUser') && project.hasProperty('mavenFTPPassword')) {
     uploadArchives {
         repositories.mavenDeployer {
             dependsOn build, deobfJar, sourcesJar

@@ -56,25 +56,21 @@ class FluidBurnerEntity : ElectricGenerator(FluidBurnerEntity::class.java.name.h
             }
 
             override fun getSlots(container: BasicTeslaContainer<*>): MutableList<Slot> {
-                val slots = super.getSlots(container)
+                val slots = mutableListOf<Slot>()
 
                 val box = this.boundingBox
-                if (box != null) {
-                    slots.add(FilteredSlot(this.itemHandlerForContainer, 0, box.left + 1, box.top + 1))
-                    slots.add(FilteredSlot(this.itemHandlerForContainer, 1, box.left + 1, box.top + 1 + 36))
-                }
+                slots.add(FilteredSlot(this.itemHandlerForContainer, 0, box.left + 1, box.top + 1))
+                slots.add(FilteredSlot(this.itemHandlerForContainer, 1, box.left + 1, box.top + 1 + 36))
 
                 return slots
             }
 
             override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
-                val pieces = super.getGuiContainerPieces(container)
+                val pieces = mutableListOf<IGuiContainerPiece>()
 
                 val box = this.boundingBox
-                if (box != null) {
-                    pieces.add(BasicRenderedGuiPiece(box.left, box.top, 18, 54,
-                            TeslaThingiesMod.MACHINES_TEXTURES, 6, 44))
-                }
+                pieces.add(BasicRenderedGuiPiece(box.left, box.top, 18, 54,
+                        TeslaThingiesMod.MACHINES_TEXTURES, 6, 44))
 
                 return pieces
             }
@@ -124,25 +120,21 @@ class FluidBurnerEntity : ElectricGenerator(FluidBurnerEntity::class.java.name.h
             }
 
             override fun getSlots(container: BasicTeslaContainer<*>): MutableList<Slot> {
-                val slots = super.getSlots(container)
+                val slots = mutableListOf<Slot>()
 
                 val box = this.boundingBox
-                if (box != null) {
-                    slots.add(FilteredSlot(this.itemHandlerForContainer, 0, box.left + 1, box.top + 1))
-                    slots.add(FilteredSlot(this.itemHandlerForContainer, 1, box.left + 1, box.top + 1 + 36))
-                }
+                slots.add(FilteredSlot(this.itemHandlerForContainer, 0, box.left + 1, box.top + 1))
+                slots.add(FilteredSlot(this.itemHandlerForContainer, 1, box.left + 1, box.top + 1 + 36))
 
                 return slots
             }
 
             override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
-                val pieces = super.getGuiContainerPieces(container)
+                val pieces = mutableListOf<IGuiContainerPiece>()
 
                 val box = this.boundingBox
-                if (box != null) {
-                    pieces.add(BasicRenderedGuiPiece(box.left, box.top, 18, 54,
-                            BasicTeslaGuiContainer.MACHINE_BACKGROUND, 78, 189))
-                }
+                pieces.add(BasicRenderedGuiPiece(box.left, box.top, 18, 54,
+                        BasicTeslaGuiContainer.MACHINE_BACKGROUND, 78, 189))
 
                 return pieces
             }

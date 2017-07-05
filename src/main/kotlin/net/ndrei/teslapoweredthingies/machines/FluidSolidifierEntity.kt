@@ -1,7 +1,6 @@
 package net.ndrei.teslapoweredthingies.machines
 
 import com.google.common.collect.Lists
-import net.minecraft.inventory.Slot
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
@@ -12,8 +11,6 @@ import net.minecraftforge.items.ItemHandlerHelper
 import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.TeslaCoreLib
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
-import net.ndrei.teslacorelib.containers.BasicTeslaContainer
-import net.ndrei.teslacorelib.containers.FilteredSlot
 import net.ndrei.teslacorelib.gui.*
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
@@ -57,28 +54,28 @@ class FluidSolidifierEntity : ElectricMachine(FluidSolidifierEntity::class.java.
                 return false
             }
 
-            override fun getSlots(container: BasicTeslaContainer<*>): MutableList<Slot> {
-                val slots = super.getSlots(container)
-
-                val box = this.boundingBox
-                for (y in 0..2) {
-                    slots.add(FilteredSlot(this.itemHandlerForContainer, y,
-                            box.left + 1, box.top + 1 + y * 18))
-                }
-
-                return slots
-            }
-
-            override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
-                val pieces = super.getGuiContainerPieces(container)
-
-                val box = this.boundingBox
-                pieces.add(TiledRenderedGuiPiece(box.left, box.top, 18, 18,
-                        1, 3,
-                        BasicTeslaGuiContainer.MACHINE_BACKGROUND, 108, 225, EnumDyeColor.PURPLE))
-
-                return pieces
-            }
+//            override fun getSlots(container: BasicTeslaContainer<*>): MutableList<Slot> {
+//                val slots = super.getSlots(container)
+//
+//                val box = this.boundingBox
+//                for (y in 0..2) {
+//                    slots.add(FilteredSlot(this.itemHandlerForContainer, y,
+//                            box.left + 1, box.top + 1 + y * 18))
+//                }
+//
+//                return slots
+//            }
+//
+//            override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
+//                val pieces = super.getGuiContainerPieces(container)
+//
+//                val box = this.boundingBox
+//                pieces.add(TiledRenderedGuiPiece(box.left, box.top, 18, 18,
+//                        1, 3,
+//                        BasicTeslaGuiContainer.MACHINE_BACKGROUND, 108, 225, EnumDyeColor.PURPLE))
+//
+//                return pieces
+//            }
         })
         super.addInventoryToStorage(this.outputs!!, "inv_outputs")
     }
