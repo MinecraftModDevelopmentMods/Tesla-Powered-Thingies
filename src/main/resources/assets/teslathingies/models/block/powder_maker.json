@@ -1,0 +1,6 @@
+{
+  "parent": "teslacorelib:block/machine",
+  "textures": {
+    "north": "teslathingies:blocks/machine-front-powder_maker"
+  }
+}

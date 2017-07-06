@@ -21,7 +21,7 @@ import net.ndrei.teslapoweredthingies.machines.incinerator.IncineratorRecipes
 /**
  * Created by CF on 2017-06-30.
  */
-class IncineratorEntity : ElectricGenerator(IncineratorEntity::class.java.name.hashCode()), IWorkItemProvider {
+class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name.hashCode()), IWorkItemProvider {
     private var inputs: ItemStackHandler? = null
     private var outputs: ItemStackHandler? = null
     private var currentItem: ItemStackHandler? = null

@@ -25,7 +25,7 @@ import net.ndrei.teslapoweredthingies.machines.fluidsolidifier.FluidSolidifierRe
  */
 
 
-class FluidSolidifierEntity : ElectricMachine(FluidSolidifierEntity::class.java.name.hashCode()), IDualTankMachine {
+class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.java.name.hashCode()), IDualTankMachine {
     private var waterTank: IFluidTank? = null
     private var lavaTank: IFluidTank? = null
     private var outputs: ItemStackHandler? = null

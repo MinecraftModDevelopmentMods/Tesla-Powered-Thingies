@@ -1,8 +1,12 @@
 package net.ndrei.teslapoweredthingies.integrations.jei
 
+import mezz.jei.api.IJeiRuntime
 import mezz.jei.api.IModPlugin
 import mezz.jei.api.IModRegistry
 import mezz.jei.api.JEIPlugin
+import mezz.jei.api.recipe.IRecipeCategoryRegistration
+import net.minecraft.block.Block
+import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 
 /**
  * Created by CF on 2017-06-30.
@@ -10,13 +14,44 @@ import mezz.jei.api.JEIPlugin
 @JEIPlugin
 class TheJeiThing : IModPlugin {
     override fun register(registry: IModRegistry) {
-        super.register(registry)
-        val jeiHelpers = registry.jeiHelpers
-        val guiHelper = jeiHelpers.guiHelper
+        TheJeiThing.blocksMap.values.forEach { it.register(registry) }
+    }
 
-        FluidBurnerCategory.register(registry, guiHelper)
-        FluidSolidifierCategory.register(registry, guiHelper)
-        IncineratorCategory.register(registry, guiHelper)
-        PowderMakerCategory.register(registry, guiHelper)
+    override fun registerCategories(registry: IRecipeCategoryRegistration?) {
+        if (registry != null) {
+            TheJeiThing.blocksMap.values.forEach { it.register(registry) }
+        }
+        else
+            TeslaThingiesMod.logger.warn("TheJeiThing::registerCategories - Null registry received.")
+    }
+
+    override fun onRuntimeAvailable(jeiRuntime: IJeiRuntime?) {
+        if (jeiRuntime != null) {
+            TheJeiThing.JEI = jeiRuntime
+        }
+        else
+            TeslaThingiesMod.logger.warn("TheJeiThing::onRuntimeAvailable - Null runtime received.")
+    }
+
+    companion object {
+        var JEI: IJeiRuntime? = null
+            private set
+
+        private val blocksMap = mutableMapOf<Block, BaseCategory<*>>()
+
+        fun registerCategory(category: BaseCategory<*>) {
+            blocksMap[category.block] = category
+        }
+
+        fun isBlockRegistered(block: Block): Boolean
+            = blocksMap.containsKey(block)
+
+        fun showCategory(block: Block) {
+            if ((JEI != null) && (blocksMap.containsKey(block))) {
+                JEI!!.recipesGui.showCategories(mutableListOf(
+                        blocksMap[block]!!.uid
+                ))
+            }
+        }
     }
 }

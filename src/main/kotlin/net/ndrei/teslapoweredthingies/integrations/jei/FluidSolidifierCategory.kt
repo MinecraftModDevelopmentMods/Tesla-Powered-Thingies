@@ -6,6 +6,7 @@ import mezz.jei.api.IModRegistry
 import mezz.jei.api.gui.IDrawable
 import mezz.jei.api.gui.IRecipeLayout
 import mezz.jei.api.ingredients.IIngredients
+import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
 import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
@@ -20,32 +21,12 @@ import net.ndrei.teslapoweredthingies.machines.fluidsolidifier.FluidSolidifierRe
 /**
  * Created by CF on 2017-06-30.
  */
-class FluidSolidifierCategory(guiHelper: IGuiHelper)
-    : BaseCategory<FluidSolidifierCategory.FluidSolidifierRecipeWrapper>() {
+@TeslaThingyJeiCategory
+object FluidSolidifierCategory
+    : BaseCategory<FluidSolidifierCategory.FluidSolidifierRecipeWrapper>(FluidSolidifierBlock) {
 
-    //#region class implementation
-
-    private val background: IDrawable
-    private val lavaOverlay: IDrawable
-    private val waterOverlay: IDrawable
-
-    init {
-        this.background = guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 0, 132, 124, 66)
-        this.lavaOverlay = guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 8, 147, 8, 27)
-        this.waterOverlay = guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 20, 147, 8, 27)
-    }
-
-    override fun getUid(): String {
-        return FluidSolidifierCategory.UID
-    }
-
-    override fun getTitle(): String {
-        return FluidSolidifierBlock.localizedName
-    }
-
-    override fun getBackground(): IDrawable {
-        return this.background
-    }
+    private lateinit var lavaOverlay: IDrawable
+    private lateinit var waterOverlay: IDrawable
 
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: FluidSolidifierRecipeWrapper, ingredients: IIngredients) {
         val fluids = recipeLayout.fluidStacks
@@ -64,8 +45,6 @@ class FluidSolidifierCategory(guiHelper: IGuiHelper)
         stacks.init(0, false, 77, 20)
         stacks.set(0, recipeWrapper.recipe.resultStack)
     }
-
-    //#endregion
 
     class FluidSolidifierRecipeWrapper(val recipe: FluidSolidifierResult)
         : IRecipeWrapper {
@@ -89,14 +68,18 @@ class FluidSolidifierCategory(guiHelper: IGuiHelper)
         }
     }
 
-    companion object {
-        val UID = "FluidSolidifier"
+    override fun register(registry: IRecipeCategoryRegistration) {
+        super.register(registry)
 
-        fun register(registry: IModRegistry, guiHelper: IGuiHelper) {
-            registry.addRecipeCategories(FluidSolidifierCategory(guiHelper))
-            registry.addRecipeCategoryCraftingItem(ItemStack(FluidSolidifierBlock), UID)
-            registry.handleRecipes(FluidSolidifierResult::class.java, { FluidSolidifierCategory.FluidSolidifierRecipeWrapper(it) }, UID)
-            registry.addRecipes(FluidSolidifierResult.values().toMutableList(), UID)
-        }
+        this.recipeBackground = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 0, 132, 124, 66)
+        this.lavaOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 8, 147, 8, 27)
+        this.waterOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 20, 147, 8, 27)
+    }
+
+    override fun register(registry: IModRegistry) {
+        super.register(registry)
+
+        registry.handleRecipes(FluidSolidifierResult::class.java, { FluidSolidifierCategory.FluidSolidifierRecipeWrapper(it) }, this.uid)
+        registry.addRecipes(FluidSolidifierResult.values().toMutableList(), this.uid)
     }
 }

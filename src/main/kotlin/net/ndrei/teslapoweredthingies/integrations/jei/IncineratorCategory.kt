@@ -7,6 +7,7 @@ import mezz.jei.api.gui.IDrawable
 import mezz.jei.api.gui.IRecipeLayout
 import mezz.jei.api.ingredients.IIngredientRenderer
 import mezz.jei.api.ingredients.IIngredients
+import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.FontRenderer
@@ -24,30 +25,9 @@ import net.ndrei.teslapoweredthingies.machines.incinerator.IncineratorRecipes
 /**
  * Created by CF on 2017-06-30.
  */
-class IncineratorCategory(guiHelper: IGuiHelper)
-    : BaseCategory<IncineratorCategory.IncineratorRecipeWrapper>() {
-
-    //#region class implementation
-
-    private val background: IDrawable
-    private val slotBackground: IDrawable
-
-    init {
-        this.background = guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 0, 0, 124, 66)
-        this.slotBackground = guiHelper.createDrawable(TeslaThingiesMod.MACHINES_TEXTURES, 6, 6, 18, 18)
-    }
-
-    override fun getUid(): String {
-        return IncineratorCategory.UID
-    }
-
-    override fun getTitle(): String {
-        return IncineratorBlock.localizedName
-    }
-
-    override fun getBackground(): IDrawable {
-        return this.background
-    }
+@TeslaThingyJeiCategory
+object IncineratorCategory
+    : BaseCategory<IncineratorCategory.IncineratorRecipeWrapper>(IncineratorBlock) {
 
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: IncineratorRecipeWrapper, ingredients: IIngredients) {
         val stacks = recipeLayout.itemStacks
@@ -98,8 +78,6 @@ class IncineratorCategory(guiHelper: IGuiHelper)
         }
     }
 
-    //#endregion
-
     class IncineratorRecipeWrapper(val recipe: IncineratorRecipe)
         : IRecipeWrapper {
 
@@ -123,14 +101,16 @@ class IncineratorCategory(guiHelper: IGuiHelper)
         }
     }
 
-    companion object {
-        val UID = "Incinerator"
+    override fun register(registry: IRecipeCategoryRegistration) {
+        super.register(registry)
 
-        fun register(registry: IModRegistry, guiHelper: IGuiHelper) {
-            registry.addRecipeCategories(IncineratorCategory(guiHelper))
-            registry.addRecipeCategoryCraftingItem(ItemStack(IncineratorBlock), UID)
-            registry.handleRecipes(IncineratorRecipe::class.java, { IncineratorRecipeWrapper(it) }, UID)
-            registry.addRecipes(IncineratorRecipes.getRecipes(), UID)
-        }
+        this.recipeBackground = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 0, 0, 124, 66)
+    }
+
+    override fun register(registry: IModRegistry) {
+        super.register(registry)
+
+        registry.handleRecipes(IncineratorRecipe::class.java, { IncineratorRecipeWrapper(it) }, this.uid)
+        registry.addRecipes(IncineratorRecipes.getRecipes(), this.uid)
     }
 }

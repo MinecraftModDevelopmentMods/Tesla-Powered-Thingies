@@ -12,26 +12,26 @@ import net.minecraftforge.fluids.FluidRegistry
  */
 object LiquefierRecipes {
     private val VANILLA_STONE_TO_LAVA_RATE = 5
-    private var recipes: MutableList<LiquefierRecipe>? = null
+    private lateinit var recipes: MutableList<LiquefierRecipe>
 
     fun registerRecipes() {
         LiquefierRecipes.recipes = Lists.newArrayList<LiquefierRecipe>()
 
         // vanilla recipes
         for (b in arrayOf(Blocks.COBBLESTONE, Blocks.STONE, Blocks.STONEBRICK, Blocks.MOSSY_COBBLESTONE, Blocks.STONE_BRICK_STAIRS, Blocks.STONE_STAIRS, Blocks.BRICK_BLOCK, Blocks.BRICK_STAIRS)) {
-            recipes!!.add(LiquefierRecipe(b, FluidRegistry.LAVA, VANILLA_STONE_TO_LAVA_RATE))
+            recipes.add(LiquefierRecipe(b, FluidRegistry.LAVA, VANILLA_STONE_TO_LAVA_RATE))
         }
 
         for (b in arrayOf(Blocks.NETHERRACK, Blocks.NETHER_BRICK, Blocks.NETHER_BRICK_STAIRS, Blocks.NETHER_WART_BLOCK, Blocks.RED_NETHER_BRICK)) {
-            recipes!!.add(LiquefierRecipe(b, FluidRegistry.LAVA, VANILLA_STONE_TO_LAVA_RATE * 2))
+            recipes.add(LiquefierRecipe(b, FluidRegistry.LAVA, VANILLA_STONE_TO_LAVA_RATE * 2))
         }
 
         for (b in arrayOf(Blocks.PISTON, Blocks.STICKY_PISTON, Blocks.FURNACE, Blocks.OBSIDIAN)) {
-            recipes!!.add(LiquefierRecipe(b, FluidRegistry.LAVA, VANILLA_STONE_TO_LAVA_RATE * 4))
+            recipes.add(LiquefierRecipe(b, FluidRegistry.LAVA, VANILLA_STONE_TO_LAVA_RATE * 4))
         }
 
-        recipes!!.add(LiquefierRecipe(Items.APPLE, 1, FluidRegistry.WATER, 50))
-        recipes!!.add(LiquefierRecipe(Items.POTATO, 1, FluidRegistry.WATER, 50))
+        recipes.add(LiquefierRecipe(Items.APPLE, 1, FluidRegistry.WATER, 50))
+        recipes.add(LiquefierRecipe(Items.POTATO, 1, FluidRegistry.WATER, 50))
     }
 
     fun getRecipe(item: Item): LiquefierRecipe? {
@@ -44,4 +44,6 @@ object LiquefierRecipes {
         }
         return null
     }
+
+    fun getRecipes() = this.recipes.toList()
 }

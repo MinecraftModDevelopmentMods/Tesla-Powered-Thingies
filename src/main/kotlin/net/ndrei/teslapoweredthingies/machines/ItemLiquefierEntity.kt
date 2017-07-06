@@ -28,7 +28,7 @@ import net.ndrei.teslapoweredthingies.machines.itemliquefier.LiquefierRecipes
 /**
  * Created by CF on 2017-06-30.
  */
-class ItemLiquefierEntity : ElectricMachine(ItemLiquefierEntity::class.java.name.hashCode()), IWorkItemProvider {
+class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.name.hashCode()), IWorkItemProvider {
     private var lavaTank: IFluidTank? = null
     private var inputs: ItemStackHandler? = null
     private var fluidOutputs: ItemStackHandler? = null

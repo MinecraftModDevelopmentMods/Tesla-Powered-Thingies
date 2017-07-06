@@ -6,6 +6,7 @@ import mezz.jei.api.gui.IDrawable
 import mezz.jei.api.gui.IRecipeLayout
 import mezz.jei.api.ingredients.IIngredientRenderer
 import mezz.jei.api.ingredients.IIngredients
+import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.FontRenderer
@@ -23,35 +24,14 @@ import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerRecipes
 /**
  * Created by CF on 2017-07-05.
  */
-class PowderMakerCategory(guiHelper: IGuiHelper)
-    : BaseCategory<PowderMakerCategory.PowderMakerRecipeWrapper>() {
-
-    //#region class implementation
-
-    private val background: IDrawable
-    private val slotBackground: IDrawable
-
-    init {
-        this.background = guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 0, 0, 124, 66)
-        this.slotBackground = guiHelper.createDrawable(TeslaThingiesMod.MACHINES_TEXTURES, 6, 6, 18, 18)
-    }
-
-    override fun getUid(): String {
-        return PowderMakerCategory.UID
-    }
-
-    override fun getTitle(): String {
-        return PowderMakerBlock.localizedName
-    }
-
-    override fun getBackground(): IDrawable {
-        return this.background
-    }
+@TeslaThingyJeiCategory
+object PowderMakerCategory
+    : BaseCategory<PowderMakerCategory.PowderMakerRecipeWrapper>(PowderMakerBlock) {
 
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: PowderMakerRecipeWrapper, ingredients: IIngredients) {
         val stacks = recipeLayout.itemStacks
 
-        stacks.init(0, true, 6, 6)
+        stacks.init(0, true, 6, 23)
         stacks.set(0, ingredients.getInputs(ItemStack::class.java)[0])
 
         val recipe = recipeWrapper.recipe
@@ -60,8 +40,6 @@ class PowderMakerCategory(guiHelper: IGuiHelper)
             var index = 1
             for (so in outputs) {
                 stacks.init(index, false, object : IIngredientRenderer<ItemStack> {
-//                    private lateinit var so: IRecipeOutput
-
                     @SideOnly(Side.CLIENT)
                     override fun render(minecraft: Minecraft, xPosition: Int, yPosition: Int, ingredient: ItemStack?) {
                         minecraft.renderItem.renderItemIntoGUI(ingredient!!, xPosition, yPosition)
@@ -88,20 +66,13 @@ class PowderMakerCategory(guiHelper: IGuiHelper)
                     override fun getFontRenderer(minecraft: Minecraft, ingredient: ItemStack): FontRenderer {
                         return minecraft.fontRenderer
                     }
-
-//                    internal fun init(so: IRecipeOutput): IIngredientRenderer<ItemStack> {
-//                        this.so = so
-//                        return this
-//                    }
-                }/*.init(so)*/, 6 + (index - 1) * 18, 45, 18, 18, 1, 1)
+                }, 36 + (index - 1) * 18, 23, 18, 18, 1, 1)
                 stacks.set(index, so.getOutput())
                 stacks.setBackground(index, this.slotBackground)
                 index++
             }
         }
     }
-
-    //#endregion
 
     class PowderMakerRecipeWrapper(val recipe: IPowderMakerRecipe)
         : IRecipeWrapper {
@@ -117,14 +88,16 @@ class PowderMakerCategory(guiHelper: IGuiHelper)
         }
     }
 
-    companion object {
-        val UID = "PowderMaker"
+    override fun register(registry: IRecipeCategoryRegistration) {
+        super.register(registry)
 
-        fun register(registry: IModRegistry, guiHelper: IGuiHelper) {
-            registry.addRecipeCategories(PowderMakerCategory(guiHelper))
-            registry.addRecipeCategoryCraftingItem(ItemStack(PowderMakerBlock), UID)
-            registry.handleRecipes(IPowderMakerRecipe::class.java, { PowderMakerRecipeWrapper(it) }, UID)
-            registry.addRecipes(PowderMakerRecipes.getRecipes(), UID)
-        }
+        this.recipeBackground = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 124, 0, 124, 66)
+    }
+
+    override fun register(registry: IModRegistry) {
+        super.register(registry)
+
+        registry.handleRecipes(IPowderMakerRecipe::class.java, { PowderMakerCategory.PowderMakerRecipeWrapper(it) }, this.uid)
+        registry.addRecipes(PowderMakerRecipes.getRecipes(), this.uid)
     }
 }

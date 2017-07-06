@@ -6,6 +6,7 @@ import mezz.jei.api.IModRegistry
 import mezz.jei.api.gui.IDrawable
 import mezz.jei.api.gui.IRecipeLayout
 import mezz.jei.api.ingredients.IIngredients
+import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
 import net.minecraft.client.Minecraft
 import net.minecraft.item.ItemStack
@@ -21,32 +22,12 @@ import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerRecipes
 /**
  * Created by CF on 2017-06-30.
  */
-class FluidBurnerCategory(guiHelper: IGuiHelper)
-    : BaseCategory<FluidBurnerCategory.FluidBurnerRecipeWrapper>() {
+@TeslaThingyJeiCategory
+object FluidBurnerCategory
+    : BaseCategory<FluidBurnerCategory.FluidBurnerRecipeWrapper>(FluidBurnerBlock) {
 
-    //#region class implementation
-
-    private val background: IDrawable
-    private val fuelOverlay: IDrawable
-    private val coolantOverlay: IDrawable
-
-    init {
-        this.background = guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 0, 66, 124, 66)
-        this.fuelOverlay = guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 8, 74, 8, 27)
-        this.coolantOverlay = guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 20, 74, 8, 27)
-    }
-
-    override fun getUid(): String {
-        return FluidBurnerCategory.UID
-    }
-
-    override fun getTitle(): String {
-        return FluidBurnerBlock.localizedName
-    }
-
-    override fun getBackground(): IDrawable {
-        return this.background
-    }
+    private lateinit var fuelOverlay: IDrawable
+    private lateinit var coolantOverlay: IDrawable
 
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: FluidBurnerRecipeWrapper, ingredients: IIngredients) {
         val fluids = recipeLayout.fluidStacks
@@ -62,8 +43,6 @@ class FluidBurnerCategory(guiHelper: IGuiHelper)
             fluids.set(1, ingredients.getInputs(FluidStack::class.java)[1])
         }
     }
-
-    //#endregion
 
     class FluidBurnerRecipeWrapper(val fuel: FluidBurnerFuelRecipe, val coolant: FluidBurnerCoolantRecipe?)
         : IRecipeWrapper {
@@ -94,21 +73,22 @@ class FluidBurnerCategory(guiHelper: IGuiHelper)
         }
     }
 
-    companion object {
-        val UID = "FluidBurner"
+    override fun register(registry: IRecipeCategoryRegistration) {
+        super.register(registry)
 
-        fun register(registry: IModRegistry, guiHelper: IGuiHelper) {
-            registry.addRecipeCategories(FluidBurnerCategory(guiHelper))
-            registry.addRecipeCategoryCraftingItem(ItemStack(FluidBurnerBlock), UID)
+        this.recipeBackground = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 0, 66, 124, 66)
+        this.fuelOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 8, 74, 8, 27)
+        this.coolantOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 20, 74, 8, 27)
+    }
 
-            val recipes = Lists.newArrayList<FluidBurnerRecipeWrapper>()
-            for (fuel in FluidBurnerRecipes.fuels) {
-                recipes.add(FluidBurnerRecipeWrapper(fuel, null))
-                for (coolant in FluidBurnerRecipes.coolants) {
-                    recipes.add(FluidBurnerRecipeWrapper(fuel, coolant))
-                }
-            }
-            registry.addRecipes(recipes, UID)
+    override fun register(registry: IModRegistry) {
+        super.register(registry)
+
+        val recipes = Lists.newArrayList<FluidBurnerRecipeWrapper>()
+        for (fuel in FluidBurnerRecipes.fuels) {
+            recipes.add(FluidBurnerRecipeWrapper(fuel, null))
+            FluidBurnerRecipes.coolants.mapTo(recipes) { FluidBurnerRecipeWrapper(fuel, it) }
         }
+        registry.addRecipes(recipes, this.uid)
     }
 }

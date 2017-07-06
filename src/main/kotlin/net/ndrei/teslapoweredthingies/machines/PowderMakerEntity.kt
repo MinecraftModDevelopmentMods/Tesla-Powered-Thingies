@@ -3,25 +3,29 @@ package net.ndrei.teslapoweredthingies.machines
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
 import net.minecraftforge.items.ItemStackHandler
+import net.ndrei.teslacorelib.gui.BasicRenderedGuiPiece
+import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
+import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.LockableItemHandler
-import net.ndrei.teslacorelib.tileentities.ElectricMachine
+import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
+import net.ndrei.teslapoweredthingies.gui.ItemStackPiece
 
 /**
  * Created by CF on 2017-07-04.
  */
 class PowderMakerEntity
-    : ElectricMachine(PowderMakerEntity::class.java.name.hashCode()) {
+    : BaseThingyMachine(PowderMakerEntity::class.java.name.hashCode()), IWorkItemProvider {
 
     private lateinit var inputs: LockableItemHandler
     private lateinit var outputs: ItemStackHandler
 
-    //#region inventories
+    //#region Inventory and GUI stuff
 
     override fun initializeInventories() {
         super.initializeInventories()
-
 
         this.inputs = object : LockableItemHandler(3) {
             override fun onContentsChanged(slot: Int) {
@@ -56,8 +60,23 @@ class PowderMakerEntity
         super.addInventoryToStorage(this.outputs, "inv_outputs")
     }
 
+    override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
+        val list = super.getGuiContainerPieces(container)
+
+        list.add(BasicRenderedGuiPiece(102, 24, 22, 56,
+                TeslaThingiesMod.MACHINES_TEXTURES, 119, 35))
+
+        list.add(ItemStackPiece(104, 41, 22, 22, this))
+
+        return list
+    }
+
     //#endregion
+
     override fun performWork(): Float {
         return 0.0f
     }
+
+    override val workItem: ItemStack
+        get() = ItemStack.EMPTY
 }

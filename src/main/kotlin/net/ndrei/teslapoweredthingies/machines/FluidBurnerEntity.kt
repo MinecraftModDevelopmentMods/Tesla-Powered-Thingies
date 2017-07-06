@@ -31,7 +31,7 @@ import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerRecipes
 /**
  * Created by CF on 2017-06-30.
  */
-class FluidBurnerEntity : ElectricGenerator(FluidBurnerEntity::class.java.name.hashCode()), IDualTankMachine {
+class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name.hashCode()), IDualTankMachine {
     private var coolantTank: FluidTank? = null
     private var fuelTank: FluidTank? = null
     private var coolantItems: ItemStackHandler? = null
