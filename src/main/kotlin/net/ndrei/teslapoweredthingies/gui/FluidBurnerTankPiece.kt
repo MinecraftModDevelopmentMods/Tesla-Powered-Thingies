@@ -6,7 +6,7 @@ import net.minecraftforge.fluids.Fluid
 import net.ndrei.teslacorelib.gui.BasicContainerGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
-import net.ndrei.teslapoweredthingies.machines.FluidBurnerEntity
+import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerEntity
 import org.lwjgl.opengl.GL11
 
 /**

@@ -21,12 +21,8 @@ open class ItemStackPiece(left: Int, top: Int, width: Int, height: Int, private 
             val y = this.top + (this.height - 16) / 2
 
             RenderHelper.enableGUIStandardItemLighting()
-            GlStateManager.pushMatrix()
-            GlStateManager.enableDepth()
             container.itemRenderer.renderItemAndEffectIntoGUI(stack, guiX + x, guiY + y)
             container.itemRenderer.renderItemOverlayIntoGUI(FontRendererUtil.fontRenderer, stack, x, y, null)
-            GlStateManager.popMatrix()
-            RenderHelper.disableStandardItemLighting()
         }
     }
 }
