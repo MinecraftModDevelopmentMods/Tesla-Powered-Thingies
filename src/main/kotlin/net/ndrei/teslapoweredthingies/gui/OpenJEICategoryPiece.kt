@@ -18,7 +18,7 @@ class OpenJEICategoryPiece(private val block: Block, topIndex: Int = 1) : SideDr
         container.mc.textureManager.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
 
         container.drawTexturedModalRect(
-                box.left, box.top,
+                box.left, box.top + 1,
                 81, 7,
                 14, 14)
     }
