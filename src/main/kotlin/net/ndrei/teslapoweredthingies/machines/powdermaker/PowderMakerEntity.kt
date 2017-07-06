@@ -1,4 +1,4 @@
-package net.ndrei.teslapoweredthingies.machines
+package net.ndrei.teslapoweredthingies.machines.powdermaker
 
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
@@ -12,6 +12,7 @@ import net.ndrei.teslacorelib.inventory.LockableItemHandler
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
 import net.ndrei.teslapoweredthingies.gui.ItemStackPiece
+import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 
 /**
  * Created by CF on 2017-07-04.
@@ -33,17 +34,10 @@ class PowderMakerEntity
             }
         }
         super.addInventory(object : ColoredItemHandler(this.inputs, EnumDyeColor.GREEN, "Input Items", BoundingRectangle(79, 25, 18, 54)) {
-            override fun canExtractItem(slot: Int): Boolean {
-                return false
-            }
+            override fun canExtractItem(slot: Int) = false
 
-            override fun canInsertItem(slot: Int, stack: ItemStack): Boolean {
-                if (stack.isEmpty) {
-                    return false
-                }
-
-                return true
-            }
+            override fun canInsertItem(slot: Int, stack: ItemStack)
+                = (!stack.isEmpty && PowderMakerRecipes.hasRecipe(stack))
         })
         super.addInventoryToStorage(this.inputs, "inv_inputs")
 

@@ -1,4 +1,4 @@
-package net.ndrei.teslapoweredthingies.machines
+package net.ndrei.teslapoweredthingies.machines.powdermaker
 
 import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
@@ -6,6 +6,7 @@ import net.minecraft.item.crafting.IRecipe
 import net.minecraftforge.oredict.ShapedOreRecipe
 import net.ndrei.teslacorelib.annotations.AutoRegisterBlock
 import net.ndrei.teslacorelib.items.MachineCaseItem
+import net.ndrei.teslapoweredthingies.machines.BaseThingyBlock
 
 /**
  * Created by CF on 2017-07-04.

@@ -69,7 +69,7 @@ class PowderMakerOreRecipe(val inputCount: Int, val input: String, vararg val ou
 
     override fun getPossibleOutputs()
         = this.output
-            .map { it.getOutput() }
+            .map { it.getPossibleOutput() }
             .filter { !it.isEmpty }
             .map { listOf(it) }
             .toList()

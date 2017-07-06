@@ -1,4 +1,4 @@
-package net.ndrei.teslapoweredthingies.machines
+package net.ndrei.teslapoweredthingies.machines.incinerator
 
 import net.minecraft.entity.item.EntityItem
 import net.minecraft.item.EnumDyeColor
@@ -11,12 +11,11 @@ import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
-import net.ndrei.teslacorelib.tileentities.ElectricGenerator
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.gui.GeneratorBurnPiece
 import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
 import net.ndrei.teslapoweredthingies.gui.ItemStackPiece
-import net.ndrei.teslapoweredthingies.machines.incinerator.IncineratorRecipes
+import net.ndrei.teslapoweredthingies.machines.BaseThingyGenerator
 
 /**
  * Created by CF on 2017-06-30.
@@ -46,26 +45,6 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
 
                 return IncineratorRecipes.isFuel(stack)
             }
-//
-//            override fun getSlots(container: BasicTeslaContainer<*>): MutableList<Slot> {
-//                val slots = super.getSlots(container)
-//
-//                val box = this.boundingBox
-//                slots.add(FilteredSlot(this.itemHandlerForContainer, 0, box.left + 1, box.top + 1))
-//
-//                return slots
-//            }
-//
-//            override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
-//                val pieces = super.getGuiContainerPieces(container)
-//
-//                val box = this.boundingBox
-//                pieces.add(TiledRenderedGuiPiece(box.left, box.top, 18, 18,
-//                        1, 1,
-//                        BasicTeslaGuiContainer.MACHINE_BACKGROUND, 108, 225, EnumDyeColor.GREEN))
-//
-//                return pieces
-//            }
         })
         super.addInventoryToStorage(this.inputs!!, "inv_inputs")
 
@@ -78,29 +57,6 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
             override fun canInsertItem(slot: Int, stack: ItemStack): Boolean {
                 return false
             }
-
-//            override fun getSlots(container: BasicTeslaContainer<*>): MutableList<Slot> {
-//                val slots = super.getSlots(container)
-//
-//                val box = this.boundingBox
-//                for (y in 0..2) {
-//                    slots.add(FilteredSlot(this.itemHandlerForContainer, y,
-//                            box.left + 1, box.top + 1 + y * 18))
-//                }
-//
-//                return slots
-//            }
-//
-//            override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
-//                val pieces = super.getGuiContainerPieces(container)
-//
-//                val box = this.boundingBox
-//                pieces.add(TiledRenderedGuiPiece(box.left, box.top, 18, 18,
-//                        1, 3,
-//                        BasicTeslaGuiContainer.MACHINE_BACKGROUND, 108, 225, EnumDyeColor.PURPLE))
-//
-//                return pieces
-//            }
         })
         super.addInventoryToStorage(this.outputs!!, "inv_outputs")
 
@@ -138,7 +94,7 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
                     val chance = this.getWorld().rand.nextFloat()
                     // TeslaThingiesMod.logger.info("Change: " + chance + " vs " + so.chance);
                     if (chance <= so.chance) {
-                        var thing = so.stack
+                        var thing = so.getPossibleOutput()
                         if (!ItemStackUtil.isEmpty(thing)) {
                             thing = ItemHandlerHelper.insertItem(this.outputs, thing.copy(), false)
                             if (!ItemStackUtil.isEmpty(thing)) {

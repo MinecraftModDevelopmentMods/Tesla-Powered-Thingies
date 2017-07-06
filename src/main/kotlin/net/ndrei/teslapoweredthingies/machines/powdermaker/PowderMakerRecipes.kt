@@ -16,4 +16,6 @@ object PowderMakerRecipes {
 
     fun findRecipe(stack: ItemStack): IPowderMakerRecipe?
             = this.recipes.firstOrNull { it.canProcess(stack) }
+
+    fun hasRecipe(stack: ItemStack) = (this.findRecipe(stack) != null)
 }

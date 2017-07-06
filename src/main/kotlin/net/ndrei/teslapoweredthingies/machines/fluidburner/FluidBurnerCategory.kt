@@ -1,7 +1,6 @@
-package net.ndrei.teslapoweredthingies.integrations.jei
+package net.ndrei.teslapoweredthingies.machines.fluidburner
 
 import com.google.common.collect.Lists
-import mezz.jei.api.IGuiHelper
 import mezz.jei.api.IModRegistry
 import mezz.jei.api.gui.IDrawable
 import mezz.jei.api.gui.IRecipeLayout
@@ -9,15 +8,12 @@ import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
 import net.minecraft.client.Minecraft
-import net.minecraft.item.ItemStack
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
-import net.ndrei.teslapoweredthingies.machines.FluidBurnerBlock
-import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerCoolantRecipe
-import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerFuelRecipe
-import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerRecipes
+import net.ndrei.teslapoweredthingies.integrations.jei.BaseCategory
+import net.ndrei.teslapoweredthingies.integrations.jei.TeslaThingyJeiCategory
 
 /**
  * Created by CF on 2017-06-30.
@@ -36,10 +32,10 @@ object FluidBurnerCategory
             Math.max(recipeWrapper.fuel.amount, recipeWrapper.coolant.amount)
         else
             recipeWrapper.fuel.amount
-        fluids.init(0, true, 8, 8, 8, 27, capacity, false, this.fuelOverlay)
+        fluids.init(0, true, 8, 8, 8, 27, capacity, false, fuelOverlay)
         fluids.set(0, ingredients.getInputs(FluidStack::class.java)[0])
         if (ingredients.getInputs(FluidStack::class.java).size == 2) {
-            fluids.init(1, true, 20, 8, 8, 27, capacity, false, this.coolantOverlay)
+            fluids.init(1, true, 20, 8, 8, 27, capacity, false, coolantOverlay)
             fluids.set(1, ingredients.getInputs(FluidStack::class.java)[1])
         }
     }
@@ -77,8 +73,8 @@ object FluidBurnerCategory
         super.register(registry)
 
         this.recipeBackground = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 0, 66, 124, 66)
-        this.fuelOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 8, 74, 8, 27)
-        this.coolantOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 20, 74, 8, 27)
+        fuelOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 8, 74, 8, 27)
+        coolantOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 20, 74, 8, 27)
     }
 
     override fun register(registry: IModRegistry) {

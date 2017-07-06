@@ -1,5 +1,6 @@
-package net.ndrei.teslapoweredthingies
+package net.ndrei.teslapoweredthingies.machines.powdermaker
 
+import net.minecraft.init.Blocks
 import net.minecraft.item.crafting.IRecipe
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import net.minecraftforge.fml.common.registry.GameRegistry
@@ -8,16 +9,14 @@ import net.ndrei.teslacorelib.*
 import net.ndrei.teslacorelib.annotations.AutoRegisterRecipesHandler
 import net.ndrei.teslacorelib.items.powders.ColoredPowderItem
 import net.ndrei.teslapoweredthingies.common.OreOutput
-import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerOreRecipe
-import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerRecipes
+import net.ndrei.teslapoweredthingies.common.SecondaryOutput
 
 /**
- * Created by CF on 2017-07-05.
+ * Created by CF on 2017-07-06.
  */
-
 @AfterAllModsRegistry
-object TeslaRegistriesMod : IAfterAllModsRegistry {
-    override fun registerBeforeMaterials(asm : ASMDataTable) { //}
+object PowderMakerRegistry : IAfterAllModsRegistry {
+    override fun registerBeforeMaterials(asm : ASMDataTable) {
         // get all ores
         val ores = OreDictionary.getOreNames()
                 .filter { it.startsWith("ore") }
@@ -49,8 +48,43 @@ object TeslaRegistriesMod : IAfterAllModsRegistry {
             }
 
             if (hasDust) {
-                PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(1, "ore$it", OreOutput("dust$it", 2)))
+                PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
+                        1, "ore$it",
+                        OreOutput("dust$it", 2),
+                        SecondaryOutput(.25f, Blocks.COBBLESTONE)
+                ))
             }
         }
+
+        // register default recipes
+        // stones -> 75% gravel
+        listOf("stone", "cobblestone").forEach {
+            PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
+                    1, it,
+                    SecondaryOutput(.75f, Blocks.GRAVEL)
+            ))
+        }
+        listOf("stoneGranite", "stoneDiorite", "stoneAndesite").forEach {
+            PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
+                    1, it,
+                    SecondaryOutput(.75f, Blocks.GRAVEL)
+            ))
+            PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
+                    1, "${it}Polished",
+                    SecondaryOutput(.75f, Blocks.GRAVEL)
+            ))
+        }
+
+        // gravel -> 75% sand
+        PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
+                1, "gravel",
+                SecondaryOutput(.75f, Blocks.SAND)
+        ))
+
+        // sandstone -> 75% sand
+        PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
+                1, "sandstone",
+                SecondaryOutput(.75f, Blocks.SAND)
+        ))
     }
 }

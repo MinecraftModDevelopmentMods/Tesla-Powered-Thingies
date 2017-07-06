@@ -1,4 +1,4 @@
-package net.ndrei.teslapoweredthingies.machines
+package net.ndrei.teslapoweredthingies.machines.fluidsolidifier
 
 import com.google.common.collect.Lists
 import net.minecraft.item.EnumDyeColor
@@ -15,10 +15,9 @@ import net.ndrei.teslacorelib.gui.*
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
-import net.ndrei.teslacorelib.tileentities.ElectricMachine
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.gui.IDualTankMachine
-import net.ndrei.teslapoweredthingies.machines.fluidsolidifier.FluidSolidifierResult
+import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 
 /**
  * Created by CF on 2017-06-30.

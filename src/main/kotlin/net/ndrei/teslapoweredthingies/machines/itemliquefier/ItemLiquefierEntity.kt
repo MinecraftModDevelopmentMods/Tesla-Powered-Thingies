@@ -1,4 +1,4 @@
-package net.ndrei.teslapoweredthingies.machines
+package net.ndrei.teslapoweredthingies.machines.itemliquefier
 
 import net.minecraft.init.Items
 import net.minecraft.inventory.Slot
@@ -18,12 +18,10 @@ import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.FluidStorage
-import net.ndrei.teslacorelib.tileentities.ElectricMachine
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
 import net.ndrei.teslapoweredthingies.gui.ItemStackPiece
-import net.ndrei.teslapoweredthingies.machines.itemliquefier.LiquefierRecipe
-import net.ndrei.teslapoweredthingies.machines.itemliquefier.LiquefierRecipes
+import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 
 /**
  * Created by CF on 2017-06-30.

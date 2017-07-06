@@ -1,7 +1,6 @@
-package net.ndrei.teslapoweredthingies.integrations.jei
+package net.ndrei.teslapoweredthingies.machines.fluidsolidifier
 
 import com.google.common.collect.Lists
-import mezz.jei.api.IGuiHelper
 import mezz.jei.api.IModRegistry
 import mezz.jei.api.gui.IDrawable
 import mezz.jei.api.gui.IRecipeLayout
@@ -15,8 +14,8 @@ import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
-import net.ndrei.teslapoweredthingies.machines.FluidSolidifierBlock
-import net.ndrei.teslapoweredthingies.machines.fluidsolidifier.FluidSolidifierResult
+import net.ndrei.teslapoweredthingies.integrations.jei.BaseCategory
+import net.ndrei.teslapoweredthingies.integrations.jei.TeslaThingyJeiCategory
 
 /**
  * Created by CF on 2017-06-30.
@@ -31,14 +30,14 @@ object FluidSolidifierCategory
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: FluidSolidifierRecipeWrapper, ingredients: IIngredients) {
         val fluids = recipeLayout.fluidStacks
 
-        fluids.init(0, true, 8, 15, 8, 27, recipeWrapper.recipe.lavaMbMin, true, this.lavaOverlay)
+        fluids.init(0, true, 8, 15, 8, 27, recipeWrapper.recipe.lavaMbMin, true, lavaOverlay)
         fluids.set(0, ingredients.getInputs(FluidStack::class.java)[0])
-        fluids.init(1, true, 20, 15, 8, 27, recipeWrapper.recipe.waterMbMin, true, this.waterOverlay)
+        fluids.init(1, true, 20, 15, 8, 27, recipeWrapper.recipe.waterMbMin, true, waterOverlay)
         fluids.set(1, ingredients.getInputs(FluidStack::class.java)[1])
 
-        fluids.init(2, true, 43, 15, 8, 27, recipeWrapper.recipe.lavaMbMin, true, this.lavaOverlay)
+        fluids.init(2, true, 43, 15, 8, 27, recipeWrapper.recipe.lavaMbMin, true, lavaOverlay)
         fluids.set(2, FluidStack(FluidRegistry.LAVA, recipeWrapper.recipe.lavaMbConsumed))
-        fluids.init(3, true, 55, 15, 8, 27, recipeWrapper.recipe.waterMbMin, true, this.waterOverlay)
+        fluids.init(3, true, 55, 15, 8, 27, recipeWrapper.recipe.waterMbMin, true, waterOverlay)
         fluids.set(3, FluidStack(FluidRegistry.WATER, recipeWrapper.recipe.waterMbConsumed))
 
         val stacks = recipeLayout.itemStacks
@@ -72,14 +71,14 @@ object FluidSolidifierCategory
         super.register(registry)
 
         this.recipeBackground = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 0, 132, 124, 66)
-        this.lavaOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 8, 147, 8, 27)
-        this.waterOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 20, 147, 8, 27)
+        lavaOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 8, 147, 8, 27)
+        waterOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 20, 147, 8, 27)
     }
 
     override fun register(registry: IModRegistry) {
         super.register(registry)
 
-        registry.handleRecipes(FluidSolidifierResult::class.java, { FluidSolidifierCategory.FluidSolidifierRecipeWrapper(it) }, this.uid)
+        registry.handleRecipes(FluidSolidifierResult::class.java, { FluidSolidifierRecipeWrapper(it) }, this.uid)
         registry.addRecipes(FluidSolidifierResult.values().toMutableList(), this.uid)
     }
 }

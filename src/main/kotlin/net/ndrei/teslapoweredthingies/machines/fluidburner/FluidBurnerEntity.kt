@@ -1,4 +1,4 @@
-package net.ndrei.teslapoweredthingies.machines
+package net.ndrei.teslapoweredthingies.machines.fluidburner
 
 import net.minecraft.inventory.Slot
 import net.minecraft.item.EnumDyeColor
@@ -20,13 +20,12 @@ import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredFluidHandler
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.FluidTank
-import net.ndrei.teslacorelib.tileentities.ElectricGenerator
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.common.FluidUtils
 import net.ndrei.teslapoweredthingies.gui.FluidBurnerTankPiece
 import net.ndrei.teslapoweredthingies.gui.GeneratorBurnPiece
 import net.ndrei.teslapoweredthingies.gui.IDualTankMachine
-import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerRecipes
+import net.ndrei.teslapoweredthingies.machines.BaseThingyGenerator
 
 /**
  * Created by CF on 2017-06-30.
