@@ -1,0 +1,6 @@
+{
+  "parent": "teslathingies:block/base_processor",
+  "textures": {
+    "north": "teslathingies:blocks/processors/electric_butcher-front"
+  }
+}

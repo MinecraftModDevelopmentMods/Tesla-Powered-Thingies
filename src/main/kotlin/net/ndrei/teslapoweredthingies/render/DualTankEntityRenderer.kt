@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.fluids.Fluid
 import net.ndrei.teslacorelib.tileentities.ElectricTileEntity
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.gui.IDualTankMachine
 import org.lwjgl.opengl.GL11
 
@@ -75,7 +75,7 @@ class DualTankEntityRenderer<T : ElectricTileEntity> : TileEntitySpecialRenderer
 
         GlStateManager.translate(0.0f, 0f, 0.001f)
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
-        super.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
+        super.bindTexture(Textures.MACHINES_TEXTURES.resource)
 
         GlStateManager.enableLighting()
         GlStateManager.disableBlend()

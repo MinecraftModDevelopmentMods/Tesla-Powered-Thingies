@@ -8,7 +8,7 @@ import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
 import net.minecraft.block.Block
 import net.minecraft.item.ItemStack
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.client.Textures
 
 /**
  * Created by CF on 2017-06-30.
@@ -38,7 +38,7 @@ abstract class BaseCategory<T: IRecipeWrapper>(val block: Block) : IRecipeCatego
         registry.addRecipeCategories(this)
 
         this.guiHelper = registry.jeiHelpers.guiHelper
-        this.slotBackground = this.guiHelper.createDrawable(TeslaThingiesMod.MACHINES_TEXTURES, 6, 6, 18, 18)
+        this.slotBackground = this.guiHelper.createDrawable(Textures.MACHINES_TEXTURES.resource, 6, 6, 18, 18)
     }
 
     open fun register(registry: IModRegistry) {

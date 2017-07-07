@@ -1,13 +1,7 @@
 package net.ndrei.teslapoweredthingies.integrations.jei
 
-import net.minecraft.block.Block
-import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.color.IBlockColor
-import net.minecraft.client.renderer.color.IItemColor
-import net.minecraft.item.Item
 import net.ndrei.teslacorelib.TeslaCoreLib
 import net.ndrei.teslacorelib.annotations.AnnotationPreInitHandler
-import net.ndrei.teslacorelib.annotations.AutoRegisterColoredThingy
 import net.ndrei.teslacorelib.annotations.BaseAnnotationHandler
 
 /**
@@ -18,7 +12,7 @@ annotation class TeslaThingyJeiCategory
 
 @Suppress("unused")
 @AnnotationPreInitHandler
-object TeslaThingyJeiCategoryHandler: BaseAnnotationHandler<BaseCategory<*>>({ it, _ ->
+object TeslaThingyJeiCategoryHandler: BaseAnnotationHandler<BaseCategory<*>>({ it, _, _ ->
     if (TeslaCoreLib.isClientSide) run {
         TheJeiThing.registerCategory(it)
     }

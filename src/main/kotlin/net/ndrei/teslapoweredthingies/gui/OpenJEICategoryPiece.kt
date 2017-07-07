@@ -4,7 +4,7 @@ import net.minecraft.block.Block
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.SideDrawerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.integrations.jei.TheJeiThing
 
 /**
@@ -15,7 +15,8 @@ class OpenJEICategoryPiece(private val block: Block, topIndex: Int = 1) : SideDr
         get() = TheJeiThing.isBlockRegistered(this.block)
 
     override fun renderState(container: BasicTeslaGuiContainer<*>, state: Int, box: BoundingRectangle) {
-        container.mc.textureManager.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
+        // container.mc.textureManager.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
+        Textures.MACHINES_TEXTURES.bind(container)
 
         container.drawTexturedModalRect(
                 box.left, box.top + 1,

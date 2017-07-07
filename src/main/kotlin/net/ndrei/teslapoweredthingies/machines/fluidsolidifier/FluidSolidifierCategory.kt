@@ -13,7 +13,7 @@ import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.integrations.jei.BaseCategory
 import net.ndrei.teslapoweredthingies.integrations.jei.TeslaThingyJeiCategory
 
@@ -70,9 +70,9 @@ object FluidSolidifierCategory
     override fun register(registry: IRecipeCategoryRegistration) {
         super.register(registry)
 
-        this.recipeBackground = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 0, 132, 124, 66)
-        lavaOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 8, 147, 8, 27)
-        waterOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 20, 147, 8, 27)
+        this.recipeBackground = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 0, 132, 124, 66)
+        lavaOverlay = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 8, 147, 8, 27)
+        waterOverlay = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 20, 147, 8, 27)
     }
 
     override fun register(registry: IModRegistry) {

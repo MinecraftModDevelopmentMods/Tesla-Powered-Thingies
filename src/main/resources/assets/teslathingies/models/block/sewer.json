@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "teslathingies:blocks/sewer-side",
+    "north": "teslathingies:blocks/sewer-front",
+    "west": "teslathingies:blocks/sewer-side",
+    "east": "teslathingies:blocks/sewer-side",
+    "south": "teslathingies:blocks/sewer-side",
+    "up": "teslathingies:blocks/sewer-top",
+    "down": "teslathingies:blocks/sewer-bottom"
+  }
+}

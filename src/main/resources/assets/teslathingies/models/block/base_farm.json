@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "teslathingies:blocks/farms/base-front",
+    "north": "teslathingies:blocks/farms/base-front",
+    "west": "teslathingies:blocks/farms/base-right",
+    "east": "teslathingies:blocks/farms/base-left",
+    "south": "teslathingies:blocks/farms/base-back",
+    "up": "teslathingies:blocks/farms/base-top",
+    "down": "teslathingies:blocks/base-bottom"
+  }
+}

@@ -8,3 +8,31 @@ tile.teslathingies.fluid_solidifier.name=Fluid Solidifier
 tile.teslathingies.item_liquefier.name=Item Liquefier
 tile.teslathingies.powder_maker.name=Powder Maker (WIP)
 tile.teslathingies.powered_kiln.name=Powered Kiln (WIP)
+
+item.teslathingies.animal_package.name=Animal Package
+item.teslathingies.animal_package_full.name=Animal Package (full)
+item.teslathingies.animal_filter.name=Animal Filter
+item.teslathingies.animal_age_filter_adult.name=Animal Filter (adults)
+item.teslathingies.animal_age_filter_baby.name=Animal Filter (baby)
+item.teslathingies.liquidxp_collector.name=XP Orb Collector Addon
+item.teslathingies.addon_range_tier1.name=Range Addon I
+item.teslathingies.addon_range_tier2.name=Range Addon II
+item.teslathingies.fruit_picker_addon.name=Fruit Picker
+
+tile.teslathingies.animal_farm.name=Animal Farm
+tile.teslathingies.animal_releaser.name=Animal Releaser
+tile.teslathingies.electric_butcher.name=Electric Butcher
+tile.teslathingies.crop_farm.name=Crop Farm
+tile.teslathingies.crop_cloner.name=Crop Cloner
+tile.teslathingies.animal_gym.name=Animal Gym
+tile.teslathingies.tree_farm.name=Tree Farm
+tile.teslathingies.sewer.name=Sewer
+tile.teslathingies.liquidxp_storage.name=Liquid XP Storage
+
+tile.teslathingies.dung_block.name=Dung Block
+tile.teslathingies.dung_bricks.name=Dung Bricks
+
+fluid.teslathingies.tf-sewage=Sewage
+tile.teslathingies.tf-sewage.block.name=Sewage
+fluid.teslathingies.tf-liquidxp=Liquid XP
+tile.teslathingies.tf-liquidxp.block.name=Liquid XP

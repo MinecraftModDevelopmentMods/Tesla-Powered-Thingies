@@ -6,7 +6,7 @@ import net.darkhax.tesla.lib.TeslaUtils
 import net.ndrei.teslacorelib.gui.BasicContainerGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.tileentities.ElectricGenerator
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.client.Textures
 
 /**
  * Created by CF on 2017-06-30.
@@ -15,7 +15,8 @@ class GeneratorBurnPiece(left: Int, top: Int, private val te: ElectricGenerator)
     : BasicContainerGuiPiece(left, top, 14, 14) {
 
     override fun drawBackgroundLayer(container: BasicTeslaGuiContainer<*>, guiX: Int, guiY: Int, partialTicks: Float, mouseX: Int, mouseY: Int) {
-        container.mc.textureManager.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
+        // container.mc.textureManager.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
+        Textures.MACHINES_TEXTURES.bind(container)
 
         container.drawTexturedRect(this.left, this.top, 44, 27, 14, 14)
         val generated = this.te.generatedPowerCapacity

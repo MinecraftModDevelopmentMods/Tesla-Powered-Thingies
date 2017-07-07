@@ -1,0 +1,6 @@
+{
+  "parent": "teslathingies:block/base_farm",
+  "textures": {
+    "north": "teslathingies:blocks/farms/crop_farm-front"
+  }
+}

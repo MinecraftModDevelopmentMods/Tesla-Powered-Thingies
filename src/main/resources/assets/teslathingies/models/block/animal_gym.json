@@ -1,0 +1,6 @@
+{
+  "parent": "teslathingies:block/base_generator",
+  "textures": {
+    "north": "teslathingies:blocks/generators/animal_gym-front"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.farm.blocks",
+  "result": { "item": "teslathingies:dung_bricks" },
+  "pattern": [
+    "bb",
+    "bb"
+  ],
+  "key": {
+    "b": { "item": "teslathingies:dung_block" }
+  }
+}

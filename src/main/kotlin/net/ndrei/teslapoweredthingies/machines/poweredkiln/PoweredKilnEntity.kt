@@ -6,13 +6,13 @@ import net.minecraft.item.ItemStack
 import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.containers.BasicTeslaContainer
 import net.ndrei.teslacorelib.containers.FilteredSlot
-import net.ndrei.teslacorelib.gui.*
+import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
+import net.ndrei.teslacorelib.gui.IGuiContainerPiece
+import net.ndrei.teslacorelib.gui.TiledRenderedGuiPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.LockableItemHandler
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
-import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
-import net.ndrei.teslapoweredthingies.gui.ItemStackPiece
+import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 
 /**
@@ -74,7 +74,7 @@ class PoweredKilnEntity
         val list = super.getGuiContainerPieces(container)
 
         list.add(TiledRenderedGuiPiece(57, 44, 22, 22, 3, 1,
-                TeslaThingiesMod.MACHINES_TEXTURES, 119, 4, null))
+                Textures.MACHINES_TEXTURES.resource, 119, 4, null))
 
         // TODO: add processing item stacks
         // list.add(ItemStackPiece(104, 41, 22, 22, this))

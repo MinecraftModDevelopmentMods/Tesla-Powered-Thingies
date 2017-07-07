@@ -20,7 +20,7 @@ import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredFluidHandler
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.FluidTank
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.common.FluidUtils
 import net.ndrei.teslapoweredthingies.gui.FluidBurnerTankPiece
 import net.ndrei.teslapoweredthingies.gui.GeneratorBurnPiece
@@ -69,7 +69,7 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
 
                 val box = this.boundingBox
                 pieces.add(BasicRenderedGuiPiece(box.left, box.top, 18, 54,
-                        TeslaThingiesMod.MACHINES_TEXTURES, 6, 44))
+                        Textures.MACHINES_TEXTURES.resource, 6, 44))
 
                 return pieces
             }

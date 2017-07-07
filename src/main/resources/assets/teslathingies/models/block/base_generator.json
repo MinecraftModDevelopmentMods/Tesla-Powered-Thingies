@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "teslathingies:blocks/generators/base-front",
+    "north": "teslathingies:blocks/generators/base-front",
+    "west": "teslathingies:blocks/generators/base-right",
+    "east": "teslathingies:blocks/generators/base-left",
+    "south": "teslathingies:blocks/generators/base-back",
+    "up": "teslathingies:blocks/generators/base-top",
+    "down": "teslathingies:blocks/base-bottom"
+  }
+}

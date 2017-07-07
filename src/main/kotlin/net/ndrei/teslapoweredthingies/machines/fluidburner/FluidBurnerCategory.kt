@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.integrations.jei.BaseCategory
 import net.ndrei.teslapoweredthingies.integrations.jei.TeslaThingyJeiCategory
 
@@ -72,9 +72,9 @@ object FluidBurnerCategory
     override fun register(registry: IRecipeCategoryRegistration) {
         super.register(registry)
 
-        this.recipeBackground = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 0, 66, 124, 66)
-        fuelOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 8, 74, 8, 27)
-        coolantOverlay = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 20, 74, 8, 27)
+        this.recipeBackground = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 0, 66, 124, 66)
+        fuelOverlay = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 8, 74, 8, 27)
+        coolantOverlay = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 20, 74, 8, 27)
     }
 
     override fun register(registry: IModRegistry) {

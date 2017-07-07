@@ -9,7 +9,7 @@ import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.LockableItemHandler
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
 import net.ndrei.teslapoweredthingies.gui.ItemStackPiece
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
@@ -58,7 +58,7 @@ class PowderMakerEntity
         val list = super.getGuiContainerPieces(container)
 
         list.add(BasicRenderedGuiPiece(102, 24, 22, 56,
-                TeslaThingiesMod.MACHINES_TEXTURES, 119, 35))
+                Textures.MACHINES_TEXTURES.resource, 119, 35))
 
         list.add(ItemStackPiece(104, 41, 22, 22, this))
 

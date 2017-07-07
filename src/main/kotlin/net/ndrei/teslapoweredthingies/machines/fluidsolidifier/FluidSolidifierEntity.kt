@@ -15,7 +15,7 @@ import net.ndrei.teslacorelib.gui.*
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.gui.IDualTankMachine
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 
@@ -88,14 +88,14 @@ class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.jav
 
     override fun addFluidItemsBackground(pieces: MutableList<IGuiContainerPiece>, box: BoundingRectangle) {
         pieces.add(BasicRenderedGuiPiece(box.left, box.top, 18, 54,
-                TeslaThingiesMod.MACHINES_TEXTURES, 6, 44))
+                Textures.MACHINES_TEXTURES.resource, 6, 44))
     }
 
     override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
         val pieces = super.getGuiContainerPieces(container)
 
         pieces.add(BasicRenderedGuiPiece(115, 32, 36, 40,
-                TeslaThingiesMod.MACHINES_TEXTURES, 61, 43))
+                Textures.MACHINES_TEXTURES.resource, 61, 43))
 
         pieces.add(object : ToggleButtonPiece(125, 44, 16, 16) {
             override val currentState: Int

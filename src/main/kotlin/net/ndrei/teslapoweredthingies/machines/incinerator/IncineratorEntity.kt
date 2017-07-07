@@ -11,7 +11,7 @@ import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.gui.GeneratorBurnPiece
 import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
 import net.ndrei.teslapoweredthingies.gui.ItemStackPiece
@@ -121,7 +121,7 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
         val pieces = super.getGuiContainerPieces(container)
 
         pieces.add(BasicRenderedGuiPiece(79, 41, 54, 22,
-                TeslaThingiesMod.MACHINES_TEXTURES, 24, 4))
+                Textures.MACHINES_TEXTURES.resource, 24, 4))
 
         pieces.add(GeneratorBurnPiece(99, 64, this))
 

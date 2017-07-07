@@ -2,20 +2,11 @@ package net.ndrei.teslapoweredthingies.machines.powdermaker
 
 import mezz.jei.api.IModRegistry
 import mezz.jei.api.gui.IRecipeLayout
-import mezz.jei.api.ingredients.IIngredientRenderer
 import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
-import net.minecraft.client.Minecraft
-import net.minecraft.client.gui.FontRenderer
-import net.minecraft.client.renderer.GlStateManager
-import net.minecraft.client.renderer.RenderHelper
-import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.item.ItemStack
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
-import net.ndrei.teslapoweredthingies.common.SecondaryOutput
+import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.integrations.jei.BaseCategory
 import net.ndrei.teslapoweredthingies.integrations.jei.ChanceOutputRenderer
 import net.ndrei.teslapoweredthingies.integrations.jei.TeslaThingyJeiCategory
@@ -59,7 +50,7 @@ object PowderMakerCategory
     override fun register(registry: IRecipeCategoryRegistration) {
         super.register(registry)
 
-        this.recipeBackground = this.guiHelper.createDrawable(TeslaThingiesMod.JEI_TEXTURES, 124, 0, 124, 66)
+        this.recipeBackground = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 124, 0, 124, 66)
     }
 
     override fun register(registry: IModRegistry) {

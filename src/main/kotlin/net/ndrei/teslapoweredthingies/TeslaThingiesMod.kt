@@ -2,7 +2,10 @@ package net.ndrei.teslapoweredthingies
 
 import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.ItemStack
-import net.minecraft.util.ResourceLocation
+import net.minecraft.world.World
+import net.minecraft.world.WorldServer
+import net.minecraftforge.common.util.FakePlayer
+import net.minecraftforge.common.util.FakePlayerFactory
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.SidedProxy
@@ -47,9 +50,6 @@ class TeslaThingiesMod {
         const val MODID = "teslathingies"
         const val VERSION = "@VERSION@"
 
-        val MACHINES_TEXTURES = ResourceLocation(MODID, "textures/gui/machines.png")
-        val JEI_TEXTURES = ResourceLocation(MODID, "textures/gui/jei.png")
-
         @Mod.Instance
         lateinit var instance: TeslaThingiesMod
 
@@ -66,6 +66,27 @@ class TeslaThingiesMod {
             override fun getTabIconItem(): ItemStack {
                 return this.iconItemStack
             }
+        }
+
+        private val fakePlayers = mutableMapOf<String, FakePlayer>()
+
+        fun getFakePlayer(world: World?): FakePlayer? {
+            val key = if (world != null && world.provider != null)
+                String.format("%d", world.provider.dimension)
+            else
+                null
+            if (key != null) {
+                if (fakePlayers.containsKey(key)) {
+                    return fakePlayers[key]
+                }
+
+                if (world is WorldServer) {
+                    val player = FakePlayerFactory.getMinecraft(world) // FakePlayer(world, )
+                    fakePlayers[key] = player
+                    return player
+                }
+            }
+            return null
         }
     }
 }
