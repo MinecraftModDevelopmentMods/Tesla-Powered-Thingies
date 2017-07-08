@@ -1,17 +1,5 @@
 package net.ndrei.teslapoweredthingies.machines
 
-import net.minecraft.item.EnumDyeColor
-import net.minecraft.item.ItemStack
-import net.minecraft.util.EnumFacing
-import net.minecraftforge.items.ItemHandlerHelper
-import net.minecraftforge.items.ItemStackHandler
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
-import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
-import net.ndrei.teslacorelib.gui.IGuiContainerPiece
-import net.ndrei.teslacorelib.gui.LockedInventoryTogglePiece
-import net.ndrei.teslacorelib.inventory.BoundingRectangle
-import net.ndrei.teslacorelib.inventory.ColoredItemHandler
-import net.ndrei.teslacorelib.inventory.LockableItemHandler
 import net.ndrei.teslapoweredthingies.common.BlockCube
 import net.ndrei.teslapoweredthingies.common.BlockPosUtils
 import net.ndrei.teslapoweredthingies.common.GuiPieceSide
@@ -59,7 +47,6 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
                         && this@ElectricFarmMachine.acceptsInputStack(slot, stack)
 
                 override fun canExtractItem(slot: Int) = false
-
             }
             super.addInventory(this.filteredInStackHandler)
             super.addInventoryToStorage(this.inStackHandler!!, "inputs")
