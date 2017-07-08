@@ -39,6 +39,9 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
     override val inputSlots: Int
         get() = 1
 
+    override val lockableInputInventory: Boolean
+        get() = false
+
     override fun acceptsInputStack(slot: Int, stack: ItemStack): Boolean {
         if (ItemStackUtil.isEmpty(stack)) {
             return false

@@ -7,6 +7,7 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.common.GuiPieceSide
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
 import java.util.*
 
@@ -21,7 +22,11 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
             return true
 
         return TreeFarmEntity.acceptedItems.contains(stack.item)
+
     }
+
+    override val lockableInputLockPosition: GuiPieceSide
+        get() = GuiPieceSide.LEFT
 
     override fun performWork(): Float {
         val facing = super.facing

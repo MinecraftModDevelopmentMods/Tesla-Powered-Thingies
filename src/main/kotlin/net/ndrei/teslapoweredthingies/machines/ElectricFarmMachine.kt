@@ -3,14 +3,18 @@ package net.ndrei.teslapoweredthingies.machines
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumFacing
-import net.minecraftforge.items.IItemHandler
 import net.minecraftforge.items.ItemHandlerHelper
 import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
+import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
+import net.ndrei.teslacorelib.gui.IGuiContainerPiece
+import net.ndrei.teslacorelib.gui.LockedInventoryTogglePiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
+import net.ndrei.teslacorelib.inventory.LockableItemHandler
 import net.ndrei.teslapoweredthingies.common.BlockCube
 import net.ndrei.teslapoweredthingies.common.BlockPosUtils
+import net.ndrei.teslapoweredthingies.common.GuiPieceSide
 import net.ndrei.teslapoweredthingies.items.MachineRangeAddonTier1
 import net.ndrei.teslapoweredthingies.items.MachineRangeAddonTier2
 
@@ -19,10 +23,10 @@ import net.ndrei.teslapoweredthingies.items.MachineRangeAddonTier2
  */
 abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThingyMachine(typeId) {
     protected var inStackHandler: ItemStackHandler? = null
-    protected var filteredInStackHandler: IItemHandler? = null
+    protected var filteredInStackHandler: ColoredItemHandler? = null
     protected var outStackHandler: ItemStackHandler? = null
 
-    //#region inventories       methods
+    //#region inventories & gui methods
 
     override fun initializeInventories() {
         super.initializeInventories()
@@ -37,38 +41,25 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
     protected fun initializeInputInventory() {
         val inputSlots = this.inputSlots
         if (inputSlots > 0) {
-            this.inStackHandler = object : ItemStackHandler(Math.max(0, Math.min(3, inputSlots))) {
-                override fun onContentsChanged(slot: Int) {
-                    this@ElectricFarmMachine.markDirty()
+            this.inStackHandler = if (this.lockableInputInventory)
+                object : LockableItemHandler(Math.max(0, Math.min(3, inputSlots))) {
+                    override fun onContentsChanged(slot: Int) {
+                        this@ElectricFarmMachine.markDirty()
+                    }
                 }
-            }
+            else
+                object : ItemStackHandler(Math.max(0, Math.min(3, inputSlots))) {
+                    override fun onContentsChanged(slot: Int) {
+                        this@ElectricFarmMachine.markDirty()
+                    }
+                }
             this.filteredInStackHandler = object : ColoredItemHandler(this.inStackHandler!!, EnumDyeColor.GREEN, "Input Items", this.getInputInventoryBounds(this.inStackHandler!!.slots, 1)) {
                 override fun canInsertItem(slot: Int, stack: ItemStack)
-                    =  this@ElectricFarmMachine.acceptsInputStack(slot, stack)
+                    = (if (this.innerHandler is LockableItemHandler) this.innerHandler.canInsertItem(slot, stack) else true)
+                        && this@ElectricFarmMachine.acceptsInputStack(slot, stack)
 
                 override fun canExtractItem(slot: Int) = false
-//
-//                override fun getSlots(container: BasicTeslaContainer<*>): MutableList<Slot> {
-//                    val slots = super.getSlots(container)
-//
-//                    val box = this.boundingBox
-//                    for (x in 0..this.handler.getSlots() - 1) {
-//                        slots.add(FilteredSlot(this.itemHandlerForContainer, x, box.left + 1 + x * 18, box.top + 1))
-//                    }
-//
-//                    return slots
-//                }
-//
-//                override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
-//                    val pieces = super.getGuiContainerPieces(container)
-//
-//                    val box = this.boundingBox
-//                    pieces.add(TiledRenderedGuiPiece(box.left, box.top, 18, 18,
-//                            this.handler.getSlots(), 1,
-//                            BasicTeslaGuiContainer.MACHINE_BACKGROUND, 108, 225, EnumDyeColor.GREEN))
-//
-//                    return pieces
-//                }
+
             }
             super.addInventory(this.filteredInStackHandler)
             super.addInventoryToStorage(this.inStackHandler!!, "inputs")
@@ -76,6 +67,12 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
             this.inStackHandler = null
         }
     }
+
+    protected open val lockableInputInventory: Boolean
+        get() = true
+
+    protected open val lockableInputLockPosition: GuiPieceSide
+        get() = GuiPieceSide.NONE
 
     protected open fun getInputInventoryBounds(columns: Int, rows: Int)
         = BoundingRectangle(115 + (3 - columns) * 9, 25, 18 * columns, 18 * rows)
@@ -139,6 +136,24 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
 
     protected open fun getOutputInventoryBounds(columns: Int, rows: Int)
         = BoundingRectangle(115, 43, 18 * columns, 18 * rows)
+
+    override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
+        val list = super.getGuiContainerPieces(container)
+
+        if (this.lockableInputInventory && (this.lockableInputLockPosition != GuiPieceSide.NONE)
+                && (this.filteredInStackHandler != null)) {
+            val box = this.filteredInStackHandler!!.boundingBox
+            if (!box.isEmpty)
+            list.add(LockedInventoryTogglePiece(
+                    when (this.lockableInputLockPosition) {
+                        GuiPieceSide.LEFT -> box.left - 16
+                        else -> box.right + 2 // assume RIGHT
+                    }, box.top + 2, this, this.filteredInStackHandler!!.color)
+            )
+        }
+
+        return list
+    }
 
     //#endregion
     //#region write/read/sync   methods

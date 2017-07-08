@@ -15,7 +15,7 @@ class VanillaReedsSeed(override val seeds: ItemStack)
 
     override fun canPlantHere(world: World, pos: BlockPos): Boolean {
         val under = world.getBlockState(pos.down()).block
-        return (under === Blocks.SAND || under === Blocks.DIRT) &&
+        return (under === Blocks.SAND || under === Blocks.DIRT || under == Blocks.GRASS) &&
                 (world.getBlockState(pos.north().down()).block === Blocks.WATER
                 || world.getBlockState(pos.east().down()).block === Blocks.WATER
                 || world.getBlockState(pos.south().down()).block === Blocks.WATER

@@ -12,6 +12,7 @@ import net.minecraftforge.fluids.IFluidTank
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.common.GuiPieceSide
 import net.ndrei.teslapoweredthingies.common.IAdditionalProcessingAddon
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
 
@@ -39,6 +40,9 @@ class CropFarmEntity : ElectricFarmMachine(CropFarmEntity::class.java.name.hashC
 
         return PlantWrapperFactory.isFertilizer(stack) || PlantWrapperFactory.isSeed(stack)
     }
+
+    override val lockableInputLockPosition: GuiPieceSide
+        get() = GuiPieceSide.LEFT
 
     override fun performWork(): Float {
         var result = 0.0f
