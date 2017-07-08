@@ -1,5 +1,17 @@
 package net.ndrei.teslapoweredthingies.machines.poweredkiln
 
+import net.minecraft.inventory.Slot
+import net.minecraft.item.EnumDyeColor
+import net.minecraft.item.ItemStack
+import net.minecraftforge.items.ItemStackHandler
+import net.ndrei.teslacorelib.containers.BasicTeslaContainer
+import net.ndrei.teslacorelib.containers.FilteredSlot
+import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
+import net.ndrei.teslacorelib.gui.IGuiContainerPiece
+import net.ndrei.teslacorelib.gui.TiledRenderedGuiPiece
+import net.ndrei.teslacorelib.inventory.BoundingRectangle
+import net.ndrei.teslacorelib.inventory.ColoredItemHandler
+import net.ndrei.teslacorelib.inventory.LockableItemHandler
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 
