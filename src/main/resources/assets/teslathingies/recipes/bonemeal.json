@@ -1,0 +1,12 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.farm.blocks",
+  "result": { "item": "minecraft:dye", "data": 15 },
+  "pattern": [
+    "xx",
+    "xx"
+  ],
+  "key": {
+    "x": { "item": "teslathingies:ash" }
+  }
+}

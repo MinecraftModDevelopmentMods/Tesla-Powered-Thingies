@@ -1,0 +1,15 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.farm.blocks",
+  "result": { "item": "teslathingies:animal_package" },
+  "pattern": [
+    "xyx",
+    "yzy",
+    "xyx"
+  ],
+  "key": {
+    "x": { "type": "forge:ore_dict", "ore": "plankWood" },
+    "y": { "item": "minecraft:iron_bars" },
+    "z": { "type": "forge:ore_dict", "ore": "dustRedstone" }
+  }
+}

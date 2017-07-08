@@ -1,0 +1,14 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.farm.blocks",
+  "result": { "item": "teslathingies:animal_age_filter_adult" },
+  "pattern": [
+    "xxx",
+    " y ",
+    "   "
+  ],
+  "key": {
+    "x": { "type": "forge:ore_dict", "ore": "dustRedstone" },
+    "y": { "item": "teslathingies:animal_filter" }
+  }
+}

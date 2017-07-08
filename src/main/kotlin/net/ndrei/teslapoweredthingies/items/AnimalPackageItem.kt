@@ -4,13 +4,10 @@ import com.mojang.realmsclient.gui.ChatFormatting
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.passive.EntityAnimal
-import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
-import net.minecraft.item.crafting.IRecipe
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
 import net.minecraftforge.common.util.Constants
-import net.minecraftforge.oredict.ShapedOreRecipe
 import net.ndrei.teslacorelib.annotations.AutoRegisterItem
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
@@ -30,15 +27,15 @@ object AnimalPackageItem : BaseThingyItem("animal_package") {
         })
     }
 
-    override val recipe: IRecipe
-        get() = ShapedOreRecipe(null, ItemStack(this, 1),
-                "xyx",
-                "yzy",
-                "xyx",
-                'x', "plankWood",
-                'y', Blocks.IRON_BARS,
-                'z', "dustRedstone"
-        )
+//    override val recipe: IRecipe
+//        get() = ShapedOreRecipe(null, ItemStack(this, 1),
+//                "xyx",
+//                "yzy",
+//                "xyx",
+//                'x', "plankWood",
+//                'y', Blocks.IRON_BARS,
+//                'z', "dustRedstone"
+//        )
 
     override fun getUnlocalizedName(stack: ItemStack): String {
         if (this.hasAnimal(stack)) {

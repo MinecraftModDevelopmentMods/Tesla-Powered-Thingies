@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.farm.blocks",
+  "result": { "item": "teslathingies:fruit_picker_addon" },
+  "pattern": [
+    " t ",
+    "tat",
+    "shs"
+  ],
+  "key": {
+    "t": { "type": "forge:ore_dict", "ore": "treeSapling" },
+    "a": { "item": "teslacorelib:base_addon" },
+    "s": { "type": "forge:ore_dict", "ore": "stickWood" },
+    "h": { "item": "minecraft:hopper" }
+  }
+}

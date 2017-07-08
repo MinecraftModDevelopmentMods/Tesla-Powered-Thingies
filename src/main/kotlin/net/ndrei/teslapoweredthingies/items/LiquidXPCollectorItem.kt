@@ -2,9 +2,7 @@ package net.ndrei.teslapoweredthingies.items
 
 import com.mojang.realmsclient.gui.ChatFormatting
 import net.minecraft.client.util.ITooltipFlag
-import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
-import net.minecraft.item.crafting.IRecipe
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.util.EnumFacing
 import net.minecraft.world.World
@@ -16,13 +14,9 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler
 import net.minecraftforge.fluids.capability.FluidTankProperties
 import net.minecraftforge.fluids.capability.IFluidHandlerItem
 import net.minecraftforge.fluids.capability.IFluidTankProperties
-import net.minecraftforge.oredict.ShapedOreRecipe
-import net.ndrei.teslacorelib.GearRegistry
-import net.ndrei.teslacorelib.MATERIAL_IRON
 import net.ndrei.teslacorelib.annotations.AutoRegisterItem
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.items.BaseAddon
-import net.ndrei.teslacorelib.items.BaseAddonItem
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.common.ILiquidXPCollector
@@ -37,15 +31,15 @@ object LiquidXPCollectorItem
 
     const val MAX_CAPACITY = 1000
 
-    override  val recipe: IRecipe
-        get() = ShapedOreRecipe(null, ItemStack(this, 1),
-                " x ",
-                "gyg",
-                "bbb",
-                'x', Items.EXPERIENCE_BOTTLE,
-                'g', GearRegistry.getMaterial(MATERIAL_IRON)?.oreDictName ?: "gearIron",
-                'y', BaseAddonItem,
-                'b', Items.GLASS_BOTTLE)
+//    override  val recipe: IRecipe
+//        get() = ShapedOreRecipe(null, ItemStack(this, 1),
+//                " x ",
+//                "gyg",
+//                "bbb",
+//                'x', Items.EXPERIENCE_BOTTLE,
+//                'g', GearRegistry.getMaterial(MATERIAL_IRON)?.oreDictName ?: "gearIron",
+//                'y', BaseAddonItem,
+//                'b', Items.GLASS_BOTTLE)
 
     override fun canBeAddedTo(machine: SidedTileEntity)
             = (machine is ILiquidXPCollector) && !machine.hasXPCollector()

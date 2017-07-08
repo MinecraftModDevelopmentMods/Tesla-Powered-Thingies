@@ -1,0 +1,14 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.farm.blocks",
+  "result": { "item": "teslathingies:animal_filter" },
+  "pattern": [
+    "x x",
+    " y ",
+    "x x"
+  ],
+  "key": {
+    "x": { "type": "forge:ore_dict", "ore": "cropWheat" },
+    "y": { "item": "teslacorelib:base_addon" }
+  }
+}

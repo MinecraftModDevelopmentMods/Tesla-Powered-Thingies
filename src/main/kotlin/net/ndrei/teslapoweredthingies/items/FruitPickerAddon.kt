@@ -1,14 +1,10 @@
 package net.ndrei.teslapoweredthingies.items
 
 import net.minecraft.block.state.IBlockState
-import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
-import net.minecraft.item.crafting.IRecipe
 import net.minecraft.util.NonNullList
-import net.minecraftforge.oredict.ShapedOreRecipe
 import net.ndrei.teslacorelib.annotations.AutoRegisterItem
 import net.ndrei.teslacorelib.items.BaseAddon
-import net.ndrei.teslacorelib.items.BaseAddonItem
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.common.IAdditionalProcessingAddon
@@ -25,16 +21,16 @@ object FruitPickerAddon
         , IAdditionalProcessingAddon {
     const val PICK_ENERGY = .05f
 
-    override val recipe: IRecipe?
-        get() = ShapedOreRecipe(null,this,
-                " t ",
-                "tat",
-                "shs",
-                't', "treeSapling",
-                'a', BaseAddonItem,
-                's', "stickWood",
-                'h', Blocks.HOPPER
-        )
+//    override val recipe: IRecipe?
+//        get() = ShapedOreRecipe(null,this,
+//                " t ",
+//                "tat",
+//                "shs",
+//                't', "treeSapling",
+//                'a', BaseAddonItem,
+//                's', "stickWood",
+//                'h', Blocks.HOPPER
+//        )
 
     override fun canBeAddedTo(machine: SidedTileEntity)
         = machine is CropFarmEntity
