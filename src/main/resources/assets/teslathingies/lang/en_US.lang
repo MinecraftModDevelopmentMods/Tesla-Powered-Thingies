@@ -1,4 +1,4 @@
-itemGroup.tabTesla_Powered_Thingies=Tesla Powered Thingies
+itemGroup.Tesla_Powered_Thingies=Tesla Powered Thingies
 
 item.teslathingies.ash.name=Ash
 
@@ -18,6 +18,7 @@ item.teslathingies.liquidxp_collector.name=XP Orb Collector Addon
 item.teslathingies.addon_range_tier1.name=Range Addon I
 item.teslathingies.addon_range_tier2.name=Range Addon II
 item.teslathingies.fruit_picker_addon.name=Fruit Picker
+item.teslathingies.tesla_plant_seeds.name=Tesla Plant Seeds (WIP)
 
 tile.teslathingies.animal_farm.name=Animal Farm
 tile.teslathingies.animal_releaser.name=Animal Releaser
@@ -31,8 +32,13 @@ tile.teslathingies.liquidxp_storage.name=Liquid XP Storage
 
 tile.teslathingies.dung_block.name=Dung Block
 tile.teslathingies.dung_bricks.name=Dung Bricks
+tile.teslathingies.tesla_plant.name=Tesla Plant (WIP)
 
 fluid.teslathingies.tf-sewage=Sewage
 tile.teslathingies.tf-sewage.block.name=Sewage
 fluid.teslathingies.tf-liquidxp=Liquid XP
 tile.teslathingies.tf-liquidxp.block.name=Liquid XP
+
+advancements.teslathingies:controlling.description=The road to pure awesomeness begins here...
+advancements.teslathingies:wrench.title=Wrench Everything!
+advancements.teslathingies:wrench.description=No... this is not a mistyped wench... :(

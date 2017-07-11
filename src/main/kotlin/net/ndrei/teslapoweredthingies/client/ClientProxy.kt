@@ -16,9 +16,5 @@ class ClientProxy : CommonProxy(Side.CLIENT) {
         TeslaThingiesMod.logger.info("ClientProxy::preInit")
 
         OBJLoader.INSTANCE.addDomain(TeslaThingiesMod.MODID)
-
-        // Typically initialization of models and such goes here:
-//        BlockRendererRegistry.registerBlockRenderers()
-//        ItemRenderersRegistry.registerItemRenderers()
     }
 }

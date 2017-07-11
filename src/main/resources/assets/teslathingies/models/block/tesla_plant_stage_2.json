@@ -1,0 +1,6 @@
+{
+  "parent": "block/crop",
+  "textures": {
+    "crop": "teslathingies:blocks/plants/tesla_plant_stage_2"
+  }
+}
