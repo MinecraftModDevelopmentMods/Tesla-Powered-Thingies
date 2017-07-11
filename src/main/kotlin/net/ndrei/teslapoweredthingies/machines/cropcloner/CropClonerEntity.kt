@@ -11,9 +11,12 @@ import net.minecraftforge.common.EnumPlantType
 import net.minecraftforge.common.IPlantable
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.IFluidTank
+import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.capabilities.hud.HudInfoLine
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
+import net.ndrei.teslacorelib.inventory.ColoredItemHandler
+import net.ndrei.teslacorelib.inventory.LockableItemHandler
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
 import java.awt.Color
 
@@ -36,8 +39,24 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
                 BoundingRectangle(43, 25, 18, 54))
     }
 
-    override val inputSlots: Int
-        get() = 1
+    override fun initializeInputInventory() {
+        this.inStackHandler = object : ItemStackHandler(Math.max(0, Math.min(3, inputSlots))) {
+                override fun onContentsChanged(slot: Int) {
+                    this@CropClonerEntity.markDirty()
+                }
+
+            override fun getStackLimit(slot: Int, stack: ItemStack) = 1
+        }
+        this.filteredInStackHandler = object : ColoredItemHandler(this.inStackHandler!!, EnumDyeColor.GREEN, "Input Items", this.getInputInventoryBounds(this.inStackHandler!!.slots, 1)) {
+            override fun canInsertItem(slot: Int, stack: ItemStack)
+                    = (if (this.innerHandler is LockableItemHandler) this.innerHandler.canInsertItem(slot, stack) else true)
+                    && this@CropClonerEntity.acceptsInputStack(slot, stack)
+
+            override fun canExtractItem(slot: Int) = false
+        }
+        super.addInventory(this.filteredInStackHandler)
+        super.addInventoryToStorage(this.inStackHandler!!, "inputs")
+    }
 
     override val lockableInputInventory: Boolean
         get() = false

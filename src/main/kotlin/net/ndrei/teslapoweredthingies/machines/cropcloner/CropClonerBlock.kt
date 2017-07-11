@@ -47,6 +47,7 @@ object CropClonerBlock
         if (tileEntity != null) {
             tileEntity.validate()
             worldIn.setTileEntity(pos, tileEntity)
+            worldIn.notifyNeighborsOfStateChange(pos, this, true)
         }
     }
 

@@ -38,7 +38,7 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
     protected open val inputSlots: Int
         get() = 3
 
-    protected fun initializeInputInventory() {
+    protected open fun initializeInputInventory() {
         val inputSlots = this.inputSlots
         if (inputSlots > 0) {
             this.inStackHandler = if (this.lockableInputInventory)
