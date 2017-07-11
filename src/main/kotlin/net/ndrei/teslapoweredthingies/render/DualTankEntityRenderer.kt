@@ -17,7 +17,11 @@ import org.lwjgl.opengl.GL11
  * Created by CF on 2017-06-30.
  */
 class DualTankEntityRenderer<T : ElectricTileEntity> : TileEntitySpecialRenderer<T>() {
-    fun renderTileEntityAt(te: T, x: Double, y: Double, z: Double, partialTicks: Float, destroyStage: Int) {
+    override fun render(te: T, x: Double, y: Double, z: Double, partialTicks: Float, destroyStage: Int, alpha: Float) {
+//        super.render(te, x, y, z, partialTicks, destroyStage, alpha)
+//    }
+//
+//    fun renderTileEntityAt(te: T, x: Double, y: Double, z: Double, partialTicks: Float, destroyStage: Int) {
         val machine = te as IDualTankMachine
 
         GlStateManager.pushMatrix()

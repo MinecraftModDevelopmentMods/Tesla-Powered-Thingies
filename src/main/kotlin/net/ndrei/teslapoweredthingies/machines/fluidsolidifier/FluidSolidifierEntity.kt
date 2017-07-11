@@ -22,12 +22,10 @@ import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 /**
  * Created by CF on 2017-06-30.
  */
-
-
 class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.java.name.hashCode()), IDualTankMachine {
-    private var waterTank: IFluidTank? = null
-    private var lavaTank: IFluidTank? = null
-    private var outputs: ItemStackHandler? = null
+    private lateinit var waterTank: IFluidTank
+    private lateinit var lavaTank: IFluidTank
+    private lateinit var outputs: ItemStackHandler
 
     private var resultType = FluidSolidifierResult.COBBLESTONE
     private var lastWorkResult: FluidSolidifierResult? = null
@@ -48,7 +46,7 @@ class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.jav
                 this@FluidSolidifierEntity.markDirty()
             }
         }
-        super.addInventory(object : ColoredItemHandler(this.outputs!!, EnumDyeColor.PURPLE, "Output Items", BoundingRectangle(151, 25, 18, 54)) {
+        super.addInventory(object : ColoredItemHandler(this.outputs, EnumDyeColor.PURPLE, "Output Items", BoundingRectangle(151, 25, 18, 54)) {
             override fun canInsertItem(slot: Int, stack: ItemStack): Boolean {
                 return false
             }
@@ -76,7 +74,7 @@ class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.jav
 //                return pieces
 //            }
         })
-        super.addInventoryToStorage(this.outputs!!, "inv_outputs")
+        super.addInventoryToStorage(this.outputs, "inv_outputs")
     }
 
     override fun shouldAddFluidItemsInventory(): Boolean {
@@ -140,22 +138,17 @@ class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.jav
     //#region IDualTankMachine
 
     override val leftTankPercent: Float
-        get() = Math.min(1f, Math.max(0f, this.waterTank!!.fluidAmount.toFloat() / this.waterTank!!.capacity.toFloat()))
+        get() = Math.min(1f, Math.max(0f, this.waterTank.fluidAmount.toFloat() / this.waterTank.capacity.toFloat()))
 
     override val rightTankPercent: Float
-        get() = Math.min(1f, Math.max(0f, this.lavaTank!!.fluidAmount.toFloat() / this.lavaTank!!.capacity.toFloat()))
+        get() = Math.min(1f, Math.max(0f, this.lavaTank.fluidAmount.toFloat() / this.lavaTank.capacity.toFloat()))
 
-    override val leftTankFluid: Fluid
-        get() {
-            val stack = this.waterTank!!.fluid
-            return stack?.fluid!!
-        }
+    override val leftTankFluid: Fluid?
+        get() = this.waterTank.fluid?.fluid
 
-    override val rightTankFluid: Fluid
-        get() {
-            val stack = this.lavaTank!!.fluid
-            return stack?.fluid!!
-        }
+    override val rightTankFluid: Fluid?
+        get() = this.lavaTank.fluid?.fluid
+
     //#endregion
 
     //region serialization
@@ -175,16 +168,15 @@ class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.jav
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
-        var compound = compound
-        compound = super.writeToNBT(compound)
+        val nbt = super.writeToNBT(compound)
 
-        compound.setInteger("result_type", this.resultType.stateIndex)
+        nbt.setInteger("result_type", this.resultType.stateIndex)
 
         if (this.lastWorkResult != null) {
-            compound.setInteger("work_result", this.lastWorkResult!!.stateIndex)
+            nbt.setInteger("work_result", this.lastWorkResult!!.stateIndex)
         }
 
-        return compound
+        return nbt
     }
 
     override fun processClientMessage(messageType: String?, compound: NBTTagCompound): SimpleNBTMessage? {
@@ -209,24 +201,24 @@ class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.jav
             return 0.0f
         }
 
-        val hasWater = this.waterTank!!.fluidAmount >= this.lastWorkResult!!.waterMbMin
+        val hasWater = this.waterTank.fluidAmount >= this.lastWorkResult!!.waterMbMin
         if (hasWater) {
-            val hasLava = this.lavaTank!!.fluidAmount >= this.lastWorkResult!!.lavaMbMin
+            val hasLava = this.lavaTank.fluidAmount >= this.lastWorkResult!!.lavaMbMin
             if (hasLava) {
                 val waterRequired = this.lastWorkResult!!.waterMbConsumed > 0
-                val water = if (waterRequired) this.waterTank!!.drain(this.lastWorkResult!!.waterMbConsumed, false) else null
+                val water = if (waterRequired) this.waterTank.drain(this.lastWorkResult!!.waterMbConsumed, false) else null
                 if (!waterRequired || water != null && water.amount == this.lastWorkResult!!.waterMbConsumed) {
                     val lavaRequired = this.lastWorkResult!!.lavaMbConsumed > 0
-                    val lava = if (lavaRequired) this.lavaTank!!.drain(this.lastWorkResult!!.lavaMbConsumed, false) else null
+                    val lava = if (lavaRequired) this.lavaTank.drain(this.lastWorkResult!!.lavaMbConsumed, false) else null
                     if (!lavaRequired || lava != null && lava.amount == this.lastWorkResult!!.lavaMbConsumed) {
                         val remaining = ItemHandlerHelper.insertItem(this.outputs, this.lastWorkResult!!.resultStack.copy(), false)
                         if (ItemStackUtil.isEmpty(remaining)) {
                             // actually drain liquids
                             if (waterRequired) {
-                                this.waterTank!!.drain(this.lastWorkResult!!.waterMbConsumed, true)
+                                this.waterTank.drain(this.lastWorkResult!!.waterMbConsumed, true)
                             }
                             if (lavaRequired) {
-                                this.lavaTank!!.drain(this.lastWorkResult!!.lavaMbConsumed, true)
+                                this.lavaTank.drain(this.lastWorkResult!!.lavaMbConsumed, true)
                             }
 
                             // work performed

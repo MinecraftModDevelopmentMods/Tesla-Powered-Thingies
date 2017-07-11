@@ -31,10 +31,10 @@ import net.ndrei.teslapoweredthingies.machines.BaseThingyGenerator
  * Created by CF on 2017-06-30.
  */
 class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name.hashCode()), IDualTankMachine {
-    private var coolantTank: FluidTank? = null
-    private var fuelTank: FluidTank? = null
-    private var coolantItems: ItemStackHandler? = null
-    private var fuelItems: ItemStackHandler? = null
+    private lateinit var coolantTank: FluidTank
+    private lateinit var fuelTank: FluidTank
+    private lateinit var coolantItems: ItemStackHandler
+    private lateinit var fuelItems: ItemStackHandler
 
     var coolantInUse: Fluid? = null
         private set
@@ -45,9 +45,9 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
         super.initializeInventories()
 
         this.coolantItems = ItemStackHandler(2)
-        super.addInventory(object : ColoredItemHandler(this.coolantItems!!, EnumDyeColor.MAGENTA, "Coolant Containers", BoundingRectangle(61, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT)) {
+        super.addInventory(object : ColoredItemHandler(this.coolantItems, EnumDyeColor.MAGENTA, "Coolant Containers", BoundingRectangle(61, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT)) {
             override fun canInsertItem(slot: Int, stack: ItemStack): Boolean {
-                return slot == 0 && FluidUtils.canFillFrom(this@FluidBurnerEntity.coolantTank!!, stack)
+                return slot == 0 && FluidUtils.canFillFrom(this@FluidBurnerEntity.coolantTank, stack)
             }
 
             override fun canExtractItem(slot: Int): Boolean {
@@ -74,11 +74,11 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
                 return pieces
             }
         })
-        super.addInventoryToStorage(this.coolantItems!!, "inv_coolant")
+        super.addInventoryToStorage(this.coolantItems, "inv_coolant")
 
         this.coolantTank = FluidTank(5000)
         super.addFluidTank(
-                object : ColoredFluidHandler(this.coolantTank!!,
+                object : ColoredFluidHandler(this.coolantTank,
                         EnumDyeColor.BLUE,
                         "Coolant Tank",
                         BoundingRectangle(79, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT)) {
@@ -94,7 +94,7 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
 
         this.fuelTank = FluidTank(5000)
         super.addFluidTank(
-                object : ColoredFluidHandler(this.fuelTank!!,
+                object : ColoredFluidHandler(this.fuelTank,
                         EnumDyeColor.RED,
                         "Fuel Tank",
                         BoundingRectangle(97, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT)) {
@@ -109,9 +109,9 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
         )
 
         this.fuelItems = ItemStackHandler(2)
-        super.addInventory(object : ColoredItemHandler(this.fuelItems!!, EnumDyeColor.PURPLE, "Fuel Containers", BoundingRectangle(115, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT)) {
+        super.addInventory(object : ColoredItemHandler(this.fuelItems, EnumDyeColor.PURPLE, "Fuel Containers", BoundingRectangle(115, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT)) {
             override fun canInsertItem(slot: Int, stack: ItemStack): Boolean {
-                return slot == 0 && FluidUtils.canFillFrom(this@FluidBurnerEntity.fuelTank!!, stack)
+                return slot == 0 && FluidUtils.canFillFrom(this@FluidBurnerEntity.fuelTank, stack)
             }
 
             override fun canExtractItem(slot: Int): Boolean {
@@ -138,7 +138,7 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
                 return pieces
             }
         })
-        super.addInventoryToStorage(this.fuelItems!!, "inv_fuel")
+        super.addInventoryToStorage(this.fuelItems, "inv_fuel")
     }
 
     override fun shouldAddFluidItemsInventory(): Boolean = false
@@ -146,8 +146,8 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
     override fun processImmediateInventories() {
         super.processImmediateInventories()
 
-        this.processFluidItems(this.coolantItems!!, this.coolantTank!!)
-        this.processFluidItems(this.fuelItems!!, this.fuelTank!!)
+        this.processFluidItems(this.coolantItems, this.coolantTank)
+        this.processFluidItems(this.fuelItems, this.fuelTank)
     }
 
     private fun processFluidItems(handler: ItemStackHandler, tank: IFluidTank) {
@@ -170,12 +170,12 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
     }
 
     override fun consumeFuel(): Long {
-        val fuel = FluidBurnerRecipes.drainFuel(this.fuelTank!!, true)
+        val fuel = FluidBurnerRecipes.drainFuel(this.fuelTank, true)
         if (fuel != null) {
             var power = fuel.recipe.baseTicks.toLong()
             this.fuelInUse = fuel.fuel.fluid
 
-            val coolant = FluidBurnerRecipes.drainCoolant(this.coolantTank!!, true)
+            val coolant = FluidBurnerRecipes.drainCoolant(this.coolantTank, true)
             if (coolant != null) {
                 power *= coolant.recipe.timeMultiplier.toLong()
                 this.coolantInUse = coolant.coolant.fluid
@@ -232,20 +232,14 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
     }
 
     override val leftTankPercent: Float
-        get() = Math.min(1f, Math.max(0f, this.coolantTank!!.fluidAmount.toFloat() / this.coolantTank!!.capacity.toFloat()))
+        get() = Math.min(1f, Math.max(0f, this.coolantTank.fluidAmount.toFloat() / this.coolantTank.capacity.toFloat()))
 
     override val rightTankPercent: Float
-        get() = Math.min(1f, Math.max(0f, this.fuelTank!!.fluidAmount.toFloat() / this.fuelTank!!.capacity.toFloat()))
+        get() = Math.min(1f, Math.max(0f, this.fuelTank.fluidAmount.toFloat() / this.fuelTank.capacity.toFloat()))
 
-    override val leftTankFluid: Fluid
-        get() {
-            val stack = this.coolantTank!!.fluid
-            return stack?.fluid!!
-        }
+    override val leftTankFluid: Fluid?
+        get() = this.coolantTank.fluid?.fluid
 
-    override val rightTankFluid: Fluid
-        get() {
-            val stack = this.fuelTank!!.fluid
-            return stack?.fluid!!
-        }
+    override val rightTankFluid: Fluid?
+        get() = this.fuelTank.fluid?.fluid
 }
