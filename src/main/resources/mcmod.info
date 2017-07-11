@@ -10,6 +10,6 @@
   "credits": "The Forge and FML guys, Team Avion and my mom.",
   "logoFile": "",
   "screenshots": [],
-  "requiredMods": [ "tesla", "teslacorelib" ],
-  "dependencies": [ "tesla", "teslacorelib" ]
+  "requiredMods": [ "tesla", "teslacorelib", "forgelin" ],
+  "dependencies": [ "tesla", "teslacorelib", "forgelin" ]
 }]
