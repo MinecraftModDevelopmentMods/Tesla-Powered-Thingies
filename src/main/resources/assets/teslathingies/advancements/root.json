@@ -1,0 +1,28 @@
+{
+  "display": {
+    "icon": {
+      "item": "teslacorelib:machine_case"
+    },
+    "title": {
+      "translate": "itemGroup.tabTesla_Powered_Thingies"
+    },
+    "description": {
+      "translate": "advancements.teslathingies:controlling.description"
+    },
+    "background": "teslathingies:textures/gui/advancements.png",
+    "show_toast": true,
+    "announce_to_chat": false
+  },
+  "criteria": {
+    "machine_case_in_inventory": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "teslacorelib:machine_case"
+          }
+        ]
+      }
+    }
+  }
+}
