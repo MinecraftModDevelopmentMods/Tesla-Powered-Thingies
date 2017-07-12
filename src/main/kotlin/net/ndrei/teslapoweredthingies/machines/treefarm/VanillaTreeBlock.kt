@@ -1,6 +1,7 @@
 package net.ndrei.teslapoweredthingies.machines.treefarm
 
 import net.minecraft.item.ItemStack
+import net.minecraft.util.NonNullList
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 
@@ -12,7 +13,8 @@ abstract class VanillaTreeBlock(protected val world: World, protected val pos: B
 
     override fun breakBlock(fortune: Int): List<ItemStack> {
         val state = this.world.getBlockState(this.pos)
-        val stacks = state.block.getDrops(world, pos, state, fortune)
+        val stacks = NonNullList.create<ItemStack>()
+        state.block.getDrops(stacks, world, pos, state, fortune)
 
         this.world.destroyBlock(this.pos, false)
 
