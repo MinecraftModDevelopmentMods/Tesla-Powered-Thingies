@@ -23,28 +23,4 @@ object LiquidXPFluid
     override fun getUnlocalizedName(): String {
         return "fluid.${TeslaThingiesMod.MODID}.${this.unlocalizedName}"
     }
-
-//    fun register() {
-//        FluidRegistry.registerFluid(this)
-//        FluidRegistry.addBucketForFluid(this)
-//    }
-//
-//    @SideOnly(Side.CLIENT)
-//    fun registerRenderer() {
-//        val block = LiquidXpBlock
-//        val item = Item.getItemFromBlock(block as Block)
-//        assert(item === Items.AIR)
-//
-//        ModelBakery.registerItemVariants(item)
-//
-//        val modelResourceLocation = ModelResourceLocation(TeslaThingiesMod.MODID + ":fluids", this.name)
-//
-//        ModelLoader.setCustomMeshDefinition(item) { modelResourceLocation }
-//
-//        ModelLoader.setCustomStateMapper(block as Block, object : StateMapperBase() {
-//            override fun getModelResourceLocation(state: IBlockState): ModelResourceLocation {
-//                return modelResourceLocation
-//            }
-//        })
-//    }
 }

@@ -2,6 +2,7 @@ package net.ndrei.teslapoweredthingies.blocks
 
 import net.minecraft.block.Block
 import net.minecraft.block.BlockBush
+import net.minecraft.block.IGrowable
 import net.minecraft.block.material.MapColor
 import net.minecraft.block.material.Material
 import net.minecraft.block.properties.IProperty
@@ -24,8 +25,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.ndrei.teslacorelib.annotations.AutoRegisterBlock
 import net.ndrei.teslacorelib.entities.TeslaLightningBolt
 import net.ndrei.teslacorelib.entities.TeslaLightningStruckEvent
+import net.ndrei.teslacorelib.utils.BlockPosUtils
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
-import net.ndrei.teslapoweredthingies.common.BlockPosUtils
 import net.ndrei.teslapoweredthingies.items.TeslaPlantSeeds
 import java.util.*
 
@@ -33,13 +34,17 @@ import java.util.*
  * Created by CF on 2017-07-10.
  */
 @AutoRegisterBlock
-object TeslaPlantBlock : BlockBush(Material.PLANTS, MapColor.CYAN) {
+object TeslaPlantBlock
+    : BlockBush(Material.PLANTS, MapColor.CYAN), IGrowable {
+
     private var _age: PropertyInteger? = null
+
+    private const val MAX_AGE = 2
 
     val AGE: PropertyInteger
         get() {
             if (this._age == null)
-                this._age = PropertyInteger.create("age", 0, 2)
+                this._age = PropertyInteger.create("age", 0, MAX_AGE)
             return this._age!!
         }
 
@@ -71,17 +76,18 @@ object TeslaPlantBlock : BlockBush(Material.PLANTS, MapColor.CYAN) {
      * Return true if the block can sustain a Bush
      */
     override fun canSustainBush(state: IBlockState): Boolean {
-        return state.block === Blocks.REDSTONE_BLOCK
+        return state.block === Blocks.FARMLAND
     }
 
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random) {
-        val i = (state.getValue(AGE) as Int).toInt()
+//        val i = (state.getValue(AGE) as Int).toInt()
 
-        val probability = (i + 1) * if (worldIn.worldInfo.isThundering) 3
-        else if (worldIn.worldInfo.isRaining) 20
-        else 0
-
-        this.doGrow(worldIn, pos, state, rand, probability)
+//        val probability = (i + 1) * if (worldIn.worldInfo.isThundering) 3
+//        else if (worldIn.worldInfo.isRaining) 20
+//        else 0
+//
+//        this.doGrow(worldIn, pos, state, rand, probability)
+        this.grow(worldIn, rand, pos, state)
 
         if (worldIn.worldInfo.isThundering && (rand.nextInt(2) == 1)) {
             worldIn.addWeatherEffect(TeslaLightningBolt(worldIn, pos))
@@ -99,6 +105,21 @@ object TeslaPlantBlock : BlockBush(Material.PLANTS, MapColor.CYAN) {
         }
     }
 
+    override fun canUseBonemeal(worldIn: World?, rand: Random?, pos: BlockPos?, state: IBlockState?) = false
+
+    override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState) {
+        val i = (state.getValue(AGE) as Int).toInt()
+
+        val probability = (i + 1) * if (worldIn.worldInfo.isThundering) 3
+        else if (worldIn.worldInfo.isRaining) 20
+        else 0
+
+        this.doGrow(worldIn, pos, state, rand, probability)
+    }
+
+    override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean)
+            = (!isClient && (state.getValue(AGE) as Int).toInt() < MAX_AGE)
+
     @SubscribeEvent
     fun onEntityEvent(ev: TeslaLightningStruckEvent) {
         if ((ev.entity is EntityLightningBolt) && (ev.entity.position != null) && (ev.entity.entityWorld != null)) {
@@ -114,7 +135,7 @@ object TeslaPlantBlock : BlockBush(Material.PLANTS, MapColor.CYAN) {
                 val state = world.getBlockState(it)
                 if (state.block == TeslaPlantBlock) {
                     // this.updateTick(world, it, state, world.rand)
-                    this.doGrow(world, pos, state, world.rand, 5)
+                    this.doGrow(world, pos, state, world.rand, 3)
                 }
             }
         }
@@ -125,7 +146,7 @@ object TeslaPlantBlock : BlockBush(Material.PLANTS, MapColor.CYAN) {
      */
     override fun dropBlockAsItemWithChance(worldIn: World, pos: BlockPos, state: IBlockState, chance: Float, fortune: Int) {
         super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune)
-        if (false && !worldIn.isRemote) {
+        if (!worldIn.isRemote) {
             var i = 1
 
             if ((state.getValue(AGE) as Int).toInt() >= 2) {

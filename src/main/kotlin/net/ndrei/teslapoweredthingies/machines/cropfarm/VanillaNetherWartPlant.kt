@@ -8,8 +8,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
+import net.ndrei.teslacorelib.utils.BlockPosUtils
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
-import net.ndrei.teslapoweredthingies.common.BlockPosUtils
 
 /**
  * Created by CF on 2017-07-07.

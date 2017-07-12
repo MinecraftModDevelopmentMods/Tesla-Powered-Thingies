@@ -1,17 +1,18 @@
 package net.ndrei.teslapoweredthingies.machines.itemliquefier
 
 import com.google.common.collect.Lists
-import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
 import net.minecraft.item.Item
 import net.minecraftforge.fluids.FluidRegistry
+import net.ndrei.teslapoweredthingies.fluids.MoltenTeslaFluid
+import net.ndrei.teslapoweredthingies.items.TeslaPlantSeeds
 
 /**
  * Created by CF on 2017-06-30.
  */
 object LiquefierRecipes {
-    private val VANILLA_STONE_TO_LAVA_RATE = 5
+    private val VANILLA_STONE_TO_LAVA_RATE = 100
     private lateinit var recipes: MutableList<LiquefierRecipe>
 
     fun registerRecipes() {
@@ -32,6 +33,9 @@ object LiquefierRecipes {
 
         recipes.add(LiquefierRecipe(Items.APPLE, 1, FluidRegistry.WATER, 50))
         recipes.add(LiquefierRecipe(Items.POTATO, 1, FluidRegistry.WATER, 50))
+
+        // tesla thingies recipes
+        recipes.add(LiquefierRecipe(TeslaPlantSeeds, 1, MoltenTeslaFluid, 25))
     }
 
     fun getRecipe(item: Item): LiquefierRecipe? {
