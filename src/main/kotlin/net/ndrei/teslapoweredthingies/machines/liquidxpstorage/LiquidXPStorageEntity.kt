@@ -1,9 +1,11 @@
 package net.ndrei.teslapoweredthingies.machines.liquidxpstorage
 
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.init.Items
 import net.minecraft.inventory.Slot
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
+import net.minecraft.tileentity.TileEntity
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidUtil
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler
@@ -21,6 +23,7 @@ import net.ndrei.teslacorelib.inventory.FluidTank
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.fluids.LiquidXPFluid
+import net.ndrei.teslapoweredthingies.render.LiquidXPStorageSpecialRenderer
 
 /**
  * Created by CF on 2017-07-07.
@@ -179,6 +182,12 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
         list.add(BasicRenderedGuiPiece(56, 25, 64, 54,
                 Textures.FARM_TEXTURES.resource, 65, 1))
 
+        return list
+    }
+
+    override fun getRenderers(): MutableList<TileEntitySpecialRenderer<in TileEntity>> {
+        val list = super.getRenderers()
+        list.add(LiquidXPStorageSpecialRenderer)
         return list
     }
 

@@ -18,11 +18,15 @@ class OpenJEICategoryPiece(private val block: Block, topIndex: Int = 1) : SideDr
         // container.mc.textureManager.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
         Textures.MACHINES_TEXTURES.bind(container)
 
+        // GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
         container.drawTexturedModalRect(
                 box.left, box.top + 1,
                 81, 7,
                 14, 14)
     }
+
+    override fun getStateToolTip(state: Int)
+        = listOf("Open JEI")
 
     override fun clicked() {
         TheJeiThing.showCategory(this.block)

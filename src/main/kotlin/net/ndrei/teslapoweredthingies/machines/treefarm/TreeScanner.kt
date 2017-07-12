@@ -4,7 +4,7 @@ import com.google.common.collect.Lists
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.ndrei.teslapoweredthingies.common.BlockCube
+import net.ndrei.teslacorelib.utils.BlockCube
 
 /**
  * Created by CF on 2017-07-07.

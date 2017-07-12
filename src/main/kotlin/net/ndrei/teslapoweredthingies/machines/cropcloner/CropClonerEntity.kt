@@ -3,21 +3,24 @@ package net.ndrei.teslapoweredthingies.machines.cropcloner
 import net.minecraft.block.Block
 import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.IBlockState
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.EnumPlantType
 import net.minecraftforge.common.IPlantable
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.IFluidTank
 import net.minecraftforge.items.ItemStackHandler
-import net.ndrei.teslacorelib.capabilities.hud.HudInfoLine
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.LockableItemHandler
+import net.ndrei.teslacorelib.render.HudInfoLine
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
+import net.ndrei.teslapoweredthingies.render.CropClonerSpecialRenderer
 import java.awt.Color
 
 /**
@@ -41,9 +44,9 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
 
     override fun initializeInputInventory() {
         this.inStackHandler = object : ItemStackHandler(Math.max(0, Math.min(3, inputSlots))) {
-                override fun onContentsChanged(slot: Int) {
-                    this@CropClonerEntity.markDirty()
-                }
+            override fun onContentsChanged(slot: Int) {
+                this@CropClonerEntity.markDirty()
+            }
 
             override fun getStackLimit(slot: Int, stack: ItemStack) = 1
         }
@@ -181,7 +184,7 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
 
     override val hudLines: List<HudInfoLine>
         get() {
-            var list = super.hudLines.toMutableList()
+            val list = super.hudLines.toMutableList()
 
             if (this.plantedThing == null) {
                 list.add(HudInfoLine(Color(255, 159, 51),
@@ -204,4 +207,10 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
 
             return list.toList()
         }
+
+    override fun getRenderers(): MutableList<TileEntitySpecialRenderer<in TileEntity>> {
+        val list = super.getRenderers()
+        list.add(CropClonerSpecialRenderer)
+        return list
+    }
 }

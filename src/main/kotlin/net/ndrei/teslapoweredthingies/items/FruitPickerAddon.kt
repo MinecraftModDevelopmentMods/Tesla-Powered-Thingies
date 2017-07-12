@@ -38,7 +38,7 @@ object FruitPickerAddon
     override fun processAddon(machine: ElectricFarmMachine, availableProcessing: Float): Float {
         val energyUsed = 0.0f
         if (availableProcessing >= PICK_ENERGY) {
-            for (pos in machine.groundArea) {
+            for (pos in machine.getWorkArea()) {
                 for (y in 5 downTo 1) {
                     val current = pos.up(y)
                     if (!machine.world.isAirBlock(current)) {

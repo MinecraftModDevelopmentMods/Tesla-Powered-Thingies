@@ -3,7 +3,6 @@ package net.ndrei.teslapoweredthingies.machines.cropcloner
 import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
@@ -19,7 +18,6 @@ import net.ndrei.teslacorelib.MATERIAL_IRON
 import net.ndrei.teslacorelib.annotations.AutoRegisterBlock
 import net.ndrei.teslacorelib.items.MachineCaseItem
 import net.ndrei.teslapoweredthingies.machines.BaseThingyBlock
-import net.ndrei.teslapoweredthingies.render.CropClonerSpecialRenderer
 
 /**
  * Created by CF on 2017-07-07.
@@ -64,6 +62,10 @@ object CropClonerBlock
                 'g', GearRegistry.getMaterial(MATERIAL_IRON)?.oreDictName ?: "gearIron"
         )
 
+//    override val specialRenderer: TileEntitySpecialRenderer<CropClonerEntity>
+//        @SideOnly(Side.CLIENT)
+//        get() = CropClonerSpecialRenderer()
+
     override fun createBlockState(): BlockStateContainer {
         return BlockStateContainer(this, FACING, STATE)
     }
@@ -85,10 +87,6 @@ object CropClonerBlock
         meta += state.getValue(STATE)
         return meta
     }
-
-    override val specialRenderer: TileEntitySpecialRenderer<CropClonerEntity>
-        @SideOnly(Side.CLIENT)
-        get() = CropClonerSpecialRenderer()
 
     // TODO: find out what this should be replaced with
     @SideOnly(Side.CLIENT)

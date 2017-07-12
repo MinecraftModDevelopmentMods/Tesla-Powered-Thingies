@@ -6,8 +6,11 @@ import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.texture.TextureMap
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumFacing
 import net.minecraftforge.fluids.Fluid
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
 import net.ndrei.teslacorelib.tileentities.ElectricTileEntity
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.gui.IDualTankMachine
@@ -16,18 +19,16 @@ import org.lwjgl.opengl.GL11
 /**
  * Created by CF on 2017-06-30.
  */
-class DualTankEntityRenderer<T : ElectricTileEntity> : TileEntitySpecialRenderer<T>() {
-    override fun render(te: T, x: Double, y: Double, z: Double, partialTicks: Float, destroyStage: Int, alpha: Float) {
-//        super.render(te, x, y, z, partialTicks, destroyStage, alpha)
-//    }
-//
-//    fun renderTileEntityAt(te: T, x: Double, y: Double, z: Double, partialTicks: Float, destroyStage: Int) {
-        val machine = te as IDualTankMachine
+@SideOnly(Side.CLIENT)
+object DualTankEntityRenderer : TileEntitySpecialRenderer<TileEntity>() {
+    override fun render(te: TileEntity, x: Double, y: Double, z: Double, partialTicks: Float, destroyStage: Int, alpha: Float) {
+        val machine = (te as? ElectricTileEntity) ?: return
+        val tankInfo = (te as? IDualTankMachine) ?: return
 
         GlStateManager.pushMatrix()
 
         GlStateManager.translate(x.toFloat() + 0.5f, y.toFloat() + 1.0f, z.toFloat() + 0.5f)
-        when (te.facing) {
+        when (machine.facing) {
             EnumFacing.NORTH -> GlStateManager.rotate(180f, 0.0f, 1.0f, 0.0f)
             EnumFacing.WEST -> GlStateManager.rotate(-90f, 0.0f, 1.0f, 0.0f)
             EnumFacing.EAST -> GlStateManager.rotate(90f, 0.0f, 1.0f, 0.0f)
@@ -42,8 +43,8 @@ class DualTankEntityRenderer<T : ElectricTileEntity> : TileEntitySpecialRenderer
         // GlStateManager.glNormal3f(0.0F, 0.0F, 1.0F);
         GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
 
-        this.drawTank(5.0f, machine.leftTankFluid, machine.leftTankPercent)
-        this.drawTank(19.0f, machine.rightTankFluid, machine.rightTankPercent)
+        this.drawTank(5.0f, tankInfo.leftTankFluid, tankInfo.leftTankPercent)
+        this.drawTank(19.0f, tankInfo.rightTankFluid, tankInfo.rightTankPercent)
 
         super.setLightmapDisabled(false)
         GlStateManager.popMatrix()

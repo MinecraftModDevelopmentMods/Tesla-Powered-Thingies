@@ -12,8 +12,8 @@ import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.FilteredFluidTank
 import net.ndrei.teslacorelib.inventory.FluidTank
-import net.ndrei.teslapoweredthingies.common.BlockCube
-import net.ndrei.teslapoweredthingies.common.BlockPosUtils
+import net.ndrei.teslacorelib.utils.BlockCube
+import net.ndrei.teslacorelib.utils.BlockPosUtils
 import net.ndrei.teslapoweredthingies.common.ILiquidXPCollector
 import net.ndrei.teslapoweredthingies.fluids.LiquidXPFluid
 import net.ndrei.teslapoweredthingies.items.LiquidXPCollectorItem

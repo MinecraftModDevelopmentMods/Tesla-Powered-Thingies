@@ -1,17 +1,13 @@
 package net.ndrei.teslapoweredthingies.machines.fluidsolidifier
 
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.oredict.ShapedOreRecipe
 import net.ndrei.teslacorelib.GearRegistry
 import net.ndrei.teslacorelib.annotations.AutoRegisterBlock
 import net.ndrei.teslacorelib.items.MachineCaseItem
 import net.ndrei.teslapoweredthingies.machines.BaseThingyBlock
-import net.ndrei.teslapoweredthingies.render.DualTankEntityRenderer
 
 /**
  * Created by CF on 2017-06-30.
@@ -20,9 +16,9 @@ import net.ndrei.teslapoweredthingies.render.DualTankEntityRenderer
 object FluidSolidifierBlock
     : BaseThingyBlock<FluidSolidifierEntity>("fluid_solidifier", FluidSolidifierEntity::class.java) {
 
-    override val specialRenderer: TileEntitySpecialRenderer<FluidSolidifierEntity>?
-        @SideOnly(Side.CLIENT)
-        get() = DualTankEntityRenderer()
+//    override val specialRenderer: TileEntitySpecialRenderer<FluidSolidifierEntity>?
+//        @SideOnly(Side.CLIENT)
+//        get() = DualTankEntityRenderer()
 
     override val recipe: IRecipe?
         get() = ShapedOreRecipe(null, ItemStack(this, 1),

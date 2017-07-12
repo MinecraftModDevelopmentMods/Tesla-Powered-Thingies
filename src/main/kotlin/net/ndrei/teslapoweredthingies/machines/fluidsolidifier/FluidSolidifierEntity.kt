@@ -1,9 +1,11 @@
 package net.ndrei.teslapoweredthingies.machines.fluidsolidifier
 
 import com.google.common.collect.Lists
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.tileentity.TileEntity
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.IFluidTank
@@ -18,6 +20,7 @@ import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.gui.IDualTankMachine
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
+import net.ndrei.teslapoweredthingies.render.DualTankEntityRenderer
 
 /**
  * Created by CF on 2017-06-30.
@@ -50,29 +53,6 @@ class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.jav
             override fun canInsertItem(slot: Int, stack: ItemStack): Boolean {
                 return false
             }
-
-//            override fun getSlots(container: BasicTeslaContainer<*>): MutableList<Slot> {
-//                val slots = super.getSlots(container)
-//
-//                val box = this.boundingBox
-//                for (y in 0..2) {
-//                    slots.add(FilteredSlot(this.itemHandlerForContainer, y,
-//                            box.left + 1, box.top + 1 + y * 18))
-//                }
-//
-//                return slots
-//            }
-//
-//            override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
-//                val pieces = super.getGuiContainerPieces(container)
-//
-//                val box = this.boundingBox
-//                pieces.add(TiledRenderedGuiPiece(box.left, box.top, 18, 18,
-//                        1, 3,
-//                        BasicTeslaGuiContainer.MACHINE_BACKGROUND, 108, 225, EnumDyeColor.PURPLE))
-//
-//                return pieces
-//            }
         })
         super.addInventoryToStorage(this.outputs, "inv_outputs")
     }
@@ -131,6 +111,12 @@ class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.jav
         })
 
         return pieces
+    }
+
+    override fun getRenderers(): MutableList<TileEntitySpecialRenderer<in TileEntity>> {
+        val list = super.getRenderers()
+        list.add(DualTankEntityRenderer)
+        return list
     }
 
     //endregion

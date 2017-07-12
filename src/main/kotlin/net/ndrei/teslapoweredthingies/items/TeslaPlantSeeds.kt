@@ -1,14 +1,8 @@
 package net.ndrei.teslapoweredthingies.items
 
 import net.minecraft.client.renderer.block.model.ModelResourceLocation
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
 import net.minecraft.item.ItemSeeds
-import net.minecraft.util.EnumActionResult
-import net.minecraft.util.EnumFacing
-import net.minecraft.util.EnumHand
-import net.minecraft.util.math.BlockPos
-import net.minecraft.world.World
 import net.minecraftforge.client.model.ModelLoader
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
@@ -31,20 +25,22 @@ object TeslaPlantSeeds: ItemSeeds(TeslaPlantBlock, Blocks.REDSTONE_BLOCK) {
     @SideOnly(Side.CLIENT)
     fun registerRenderer() = ModelLoader.setCustomModelResourceLocation(this, 0, ModelResourceLocation(this.registryName!!, "inventory"))
 
-    override fun onItemUse(player: EntityPlayer?, worldIn: World?, pos: BlockPos?, hand: EnumHand?, facing: EnumFacing?, hitX: Float, hitY: Float, hitZ: Float): EnumActionResult {
-        if ((worldIn != null) && (pos != null) && (facing == EnumFacing.UP) && worldIn.isAirBlock(pos.up())) {
-            val plant = TeslaPlantBlock.defaultState
-
-            val targetPos = pos.up()
-
-            if (TeslaPlantBlock.canSustainPlant(worldIn.getBlockState(pos), worldIn, targetPos, EnumFacing.UP, TeslaPlantBlock)) {
-                worldIn.setBlockState(targetPos, plant)
-                return EnumActionResult.SUCCESS
-            }
-            else {
-                return EnumActionResult.FAIL
-            }
-        }
-        return EnumActionResult.PASS
-    }
+    //    override fun onItemUse(player: EntityPlayer, worldIn: World?, pos: BlockPos?, hand: EnumHand?, facing: EnumFacing?, hitX: Float, hitY: Float, hitZ: Float): EnumActionResult {
+//        val itemStack = player.getHeldItem(hand)
+//        if ((worldIn != null) && (pos != null) && (facing == EnumFacing.UP) && worldIn.isAirBlock(pos.up()) && player.canPlayerEdit(pos.up(), facing, itemStack)) {
+//            val plant = TeslaPlantBlock.defaultState
+//
+//            val targetPos = pos.up()
+//
+//            if (TeslaPlantBlock.canSustainPlant(worldIn.getBlockState(pos), worldIn, targetPos, EnumFacing.UP, TeslaPlantBlock)) {
+//                worldIn.setBlockState(targetPos, plant)
+//                itemStack.shrink(1)
+//                return EnumActionResult.SUCCESS
+//            }
+//            else {
+//                return EnumActionResult.FAIL
+//            }
+//        }
+//        return EnumActionResult.PASS
+//    }
 }

@@ -13,8 +13,8 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler
 import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
-import net.ndrei.teslapoweredthingies.common.BlockCube
-import net.ndrei.teslapoweredthingies.common.BlockPosUtils
+import net.ndrei.teslacorelib.utils.BlockCube
+import net.ndrei.teslacorelib.utils.BlockPosUtils
 import net.ndrei.teslapoweredthingies.fluids.SewageFluid
 import net.ndrei.teslapoweredthingies.machines.BaseXPCollectingMachine
 

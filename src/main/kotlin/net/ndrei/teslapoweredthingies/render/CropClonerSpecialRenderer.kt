@@ -6,19 +6,23 @@ import net.minecraft.client.renderer.BufferBuilder
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.texture.TextureMap
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumFacing
-import net.ndrei.teslacorelib.render.HudInfoRenderer
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
 import net.ndrei.teslapoweredthingies.machines.cropcloner.CropClonerEntity
 
 /**
  * Created by CF on 2017-07-07.
  */
-class CropClonerSpecialRenderer
-    : HudInfoRenderer<CropClonerEntity>() {
+@SideOnly(Side.CLIENT)
+object CropClonerSpecialRenderer
+    : TileEntitySpecialRenderer<TileEntity>() {
 
-    override fun render(entity: CropClonerEntity, x: Double, y: Double, z: Double, partialTicks: Float, destroyStage: Int, alpha: Float) {
-        val state = entity.plantedThing
+    override fun render(machine: TileEntity, x: Double, y: Double, z: Double, partialTicks: Float, destroyStage: Int, alpha: Float) {
+        val state = (machine as? CropClonerEntity)?.plantedThing
         if (state != null) {
             GlStateManager.pushMatrix()
             val vertexbuffer = Tessellator.getInstance().buffer
@@ -33,19 +37,17 @@ class CropClonerSpecialRenderer
             Tessellator.getInstance().draw()
             GlStateManager.popMatrix()
         }
-
-        super.render(entity, x, y, z, partialTicks, destroyStage, alpha)
     }
 
-    private fun renderState(vertexbuffer: BufferBuilder, blockState: IBlockState, side: EnumFacing?) {
+    private fun renderState(buffer: BufferBuilder, blockState: IBlockState, side: EnumFacing?) {
         val model = Minecraft.getMinecraft().blockRendererDispatcher.getModelForState(blockState)
         if (model != null) {
             val quads = model.getQuads(blockState, side, 0)
 
             for (quad in quads) {
                 val color = Minecraft.getMinecraft().blockColors.colorMultiplier(blockState, super.getWorld(), null, quad.tintIndex)
-                vertexbuffer.addVertexData(quad.vertexData)
-                vertexbuffer.putColorRGB_F4((color shr 16 and 0xFF) / 255.0f, (color shr 8 and 0xFF) / 255.0f, (color and 0xFF) / 255.0f)
+                buffer.addVertexData(quad.vertexData)
+                buffer.putColorRGB_F4((color shr 16 and 0xFF) / 255.0f, (color shr 8 and 0xFF) / 255.0f, (color and 0xFF) / 255.0f)
             }
         }
     }

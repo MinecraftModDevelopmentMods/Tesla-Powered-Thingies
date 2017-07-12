@@ -5,8 +5,11 @@ import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.client.renderer.texture.TextureMap
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import net.ndrei.teslacorelib.render.HudInfoRenderer
+import net.minecraft.tileentity.TileEntity
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
 import net.ndrei.teslapoweredthingies.fluids.LiquidXPFluid
 import net.ndrei.teslapoweredthingies.machines.liquidxpstorage.LiquidXPStorageEntity
 import org.lwjgl.opengl.GL11
@@ -14,11 +17,12 @@ import org.lwjgl.opengl.GL11
 /**
  * Created by CF on 2017-07-07.
  */
-class LiquidXPStorageSpecialRenderer
-    : HudInfoRenderer<LiquidXPStorageEntity>() {
+@SideOnly(Side.CLIENT)
+object LiquidXPStorageSpecialRenderer : TileEntitySpecialRenderer<TileEntity>() {
+    override fun render(entity: TileEntity, x: Double, y: Double, z: Double, partialTicks: Float, destroyStage: Int, alpha: Float) {
+        val machine = (entity as? LiquidXPStorageEntity) ?: return
 
-    override fun render(entity: LiquidXPStorageEntity, x: Double, y: Double, z: Double, partialTicks: Float, destroyStage: Int, alpha: Float) {
-        val height = Math.max(0.0f, Math.min(1.0f, entity.fillPercent))
+        val height = Math.max(0.0f, Math.min(1.0f, machine.fillPercent))
         if (height > 0.0f) {
             val top = 1.0 + 14 * height
 
@@ -85,6 +89,6 @@ class LiquidXPStorageSpecialRenderer
             GlStateManager.popAttrib()
         }
 
-        super.render(entity, x, y, z, partialTicks, destroyStage, alpha)
+        super.render(machine, x, y, z, partialTicks, destroyStage, alpha)
     }
 }

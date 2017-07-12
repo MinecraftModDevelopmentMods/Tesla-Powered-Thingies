@@ -1,9 +1,11 @@
 package net.ndrei.teslapoweredthingies.machines.fluidburner
 
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.inventory.Slot
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.tileentity.TileEntity
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.FluidStack
@@ -20,12 +22,13 @@ import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredFluidHandler
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.FluidTank
+import net.ndrei.teslacorelib.utils.FluidUtils
 import net.ndrei.teslapoweredthingies.client.Textures
-import net.ndrei.teslapoweredthingies.common.FluidUtils
 import net.ndrei.teslapoweredthingies.gui.FluidBurnerTankPiece
 import net.ndrei.teslapoweredthingies.gui.GeneratorBurnPiece
 import net.ndrei.teslapoweredthingies.gui.IDualTankMachine
 import net.ndrei.teslapoweredthingies.machines.BaseThingyGenerator
+import net.ndrei.teslapoweredthingies.render.DualTankEntityRenderer
 
 /**
  * Created by CF on 2017-06-30.
@@ -202,6 +205,12 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
         pieces.add(FluidBurnerTankPiece(142, 27, this))
 
         return pieces
+    }
+
+    override fun getRenderers(): MutableList<TileEntitySpecialRenderer<in TileEntity>> {
+        val list = super.getRenderers()
+        list.add(DualTankEntityRenderer)
+        return list
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
