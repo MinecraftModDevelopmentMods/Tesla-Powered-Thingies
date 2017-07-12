@@ -1,5 +1,6 @@
 package net.ndrei.teslapoweredthingies.machines.animalfarm
 
+import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.passive.EntityAnimal
 import net.minecraft.init.Items
 import net.minecraft.item.Item
@@ -8,6 +9,7 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.nbt.NBTTagFloat
 import net.minecraft.nbt.NBTTagInt
 import net.minecraft.nbt.NBTTagString
+import net.minecraftforge.items.ItemHandlerHelper
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.common.IAnimalAgeFilterAcceptor
@@ -201,6 +203,36 @@ class AnimalFarmEntity
                 }
             }
         }
+
+        //region collect loot
+
+        if (result <= .9f) {
+            val items = this.getWorld().getEntitiesWithinAABB(EntityItem::class.java, aabb)
+            if (!items.isEmpty()) {
+                for (item in items) {
+                    val original = item.item
+                    // TODO: add a method for picking up EntityItems at super class
+                    val remaining = ItemHandlerHelper.insertItem(this.outStackHandler, original, false)
+                    var pickedUpLoot = false
+                    if (ItemStackUtil.isEmpty(remaining)) {
+                        this.getWorld().removeEntity(item)
+                        pickedUpLoot = true
+                    } else if (ItemStackUtil.getSize(remaining) != ItemStackUtil.getSize(original)) {
+                        item.item = remaining
+                        pickedUpLoot = true
+                    }
+
+                    if (pickedUpLoot) {
+                        result += 1.0f
+                        if (result > .9f) {
+                            break
+                        }
+                    }
+                }
+            }
+        }
+
+        //endregion
 
         return result
     }
