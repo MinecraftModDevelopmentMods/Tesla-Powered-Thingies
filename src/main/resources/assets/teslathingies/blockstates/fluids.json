@@ -8,6 +8,10 @@
     "tf-liquidxp": {
       "model": "forge:fluid",
       "custom": { "fluid": "tf-liquidxp" }
+    },
+    "tf-molten_tesla": {
+      "model": "forge:fluid",
+      "custom": { "fluid": "tf-molten_tesla" }
     }
   }
 }
