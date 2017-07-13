@@ -1,0 +1,17 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.machine.item_compound_producer",
+  "result": { "item": "teslathingies:item_compound_producer" },
+  "pattern": [
+    "wxw",
+    "gcg",
+    "sss"
+  ],
+  "key": {
+    "g": { "type": "forge:ore_dict", "ore": "blockGlass" },
+    "c": { "item": "teslacorelib:machine_case" },
+    "x": { "type": "forge:ore_dict", "ore": "gearGold" },
+    "w": { "type": "forge:ore_dict", "ore": "plankWood" },
+    "s": { "type": "forge:ore_dict", "ore": "stone" }
+  }
+}
