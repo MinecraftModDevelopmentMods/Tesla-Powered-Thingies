@@ -7,6 +7,7 @@ import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.utils.BlockPosUtils
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.items.AnimalPackageItem
+import net.ndrei.teslapoweredthingies.machines.ANIMAL_FARM_WORK_AREA_COLOR
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
 
 /**
@@ -27,6 +28,8 @@ class AnimalReleaserEntity
     }
 
     override fun supportsAddons() = false
+
+    override fun getWorkAreaColor(): Int = ANIMAL_FARM_WORK_AREA_COLOR
 
     override fun performWork(): Float {
         var stack = ItemStackUtil.emptyStack

@@ -17,6 +17,7 @@ import net.ndrei.teslacorelib.utils.BlockCube
 import net.ndrei.teslacorelib.utils.BlockPosUtils
 import net.ndrei.teslapoweredthingies.fluids.SewageFluid
 import net.ndrei.teslapoweredthingies.machines.BaseXPCollectingMachine
+import net.ndrei.teslapoweredthingies.machines.SEWER_FARM_WORK_AREA_COLOR
 
 /**
  * Created by CF on 2017-07-07.
@@ -39,6 +40,8 @@ class SewerEntity : BaseXPCollectingMachine(SewerEntity::class.java.name.hashCod
 
     override val outputSlots: Int
         get() = 0
+
+    override fun getWorkAreaColor(): Int = SEWER_FARM_WORK_AREA_COLOR
 
     override fun acceptsFluidItem(stack: ItemStack): Boolean {
         if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
@@ -77,8 +80,10 @@ class SewerEntity : BaseXPCollectingMachine(SewerEntity::class.java.name.hashCod
     override val energyForWorkRate: Int
         get() = 1
 
+    override fun getWorkArea() = this.getWorkArea(EnumFacing.UP, 2)
+
     override fun performWorkInternal(): Float {
-        val cube = this.getWorkArea(EnumFacing.UP, 2)
+        val cube = this.getWorkArea() // EnumFacing.UP, 2)
         var sewage = 0
         for (animal in this.getWorld().getEntitiesWithinAABB(EntityAnimal::class.java, cube.boundingBox)) {
             sewage += Math.round(animal.getMaxHealth())

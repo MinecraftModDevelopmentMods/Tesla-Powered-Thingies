@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.ndrei.teslapoweredthingies.common.CommonProxy
+import net.ndrei.teslapoweredthingies.items.TeslaPlantSeeds
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerBlock
 import org.apache.logging.log4j.Logger
 
@@ -39,6 +40,8 @@ class TeslaThingiesMod {
     @Mod.EventHandler
     fun init(e: FMLInitializationEvent) {
         proxy.init(e)
+
+        TeslaPlantSeeds.registerSeeds()
     }
 
     @Mod.EventHandler

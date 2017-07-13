@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.common.GuiPieceSide
+import net.ndrei.teslapoweredthingies.machines.CROP_FARM_WORK_AREA_COLOR
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
 import java.util.*
 
@@ -27,6 +28,8 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
 
     override val lockableInputLockPosition: GuiPieceSide
         get() = GuiPieceSide.LEFT
+
+    override fun getWorkAreaColor(): Int = CROP_FARM_WORK_AREA_COLOR
 
     override fun performWork(): Float {
         val facing = super.facing

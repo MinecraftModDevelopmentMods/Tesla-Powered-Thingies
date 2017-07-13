@@ -14,6 +14,7 @@ import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.common.GuiPieceSide
 import net.ndrei.teslapoweredthingies.common.IAdditionalProcessingAddon
+import net.ndrei.teslapoweredthingies.machines.CROP_FARM_WORK_AREA_COLOR
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
 
 /**
@@ -28,6 +29,8 @@ class CropFarmEntity : ElectricFarmMachine(CropFarmEntity::class.java.name.hashC
         this.waterTank = super.addFluidTank(FluidRegistry.WATER, 5000, EnumDyeColor.BLUE, "Water Tank",
                 BoundingRectangle(43, 25, 18, 54))
     }
+
+    override fun getWorkAreaColor(): Int = CROP_FARM_WORK_AREA_COLOR
 
     override fun acceptsInputStack(slot: Int, stack: ItemStack): Boolean {
         if (ItemStackUtil.isEmpty(stack))

@@ -35,6 +35,9 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
 
     override fun supportsAddons() = false
 
+    override val hasWorkArea: Boolean
+        get() = false
+
     override fun initializeInventories() {
         super.initializeInventories()
 

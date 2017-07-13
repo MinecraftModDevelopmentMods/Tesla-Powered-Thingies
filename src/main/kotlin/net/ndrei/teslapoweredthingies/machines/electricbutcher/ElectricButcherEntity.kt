@@ -11,6 +11,7 @@ import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.common.IAnimalAgeFilterAcceptor
 import net.ndrei.teslapoweredthingies.items.BaseAnimalFilterItem
+import net.ndrei.teslapoweredthingies.machines.BUTCHER_FARM_WORK_AREA_COLOR
 import net.ndrei.teslapoweredthingies.machines.BaseXPCollectingMachine
 
 /**
@@ -46,6 +47,8 @@ class ElectricButcherEntity
     override fun acceptsFilter(item: BaseAnimalFilterItem): Boolean {
         return !super.hasAddon(BaseAnimalFilterItem::class.java)
     }
+
+    override fun getWorkAreaColor(): Int = BUTCHER_FARM_WORK_AREA_COLOR
 
     override fun performWorkInternal(): Float {
         var result = 0.0f

@@ -15,6 +15,7 @@ import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.common.IAnimalAgeFilterAcceptor
 import net.ndrei.teslapoweredthingies.items.AnimalPackageItem
 import net.ndrei.teslapoweredthingies.items.BaseAnimalFilterItem
+import net.ndrei.teslapoweredthingies.machines.ANIMAL_FARM_WORK_AREA_COLOR
 import net.ndrei.teslapoweredthingies.machines.BaseXPCollectingMachine
 
 /**
@@ -39,6 +40,8 @@ class AnimalFarmEntity
 
         return AnimalFarmEntity.foodItems.contains(stack.item)
     }
+
+    override fun getWorkAreaColor(): Int = ANIMAL_FARM_WORK_AREA_COLOR
 
     override fun performWorkInternal(): Float {
         var result = 0.0f
