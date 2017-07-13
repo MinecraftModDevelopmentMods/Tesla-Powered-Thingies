@@ -1,7 +1,6 @@
 package net.ndrei.teslapoweredthingies.common
 
 import net.minecraft.block.Block
-import net.minecraft.client.Minecraft
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraftforge.oredict.OreDictionary
@@ -16,6 +15,10 @@ interface IRecipeOutput {
     fun getPossibleOutput(): ItemStack
 }
 
+interface IChancedRecipeOutput {
+    val chance: Float
+}
+
 open class Output(private val stack: ItemStack)
     : IRecipeOutput {
     override fun getOutput() = this.stack
@@ -23,8 +26,8 @@ open class Output(private val stack: ItemStack)
     override final fun getPossibleOutput() = this.stack
 }
 
-class SecondaryOutput(val chance: Float, stack: ItemStack)
-    : Output(stack) {
+class SecondaryOutput(override val chance: Float, stack: ItemStack)
+    : Output(stack), IChancedRecipeOutput {
 
     constructor(chance: Float, item: Item)
             : this(chance, ItemStack(item))
@@ -53,8 +56,8 @@ open class OreOutput(val itemName: String, val quantity: Int)
     }
 }
 
-class SecondaryOreOutput(val chance: Float, itemName: String, quantity: Int)
-    : OreOutput(itemName, quantity) {
+class SecondaryOreOutput(override val chance: Float, itemName: String, quantity: Int)
+    : OreOutput(itemName, quantity), IChancedRecipeOutput {
 
     override fun getOutput(): ItemStack =
             if (this.chance >= Random().nextFloat())

@@ -1,10 +1,12 @@
 package net.ndrei.teslapoweredthingies.machines.powdermaker
 
 import net.minecraft.init.Blocks
+import net.minecraft.item.Item
 import net.minecraft.item.crafting.IRecipe
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.oredict.OreDictionary
+import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.*
 import net.ndrei.teslacorelib.annotations.AutoRegisterRecipesHandler
 import net.ndrei.teslacorelib.items.powders.ColoredPowderItem
@@ -16,7 +18,7 @@ import net.ndrei.teslapoweredthingies.common.SecondaryOutput
  */
 @AfterAllModsRegistry
 object PowderMakerRegistry : IAfterAllModsRegistry {
-    override fun registerBeforeMaterials(asm : ASMDataTable) {
+    override fun registerItems(asm : ASMDataTable, registry: IForgeRegistry<Item>) {
         // get all ores
         val ores = OreDictionary.getOreNames()
                 .filter { it.startsWith("ore") }
@@ -29,8 +31,8 @@ object PowderMakerRegistry : IAfterAllModsRegistry {
             var hasDust = false
             if (!OreDictionary.doesOreNameExist(dustName)) {
                 // look for an item with color
-                val color = MaterialColors.getColor(it) ?: -1
-                if (color != -1) {
+                val color = MaterialColors.getColor(it)
+                if (color != null) {
                     val material = it.decapitalize()
                     PowderRegistry.addMaterial(it) { registry ->
                         val item = object: ColoredPowderItem(material, color, 0.0f, "ingot${material.capitalize()}") { }
@@ -48,11 +50,17 @@ object PowderMakerRegistry : IAfterAllModsRegistry {
             }
 
             if (hasDust) {
+                // register ingot -> dust
                 PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
-                        1, "ore$it",
-                        OreOutput("dust$it", 2),
-                        SecondaryOutput(.25f, Blocks.COBBLESTONE)
-                ))
+                        1, "ingot$it",
+                        OreOutput("dust$it", 1))
+                )
+
+                // register ore -> dust
+//                OreDictionary.getOres("ore$it").forEach { stack ->
+//                    PowderMakerRecipes.registerDefaultOreRecipe(it.decapitalize(), stack, true)
+//                }
+                PowderMakerRecipes.registerDefaultOreRecipe(it)
             }
         }
 
@@ -86,5 +94,12 @@ object PowderMakerRegistry : IAfterAllModsRegistry {
                 1, "sandstone",
                 SecondaryOutput(.75f, Blocks.SAND)
         ))
+        
+        // vanilla default ore recipes
+        PowderMakerRecipes.registerDefaultOreRecipe("coal")
+        PowderMakerRecipes.registerDefaultOreRecipe("diamond")
+        PowderMakerRecipes.registerDefaultOreRecipe("emerald")
+        PowderMakerRecipes.registerDefaultOreRecipe("redstone")
+        PowderMakerRecipes.registerDefaultOreRecipe("lapis")
     }
 }

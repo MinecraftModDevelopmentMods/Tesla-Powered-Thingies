@@ -1,74 +1,55 @@
 package net.ndrei.teslapoweredthingies.machines.powdermaker
 
 import net.minecraft.item.ItemStack
-import net.minecraft.util.ResourceLocation
 import net.minecraftforge.oredict.OreDictionary
-import net.minecraftforge.registries.IForgeRegistryEntry
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
+import net.ndrei.teslacorelib.compatibility.ItemStackUtil.copyWithCount
+import net.ndrei.teslacorelib.compatibility.ItemStackUtil.equalsIgnoreSizeAndNBT
+import net.ndrei.teslapoweredthingies.common.IChancedRecipeOutput
 import net.ndrei.teslapoweredthingies.common.IRecipeOutput
 
 /**
  * Created by CF on 2017-07-05.
  */
-interface IPowderMakerRecipe: IForgeRegistryEntry<IPowderMakerRecipe> {
+interface IPowderMakerRecipe {
     fun canProcess(stack: ItemStack): Boolean
-    fun process(stack: ItemStack) : Array<ItemStack>
+    fun process(stack: ItemStack) : PowderMakerRecipeResult
 
+    fun getInputCount(): Int
     fun getPossibleInputs(): List<ItemStack>
     fun getPossibleOutputs(): List<List<ItemStack>>
 
     fun getOutputs(): List<IRecipeOutput>
 }
 
-abstract class PowderMakerRecipeBase(private var registryName: ResourceLocation? = null)
+class PowderMakerRecipeResult(val remaining: ItemStack, val primary: Array<ItemStack>, val secondary: Array<ItemStack>)
+
+abstract class PowderMakerRecipeBase(vararg val output: IRecipeOutput)
     : IPowderMakerRecipe {
 
-    override fun getRegistryName(): ResourceLocation? = this.registryName
+    override fun process(stack: ItemStack): PowderMakerRecipeResult {
+        val primary = mutableListOf<ItemStack>()
+        val secondary = mutableListOf<ItemStack>()
+        val remaining = stack.copy()
 
-    override fun setRegistryName(name: ResourceLocation?): IPowderMakerRecipe {
-        this.registryName = name
-        return this
-    }
-
-    override fun getRegistryType(): Class<IPowderMakerRecipe> {
-        return this.javaClass
-    }
-}
-
-//class PowderMakerRecipe(val input: ItemStack, val output: ItemStack, vararg val secondary: SecondaryOutput) {
-//
-//}
-
-class PowderMakerOreRecipe(val inputCount: Int, val input: String, vararg val output: IRecipeOutput)
-    : PowderMakerRecipeBase() {
-
-    override fun canProcess(stack: ItemStack)
-            = !stack.isEmpty
-            && OreDictionary.getOreIDs(stack).map { OreDictionary.getOreName(it) }.contains(this.input)
-            && (this.inputCount <= stack.count)
-
-    override fun process(stack: ItemStack): Array<ItemStack> {
-        val list = mutableListOf<ItemStack>()
-
-        if (this.canProcess(stack)) {
-            stack.shrink(this.inputCount)
+        if (this.canProcess(remaining)) {
+            remaining.shrink(this.getInputCount())
 
             this.output
+                    .filter { it !is IChancedRecipeOutput }
                     .map { it.getOutput() }
-                    .filter { !it.isEmpty }
-                    .mapTo(list) { it }
+                    .filterTo(primary) { !it.isEmpty }
+
+            this.output
+                    .filter { it is IChancedRecipeOutput }
+                    .map { it.getOutput() }
+                    .filterTo(secondary) { !it.isEmpty }
         }
 
-        return list.toTypedArray()
+        return PowderMakerRecipeResult(remaining, primary.toTypedArray(), secondary.toTypedArray())
     }
 
-    override fun getPossibleInputs()
-        = OreDictionary.getOres(this.input)
-            .map { ItemStackUtil.copyWithSize(it, this.inputCount) }
-            .toList()
-
     override fun getPossibleOutputs()
-        = this.output
+            = this.output
             .map { it.getPossibleOutput() }
             .filter { !it.isEmpty }
             .map { listOf(it) }
@@ -76,4 +57,30 @@ class PowderMakerOreRecipe(val inputCount: Int, val input: String, vararg val ou
 
     override fun getOutputs()
             = this.output.toList()
+}
+
+class PowderMakerRecipe(val input: ItemStack, vararg output: IRecipeOutput)
+    : PowderMakerRecipeBase(*output) {
+    override fun canProcess(stack: ItemStack)
+        = this.input.equalsIgnoreSizeAndNBT(stack) && (stack.count >= this.input.count)
+
+    override fun getInputCount() = this.input.count
+    override fun getPossibleInputs() = listOf(this.input.copy())
+}
+
+class PowderMakerOreRecipe(val inputSize: Int, val input: String, vararg output: IRecipeOutput)
+    : PowderMakerRecipeBase(*output) {
+
+    override fun canProcess(stack: ItemStack)
+            = !stack.isEmpty
+            && OreDictionary.getOreIDs(stack).map { OreDictionary.getOreName(it) }.contains(this.input)
+            && (this.inputSize <= stack.count)
+
+    override fun getInputCount() = this.inputSize
+
+    override fun getPossibleInputs()
+        = OreDictionary.getOres(this.input)
+            .map { it.copyWithCount(this.inputSize) }
+            .toList()
+
 }

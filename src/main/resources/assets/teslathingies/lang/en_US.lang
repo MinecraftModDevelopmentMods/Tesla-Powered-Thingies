@@ -6,8 +6,9 @@ tile.teslathingies.incinerator.name=Incinerator
 tile.teslathingies.fluid_burner.name=Fluid Burner
 tile.teslathingies.fluid_solidifier.name=Fluid Solidifier
 tile.teslathingies.item_liquefier.name=Item Liquefier
-tile.teslathingies.powder_maker.name=Powder Maker (WIP)
+tile.teslathingies.powder_maker.name=Powder Maker
 tile.teslathingies.powered_kiln.name=Powered Kiln (WIP)
+tile.teslathingies.item_compound_producer.name=Item Compound Producer (WIP)
 
 item.teslathingies.animal_package.name=Animal Package
 item.teslathingies.animal_package_full.name=Animal Package (full)
@@ -42,3 +43,8 @@ tile.teslathingies.tf-liquidxp.block.name=Liquid XP
 advancements.teslathingies:controlling.description=The road to pure awesomeness begins here...
 advancements.teslathingies:wrench.title=Wrench Everything!
 advancements.teslathingies:wrench.description=No... this is not a mistyped wench... :(
+
+advancements.teslathingies.ore_processing.title=Tesla Ore Processing
+advancements.teslathingies.ore_processing.description=The road to pure awesomeness begins here...
+advancements.teslathingies.ore_processing.machine_case.title=Tesla Machine Case
+advancements.teslathingies.ore_processing.machine_case.description=All awesome things need a metal case to hide in...

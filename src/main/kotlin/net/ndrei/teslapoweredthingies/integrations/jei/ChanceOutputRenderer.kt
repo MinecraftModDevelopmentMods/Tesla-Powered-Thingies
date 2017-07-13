@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.item.ItemStack
 import net.ndrei.teslapoweredthingies.common.IRecipeOutput
+import net.ndrei.teslapoweredthingies.common.SecondaryOreOutput
 import net.ndrei.teslapoweredthingies.common.SecondaryOutput
 
 /**
@@ -24,6 +25,7 @@ class ChanceOutputRenderer(val so: IRecipeOutput): IIngredientRenderer<ItemStack
 
             val percent = when (this.so) {
                 is SecondaryOutput -> "${Math.round(this.so.chance * 100f)}%"
+                is SecondaryOreOutput -> "${Math.round(this.so.chance * 100f)}%"
                 else -> "100%"
             }
             GlStateManager.pushMatrix()
