@@ -1,6 +1,5 @@
 package net.ndrei.teslapoweredthingies.blocks
 
-import net.minecraft.block.Block
 import net.minecraft.block.BlockBush
 import net.minecraft.block.IGrowable
 import net.minecraft.block.material.MapColor
@@ -10,14 +9,10 @@ import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.effect.EntityLightningBolt
-import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
-import net.minecraft.init.Items
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
-import net.minecraft.util.math.RayTraceResult
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.common.MinecraftForge
@@ -48,7 +43,11 @@ object TeslaPlantBlock
             return this._age!!
         }
 
-    private val TESLA_PLANT_AABB = arrayOf(AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.3125, 1.0), AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.5, 1.0), AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.6875, 1.0), AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.875, 1.0))
+    private val TESLA_PLANT_AABB = arrayOf(
+            AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.3125, 1.0),
+            AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.5, 1.0),
+            AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.6875, 1.0),
+            AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 0.875, 1.0))
 
     init {
         this.setRegistryName(TeslaThingiesMod.MODID, "tesla_plant")
@@ -61,13 +60,6 @@ object TeslaPlantBlock
         MinecraftForge.EVENT_BUS.register(this)
     }
 
-//    @SideOnly(Side.CLIENT)
-//    fun registerRenderer() {
-//        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0,
-//                ModelResourceLocation(this.registryName!!, "inventory")
-//        )
-//    }
-
     override fun getBoundingBox(state: IBlockState?, source: IBlockAccess?, pos: BlockPos?): AxisAlignedBB {
         return TESLA_PLANT_AABB[(state!!.getValue(AGE) as Int).toInt()]
     }
@@ -78,6 +70,8 @@ object TeslaPlantBlock
     override fun canSustainBush(state: IBlockState): Boolean {
         return state.block === Blocks.FARMLAND
     }
+
+    //#region grow & lightning event
 
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random) {
 //        val i = (state.getValue(AGE) as Int).toInt()
@@ -141,78 +135,72 @@ object TeslaPlantBlock
         }
     }
 
+    //#endregion
+
     /**
      * Spawns this Block's drops into the World as EntityItems.
      */
-    override fun dropBlockAsItemWithChance(worldIn: World, pos: BlockPos, state: IBlockState, chance: Float, fortune: Int) {
-        super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune)
-        if (!worldIn.isRemote) {
-            var i = 1
+//    override fun dropBlockAsItemWithChance(worldIn: World, pos: BlockPos, state: IBlockState, chance: Float, fortune: Int) {
+//        super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune)
+//        if (!worldIn.isRemote) {
+//            var i = 1
+//
+//            if ((state.getValue(AGE) as Int).toInt() >= 2) {
+//                i = 2 + worldIn.rand.nextInt(3)
+//
+//                if (fortune > 0) {
+//                    i += worldIn.rand.nextInt(fortune + 1)
+//                }
+//            }
+//
+//            for (j in 0..i - 1) {
+//                Block.spawnAsEntity(worldIn, pos, ItemStack(TeslaPlantSeeds))
+//            }
+//        }
+//    }
 
-            if ((state.getValue(AGE) as Int).toInt() >= 2) {
-                i = 2 + worldIn.rand.nextInt(3)
+//    override fun getPickBlock(state: IBlockState?, target: RayTraceResult?, world: World?, pos: BlockPos?, player: EntityPlayer?): ItemStack {
+//        return super.getPickBlock(state, target, world, pos, player)
+//    }
 
-                if (fortune > 0) {
-                    i += worldIn.rand.nextInt(fortune + 1)
-                }
-            }
 
-            for (j in 0..i - 1) {
-                Block.spawnAsEntity(worldIn, pos, ItemStack(TeslaPlantSeeds))
-            }
-        }
-    }
+    //#region meta <-> state
 
-    /**
-     * Get the Item that this Block should drop when harvested.
-     */
-    override fun getItemDropped(state: IBlockState?, rand: Random?, fortune: Int): Item {
-        return Items.AIR
-    }
-
-    /**
-     * Returns the quantity of items to drop on block destruction.
-     */
-    override fun quantityDropped(random: Random?): Int {
-        return 0
-    }
-
-    override fun getPickBlock(state: IBlockState?, target: RayTraceResult?, world: World?, pos: BlockPos?, player: EntityPlayer?): ItemStack {
-        return super.getPickBlock(state, target, world, pos, player)
-    }
-
-    override fun getItem(worldIn: World?, pos: BlockPos?, state: IBlockState): ItemStack {
-        return ItemStack(TeslaPlantSeeds)
-    }
-
-    /**
-     * Convert the given metadata into a BlockState for this Block
-     */
     override fun getStateFromMeta(meta: Int): IBlockState {
         return this.defaultState.withProperty(AGE, Integer.valueOf(meta)!!)
     }
 
-    /**
-     * Convert the BlockState into the correct metadata value
-     */
     override fun getMetaFromState(state: IBlockState): Int {
         return (state.getValue(AGE) as Int).toInt()
-    }
-
-    override fun getDrops(drops: net.minecraft.util.NonNullList<ItemStack>, world: net.minecraft.world.IBlockAccess?, pos: BlockPos?, state: IBlockState, fortune: Int) {
-        val rand = if (world is World) world.rand else Random()
-        var count = 1
-
-        if (state.getValue(AGE) as Int >= 3) {
-            count = 2 + rand.nextInt(3) + if (fortune > 0) rand.nextInt(fortune + 1) else 0
-        }
-
-        for (i in 0..count - 1) {
-            drops.add(ItemStack(TeslaPlantSeeds))
-        }
     }
 
     override fun createBlockState(): BlockStateContainer {
         return BlockStateContainer(this, *arrayOf<IProperty<*>>(AGE))
     }
+
+    //#endregion
+
+    override fun getItemDropped(state: IBlockState?, rand: Random?, fortune: Int)
+            = TeslaPlantSeeds
+
+    override fun getItem(worldIn: World?, pos: BlockPos?, state: IBlockState)
+            = ItemStack(TeslaPlantSeeds)
+
+    override fun quantityDropped(random: Random?) = 1
+
+    override fun quantityDroppedWithBonus(fortune: Int, random: Random?)
+            = this.quantityDropped(random) + if (fortune > 0) (random?.nextInt(fortune) ?: 0) else 0
+
+//    override fun getDrops(drops: NonNullList<ItemStack>?, world: IBlockAccess?, pos: BlockPos?, state: IBlockState?, fortune: Int) {
+//        val rand = if (world is World) world.rand else Random()
+//        var count = 1
+//
+//        if (state.getValue(AGE) as Int >= 3) {
+//            count = 2 + rand.nextInt(3) + if (fortune > 0) rand.nextInt(fortune + 1) else 0
+//        }
+//
+//        for (i in 0..count - 1) {
+//            drops.add(ItemStack(TeslaPlantSeeds))
+//        }
+//    }
 }
