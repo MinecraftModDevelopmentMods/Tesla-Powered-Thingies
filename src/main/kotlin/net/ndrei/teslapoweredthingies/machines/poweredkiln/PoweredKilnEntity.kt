@@ -4,6 +4,7 @@ import net.minecraft.inventory.Slot
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
 import net.minecraftforge.items.ItemStackHandler
+import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.containers.BasicTeslaContainer
 import net.ndrei.teslacorelib.containers.FilteredSlot
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
@@ -13,6 +14,8 @@ import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.LockableItemHandler
 import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
+import net.ndrei.teslapoweredthingies.gui.ItemStackPiece
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 
 /**
@@ -23,6 +26,7 @@ class PoweredKilnEntity
 
     private lateinit var inputs: LockableItemHandler
     private lateinit var outputs: ItemStackHandler
+    private lateinit var currentItems: ItemStackHandler
 
     //#region Inventory and GUI stuff
 
@@ -68,6 +72,13 @@ class PoweredKilnEntity
             override fun canInsertItem(slot: Int, stack: ItemStack) = false
         })
         super.addInventoryToStorage(this.outputs, "inv_outputs")
+
+        this.currentItems = object : ItemStackHandler(3) {
+            override fun onContentsChanged(slot: Int) {
+                this@PoweredKilnEntity.markDirty()
+            }
+        }
+        super.addInventoryToStorage(this.currentItems, "inv_current")
     }
 
     override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
@@ -77,14 +88,59 @@ class PoweredKilnEntity
                 Textures.MACHINES_TEXTURES.resource, 119, 4, null))
 
         // TODO: add processing item stacks
-        // list.add(ItemStackPiece(104, 41, 22, 22, this))
+        list.add(ItemStackPiece(57, 41, 22, 22, object: IWorkItemProvider {
+            override val workItem: ItemStack
+                get() = this@PoweredKilnEntity.currentItems.getStackInSlot(0)
+        }))
+        list.add(ItemStackPiece(79, 41, 22, 22,  object: IWorkItemProvider {
+            override val workItem: ItemStack
+                get() = this@PoweredKilnEntity.currentItems.getStackInSlot(1)
+        }))
+        list.add(ItemStackPiece(101, 41, 22, 22,  object: IWorkItemProvider {
+            override val workItem: ItemStack
+                get() = this@PoweredKilnEntity.currentItems.getStackInSlot(2)
+        }))
 
         return list
     }
 
     //#endregion
 
+    override fun processImmediateInventories() {
+        super.processImmediateInventories()
+
+        for (slot in 0..(this.currentItems.slots - 1)) {
+            if (this.currentItems.getStackInSlot(slot).isEmpty) {
+                for (input in 0..(this.inputs.slots - 1)) {
+                    val stack = this.inputs.getStackInSlot(input)
+                    if (!stack.isEmpty) {
+                        val recipe = PoweredKilnRecipes.findRecipe(stack) ?: continue
+                        this.currentItems.setStackInSlot(slot,
+                                this.inputs.extractItem(input, recipe.input.count, false))
+                        if (!this.currentItems.getStackInSlot(slot).isEmpty) {
+                            break
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun performWork(): Float {
-        return 0.0f
+        var result = 0.0f
+
+        for (slot in 0..(this.currentItems.slots - 1)) {
+            val stack = this.currentItems.getStackInSlot(slot)
+            if (!stack.isEmpty) {
+                val recipe = PoweredKilnRecipes.findRecipe(stack) ?: continue
+                if (ItemStackUtil.insertItems(this.outputs, recipe.output.copy(), true).isEmpty) {
+                    ItemStackUtil.insertItems(this.outputs, recipe.output.copy(), false)
+                    this.currentItems.setStackInSlot(slot, ItemStack.EMPTY)
+                    result = 1.0f
+                }
+            }
+        }
+
+        return result
     }
 }

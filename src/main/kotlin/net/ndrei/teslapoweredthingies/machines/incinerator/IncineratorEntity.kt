@@ -25,6 +25,8 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
     private var outputs: ItemStackHandler? = null
     private var currentItem: ItemStackHandler? = null
 
+    //#region inventory & gui
+
     override fun initializeInventories() {
         super.initializeInventories()
 
@@ -67,6 +69,35 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
         }
         super.addInventoryToStorage(this.currentItem!!, "inv_current")
     }
+
+    override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
+        val pieces = super.getGuiContainerPieces(container)
+
+        pieces.add(BasicRenderedGuiPiece(79, 41, 54, 22,
+                Textures.MACHINES_TEXTURES.resource, 24, 4))
+
+        pieces.add(GeneratorBurnPiece(99, 64, this))
+
+        pieces.add(object : ItemStackPiece(95, 41, 22, 22, this@IncineratorEntity) {
+            override fun drawForegroundTopLayer(container: BasicTeslaGuiContainer<*>, guiX: Int, guiY: Int, mouseX: Int, mouseY: Int) {
+                if (!this.isInside(container, mouseX, mouseY)) {
+                    return
+                }
+
+                val lines = GeneratorBurnPiece.getTooltipLines(this@IncineratorEntity)
+                if (lines != null && lines.size > 0) {
+                    container.drawTooltip(lines, mouseX - guiX, mouseY - guiY)
+                }
+            }
+        })
+
+        return pieces
+    }
+
+    override val workItem: ItemStack
+        get() = if (this.currentItem == null) ItemStack.EMPTY else this.currentItem!!.getStackInSlot(0)
+
+    //#endregion
 
     override fun consumeFuel(): Long {
         if (this.currentItem!!.getStackInSlot(0).isEmpty) {
@@ -116,31 +147,4 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
 
     override val energyFillRate: Long
         get() = 40
-
-    override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
-        val pieces = super.getGuiContainerPieces(container)
-
-        pieces.add(BasicRenderedGuiPiece(79, 41, 54, 22,
-                Textures.MACHINES_TEXTURES.resource, 24, 4))
-
-        pieces.add(GeneratorBurnPiece(99, 64, this))
-
-        pieces.add(object : ItemStackPiece(95, 41, 22, 22, this@IncineratorEntity) {
-            override fun drawForegroundTopLayer(container: BasicTeslaGuiContainer<*>, guiX: Int, guiY: Int, mouseX: Int, mouseY: Int) {
-                if (!this.isInside(container, mouseX, mouseY)) {
-                    return
-                }
-
-                val lines = GeneratorBurnPiece.getTooltipLines(this@IncineratorEntity)
-                if (lines != null && lines.size > 0) {
-                    container.drawTooltip(lines, mouseX - guiX, mouseY - guiY)
-                }
-            }
-        })
-
-        return pieces
-    }
-
-    override val workItem: ItemStack
-        get() = if (this.currentItem == null) ItemStack.EMPTY else this.currentItem!!.getStackInSlot(0)
 }

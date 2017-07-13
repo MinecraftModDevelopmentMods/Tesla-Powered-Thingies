@@ -1,9 +1,7 @@
 package net.ndrei.teslapoweredthingies.machines.poweredkiln
 
 import net.minecraft.item.crafting.FurnaceRecipes
-import net.minecraft.item.crafting.IRecipe
 import net.minecraftforge.fml.common.discovery.ASMDataTable
-import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.AfterAllModsRegistry
 import net.ndrei.teslacorelib.IAfterAllModsRegistry
 
@@ -12,7 +10,7 @@ import net.ndrei.teslacorelib.IAfterAllModsRegistry
  */
 @AfterAllModsRegistry
 object PoweredKilnRegistry : IAfterAllModsRegistry {
-    override fun registerRecipes(asm: ASMDataTable, registry: IForgeRegistry<IRecipe>) {
+    override fun postInit(asm: ASMDataTable) {
         // register furnace recipes
         FurnaceRecipes.instance().smeltingList.forEach { input, output -> PoweredKilnRecipes.registerRecipe(input, output) }
     }

@@ -1,6 +1,5 @@
 package net.ndrei.teslapoweredthingies.gui
 
-import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.item.ItemStack
 import net.ndrei.teslacorelib.compatibility.FontRendererUtil
@@ -11,7 +10,7 @@ import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 /**
  * Created by CF on 2017-06-30.
  */
-open class ItemStackPiece(left: Int, top: Int, width: Int, height: Int, private val provider: IWorkItemProvider?)
+open class ItemStackPiece(left: Int, top: Int, width: Int, height: Int, private val provider: IWorkItemProvider)
     : BasicContainerGuiPiece(left, top, width, height) {
 
     override fun drawMiddleLayer(container: BasicTeslaGuiContainer<*>, guiX: Int, guiY: Int, partialTicks: Float, mouseX: Int, mouseY: Int) {
