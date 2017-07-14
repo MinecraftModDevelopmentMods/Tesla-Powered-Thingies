@@ -16,8 +16,8 @@ object FluidBurnerRecipes {
         fuelRecipes.clear()
 
         // register vanilla fluids
-        coolantRecipes!!.add(FluidBurnerCoolantRecipe(FluidRegistry.WATER, 100, 1.2f))
-        fuelRecipes!!.add(FluidBurnerFuelRecipe(FluidRegistry.LAVA, 100, 20 * 30))
+        coolantRecipes.add(FluidBurnerCoolantRecipe(FluidRegistry.WATER, 100, 1.2f))
+        fuelRecipes.add(FluidBurnerFuelRecipe(FluidRegistry.LAVA, 100, 20 * 30))
     }
 
     fun isCoolant(stack: FluidStack): Boolean {
@@ -31,7 +31,7 @@ object FluidBurnerRecipes {
     fun drainCoolant(tank: IFluidTank, doDrain: Boolean): FluidBurnerCoolant? {
         val existing = tank.fluid
         if (existing != null && existing.amount > 0) {
-            for (recipe in coolantRecipes!!) {
+            for (recipe in coolantRecipes) {
                 if (recipe.fluid == existing.fluid && recipe.amount <= existing.amount) {
                     return FluidBurnerCoolant(recipe, tank.drain(recipe.amount, doDrain)!!)
                 }
@@ -43,7 +43,7 @@ object FluidBurnerRecipes {
     fun drainFuel(tank: IFluidTank, doDrain: Boolean): FluidBurnerFuel? {
         val existing = tank.fluid
         if (existing != null && existing.amount > 0) {
-            for (recipe in fuelRecipes!!) {
+            for (recipe in fuelRecipes) {
                 if (recipe.fluid == existing.fluid && recipe.amount <= existing.amount) {
                     return FluidBurnerFuel(recipe, tank.drain(recipe.amount, doDrain)!!)
                 }

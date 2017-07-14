@@ -80,35 +80,47 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
         })
         super.addInventoryToStorage(this.coolantItems, "inv_coolant")
 
-        this.coolantTank = FluidTank(5000)
+        this.coolantTank = object: FluidTank(5000) {
+            override fun canFillFluidType(fluid: FluidStack?)
+                    = if (fluid != null) FluidBurnerRecipes.isCoolant(fluid) else false
+
+            override fun onContentsChanged() {
+                this@FluidBurnerEntity.markDirty()
+            }
+
+        }
         super.addFluidTank(
                 object : ColoredFluidHandler(this.coolantTank,
                         EnumDyeColor.BLUE,
                         "Coolant Tank",
                         BoundingRectangle(79, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT)) {
-                    override fun acceptsFluid(fluid: FluidStack): Boolean {
-                        return FluidBurnerRecipes.isCoolant(fluid)
-                    }
-
-                    override fun canDrain(): Boolean {
-                        return false
-                    }
+//                    override fun acceptsFluid(fluid: FluidStack): Boolean {
+//                        return FluidBurnerRecipes.isCoolant(fluid)
+//                    }
+//
+                    override fun canDrain() = false
                 }, null
         )
 
-        this.fuelTank = FluidTank(5000)
+        this.fuelTank = object: FluidTank(5000) {
+            override fun canFillFluidType(fluid: FluidStack?)
+                    = if (fluid != null) FluidBurnerRecipes.isFuel(fluid) else false
+
+            override fun onContentsChanged() {
+                this@FluidBurnerEntity.markDirty()
+            }
+
+        }
         super.addFluidTank(
                 object : ColoredFluidHandler(this.fuelTank,
                         EnumDyeColor.RED,
                         "Fuel Tank",
                         BoundingRectangle(97, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT)) {
-                    override fun acceptsFluid(fluid: FluidStack): Boolean {
-                        return FluidBurnerRecipes.isFuel(fluid)
-                    }
+//                    override fun acceptsFluid(fluid: FluidStack): Boolean {
+//                        return FluidBurnerRecipes.isFuel(fluid)
+//                    }
 
-                    override fun canDrain(): Boolean {
-                        return false
-                    }
+                    override fun canDrain() = false
                 }, null
         )
 
