@@ -39,7 +39,6 @@ class GeneratorBurnPiece(left: Int, top: Int, private val te: ElectricGenerator)
     }
 
     companion object {
-
         fun getTooltipLines(entity: ElectricGenerator): List<String>? {
             val lines = Lists.newArrayList<String>()
             val generated = entity.generatedPowerCapacity

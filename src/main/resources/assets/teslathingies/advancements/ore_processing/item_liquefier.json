@@ -1,0 +1,26 @@
+{
+  "display": {
+    "icon": {
+      "item": "teslathingies:item_liquefier"
+    },
+    "title": {
+      "translate": "advancements.teslathingies.ore_processing.item_liquefier.title"
+    },
+    "description": {
+      "translate": "advancements.teslathingies.ore_processing.item_liquefier.description"
+    }
+  },
+  "parent": "teslathingies:ore_processing/machine_case",
+  "criteria": {
+    "wrench_in_inventory": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "teslathingies:item_liquefier"
+          }
+        ]
+      }
+    }
+  }
+}

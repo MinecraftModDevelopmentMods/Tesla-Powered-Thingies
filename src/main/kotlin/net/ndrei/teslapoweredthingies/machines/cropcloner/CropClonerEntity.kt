@@ -17,7 +17,6 @@ import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
-import net.ndrei.teslacorelib.inventory.LockableItemHandler
 import net.ndrei.teslacorelib.render.HudInfoLine
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
 import net.ndrei.teslapoweredthingies.render.CropClonerSpecialRenderer
@@ -29,7 +28,7 @@ import java.awt.Color
 class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.hashCode()) {
     var plantedThing: IBlockState? = null
         private set
-    private var waterTank: IFluidTank? = null
+    private lateinit var waterTank: IFluidTank
 
     override fun supportsRangeAddons() = false
 
@@ -46,17 +45,16 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
     }
 
     override fun initializeInputInventory() {
-        this.inStackHandler = object : ItemStackHandler(Math.max(0, Math.min(3, inputSlots))) {
+        this.inStackHandler = object : ItemStackHandler(1) {
             override fun onContentsChanged(slot: Int) {
                 this@CropClonerEntity.markDirty()
             }
 
             override fun getStackLimit(slot: Int, stack: ItemStack) = 1
         }
-        this.filteredInStackHandler = object : ColoredItemHandler(this.inStackHandler!!, EnumDyeColor.GREEN, "Input Items", this.getInputInventoryBounds(this.inStackHandler!!.slots, 1)) {
+        this.filteredInStackHandler = object : ColoredItemHandler(this.inStackHandler!!, EnumDyeColor.GREEN, "Input Items", BoundingRectangle(115 + 18, 25, 18, 18)) {
             override fun canInsertItem(slot: Int, stack: ItemStack)
-                    = (if (this.innerHandler is LockableItemHandler) this.innerHandler.canInsertItem(slot, stack) else true)
-                    && this@CropClonerEntity.acceptsInputStack(slot, stack)
+                    = super.canInsertItem (slot, stack) && this@CropClonerEntity.acceptsInputStack(slot, stack)
 
             override fun canExtractItem(slot: Int) = false
         }

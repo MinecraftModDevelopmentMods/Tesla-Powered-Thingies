@@ -26,14 +26,15 @@ import net.ndrei.teslacorelib.utils.FluidUtils
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.gui.FluidBurnerTankPiece
 import net.ndrei.teslapoweredthingies.gui.GeneratorBurnPiece
-import net.ndrei.teslapoweredthingies.gui.IDualTankMachine
+import net.ndrei.teslapoweredthingies.gui.IMultiTankMachine
+import net.ndrei.teslapoweredthingies.gui.TankInfo
 import net.ndrei.teslapoweredthingies.machines.BaseThingyGenerator
 import net.ndrei.teslapoweredthingies.render.DualTankEntityRenderer
 
 /**
  * Created by CF on 2017-06-30.
  */
-class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name.hashCode()), IDualTankMachine {
+class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name.hashCode()), IMultiTankMachine {
     private lateinit var coolantTank: FluidTank
     private lateinit var fuelTank: FluidTank
     private lateinit var coolantItems: ItemStackHandler
@@ -240,15 +241,22 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
         }
     }
 
-    override val leftTankPercent: Float
-        get() = Math.min(1f, Math.max(0f, this.coolantTank.fluidAmount.toFloat() / this.coolantTank.capacity.toFloat()))
+    override fun getTanks()
+        = listOf(
+            TankInfo(6.0, 6.0, this.coolantTank.fluid, this.coolantTank.capacity),
+            TankInfo(20.0, 6.0, this.fuelTank.fluid, this.fuelTank.capacity)
+    )
 
-    override val rightTankPercent: Float
-        get() = Math.min(1f, Math.max(0f, this.fuelTank.fluidAmount.toFloat() / this.fuelTank.capacity.toFloat()))
-
-    override val leftTankFluid: Fluid?
-        get() = this.coolantTank.fluid?.fluid
-
-    override val rightTankFluid: Fluid?
-        get() = this.fuelTank.fluid?.fluid
+//
+//    override val leftTankPercent: Float
+//        get() = Math.min(1f, Math.max(0f, this.coolantTank.fluidAmount.toFloat() / this.coolantTank.capacity.toFloat()))
+//
+//    override val rightTankPercent: Float
+//        get() = Math.min(1f, Math.max(0f, this.fuelTank.fluidAmount.toFloat() / this.fuelTank.capacity.toFloat()))
+//
+//    override val leftTankFluid: Fluid?
+//        get() = this.coolantTank.fluid?.fluid
+//
+//    override val rightTankFluid: Fluid?
+//        get() = this.fuelTank.fluid?.fluid
 }

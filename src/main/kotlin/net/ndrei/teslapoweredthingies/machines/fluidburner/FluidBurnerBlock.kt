@@ -3,6 +3,7 @@ package net.ndrei.teslapoweredthingies.machines.fluidburner
 import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
+import net.minecraft.util.BlockRenderLayer
 import net.minecraftforge.oredict.ShapedOreRecipe
 import net.ndrei.teslacorelib.annotations.AutoRegisterBlock
 import net.ndrei.teslacorelib.items.MachineCaseItem
@@ -28,4 +29,6 @@ object FluidBurnerBlock
                 's', "stone",
                 'g', GearIronItem.oreDictName()
         )
+
+    override fun getBlockLayer() = BlockRenderLayer.TRANSLUCENT
 }

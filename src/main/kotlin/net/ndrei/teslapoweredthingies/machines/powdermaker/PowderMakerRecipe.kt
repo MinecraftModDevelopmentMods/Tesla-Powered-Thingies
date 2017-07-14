@@ -2,8 +2,8 @@ package net.ndrei.teslapoweredthingies.machines.powdermaker
 
 import net.minecraft.item.ItemStack
 import net.minecraftforge.oredict.OreDictionary
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil.copyWithCount
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil.equalsIgnoreSizeAndNBT
+import net.ndrei.teslacorelib.utils.copyWithSize
+import net.ndrei.teslacorelib.utils.equalsIgnoreSizeAndNBT
 import net.ndrei.teslapoweredthingies.common.IChancedRecipeOutput
 import net.ndrei.teslapoweredthingies.common.IRecipeOutput
 
@@ -80,7 +80,7 @@ class PowderMakerOreRecipe(val inputSize: Int, val input: String, vararg output:
 
     override fun getPossibleInputs()
         = OreDictionary.getOres(this.input)
-            .map { it.copyWithCount(this.inputSize) }
+            .map { it.copyWithSize(this.inputSize) }
             .toList()
 
 }

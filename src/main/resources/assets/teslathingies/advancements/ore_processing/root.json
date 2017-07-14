@@ -1,25 +1,25 @@
 {
   "display": {
     "icon": {
-      "item": "teslacorelib:machine_case"
+      "item": "teslathingies:tesla_plant_seeds"
     },
     "title": {
-      "translate": "itemGroup.tabTesla_Powered_Thingies"
+      "translate": "advancements.teslathingies.ore_processing.title"
     },
     "description": {
-      "translate": "advancements.teslathingies:controlling.description"
+      "translate": "advancements.teslathingies.ore_processing.description"
     },
     "background": "teslathingies:textures/gui/advancements.png",
     "show_toast": true,
     "announce_to_chat": false
   },
   "criteria": {
-    "machine_case_in_inventory": {
+    "seeds_in_inventory": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
-            "item": "teslacorelib:machine_case"
+            "item": "teslathingies:tesla_plant_seeds"
           }
         ]
       }

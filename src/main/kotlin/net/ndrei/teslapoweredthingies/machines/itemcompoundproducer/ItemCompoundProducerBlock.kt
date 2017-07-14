@@ -1,5 +1,6 @@
 package net.ndrei.teslapoweredthingies.machines.itemcompoundproducer
 
+import net.minecraft.util.BlockRenderLayer
 import net.ndrei.teslacorelib.annotations.AutoRegisterBlock
 import net.ndrei.teslapoweredthingies.machines.BaseThingyBlock
 
@@ -8,4 +9,7 @@ import net.ndrei.teslapoweredthingies.machines.BaseThingyBlock
  */
 @AutoRegisterBlock
 object ItemCompoundProducerBlock
-    : BaseThingyBlock<ItemCompoundProducerEntity>("item_compound_producer", ItemCompoundProducerEntity::class.java)
+    : BaseThingyBlock<ItemCompoundProducerEntity>("item_compound_producer", ItemCompoundProducerEntity::class.java) {
+
+    override fun getBlockLayer() = BlockRenderLayer.TRANSLUCENT
+}

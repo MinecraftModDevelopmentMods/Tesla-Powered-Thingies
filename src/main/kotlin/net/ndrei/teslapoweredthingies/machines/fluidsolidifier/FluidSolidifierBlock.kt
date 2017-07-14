@@ -3,6 +3,7 @@ package net.ndrei.teslapoweredthingies.machines.fluidsolidifier
 import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
+import net.minecraft.util.BlockRenderLayer
 import net.minecraftforge.oredict.ShapedOreRecipe
 import net.ndrei.teslacorelib.GearRegistry
 import net.ndrei.teslacorelib.annotations.AutoRegisterBlock
@@ -30,4 +31,6 @@ object FluidSolidifierBlock
                 'o', "obsidian",
                 'g', GearRegistry.getMaterial("iron")?.oreDictName ?: "gearIron"
         )
+
+    override fun getBlockLayer() = BlockRenderLayer.TRANSLUCENT
 }

@@ -4,7 +4,7 @@ import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraftforge.oredict.OreDictionary
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
+import net.ndrei.teslacorelib.utils.copyWithSize
 import java.util.*
 
 /**
@@ -21,7 +21,7 @@ interface IChancedRecipeOutput {
 
 open class Output(private val stack: ItemStack)
     : IRecipeOutput {
-    override fun getOutput() = this.stack
+    override fun getOutput() = this.stack.copy()
 
     override final fun getPossibleOutput() = this.stack
 }
@@ -49,10 +49,7 @@ open class OreOutput(val itemName: String, val quantity: Int)
 
     override final fun getPossibleOutput(): ItemStack {
         val stack = OreDictionary.getOres(this.itemName).firstOrNull()
-        return if (stack == null)
-            ItemStack.EMPTY
-        else
-            ItemStackUtil.copyWithSize(stack, this.quantity)
+        return stack?.copyWithSize(this.quantity) ?: ItemStack.EMPTY
     }
 }
 

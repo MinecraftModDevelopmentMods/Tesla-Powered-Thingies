@@ -6,7 +6,6 @@ import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.tileentity.TileEntity
-import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.IFluidTank
 import net.minecraftforge.items.ItemHandlerHelper
@@ -18,14 +17,15 @@ import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
 import net.ndrei.teslapoweredthingies.client.Textures
-import net.ndrei.teslapoweredthingies.gui.IDualTankMachine
+import net.ndrei.teslapoweredthingies.gui.IMultiTankMachine
+import net.ndrei.teslapoweredthingies.gui.TankInfo
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 import net.ndrei.teslapoweredthingies.render.DualTankEntityRenderer
 
 /**
  * Created by CF on 2017-06-30.
  */
-class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.java.name.hashCode()), IDualTankMachine {
+class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.java.name.hashCode()), IMultiTankMachine {
     private lateinit var waterTank: IFluidTank
     private lateinit var lavaTank: IFluidTank
     private lateinit var outputs: ItemStackHandler
@@ -121,19 +121,25 @@ class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.jav
 
     //endregion
 
-    //#region IDualTankMachine
+    //#region IMultiTankMachine
 
-    override val leftTankPercent: Float
-        get() = Math.min(1f, Math.max(0f, this.waterTank.fluidAmount.toFloat() / this.waterTank.capacity.toFloat()))
+    override fun getTanks()
+            = listOf(
+            TankInfo(6.0, 6.0, this.waterTank.fluid, this.waterTank.capacity),
+            TankInfo(20.0, 6.0, this.lavaTank.fluid, this.lavaTank.capacity)
+    )
 
-    override val rightTankPercent: Float
-        get() = Math.min(1f, Math.max(0f, this.lavaTank.fluidAmount.toFloat() / this.lavaTank.capacity.toFloat()))
-
-    override val leftTankFluid: Fluid?
-        get() = this.waterTank.fluid?.fluid
-
-    override val rightTankFluid: Fluid?
-        get() = this.lavaTank.fluid?.fluid
+//    override val leftTankPercent: Float
+//        get() = Math.min(1f, Math.max(0f, this.waterTank.fluidAmount.toFloat() / this.waterTank.capacity.toFloat()))
+//
+//    override val rightTankPercent: Float
+//        get() = Math.min(1f, Math.max(0f, this.lavaTank.fluidAmount.toFloat() / this.lavaTank.capacity.toFloat()))
+//
+//    override val leftTankFluid: Fluid?
+//        get() = this.waterTank.fluid?.fluid
+//
+//    override val rightTankFluid: Fluid?
+//        get() = this.lavaTank.fluid?.fluid
 
     //#endregion
 

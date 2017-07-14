@@ -1,7 +1,7 @@
 package net.ndrei.teslapoweredthingies.machines.poweredkiln
 
 import net.minecraft.item.ItemStack
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil.equalsIgnoreSize
+import net.ndrei.teslacorelib.utils.equalsIgnoreSize
 
 /**
  * Created by CF on 2017-07-06.

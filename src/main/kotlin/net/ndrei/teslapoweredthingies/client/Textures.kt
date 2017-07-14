@@ -15,7 +15,9 @@ enum class Textures(path: String) {
     MACHINES_TEXTURES("textures/gui/machines.png"),
     FARM_TEXTURES("textures/gui/farm_machines.png"),
     MOST_TEXTURES("textures/gui/most_machines.png"),
-    JEI_TEXTURES("textures/gui/jei.png");
+    JEI_TEXTURES("textures/gui/jei.png"),
+    JUST_NOISE("textures/blocks/just_noise.png"),
+    INSIDE_TANK("textures/blocks/inside_tank.png");
 
     private val _resource = ResourceLocation(TeslaThingiesMod.MODID, path)
 

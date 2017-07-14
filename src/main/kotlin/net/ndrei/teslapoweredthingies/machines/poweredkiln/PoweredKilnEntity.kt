@@ -14,6 +14,7 @@ import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.LockableItemHandler
 import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.gui.FurnaceBurnPiece
 import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
 import net.ndrei.teslapoweredthingies.gui.ItemStackPiece
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
@@ -38,7 +39,7 @@ class PoweredKilnEntity
                 this@PoweredKilnEntity.markDirty()
             }
         }
-        super.addInventory(object : ColoredItemHandler(this.inputs, EnumDyeColor.GREEN, "Input Items", BoundingRectangle(59, 25, 62, 18)) {
+        super.addInventory(object : ColoredItemHandler(this.inputs, EnumDyeColor.GREEN, "Input Items", BoundingRectangle(57, 25, 62, 18)) {
             override fun canExtractItem(slot: Int) = false
 
             override fun canInsertItem(slot: Int, stack: ItemStack)
@@ -50,10 +51,10 @@ class PoweredKilnEntity
                 val box = this.boundingBox
                 if (!box.isEmpty) {
                     val columns = box.width / 18
-                    (0..this.innerHandler.slots - 1).mapTo(result) {
+                    (0 until this.innerHandler.slots).mapTo(result) {
                         FilteredSlot(this.itemHandlerForContainer, it,
                                 box.left + 1 + (it % columns) * (18 + 4),
-                                box.top  + 1 + (it / columns) * 18
+                                box.top  + 1
                         )
                     }
                 }
@@ -84,22 +85,25 @@ class PoweredKilnEntity
     override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
         val list = super.getGuiContainerPieces(container)
 
-        list.add(TiledRenderedGuiPiece(57, 44, 22, 22, 3, 1,
+        list.add(TiledRenderedGuiPiece(55, 44, 22, 22, 3, 1,
                 Textures.MACHINES_TEXTURES.resource, 119, 4, null))
 
-        // TODO: add processing item stacks
-        list.add(ItemStackPiece(57, 41, 22, 22, object: IWorkItemProvider {
+        list.add(ItemStackPiece(55, 44, 22, 22, object: IWorkItemProvider {
             override val workItem: ItemStack
                 get() = this@PoweredKilnEntity.currentItems.getStackInSlot(0)
         }))
-        list.add(ItemStackPiece(79, 41, 22, 22,  object: IWorkItemProvider {
+        list.add(ItemStackPiece(77, 44, 22, 22,  object: IWorkItemProvider {
             override val workItem: ItemStack
                 get() = this@PoweredKilnEntity.currentItems.getStackInSlot(1)
         }))
-        list.add(ItemStackPiece(101, 41, 22, 22,  object: IWorkItemProvider {
+        list.add(ItemStackPiece(99, 44, 22, 22,  object: IWorkItemProvider {
             override val workItem: ItemStack
                 get() = this@PoweredKilnEntity.currentItems.getStackInSlot(2)
         }))
+
+        list.add(FurnaceBurnPiece(59, 67, { !this.currentItems.getStackInSlot(0).isEmpty }))
+        list.add(FurnaceBurnPiece(81, 67, { !this.currentItems.getStackInSlot(1).isEmpty }))
+        list.add(FurnaceBurnPiece(103, 67, { !this.currentItems.getStackInSlot(2).isEmpty }))
 
         return list
     }

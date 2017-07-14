@@ -1,5 +1,5 @@
 {
-  "parent":"builtin/generated",
+  "parent":"item/generated",
   "textures": {
     "layer0":"teslathingies:items/base_colored_lump"
   }
