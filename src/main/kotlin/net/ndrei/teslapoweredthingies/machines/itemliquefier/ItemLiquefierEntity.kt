@@ -39,7 +39,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
         super.initializeInventories()
 
         super.ensureFluidItems()
-        this.lavaTank = super.addFluidTank(FluidRegistry.LAVA, 5000, EnumDyeColor.RED, "Lava Tank",
+        this.lavaTank = super.addFluidTank(FluidRegistry.LAVA, 5000, EnumDyeColor.RED, "Fluid Tank",
                 BoundingRectangle(133, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT))
 
         this.inputs = object : ItemStackHandler(3) {
