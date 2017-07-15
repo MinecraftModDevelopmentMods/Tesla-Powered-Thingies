@@ -11,6 +11,7 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.effect.EntityLightningBolt
 import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
+import net.minecraft.util.NonNullList
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
@@ -197,16 +198,16 @@ object TeslaPlantBlock
     override fun quantityDroppedWithBonus(fortune: Int, random: Random?)
             = this.quantityDropped(random) + if (fortune > 0) (random?.nextInt(fortune) ?: 0) else 0
 
-//    override fun getDrops(drops: NonNullList<ItemStack>?, world: IBlockAccess?, pos: BlockPos?, state: IBlockState?, fortune: Int) {
-//        val rand = if (world is World) world.rand else Random()
-//        var count = 1
-//
-//        if (state.getValue(AGE) as Int >= 3) {
-//            count = 2 + rand.nextInt(3) + if (fortune > 0) rand.nextInt(fortune + 1) else 0
-//        }
-//
-//        for (i in 0..count - 1) {
-//            drops.add(ItemStack(TeslaPlantSeeds))
-//        }
-//    }
+    override fun getDrops(drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int) {
+        val rand = if (world is World) world.rand else Random()
+        var count = 1
+
+        if (state.getValue(AGE) as Int >= MAX_AGE) {
+            count = 2 + if (fortune > 0) rand.nextInt(fortune + 1) else 0
+        }
+
+        for (i in 0 until count) {
+            drops.add(ItemStack(TeslaPlantSeeds))
+        }
+    }
 }
