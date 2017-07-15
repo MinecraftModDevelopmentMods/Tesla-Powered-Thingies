@@ -1,9 +1,13 @@
 package net.ndrei.teslapoweredthingies.machines.itemcompoundproducer
 
+import net.minecraft.client.Minecraft
 import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.common.discovery.ASMDataTable
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.MaterialColors
@@ -30,7 +34,8 @@ object ItemCompoundProducerRegistry : IRegistryHandler {
             val color = MaterialColors.getColor(it)
             if (color != null) {
                 val lump = BaseColoredTeslaLump(it, color)
-                registry.register(lump)
+                lump.register(registry)
+                OreDictionary.registerOre("teslaLump${it.capitalize()}", lump)
                 this.registeredLumps.add(lump)
             }
         }
@@ -38,7 +43,13 @@ object ItemCompoundProducerRegistry : IRegistryHandler {
 
     override fun registerRenderers(asm: ASMDataTable) {
         this.registeredLumps.forEach { it.registerRenderer() }
-        this.registeredLumps.clear()
+    }
+
+    @SideOnly(Side.CLIENT)
+    override fun postInit(asm: ASMDataTable) {
+        this.registeredLumps.forEach {
+            Minecraft.getMinecraft().itemColors.registerItemColorHandler({ s: ItemStack, t: Int -> it.getColorFromItemStack(s, t) }, arrayOf(it))
+        }
     }
 
     override fun registerRecipes(asm: ASMDataTable, registry: IForgeRegistry<IRecipe>) {
