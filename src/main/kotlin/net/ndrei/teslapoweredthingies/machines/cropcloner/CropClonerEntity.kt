@@ -1,7 +1,6 @@
 package net.ndrei.teslapoweredthingies.machines.cropcloner
 
 import net.minecraft.block.Block
-import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.IBlockState
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.item.EnumDyeColor
@@ -29,6 +28,8 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
     var plantedThing: IBlockState? = null
         private set
     private lateinit var waterTank: IFluidTank
+
+    //#region inventory methods
 
     override fun supportsRangeAddons() = false
 
@@ -79,36 +80,120 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
         return false
     }
 
-    override fun performWork(): Float {
-        var result = 0.0f
-        // EnumFacing facing = super.getFacing();
+    //#endregion
+
+    //#region gui       methods
+
+    override val hudLines: List<HudInfoLine>
+        get() {
+            val list = super.hudLines.toMutableList()
+
+            if (this.plantedThing == null) {
+                list.add(HudInfoLine(Color(255, 159, 51),
+                        Color(255, 159, 51, 42),
+                        "no seed")
+                        .setTextAlignment(HudInfoLine.TextAlignment.CENTER))
+            } else {
+                list.add(HudInfoLine(Color.WHITE, this.plantedThing!!.block.localizedName)
+                        .setTextAlignment(HudInfoLine.TextAlignment.CENTER))
+                val age = CropClonerPlantFactory.getPlant(this.plantedThing!!).getAgeProperty(this.plantedThing!!)
+                if (age != null) {
+                    val percent = this.plantedThing!!.getValue(age) * 100 / age.allowedValues.size
+                    list.add(HudInfoLine(Color.CYAN,
+                            Color(Color.GRAY.red, Color.GRAY.green, Color.GRAY.blue, 192),
+                            Color(Color.CYAN.red, Color.CYAN.green, Color.CYAN.blue, 192),
+                            "growth: $percent%")
+                            .setProgress(percent.toFloat() / 100.0f, Color(Color.CYAN.red, Color.CYAN.green, Color.CYAN.blue, 50)))
+                }
+            }
+
+            return list.toList()
+        }
+
+    override fun getRenderers(): MutableList<TileEntitySpecialRenderer<in TileEntity>> {
+        val list = super.getRenderers()
+        list.add(CropClonerSpecialRenderer)
+        return list
+    }
+
+    //#endregion
+
+    //#region storage   methods
+
+    override fun readFromNBT(compound: NBTTagCompound) {
+        super.readFromNBT(compound)
+
+        if (compound.hasKey("plantDomain") && compound.hasKey("plantPath")) {
+            val location = ResourceLocation(
+                    compound.getString("plantDomain"),
+                    compound.getString("plantPath"))
+            val block = Block.REGISTRY.getObject(location)
+            if (block != null) {
+                this.plantedThing = block.defaultState
+                this.onPlantedThingChanged()
+            }
+        }
+
+        if (compound.hasKey("plantAge") && this.plantedThing != null) {
+            val age = compound.getInteger("plantAge")
+            val ageProperty = CropClonerPlantFactory.getPlant(this.plantedThing!!).getAgeProperty(this.plantedThing!!)
+            if (ageProperty != null) {
+                this.plantedThing = this.plantedThing!!.withProperty(ageProperty, age)
+                this.onPlantedThingChanged()
+            }
+        }
+    }
+
+    override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
+        var compound = compound
+        compound = super.writeToNBT(compound)
 
         if (this.plantedThing != null) {
-            val ageProperty = this.getAgeProperty(this.plantedThing)
+            val resource = this.plantedThing!!.block.registryName
+            compound.setString("plantDomain", resource!!.resourceDomain)
+            compound.setString("plantPath", resource.resourcePath)
+            val ageProperty = CropClonerPlantFactory.getPlant(this.plantedThing!!).getAgeProperty(this.plantedThing!!)
             if (ageProperty != null) {
-                var age = this.plantedThing!!.getValue(ageProperty)
+                compound.setInteger("plantAge", this.plantedThing!!.getValue(ageProperty))
+            }
+        }
+
+        return compound
+    }
+
+    //#endregion
+
+    override fun performWork(): Float {
+        var result = 0.0f
+
+        val planted = this.plantedThing
+        if (planted != null) {
+            val wrapper = CropClonerPlantFactory.getPlant(planted)
+            val ageProperty = wrapper.getAgeProperty(planted)
+            if (ageProperty != null) {
+                val age = planted.getValue(ageProperty)
                 val ages = ageProperty.allowedValues.toTypedArray()
                 if (age == ages[ages.size - 1]) {
-                    val stacks = this.plantedThing!!.block.getDrops(this.getWorld(), this.getPos(), this.plantedThing!!, 0)
+                    val stacks = wrapper.getDrops(this.getWorld(), this.getPos(), planted)
                     if (super.outputItems(stacks)) {
                         this.plantedThing = null
                         result += .85f
                     }
                 } else {
-                    this.plantedThing = this.plantedThing!!.withProperty(ageProperty, ++age)
-                    result += .85f
+                    this.plantedThing = wrapper.grow(planted, ageProperty, this.getWorld().rand)
+                    result += .75f
                 }
                 this.onPlantedThingChanged()
             }
         }
 
-        if (this.plantedThing == null && this.waterTank != null && this.waterTank!!.fluidAmount >= 250) {
+        if (this.plantedThing == null && this.waterTank.fluidAmount >= 250) {
             val stack = this.inStackHandler!!.getStackInSlot(0)
-            if (!ItemStackUtil.isEmpty(stack) && stack.getItem() is IPlantable) {
-                val plantable = stack.getItem() as IPlantable
+            if (!stack.isEmpty && (stack.item is IPlantable)) {
+                val plantable = stack.item as IPlantable
                 if (plantable.getPlantType(this.getWorld(), this.getPos()) == EnumPlantType.Crop) {
                     this.plantedThing = plantable.getPlant(this.getWorld(), this.getPos())
-                    this.waterTank!!.drain(250, true) // TODO: <-- do this better
+                    this.waterTank.drain(250, true) // TODO: <-- do this better
                     this.onPlantedThingChanged()
                 }
             }
@@ -129,89 +214,5 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
 
         this.markDirty()
         this.forceSync()
-    }
-
-    override fun readFromNBT(compound: NBTTagCompound) {
-        super.readFromNBT(compound)
-
-        if (compound.hasKey("plantDomain") && compound.hasKey("plantPath")) {
-            val location = ResourceLocation(
-                    compound.getString("plantDomain"),
-                    compound.getString("plantPath"))
-            val block = Block.REGISTRY.getObject(location)
-            if (block != null) {
-                this.plantedThing = block.defaultState
-                this.onPlantedThingChanged()
-            }
-        }
-
-        if (compound.hasKey("plantAge") && this.plantedThing != null) {
-            val age = compound.getInteger("plantAge")
-            val ageProperty = this.getAgeProperty(this.plantedThing)
-            if (ageProperty != null) {
-                this.plantedThing = this.plantedThing!!.withProperty(ageProperty, age)
-                this.onPlantedThingChanged()
-            }
-        }
-    }
-
-    override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
-        var compound = compound
-        compound = super.writeToNBT(compound)
-
-        if (this.plantedThing != null) {
-            val resource = this.plantedThing!!.block.registryName
-            compound.setString("plantDomain", resource!!.resourceDomain)
-            compound.setString("plantPath", resource.resourcePath)
-            val ageProperty = this.getAgeProperty(this.plantedThing)
-            if (ageProperty != null) {
-                compound.setInteger("plantAge", this.plantedThing!!.getValue(ageProperty))
-            }
-        }
-
-        return compound
-    }
-
-    private fun getAgeProperty(thing: IBlockState?): PropertyInteger? {
-        if (thing != null) {
-            for (p in thing.propertyKeys) {
-                if (p is PropertyInteger && p.getName() === "age") {
-                    return p
-                }
-            }
-        }
-        return null
-    }
-
-    override val hudLines: List<HudInfoLine>
-        get() {
-            val list = super.hudLines.toMutableList()
-
-            if (this.plantedThing == null) {
-                list.add(HudInfoLine(Color(255, 159, 51),
-                        Color(255, 159, 51, 42),
-                        "no seed")
-                        .setTextAlignment(HudInfoLine.TextAlignment.CENTER))
-            } else {
-                list.add(HudInfoLine(Color.WHITE, this.plantedThing!!.block.localizedName)
-                        .setTextAlignment(HudInfoLine.TextAlignment.CENTER))
-                val age = this.getAgeProperty(this.plantedThing)
-                if (age != null) {
-                    val percent = this.plantedThing!!.getValue(age) * 100 / age.allowedValues.size
-                    list.add(HudInfoLine(Color.CYAN,
-                            Color(Color.GRAY.red, Color.GRAY.green, Color.GRAY.blue, 192),
-                            Color(Color.CYAN.red, Color.CYAN.green, Color.CYAN.blue, 192),
-                            "growth: $percent%")
-                            .setProgress(percent.toFloat() / 100.0f, Color(Color.CYAN.red, Color.CYAN.green, Color.CYAN.blue, 50)))
-                }
-            }
-
-            return list.toList()
-        }
-
-    override fun getRenderers(): MutableList<TileEntitySpecialRenderer<in TileEntity>> {
-        val list = super.getRenderers()
-        list.add(CropClonerSpecialRenderer)
-        return list
     }
 }
