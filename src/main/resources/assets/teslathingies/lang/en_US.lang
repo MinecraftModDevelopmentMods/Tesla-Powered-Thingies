@@ -21,6 +21,21 @@ item.teslathingies.addon_range_tier2.name=Range Addon II
 item.teslathingies.fruit_picker_addon.name=Fruit Picker
 item.teslathingies.tesla_plant_seeds.name=Tesla Plant Seeds (WIP)
 
+item.teslathingies.lump_iron.name=Teslified Iron Lump
+item.teslathingies.lump_gold.name=Teslified Gold Lump
+item.teslathingies.lump_coal.name=Teslified Coal Lump
+item.teslathingies.lump_diamond.name=Teslified Diamond Lump
+item.teslathingies.lump_emerald.name=Teslified Emerald Lump
+
+item.teslathingies.lump_copper.name=Teslified Copper Lump
+item.teslathingies.lump_tin.name=Teslified Tin Lump
+item.teslathingies.lump_silver.name=Teslified Silver Lump
+item.teslathingies.lump_lead.name=Teslified Lead Lump
+item.teslathingies.lump_aluminum.name=Teslified Aluminium Lump
+item.teslathingies.lump_nickel.name=Teslified Nickel Lump
+item.teslathingies.lump_platinum.name=Teslified Platinum Lump
+item.teslathingies.lump_iridium.name=Teslified Iridium Lump
+
 tile.teslathingies.animal_farm.name=Animal Farm
 tile.teslathingies.animal_releaser.name=Animal Releaser
 tile.teslathingies.electric_butcher.name=Electric Butcher
