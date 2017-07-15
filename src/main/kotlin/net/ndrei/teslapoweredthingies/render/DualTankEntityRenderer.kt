@@ -88,19 +88,23 @@ object DualTankEntityRenderer : TileEntitySpecialRenderer<TileEntity>() {
                     val height = tankHeight * fluidPercent
                     val color = fluid.color
                     GlStateManager.color((color shr 16 and 0xFF) / 255.0f, (color shr 8 and 0xFF) / 255.0f, (color and 0xFF) / 255.0f)
-
-                    val flowingSprite = if (flowing != null) Minecraft.getMinecraft().textureMapBlocks.getTextureExtry(flowing.toString()) else null
-                        ?: Minecraft.getMinecraft().textureMapBlocks.missingSprite
-                    if (flowingSprite != null) {
-                        this.drawSprite(
-                                Vec3d(0.0, tankHeight - height, -0.1),
-                                Vec3d(6.0, tankHeight, -0.1),
-                                flowingSprite)
-                    }
+//
+//                    val flowingSprite = if (flowing != null) Minecraft.getMinecraft().textureMapBlocks.getTextureExtry(flowing.toString()) else null
+//                        ?: Minecraft.getMinecraft().textureMapBlocks.missingSprite
+//                    if (flowingSprite != null) {
+//                        this.drawSprite(
+//                                Vec3d(0.0, tankHeight - height, -0.1),
+//                                Vec3d(6.0, tankHeight, -0.1),
+//                                flowingSprite)
+//                    }
 
                     val stillSprite = if (still != null) Minecraft.getMinecraft().textureMapBlocks.getTextureExtry(still.toString()) else null
                             ?: Minecraft.getMinecraft().textureMapBlocks.missingSprite
                     if (stillSprite != null) {
+                        this.drawSprite(
+                                Vec3d(0.0, tankHeight - height, -0.1),
+                                Vec3d(6.0, tankHeight, -0.1),
+                                stillSprite)
                         this.drawSprite(
                                 Vec3d(0.0, tankHeight - height, -6.0),
                                 Vec3d(6.0, tankHeight - height, -0.1),
@@ -117,8 +121,17 @@ object DualTankEntityRenderer : TileEntitySpecialRenderer<TileEntity>() {
         val buffer = Tessellator.getInstance().buffer
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX)
 
-        this.drawTexture(buffer, start, end, sprite.minU.toDouble(), sprite.minV.toDouble(), sprite.maxU.toDouble(), sprite.maxV.toDouble())
+        val width = Math.abs(end.x - start.x)
+        val height = Math.abs(if (end.y == start.y) end.z - start.x else end.y - start.y)
 
+        val texW = sprite.maxU - sprite.minU
+        val texH = sprite.maxV - sprite.minV
+
+        val finalW = texW * width / 32.0
+        val finalH = texH * height / 32.0
+
+        // this.drawTexture(buffer, start, end, sprite.minU.toDouble(), sprite.minV.toDouble(), sprite.maxU.toDouble(), sprite.maxV.toDouble())
+        this.drawTexture(buffer, start, end, sprite.minU.toDouble(), sprite.minV.toDouble(), sprite.minU + finalW, sprite.minV + finalH)
         Tessellator.getInstance().draw()
     }
 
