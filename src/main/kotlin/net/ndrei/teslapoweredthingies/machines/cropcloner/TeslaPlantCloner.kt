@@ -9,7 +9,7 @@ import java.util.*
  */
 object TeslaPlantCloner : GenericCropClonerPlant() {
     override fun grow(thing: IBlockState, ageProperty: PropertyInteger, rand: Random): IBlockState {
-        if (rand.nextInt(5) == 1) {
+        if (rand.nextInt(10) == 1) {
             return thing.withProperty(ageProperty, thing.getValue(ageProperty) + 1)
         }
         return thing
