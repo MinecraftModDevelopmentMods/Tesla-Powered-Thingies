@@ -39,6 +39,8 @@ fluid.teslathingies.tf-sewage=Sewage
 tile.teslathingies.tf-sewage.block.name=Sewage
 fluid.teslathingies.tf-liquidxp=Liquid XP
 tile.teslathingies.tf-liquidxp.block.name=Liquid XP
+fluid.teslathingies.tf-molten_tesla=Molten Tesla
+tile.teslathingies.tf-molten_tesla.block.name=Molten Tesla
 
 advancements.teslathingies:controlling.description=The road to pure awesomeness begins here...
 advancements.teslathingies:wrench.title=Wrench Everything!
