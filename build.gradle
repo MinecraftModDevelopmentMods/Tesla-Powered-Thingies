@@ -68,10 +68,11 @@ dependencies {
     runtime "mezz.jei:jei_${minecraft_version}:${jei_version}"
 
     compile "net.darkhax.tesla:Tesla-1.12:${tesla_version}:deobf"
-    compile ("net.ndrei.tesla-core-lib:tesla-core-lib:${minecraft_version}-${tesla_core_version}:deobf") { changing = true }
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
     compile "net.shadowfacts:Forgelin:$forgelin_version"
     compile "cofh:RedstoneFlux:1.12-$redstoneflux_version:universal"
+
+    compile ("net.ndrei.tesla-core-lib:tesla-core-lib:${minecraft_version}-${tesla_core_version}:deobf") { changing = true }
 
     deployerJars 'org.apache.maven.wagon:wagon-ftp:2.2'
 }
