@@ -14,14 +14,6 @@ import net.ndrei.teslapoweredthingies.machines.itemliquefier.LiquefierRecipes
 open class CommonProxy(side: Side) : BaseProxy(side) {
     constructor() : this(Side.SERVER)
 
-//    override fun preInit(ev: FMLPreInitializationEvent) {
-//        super.preInit(ev)
-//
-////        ItemsRegistry.registerItems()
-////        BlocksRegistry.registerBlocks()
-//    }
-
-
     override fun postInit(ev: FMLPostInitializationEvent) {
         super.postInit(ev)
 

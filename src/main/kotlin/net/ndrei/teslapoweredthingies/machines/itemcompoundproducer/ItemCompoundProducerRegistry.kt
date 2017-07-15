@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.MaterialColors
+import net.ndrei.teslacorelib.TeslaCoreLib
 import net.ndrei.teslacorelib.annotations.IRegistryHandler
 import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
@@ -41,14 +42,16 @@ object ItemCompoundProducerRegistry : IRegistryHandler {
         }
     }
 
+    @SideOnly(Side.CLIENT)
     override fun registerRenderers(asm: ASMDataTable) {
         this.registeredLumps.forEach { it.registerRenderer() }
     }
 
-    @SideOnly(Side.CLIENT)
     override fun postInit(asm: ASMDataTable) {
-        this.registeredLumps.forEach {
-            Minecraft.getMinecraft().itemColors.registerItemColorHandler({ s: ItemStack, t: Int -> it.getColorFromItemStack(s, t) }, arrayOf(it))
+        if (TeslaCoreLib.isClientSide) {
+            this.registeredLumps.forEach {
+                Minecraft.getMinecraft().itemColors.registerItemColorHandler({ s: ItemStack, t: Int -> it.getColorFromItemStack(s, t) }, arrayOf(it))
+            }
         }
     }
 

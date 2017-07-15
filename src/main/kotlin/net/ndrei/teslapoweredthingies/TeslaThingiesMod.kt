@@ -4,7 +4,6 @@ import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.ItemStack
 import net.minecraft.world.World
 import net.minecraft.world.WorldServer
-import net.minecraftforge.client.model.obj.OBJLoader
 import net.minecraftforge.common.util.FakePlayer
 import net.minecraftforge.common.util.FakePlayerFactory
 import net.minecraftforge.fluids.FluidRegistry
@@ -35,7 +34,6 @@ class TeslaThingiesMod {
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
         TeslaThingiesMod.logger = event.modLog
-        OBJLoader.INSTANCE.addDomain(TeslaThingiesMod.MODID)
 
         proxy.preInit(event)
     }
