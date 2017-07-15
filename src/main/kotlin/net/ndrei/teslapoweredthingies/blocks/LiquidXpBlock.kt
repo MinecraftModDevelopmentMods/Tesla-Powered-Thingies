@@ -15,7 +15,8 @@ import net.ndrei.teslapoweredthingies.fluids.LiquidXPFluid
  * Created by CF on 2017-07-07.
  */
 @AutoRegisterBlock
-object LiquidXpBlock : FiniteFluidThingyBlock(LiquidXPFluid, MapColor.LIME) { // BlockFluidFinite(LiquidXPFluid, MaterialLiquid(MapColor.LIME)) {
+object LiquidXpBlock
+    : FiniteFluidThingyBlock(LiquidXPFluid, MapColor.LIME) { // BlockFluidFinite(LiquidXPFluid, MaterialLiquid(MapColor.LIME)) {
 //    init {
 //        this.setRegistryName(TeslaThingiesMod.MODID, "${LiquidXPFluid.name}block")
 //        this.unlocalizedName = "${TeslaThingiesMod.MODID}.${LiquidXPFluid.name}block"

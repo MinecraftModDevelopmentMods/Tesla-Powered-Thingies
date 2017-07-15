@@ -32,6 +32,12 @@ import java.util.*
 object TeslaPlantBlock
     : BlockBush(Material.PLANTS, MapColor.CYAN), IGrowable {
 
+//    fun registerRenderer() {
+//        ModelLoader.setCustomModelResourceLocation(Item.getItemFromBlock(this), 0,
+//                ModelResourceLocation(this.registryName!!, "inventory")
+//        )
+//    }
+
     private var _age: PropertyInteger? = null
 
     private const val MAX_AGE = 2
