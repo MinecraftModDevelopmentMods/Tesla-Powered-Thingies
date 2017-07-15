@@ -7,8 +7,12 @@ import net.minecraftforge.fml.common.discovery.ASMDataTable
 import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.registries.IForgeRegistry
-import net.ndrei.teslacorelib.*
+import net.ndrei.teslacorelib.MaterialColors
+import net.ndrei.teslacorelib.PowderRegistry
+import net.ndrei.teslacorelib.TeslaCoreLib
 import net.ndrei.teslacorelib.annotations.AutoRegisterRecipesHandler
+import net.ndrei.teslacorelib.annotations.IRegistryHandler
+import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslacorelib.items.powders.ColoredPowderItem
 import net.ndrei.teslapoweredthingies.common.OreOutput
 import net.ndrei.teslapoweredthingies.common.SecondaryOutput
@@ -16,8 +20,8 @@ import net.ndrei.teslapoweredthingies.common.SecondaryOutput
 /**
  * Created by CF on 2017-07-06.
  */
-@AfterAllModsRegistry
-object PowderMakerRegistry : IAfterAllModsRegistry {
+@RegistryHandler
+object PowderMakerRegistry : IRegistryHandler {
     override fun registerItems(asm : ASMDataTable, registry: IForgeRegistry<Item>) {
         // get all ores
         val ores = OreDictionary.getOreNames()

@@ -6,9 +6,9 @@ import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.registries.IForgeRegistry
-import net.ndrei.teslacorelib.AfterAllModsRegistry
-import net.ndrei.teslacorelib.IAfterAllModsRegistry
 import net.ndrei.teslacorelib.MaterialColors
+import net.ndrei.teslacorelib.annotations.IRegistryHandler
+import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.fluids.MoltenTeslaFluid
 import net.ndrei.teslapoweredthingies.items.BaseColoredTeslaLump
@@ -17,8 +17,10 @@ import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerRecipes
 /**
  * Created by CF on 2017-07-13.
  */
-@AfterAllModsRegistry
-object ItemCompoundProducerRegistry : IAfterAllModsRegistry {
+@RegistryHandler
+object ItemCompoundProducerRegistry : IRegistryHandler {
+    private val registeredLumps = mutableListOf<BaseColoredTeslaLump>()
+
     override fun registerItems(asm: ASMDataTable, registry: IForgeRegistry<Item>) {
         // get ores
         val ores = OreDictionary.getOreNames()
@@ -27,9 +29,16 @@ object ItemCompoundProducerRegistry : IAfterAllModsRegistry {
         ores.forEach {
             val color = MaterialColors.getColor(it)
             if (color != null) {
-                TeslaLumpRegistry.addMaterial(it, BaseColoredTeslaLump(it, color))
+                val lump = BaseColoredTeslaLump(it, color)
+                registry.register(lump)
+                this.registeredLumps.add(lump)
             }
         }
+    }
+
+    override fun registerRenderers(asm: ASMDataTable) {
+        this.registeredLumps.forEach { it.registerRenderer() }
+        this.registeredLumps.clear()
     }
 
     override fun registerRecipes(asm: ASMDataTable, registry: IForgeRegistry<IRecipe>) {
