@@ -7,8 +7,9 @@ tile.teslathingies.fluid_burner.name=Fluid Burner
 tile.teslathingies.fluid_solidifier.name=Fluid Solidifier
 tile.teslathingies.item_liquefier.name=Item Liquefier
 tile.teslathingies.powder_maker.name=Powder Maker
-tile.teslathingies.powered_kiln.name=Powered Kiln (WIP)
+tile.teslathingies.powered_kiln.name=Powered Kiln
 tile.teslathingies.item_compound_producer.name=Item Compound Producer (WIP)
+tile.teslathingies.multi_tank.name=Multi Tank (WIP)
 
 item.teslathingies.animal_package.name=Animal Package
 item.teslathingies.animal_package_full.name=Animal Package (full)

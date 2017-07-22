@@ -1,6 +1,7 @@
 package net.ndrei.teslapoweredthingies.client
 
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
@@ -17,6 +18,7 @@ enum class Textures(path: String) {
     MOST_TEXTURES("textures/gui/most_machines.png"),
     JEI_TEXTURES("textures/gui/jei.png"),
     JUST_NOISE("textures/blocks/just_noise.png"),
+    MULTI_TANK_SIDE("blocks/multi_tank-side"),
     INSIDE_TANK("textures/blocks/inside_tank.png");
 
     private val _resource = ResourceLocation(TeslaThingiesMod.MODID, path)
@@ -24,7 +26,12 @@ enum class Textures(path: String) {
     val resource
         get() = this._resource
 
+    val sprite: TextureAtlasSprite
+        get() = Minecraft.getMinecraft().textureMapBlocks.getTextureExtry(this._resource.toString())
+                ?: Minecraft.getMinecraft().textureMapBlocks.missingSprite
+
     fun bind(container: BasicTeslaGuiContainer<*>?) {
         (container?.mc ?: Minecraft.getMinecraft()).textureManager.bindTexture(this.resource)
     }
+
 }
