@@ -13,14 +13,14 @@ import net.ndrei.teslacorelib.compatibility.ItemStackUtil
  */
 class VanillaTree : ITreeFactory {
     override fun getHarvestableLog(world: World, pos: BlockPos, block: IBlockState): ITreeLogWrapper? {
-        return if (block != null && (block.block === Blocks.LOG || block.block === Blocks.LOG2))
+        return if ((block.block === Blocks.LOG || block.block === Blocks.LOG2))
             VanillaTreeLog(world, pos)
         else
             null
     }
 
     override fun getHarvestableLeaf(world: World, pos: BlockPos, block: IBlockState): ITreeLeafWrapper? {
-        return if (block != null && (block.block === Blocks.LEAVES || block.block === Blocks.LEAVES2))
+        return if ((block.block === Blocks.LEAVES || block.block === Blocks.LEAVES2))
             VanillaTreeLeaf(world, pos)
         else
             null

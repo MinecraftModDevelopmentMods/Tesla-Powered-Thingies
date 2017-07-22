@@ -1,16 +1,13 @@
 package net.ndrei.teslapoweredthingies.machines.treefarm
 
 import com.google.common.collect.Lists
-import net.minecraft.init.Blocks
 import net.minecraft.init.Items
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.common.GuiPieceSide
 import net.ndrei.teslapoweredthingies.machines.CROP_FARM_WORK_AREA_COLOR
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
-import java.util.*
 
 /**
  * Created by CF on 2017-07-07.
@@ -19,11 +16,15 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
     private val scanner = TreeScanner()
 
     override fun acceptsInputStack(slot: Int, stack: ItemStack): Boolean {
-        if (ItemStackUtil.isEmpty(stack))
-            return true
+        if (stack.isEmpty)
+            return false
 
-        return TreeFarmEntity.acceptedItems.contains(stack.item)
+        if (stack.item == Items.SHEARS) {
+            return true // TODO: validate modded shears too
+        }
 
+        return (TreeWrapperFactory.getSaplingWrapper(stack) != null)
+//        return TreeFarmEntity.acceptedItems.contains(stack.item)
     }
 
     override val lockableInputLockPosition: GuiPieceSide
@@ -55,7 +56,7 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
                 }
 
                 if (this.getWorld().isAirBlock(pos)) {
-                    for (sapling in saplings!!) {
+                    for (sapling in saplings) {
                         if (sapling.canPlant(this.getWorld(), pos)) {
                             val planted = sapling.plant(this.getWorld(), pos)
                             if (planted > 0) {
@@ -128,12 +129,12 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
     }
 
     companion object {
-        private val acceptedItems = ArrayList<Item>()
-
-        init {
-            TreeFarmEntity.acceptedItems.add(Items.SHEARS)
-            TreeFarmEntity.acceptedItems.add(Item.getItemFromBlock(Blocks.SAPLING))
-        }
+//        private val acceptedItems = ArrayList<Item>()
+//
+//        init {
+//            TreeFarmEntity.acceptedItems.add(Items.SHEARS)
+//            TreeFarmEntity.acceptedItems.add(Item.getItemFromBlock(Blocks.SAPLING))
+//        }
 
         private const val SCAN_PERCENT = 0.025f
         private const val BREAK_PERCENT = 0.05f

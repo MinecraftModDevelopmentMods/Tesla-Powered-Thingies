@@ -30,9 +30,9 @@ class VanillaSapling(override val stack: ItemStack)
     override fun plant(world: World, pos: BlockPos): Int {
         if (this.canPlant(world, pos)) {
             val item = this.stack.item
-            val block = (item as? ItemBlock)?.block
+            val block = (item as? ItemBlock)?.block ?: return 0
 
-            val plant = block?.getStateFromMeta(this.stack.itemDamage)
+            val plant = block.getStateFromMeta(this.stack.itemDamage)
             if (plant != null) {
                 world.setBlockState(pos, plant)
                 return 1
