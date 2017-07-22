@@ -2,7 +2,6 @@ package net.ndrei.teslapoweredthingies.gui
 
 import com.google.common.collect.Lists
 import com.mojang.realmsclient.gui.ChatFormatting
-import net.darkhax.tesla.lib.TeslaUtils
 import net.ndrei.teslacorelib.gui.BasicContainerGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.tileentities.ElectricGenerator
@@ -44,9 +43,9 @@ class GeneratorBurnPiece(left: Int, top: Int, private val te: ElectricGenerator)
             val generated = entity.generatedPowerCapacity
             if (generated > 0 && entity.generatedPowerStored > 0) {
                 lines.add(ChatFormatting.GRAY.toString() + "Total for fuel: "
-                        + ChatFormatting.AQUA + TeslaUtils.getDisplayableTeslaCount(generated))
+                        + ChatFormatting.AQUA + generated)
                 lines.add(ChatFormatting.GRAY.toString() + "Generating "
-                        + ChatFormatting.AQUA + TeslaUtils.getDisplayableTeslaCount(entity.generatedPowerReleaseRate)
+                        + ChatFormatting.AQUA + entity.generatedPowerReleaseRate
                         + ChatFormatting.GRAY + " / tick")
 
                 val ticks = entity.generatedPowerStored.toDouble() / entity.generatedPowerReleaseRate.toDouble() / 20.0
