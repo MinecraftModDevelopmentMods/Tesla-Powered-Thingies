@@ -21,7 +21,7 @@ open class VanillaGenericSeed(override final val seeds: ItemStack)
 //                && this.plantable.getPlantType(world, pos) == EnumPlantType.Crop
 
         val under = world.getBlockState(pos.down())
-        return under.block.canSustainPlant(under, world, pos, EnumFacing.UP, this.plantable)
+        return under.block.canSustainPlant(under, world, pos.down(), EnumFacing.UP, this.plantable)
     }
 
     override fun plant(world: World, pos: BlockPos): IBlockState {

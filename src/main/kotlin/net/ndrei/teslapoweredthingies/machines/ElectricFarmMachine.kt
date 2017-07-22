@@ -1,5 +1,6 @@
 package net.ndrei.teslapoweredthingies.machines
 
+import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
@@ -132,10 +133,13 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
                 override fun renderState(container: BasicTeslaGuiContainer<*>, state: Int, box: BoundingRectangle) {
                     Textures.MACHINES_TEXTURES.bind(container)
 
+                    GlStateManager.enableBlend()
+                    GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
                     container.drawTexturedModalRect(
                             box.left, box.top + 1,
                             99, if (this@ElectricFarmMachine.showWorkArea) 21 else 7,
                             14, 14)
+                    GlStateManager.disableBlend()
                 }
 
                 override fun getStateToolTip(state: Int)
