@@ -1,12 +1,11 @@
 package net.ndrei.teslapoweredthingies.machines.cropfarm
 
-import net.minecraft.block.BlockFarmland
 import net.minecraft.block.state.IBlockState
-import net.minecraft.init.Blocks
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemHoe
 import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumFacing
+import net.minecraft.util.EnumHand
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.IFluidTank
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
@@ -78,6 +77,10 @@ class CropFarmEntity : ElectricFarmMachine(CropFarmEntity::class.java.name.hashC
 
         val seeds = ItemStackUtil.getCombinedInventory(inputs)
                 .mapNotNull { PlantWrapperFactory.getSeedWrapper(it) }
+        val hoes = (0 until inputs.slots)
+                .map { it.to(HoeFactory.getHoe(inputs.getStackInSlot(it))) }
+                .filter { it.second != null }
+        val player = TeslaThingiesMod.getFakePlayer(this.getWorld())
 
         for (pos in cube) {
             if (blockers.any { it.blocksNeighbour(pos) }) {
@@ -114,47 +117,33 @@ class CropFarmEntity : ElectricFarmMachine(CropFarmEntity::class.java.name.hashC
                 //endregion
             }
 
-            val state = this.getWorld().getBlockState(landPos)
-            if (state.block === Blocks.FARMLAND) {
-                //region moisturize land
+            val farmLand = if (result <= 0.95f) FarmlandFactory.getFarmland(this.getWorld(), landPos) else null
+            if (farmLand != null) {
+                //#region moisturize land
 
-                if (result <= 0.95f) {
-                    var moisture = state.getValue(BlockFarmland.MOISTURE)
-                    val fluidNeeded = Math.min(2, 7 - moisture) * 15
-                    if (fluidNeeded > 0 && this.waterTank!!.fluidAmount >= fluidNeeded) {
-                        moisture = Math.min(7, moisture + 2)
-                        this.getWorld().setBlockState(landPos, state.withProperty(BlockFarmland.MOISTURE, moisture))
-                        this.waterTank!!.drain(fluidNeeded, true)
-                        result += 0.05f
-                    }
+                if (farmLand.moisturize(this.waterTank!!, this.getWorld(), landPos)) {
+                    result += 0.05f
                 }
 
-                //endregion
-            } else if (state.block === Blocks.GRASS || state.block === Blocks.DIRT || state.block === Blocks.GRASS_PATH) {
-                //region hoe land
+                //#endregion
+            } else if (hoes.isNotEmpty() && (player != null)
+                    && this.getWorld().isAirBlock(pos)
+                    && !this.getWorld().isAirBlock(landPos)
+                    && (result <= 0.7f)) {
+                //#region hoe land
 
-                if (this.getWorld().isAirBlock(pos) && result <= 0.7f) {
-                    // find hoe
-                    var hoeSlot = -1
-                    for (i in 0..inputs.slots - 1) {
-                        val stack = inputs.getStackInSlot(i)
-                        if (!ItemStackUtil.isEmpty(stack) && stack.item is ItemHoe) {
-                            hoeSlot = i
+                for (hoe in hoes) {
+                    val hoeStack = inputs.getStackInSlot(hoe.first)
+                    if (!hoeStack.isEmpty && (hoe.second != null)) {
+                        player.setHeldItem(EnumHand.MAIN_HAND, hoeStack)
+                        if (hoe.second!!.hoe(player, hoeStack, this.getWorld(), landPos)) {
+                            result += 0.3f
                             break
                         }
                     }
-
-                    if (hoeSlot >= 0) {
-                        // hoe land
-                        this.getWorld().setBlockState(landPos, Blocks.FARMLAND.defaultState)
-                        if (inputs.getStackInSlot(hoeSlot).attemptDamageItem(1, this.getWorld().rand, TeslaThingiesMod.getFakePlayer(this.getWorld()))) {
-                            inputs.setStackInSlot(hoeSlot, ItemStackUtil.emptyStack)
-                        }
-                        result += 0.3f
-                    }
                 }
 
-                //endregion
+                //#endregion
             }
 
             if (result > 0.95f) {
