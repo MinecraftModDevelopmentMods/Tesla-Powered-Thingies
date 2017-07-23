@@ -124,19 +124,19 @@ object MultiTankBlock
                             .addFace(EnumFacing.NORTH).uv(0.0f, 0.0f, 8.0f, 0.5f)
                             .addFace(EnumFacing.EAST).uv(0.0f, 0.0f, 8.0f, 0.5f)
                             .addFace(EnumFacing.SOUTH).uv(0.0f, 0.0f, 8.0f, 0.5f),
-                    RawCube(Vec3d(0.0, 2.0, 0.0), Vec3d(14.0, 30.0, 14.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(1.0, 2.0, 1.0), Vec3d(15.0, 30.0, 15.0), Textures.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.SOUTH).uv(4.5f, 0.5f, 8.0f, 7.5f)
                             .addFace(EnumFacing.EAST).uv(4.5f, 0.5f, 8.0f, 7.5f),
-                    RawCube(Vec3d(18.0, 2.0, 0.0), Vec3d(32.0, 30.0, 14.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(17.0, 2.0, 1.0), Vec3d(31.0, 30.0, 15.0), Textures.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.SOUTH).uv(4.5f, 0.5f, 8.0f, 7.5f)
                             .addFace(EnumFacing.WEST).uv(4.5f, 0.5f, 8.0f, 7.5f),
-                    RawCube(Vec3d(18.0, 2.0, 18.0), Vec3d(32.0, 30.0, 32.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(17.0, 2.0, 17.0), Vec3d(31.0, 30.0, 31.0), Textures.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.NORTH).uv(4.5f, 0.5f, 8.0f, 7.5f)
                             .addFace(EnumFacing.WEST).uv(4.5f, 0.5f, 8.0f, 7.5f),
-                    RawCube(Vec3d(0.0, 2.0, 18.0), Vec3d(14.0, 30.0, 32.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(1.0, 2.0, 17.0), Vec3d(15.0, 30.0, 31.0), Textures.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.NORTH).uv(4.5f, 0.5f, 8.0f, 7.5f)
                             .addFace(EnumFacing.EAST).uv(4.5f, 0.5f, 8.0f, 7.5f),
@@ -151,27 +151,27 @@ object MultiTankBlock
         }
         if ((layer == BlockRenderLayer.CUTOUT) || (layer == null)) {
             bakeries.add(listOf(
-                    RawCube(Vec3d(0.0, 2.0, 0.0), Vec3d(14.0, 30.0, 14.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(1.0, 2.0, 1.0), Vec3d(15.0, 30.0, 15.0), Textures.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.NORTH).uv(0.0f, 8.5f, 3.5f, 15.5f)
                             .addFace(EnumFacing.WEST).uv(0.0f, 8.5f, 3.5f, 15.5f),
-                    RawCube(Vec3d(18.0, 2.0, 0.0), Vec3d(32.0, 30.0, 14.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(17.0, 2.0, 1.0), Vec3d(31.0, 30.0, 15.0), Textures.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.NORTH).uv(0.0f, 8.5f, 3.5f, 15.5f)
                             .addFace(EnumFacing.EAST).uv(0.0f, 8.5f, 3.5f, 15.5f),
-                    RawCube(Vec3d(18.0, 2.0, 18.0), Vec3d(32.0, 30.0, 32.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(17.0, 2.0, 17.0), Vec3d(31.0, 30.0, 31.0), Textures.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.SOUTH).uv(0.0f, 8.5f, 3.5f, 15.5f)
                             .addFace(EnumFacing.EAST).uv(0.0f, 8.5f, 3.5f, 15.5f),
-                    RawCube(Vec3d(0.0, 2.0, 18.0), Vec3d(14.0, 30.0, 32.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(1.0, 2.0, 17.0), Vec3d(15.0, 30.0, 31.0), Textures.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.SOUTH).uv(0.0f, 8.5f, 3.5f, 15.5f)
                             .addFace(EnumFacing.WEST).uv(0.0f, 8.5f, 3.5f, 15.5f)
             ).combine().static())
         }
         if ((layer == BlockRenderLayer.TRANSLUCENT) || (layer == null)) {
-            val xs = arrayOf(0.1, 0.1, 18.1, 18.1)
-            val zs = arrayOf(0.1, 18.1, 18.1, 0.1)
+            val xs = arrayOf(1.1, 1.1, 17.1, 17.1)
+            val zs = arrayOf(1.1, 17.1, 17.1, 1.1)
             val f1s = arrayOf(EnumFacing.NORTH, EnumFacing.SOUTH, EnumFacing.SOUTH, EnumFacing.NORTH)
             val f2s = arrayOf(EnumFacing.WEST, EnumFacing.WEST, EnumFacing.EAST, EnumFacing.EAST)
             (0..3).mapTo(bakeries) {
