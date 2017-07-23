@@ -68,6 +68,10 @@ class TreeScanner /*implements INBTSerializable<NBTTagCompound>*/ {
         return if (this.scanned == null) 0 else this.scanned!!.size
     }
 
+    fun pendingCount(): Int {
+        return if (this.toScan == null) 0 else this.toScan!!.size
+    }
+
     fun popScannedPos(): BlockPos? {
         if (this.scanned == null || this.scanned!!.size == 0) {
             return null

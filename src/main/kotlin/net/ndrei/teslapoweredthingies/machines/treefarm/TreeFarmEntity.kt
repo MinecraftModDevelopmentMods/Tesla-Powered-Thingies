@@ -3,8 +3,17 @@ package net.ndrei.teslapoweredthingies.machines.treefarm
 import com.google.common.collect.Lists
 import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.util.text.TextFormatting
+import net.minecraftforge.common.util.Constants
+import net.ndrei.teslacorelib.TeslaCoreLib
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
+import net.ndrei.teslacorelib.gui.BasicRenderedGuiPiece
+import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
+import net.ndrei.teslacorelib.gui.IGuiContainerPiece
+import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.common.GuiPieceSide
 import net.ndrei.teslapoweredthingies.machines.CROP_FARM_WORK_AREA_COLOR
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
@@ -14,6 +23,11 @@ import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
  */
 class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashCode()) {
     private val scanner = TreeScanner()
+    private var lastScan = 0
+    private var scannedBlocks = 0
+    private var pendingBlocks = 0
+
+    //#region inventory & gui management
 
     override fun acceptsInputStack(slot: Int, stack: ItemStack): Boolean {
         if (stack.isEmpty)
@@ -24,13 +38,54 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
         }
 
         return (TreeWrapperFactory.getSaplingWrapper(stack) != null)
-//        return TreeFarmEntity.acceptedItems.contains(stack.item)
     }
 
     override val lockableInputLockPosition: GuiPieceSide
         get() = GuiPieceSide.LEFT
 
     override fun getWorkAreaColor(): Int = CROP_FARM_WORK_AREA_COLOR
+
+    override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
+        val list = super.getGuiContainerPieces(container)
+
+        list.add(object: BasicRenderedGuiPiece(45, 45, 14, 14, Textures.MACHINES_TEXTURES.resource, 100, 96) {
+            override fun drawForegroundTopLayer(container: BasicTeslaGuiContainer<*>, guiX: Int, guiY: Int, mouseX: Int, mouseY: Int) {
+                super.drawForegroundTopLayer(container, guiX, guiY, mouseX, mouseY)
+
+                if (this.isInside(container, mouseX, mouseY)) {
+                    container.drawTooltip(if ((this@TreeFarmEntity.scannedBlocks == 0) && (this@TreeFarmEntity.pendingBlocks == 0))
+                            listOf("${TextFormatting.GRAY}waiting for a tree")
+                        else listOf(
+                            "${TextFormatting.RED}${this@TreeFarmEntity.scannedBlocks} blocks scanned",
+                            "${TextFormatting.GREEN}${this@TreeFarmEntity.pendingBlocks} blocks pending",
+                            "${TextFormatting.GRAY}last scan: ${this@TreeFarmEntity.lastScan}"
+                    ), this.left + this.width, this.top)
+                }
+            }
+        })
+
+        return list
+    }
+
+    override fun processServerMessage(messageType: String, compound: NBTTagCompound): SimpleNBTMessage? {
+        val result = super.processServerMessage(messageType, compound)
+
+        when (messageType) {
+            "update_scanner" -> {
+                this.scannedBlocks = if (compound.hasKey("blocks", Constants.NBT.TAG_INT)) compound.getInteger("blocks") else 0
+                this.pendingBlocks = if (compound.hasKey("pending", Constants.NBT.TAG_INT)) compound.getInteger("pending") else 0
+                this.lastScan =  if (compound.hasKey("last", Constants.NBT.TAG_INT)) compound.getInteger("last") else 0
+            }
+        }
+
+        return result
+    }
+
+    override fun processClientMessage(messageType: String?, compound: NBTTagCompound): SimpleNBTMessage? {
+        return super.processClientMessage(messageType, compound)
+    }
+
+    //#endregion
 
     override fun performWork(): Float {
         val facing = super.facing
@@ -40,6 +95,18 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
         //#region scan trees
 
         result += this.scanner.scan(this.getWorld(), cube, SCAN_PERCENT, 1.0f)
+        val scanned = Math.round(result / SCAN_PERCENT)
+        if ((this.scannedBlocks != this.scanner.blockCount()) || (this.pendingBlocks != this.scanner.pendingCount()) || (this.lastScan != scanned)) {
+            this.scannedBlocks = this.scanner.blockCount()
+            this.pendingBlocks = this.scanner.pendingCount()
+            this.lastScan = scanned
+
+            TeslaCoreLib.network.send(SimpleNBTMessage(this, this.setupSpecialNBTMessage("update_scanner").also {
+                it.setInteger("blocks", this.scannedBlocks)
+                it.setInteger("pending", this.pendingBlocks)
+                it.setInteger("last", this.lastScan)
+            }))
+        }
 
         //#endregion
 
@@ -129,13 +196,6 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
     }
 
     companion object {
-//        private val acceptedItems = ArrayList<Item>()
-//
-//        init {
-//            TreeFarmEntity.acceptedItems.add(Items.SHEARS)
-//            TreeFarmEntity.acceptedItems.add(Item.getItemFromBlock(Blocks.SAPLING))
-//        }
-
         private const val SCAN_PERCENT = 0.025f
         private const val BREAK_PERCENT = 0.05f
         private const val PLANT_PERCENT = 0.10f
