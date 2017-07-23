@@ -1,6 +1,7 @@
 package net.ndrei.teslapoweredthingies.gui
 
 import net.minecraft.block.Block
+import net.minecraft.client.renderer.GlStateManager
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.SideDrawerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
@@ -18,11 +19,14 @@ class OpenJEICategoryPiece(private val block: Block, topIndex: Int = 1) : SideDr
         // container.mc.textureManager.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
         Textures.MACHINES_TEXTURES.bind(container)
 
-        // GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
+        GlStateManager.enableBlend()
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
+        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
         container.drawTexturedModalRect(
                 box.left, box.top + 1,
                 81, 7,
                 14, 14)
+        GlStateManager.disableBlend()
     }
 
     override fun getStateToolTip(state: Int)
