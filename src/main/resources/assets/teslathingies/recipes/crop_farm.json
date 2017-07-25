@@ -1,0 +1,26 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.farm.blocks",
+  "result": { "item": "teslathingies:crop_farm" },
+  "pattern": [
+    "sys",
+    "pcp",
+    "wgw"
+  ],
+  "key": {
+    "s": [
+      { "type": "forge:ore_dict", "ore": "cropCarrot" },
+      { "type": "forge:ore_dict", "ore": "cropPotato" },
+      { "item": "minecraft:wheat_seeds" }
+    ],
+    "y": { "item": "minecraft:diamond_hoe" },
+    "p": [
+      { "type": "forge:ore_dict", "ore": "cropCarrot" },
+      { "type": "forge:ore_dict", "ore": "cropPotato" },
+      { "type": "forge:ore_dict", "ore": "cropWheat" }
+    ],
+    "c": { "item": "teslacorelib:machine_case" },
+    "w": { "type": "forge:ore_dict", "ore": "plankWood" },
+    "g": { "type": "forge:ore_dict", "ore": "gearStone" }
+  }
+}
