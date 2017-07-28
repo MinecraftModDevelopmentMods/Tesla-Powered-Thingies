@@ -1,5 +1,5 @@
 buildscript {
-    ext.kotlin_version = '1.1.3'
+    ext.kotlin_version = project.kotlin_version
     repositories {
         mavenCentral()
         maven { url = "http://files.minecraftforge.net/maven" }
@@ -8,7 +8,7 @@ buildscript {
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${project.kotlin_version}"
     }
 }
 apply plugin: "net.minecraftforge.gradle.forge"
@@ -16,65 +16,79 @@ apply plugin: 'kotlin'
 apply plugin: "maven-publish"
 apply plugin: "maven"
 
-archivesBaseName = "teslathingies"
-group = "net.ndrei.$archivesBaseName" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = project.mod_name.replace(' ', '-').toLowerCase()
+group = "net.ndrei"
 
 version = "${project.minecraft_version}-${project.mod_version}"
 if (project.hasProperty('mod_suffix')) {
     version += "-${project.mod_suffix}"
-    if (project.mod_suffix == 'snapshot') {
-        version += "_" + getDate()
-    }
 }
 
-compileJava {
-    sourceCompatibility = targetCompatibility = "1.8"
-}
+compileJava { sourceCompatibility = targetCompatibility = "1.8" }
+compileKotlin { kotlinOptions { jvmTarget = "1.8" } }
 
 minecraft {
-    version = "${minecraft_version}-${forge_version}"
-    mappings = "${mcp_version}"
+    version = "${project.minecraft_version}-${project.forge_version}"
+    mappings = "${project.mcp_version}"
     runDir = "run"
-    makeObfSourceJar = false
 
-    replace "@VERSION@", project.version
-    replaceIn "TeslaThingiesMod.kt"
+    replace '@MOD-ID@', project.mod_id
+    replace '@MOD-NAME@', project.mod_name
+    replace '@MOD-VERSION@', project.mod_version
+    replace '@MOD-MC-VERSION@', project.minecraft_version
+    replace '@FORGELIN-VERSION@', project.forgelin_version
+    replace '@FORGE-VERSION@', project.forge_version
+    replace '@TESLA-CORE-LIB-VERSION@', project.teslacorelib_version
+
+    replaceIn 'constants.kt'
 }
+
+// Mad hacks to make source replacements work for Kotlin
+// "stolen" from: https://github.com/PaleoCrafter/VanillaImmersion/blob/ee82ecafb76659cf7d7822a722c8f63f43f41d01/build.gradle#L119-L136
+import net.minecraftforge.gradle.user.TaskSourceCopy
+for (set in sourceSets) {
+    def taskName = "source${set.name.capitalize()}Kotlin"
+    def dir = new File(project.getBuildDir(), "sources/${set.name}/kotlin")
+    task(taskName, type: TaskSourceCopy) {
+        source = set.getKotlin()
+        output = dir
+    }
+    def compileTask = tasks[set.getCompileTaskName("kotlin")]
+    compileTask.source = dir
+    compileTask.dependsOn taskName
+    def dirPath = dir.toPath()
+    compileKotlin.include {
+        return it.file.toPath().startsWith(dirPath)
+    }
+}
+// end of "stolen" part :)
 
 configurations {
     compile.extendsFrom exportedCompile
     deployerJars
 
-    all {
-        resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
-    }
+    all { resolutionStrategy.cacheChangingModulesFor 0, 'seconds' }
 }
 
 repositories {
     mavenCentral()
     mavenLocal()
     jcenter()
-    maven { url 'http://maven.epoxide.xyz' }
-    maven { url 'http://maven.ndrei.net' }
-    maven { url "http://dvs1.progwml6.com/files/maven" }
-    maven { url 'http://maven.shadowfacts.net/' }
-    maven { url 'http://maven.covers1624.net' }
+    maven { name='mine'; url='http://maven.ndrei.net' }
+    maven { name='forgelin'; url='http://maven.shadowfacts.net/' }
+
+    maven { name='jei'; url="http://dvs1.progwml6.com/files/maven" }
 }
 
 dependencies {
     deployerJars 'org.apache.maven.wagon:wagon-ftp:2.2'
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
-    compile "net.shadowfacts:Forgelin:$forgelin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:${project.kotlin_version}"
+    compile "net.shadowfacts:Forgelin:${project.forgelin_version}"
 
-    compile ("net.ndrei.tesla-core-lib:tesla-core-lib:${minecraft_version}-${tesla_core_version}:deobf") { changing = true }
+    compile ("net.ndrei:tesla-core-lib:${project.minecraft_version}-${project.teslacorelib_version}:deobf") { changing = true }
 
-    // compile against the JEI API
-    deobfCompile "mezz.jei:jei_${minecraft_version}:${jei_version}:api"
-    // at runtime, use the full JEI jar
-    runtime "mezz.jei:jei_${minecraft_version}:${jei_version}"
-
-    // compile "net.darkhax.tesla:Tesla-1.12:${tesla_version}:deobf"
-    compileOnly "cofh:RedstoneFlux:1.12-$redstoneflux_version:universal"
+    deobfCompile "mezz.jei:jei_${project.minecraft_version}:${project.jei_version}:api"
+    runtime "mezz.jei:jei_${project.minecraft_version}:${project.jei_version}"
 }
 
 processResources {
@@ -119,22 +133,5 @@ if (project.hasProperty('mavenFTPServer') && project.hasProperty('mavenFTPUser')
             }
         }
     }
+    uploadArchives.dependsOn build, sourcesJar, deobfJar
 }
-uploadArchives.dependsOn build, sourcesJar, deobfJar
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-compileTestKotlin {
-    kotlinOptions {
-        jvmTarget = "1.8"
-    }
-}
-
-def getDate() {
-    def date = new Date()
-    def formattedDate = date.format('yyyyMMdd') // HHmmss')
-    return formattedDate
-}
-

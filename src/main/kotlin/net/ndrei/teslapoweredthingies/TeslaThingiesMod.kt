@@ -21,10 +21,21 @@ import org.apache.logging.log4j.Logger
 /**
  * Created by CF on 2017-06-30.
  */
-@Mod(modid = TeslaThingiesMod.MODID, version = TeslaThingiesMod.VERSION,
-        name = "Tesla Power Thingies", dependencies = "required-after:teslacorelib", useMetadata = true,
-        modLanguage = "kotlin", modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter")
-class TeslaThingiesMod {
+@Mod(modid = MOD_ID, version = MOD_VERSION, name = MOD_NAME,
+        dependencies = MOD_DEPENDENCIES, acceptedMinecraftVersions = MOD_MC_VERSION,
+        useMetadata = true, modLanguage = "kotlin", modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter")
+object TeslaThingiesMod {
+    const val MODID = MOD_ID
+
+    @SidedProxy(clientSide = "net.ndrei.teslapoweredthingies.client.ClientProxy", serverSide = "net.ndrei.teslapoweredthingies.common.CommonProxy")
+    lateinit var proxy: CommonProxy
+    lateinit var logger: Logger
+
+    val creativeTab: CreativeTabs = object : CreativeTabs("Tesla Powered Thingies") {
+        override fun getIconItemStack() = ItemStack(FluidBurnerBlock)
+        override fun getTabIconItem() = this.iconItemStack
+    }
+
     @Mod.EventHandler
     fun construction(event: FMLConstructionEvent) {
         // Use forge universal bucket
@@ -50,47 +61,24 @@ class TeslaThingiesMod {
         proxy.postInit(e)
     }
 
-    companion object {
-        const val MODID = "teslathingies"
-        const val VERSION = "@VERSION@"
+    private val fakePlayers = mutableMapOf<String, FakePlayer>()
 
-        @Mod.Instance
-        lateinit var instance: TeslaThingiesMod
-
-        @SidedProxy(clientSide = "net.ndrei.teslapoweredthingies.client.ClientProxy", serverSide = "net.ndrei.teslapoweredthingies.common.CommonProxy")
-        lateinit var proxy: CommonProxy
-
-        lateinit var logger: Logger
-
-        var creativeTab: CreativeTabs = object : CreativeTabs("Tesla Powered Thingies") {
-            override fun getIconItemStack(): ItemStack {
-                return ItemStack(FluidBurnerBlock)
+    fun getFakePlayer(world: World?): FakePlayer? {
+        val key = if (world != null && world.provider != null)
+            String.format("%d", world.provider.dimension)
+        else
+            null
+        if (key != null) {
+            if (fakePlayers.containsKey(key)) {
+                return fakePlayers[key]
             }
 
-            override fun getTabIconItem(): ItemStack {
-                return this.iconItemStack
+            if (world is WorldServer) {
+                val player = FakePlayerFactory.getMinecraft(world) // FakePlayer(world, )
+                fakePlayers[key] = player
+                return player
             }
         }
-
-        private val fakePlayers = mutableMapOf<String, FakePlayer>()
-
-        fun getFakePlayer(world: World?): FakePlayer? {
-            val key = if (world != null && world.provider != null)
-                String.format("%d", world.provider.dimension)
-            else
-                null
-            if (key != null) {
-                if (fakePlayers.containsKey(key)) {
-                    return fakePlayers[key]
-                }
-
-                if (world is WorldServer) {
-                    val player = FakePlayerFactory.getMinecraft(world) // FakePlayer(world, )
-                    fakePlayers[key] = player
-                    return player
-                }
-            }
-            return null
-        }
+        return null
     }
 }
