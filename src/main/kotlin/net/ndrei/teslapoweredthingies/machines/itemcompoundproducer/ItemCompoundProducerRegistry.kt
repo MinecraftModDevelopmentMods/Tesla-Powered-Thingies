@@ -35,7 +35,7 @@ object ItemCompoundProducerRegistry : IRegistryHandler {
             val color = MaterialColors.getColor(it)
             if (color != null) {
                 val lump = BaseColoredTeslaLump(it, color)
-                lump.register(registry)
+                lump.registerItem(registry)
                 OreDictionary.registerOre("teslaLump${it.capitalize()}", lump)
                 this.registeredLumps.add(lump)
             }

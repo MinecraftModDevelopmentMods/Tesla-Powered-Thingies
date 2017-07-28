@@ -17,13 +17,14 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.blocks.ISelfRegisteringBlock
+import net.ndrei.teslacorelib.render.ISelfRegisteringRenderer
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 
 /**
  * Created by CF on 2017-07-07.
  */
 abstract class FiniteFluidThingyBlock(fluid: Fluid, color: MapColor)
-    :  BlockFluidFinite(fluid, MaterialLiquid(color)), ISelfRegisteringBlock {
+    :  BlockFluidFinite(fluid, MaterialLiquid(color)), ISelfRegisteringBlock, ISelfRegisteringRenderer {
     init {
         this.setRegistryName(TeslaThingiesMod.MODID, "${this.fluid.name}_block")
         this.unlocalizedName = "${TeslaThingiesMod.MODID}.${this.fluid.name}.block"
@@ -32,16 +33,18 @@ abstract class FiniteFluidThingyBlock(fluid: Fluid, color: MapColor)
         this.setRenderLayer(BlockRenderLayer.SOLID)
     }
 
-    override fun register(blockRegistry: IForgeRegistry<Block>, itemRegistry: IForgeRegistry<Item>) {
-        blockRegistry.register(this)
-        val item = ItemBlock(this)
-        item.registryName = this.registryName
-        itemRegistry.register(item)
+    override fun registerBlock(registry: IForgeRegistry<Block>) {
+        registry.register(this)
     }
 
-    @Suppress("unused")
+    override fun registerItem(registry: IForgeRegistry<Item>) {
+        val item = ItemBlock(this)
+        item.registryName = this.registryName
+        registry.register(item)
+    }
+
     @SideOnly(Side.CLIENT)
-    fun registerRenderer() {
+    override fun registerRenderer() {
         val item = Item.getItemFromBlock(this)
         ModelBakery.registerItemVariants(item)
 

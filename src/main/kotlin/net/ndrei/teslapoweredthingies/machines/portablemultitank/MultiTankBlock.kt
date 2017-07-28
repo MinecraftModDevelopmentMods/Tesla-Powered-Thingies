@@ -92,7 +92,7 @@ object MultiTankBlock
     override fun createBlockState()
             = ExtendedBlockState(this, arrayOf(FACING), arrayOf(FLUID_1_PROP, FLUID_2_PROP, FLUID_3_PROP, FLUID_4_PROP))
 
-    override fun registerItemBlock(registry: IForgeRegistry<Item>) {
+    override fun registerItem(registry: IForgeRegistry<Item>) {
         registry.register(MultiTankItem)
     }
 
