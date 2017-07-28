@@ -10,7 +10,6 @@ import net.ndrei.teslacorelib.gui.FluidTankPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.FluidTank
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
-import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 
 /**
  * Created by CF on 2017-07-16.
@@ -67,7 +66,7 @@ class MultiTankEntity
             else
                 !initialFluids[it]!!.isFluidStackIdentical(finalFluids[it])
         }) {
-            TeslaThingiesMod.logger.info("Marked for render update: ${this.pos}")
+//            TeslaThingiesMod.logger.info("Marked for render update: ${this.pos}")
             this.getWorld().markBlockRangeForRenderUpdate(this.pos, this.pos)
         }
     }
