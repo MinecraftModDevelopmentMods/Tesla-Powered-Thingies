@@ -51,7 +51,7 @@ class MultiTankEntity
         this.getWorld().markBlockRangeForRenderUpdate(this.getPos(), this.getPos())
     }
 
-    override fun getRenderers(): MutableList<TileEntitySpecialRenderer<in TileEntity>> {
+    override fun getRenderers(): MutableList<TileEntitySpecialRenderer<TileEntity>> {
         return super.getRenderers().also { it.add(SelfRenderingTESR) }
     }
 
