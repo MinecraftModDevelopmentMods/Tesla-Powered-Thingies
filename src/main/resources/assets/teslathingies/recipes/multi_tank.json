@@ -1,0 +1,15 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.machine.multi_tank",
+  "result": { "item": "teslathingies:multi_tank" },
+  "pattern": [
+    "gbg",
+    "gcg",
+    "gbg"
+  ],
+  "key": {
+    "b": { "item": "minecraft:bucket" },
+    "c": { "item": "teslacorelib:machine_case" },
+    "g": { "type": "forge:ore_dict", "ore": "blockGlass" }
+  }
+}
