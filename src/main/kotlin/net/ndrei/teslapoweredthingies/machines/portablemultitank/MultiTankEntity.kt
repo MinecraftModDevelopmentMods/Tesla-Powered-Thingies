@@ -1,15 +1,17 @@
 package net.ndrei.teslapoweredthingies.machines.portablemultitank
 
+import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.world.World
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.IFluidTank
-import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.gui.FluidTankPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.FluidTank
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
+import net.ndrei.teslapoweredthingies.render.bakery.SelfRenderingTESR
 
 /**
  * Created by CF on 2017-07-16.
@@ -17,8 +19,6 @@ import net.ndrei.teslacorelib.tileentities.SidedTileEntity
 class MultiTankEntity
     : SidedTileEntity(MultiTankEntity::class.java.name.hashCode()) {
 
-    private lateinit var inputItems: ItemStackHandler
-    private lateinit var outputItems: ItemStackHandler
     private lateinit var tanks: MutableList<IFluidTank>
 
     override fun initializeInventories() {
@@ -39,18 +39,20 @@ class MultiTankEntity
                 fun setTankIndex(idx: Int) = this.also { it.tankIndex = idx }
             }.setTankIndex(index))
 
-//            val fluid = FluidRegistry.getRegisteredFluids().values.toTypedArray()[
-//                    Random().nextInt(FluidRegistry.getRegisteredFluids().size)]
-//            this.tanks[index].fill(FluidStack(fluid, Random().nextInt(6000)), true)
-
             super.addFluidTank(this.tanks[index], it, "Tank $index",
                     BoundingRectangle(20 + FluidTankPiece.WIDTH * index, 24, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT))
         }
     }
 
+    override fun supportsAddons() = false
+
     override fun setWorld(worldIn: World?) {
         super.setWorld(worldIn)
         this.getWorld().markBlockRangeForRenderUpdate(this.getPos(), this.getPos())
+    }
+
+    override fun getRenderers(): MutableList<TileEntitySpecialRenderer<in TileEntity>> {
+        return super.getRenderers().also { it.add(SelfRenderingTESR) }
     }
 
     fun getFluid(tankIndex: Int): FluidStack? = this.tanks[tankIndex].fluid
@@ -66,7 +68,6 @@ class MultiTankEntity
             else
                 !initialFluids[it]!!.isFluidStackIdentical(finalFluids[it])
         }) {
-//            TeslaThingiesMod.logger.info("Marked for render update: ${this.pos}")
             this.getWorld().markBlockRangeForRenderUpdate(this.pos, this.pos)
         }
     }
