@@ -5,8 +5,11 @@ import mezz.jei.api.IModPlugin
 import mezz.jei.api.IModRegistry
 import mezz.jei.api.JEIPlugin
 import mezz.jei.api.recipe.IRecipeCategoryRegistration
+import mezz.jei.api.recipe.VanillaRecipeCategoryUid
 import net.minecraft.block.Block
+import net.minecraft.item.ItemStack
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.machines.poweredkiln.PoweredKilnBlock
 
 /**
  * Created by CF on 2017-06-30.
@@ -15,6 +18,8 @@ import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 class TheJeiThing : IModPlugin {
     override fun register(registry: IModRegistry) {
         TheJeiThing.blocksMap.values.forEach { it.register(registry) }
+
+        registry.addRecipeCatalyst(ItemStack(PoweredKilnBlock), VanillaRecipeCategoryUid.SMELTING)
     }
 
     override fun registerCategories(registry: IRecipeCategoryRegistration?) {
