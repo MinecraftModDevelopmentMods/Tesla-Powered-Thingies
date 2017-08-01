@@ -30,15 +30,15 @@ object FluidSolidifierCategory
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: FluidSolidifierRecipeWrapper, ingredients: IIngredients) {
         val fluids = recipeLayout.fluidStacks
 
-        fluids.init(0, true, 8, 15, 8, 27, recipeWrapper.recipe.lavaMbMin, true, lavaOverlay)
+        fluids.init(0, true, 8, 15, 8, 27, 1000, true, lavaOverlay)
         fluids.set(0, ingredients.getInputs(FluidStack::class.java)[0])
-        fluids.init(1, true, 20, 15, 8, 27, recipeWrapper.recipe.waterMbMin, true, waterOverlay)
+        fluids.init(1, true, 20, 15, 8, 27, 1000, true, waterOverlay)
         fluids.set(1, ingredients.getInputs(FluidStack::class.java)[1])
 
-        fluids.init(2, true, 43, 15, 8, 27, recipeWrapper.recipe.lavaMbMin, true, lavaOverlay)
-        fluids.set(2, FluidStack(FluidRegistry.LAVA, recipeWrapper.recipe.lavaMbConsumed))
-        fluids.init(3, true, 55, 15, 8, 27, recipeWrapper.recipe.waterMbMin, true, waterOverlay)
-        fluids.set(3, FluidStack(FluidRegistry.WATER, recipeWrapper.recipe.waterMbConsumed))
+        fluids.init(2, true, 43, 15, 8, 27, 1000, true, lavaOverlay)
+        fluids.set(2, FluidStack(FluidRegistry.LAVA, recipeWrapper.recipe.lavaMbMin - recipeWrapper.recipe.lavaMbConsumed))
+        fluids.init(3, true, 55, 15, 8, 27, 1000, true, waterOverlay)
+        fluids.set(3, FluidStack(FluidRegistry.WATER, recipeWrapper.recipe.waterMbMin - recipeWrapper.recipe.waterMbConsumed))
 
         val stacks = recipeLayout.itemStacks
         stacks.init(0, false, 77, 20)
