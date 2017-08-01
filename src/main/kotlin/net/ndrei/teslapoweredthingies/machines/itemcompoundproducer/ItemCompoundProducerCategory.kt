@@ -29,14 +29,14 @@ object ItemCompoundProducerCategory
 
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: RecipeWrapper, ingredients: IIngredients) {
         val fluids = recipeLayout.fluidStacks
-        fluids.init(0, true, 36, 18, 8, 27, 1000, true, fluidOverlay)
+        fluids.init(0, true, 8, 15, 8, 27, 1000, true, fluidOverlay)
         fluids.set(0, ingredients.getInputs(FluidStack::class.java)[0])
 
         val stacks = recipeLayout.itemStacks
-        stacks.init(0, false, 6, 23)
+        stacks.init(0, true, 30, 20)
         stacks.set(0, ingredients.getInputs(ItemStack::class.java)[0])
 
-        stacks.init(1, false, 56, 23)
+        stacks.init(1, false, 61, 20)
         stacks.set(1, ingredients.getOutputs(ItemStack::class.java)[0])
     }
 
@@ -59,8 +59,8 @@ object ItemCompoundProducerCategory
     override fun register(registry: IRecipeCategoryRegistration) {
         super.register(registry)
 
-        this.recipeBackground = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 124, 66, 124, 66)
-        fluidOverlay = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 160, 84, 8, 27)
+        this.recipeBackground = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 124, 132, 124, 66)
+        fluidOverlay = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 132, 147, 8, 27)
     }
 
     override fun register(registry: IModRegistry) {

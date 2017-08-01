@@ -17,17 +17,17 @@ import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.FluidTank
 import net.ndrei.teslacorelib.inventory.LockableItemHandler
-import net.ndrei.teslacorelib.tileentities.ElectricMachine
 import net.ndrei.teslacorelib.utils.insertItems
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.gui.*
+import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 import net.ndrei.teslapoweredthingies.render.DualTankEntityRenderer
 
 /**
  * Created by CF on 2017-07-13.
  */
 class ItemCompoundProducerEntity
-    : ElectricMachine(ItemCompoundProducerEntity::class.java.name.hashCode()), IMultiTankMachine {
+    : BaseThingyMachine(ItemCompoundProducerEntity::class.java.name.hashCode()), IMultiTankMachine {
 
     private lateinit var inputItems: LockableItemHandler
     private lateinit var inputFluid: IFluidTank
