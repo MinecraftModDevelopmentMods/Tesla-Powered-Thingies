@@ -4,3 +4,4 @@
 - 'fluid solidifier' JEI screen got an update
 
 # 1.0.8
+- added 'fluid compound producer' (combines fluids into other fluids)

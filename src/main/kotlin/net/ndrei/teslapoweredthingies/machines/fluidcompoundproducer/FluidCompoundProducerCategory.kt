@@ -7,7 +7,6 @@ import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
 import net.minecraft.client.Minecraft
-import net.minecraft.item.ItemStack
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
@@ -19,8 +18,8 @@ import net.ndrei.teslapoweredthingies.integrations.jei.TeslaThingyJeiCategory
  * Created by CF on 2017-07-06.
  */
 @TeslaThingyJeiCategory
-object ItemCompoundProducerCategory
-    : BaseCategory<ItemCompoundProducerCategory.RecipeWrapper>(ItemCompoundProducerBlock) {
+object FluidCompoundProducerCategory
+    : BaseCategory<FluidCompoundProducerCategory.RecipeWrapper>(FluidCompoundProducerBlock) {
 
     private lateinit var fluidOverlay: IDrawable
 
@@ -29,22 +28,21 @@ object ItemCompoundProducerCategory
         fluids.init(0, true, 8, 15, 8, 27, 1000, true, fluidOverlay)
         fluids.set(0, ingredients.getInputs(FluidStack::class.java)[0])
 
-        val stacks = recipeLayout.itemStacks
-        stacks.init(0, true, 30, 20)
-        stacks.set(0, ingredients.getInputs(ItemStack::class.java)[0])
+        fluids.init(1, true, 30, 20)
+        fluids.set(0, ingredients.getInputs(FluidStack::class.java)[1])
 
-        stacks.init(1, false, 61, 20)
-        stacks.set(1, ingredients.getOutputs(ItemStack::class.java)[0])
+        fluids.init(2, false, 61, 20)
+        fluids.set(1, ingredients.getOutputs(FluidStack::class.java)[0])
     }
 
-    class RecipeWrapper(val recipe: ItemCompoundProducerRecipe)
+    class RecipeWrapper(val recipe: FluidCompoundProducerRecipe)
         : IRecipeWrapper {
 
         override fun getIngredients(ingredients: IIngredients) {
-            ingredients.setInput(FluidStack::class.java, this.recipe.inputFluid.copy())
-            ingredients.setInput(ItemStack::class.java, this.recipe.inputStack.copy())
+            ingredients.setInput(FluidStack::class.java, this.recipe.inputA.copy())
+            ingredients.setInput(FluidStack::class.java, this.recipe.inputB.copy())
 
-            ingredients.setOutput(ItemStack::class.java, this.recipe.result.copy())
+            ingredients.setOutput(FluidStack::class.java, this.recipe.output.copy())
         }
 
         @SideOnly(Side.CLIENT)
@@ -63,7 +61,7 @@ object ItemCompoundProducerCategory
     override fun register(registry: IModRegistry) {
         super.register(registry)
 
-        registry.handleRecipes(ItemCompoundProducerRecipe::class.java, { RecipeWrapper(it) }, this.uid)
-        registry.addRecipes(ItemCompoundProducerRecipes.recipes, this.uid)
+        registry.handleRecipes(FluidCompoundProducerRecipe::class.java, { RecipeWrapper(it) }, this.uid)
+        registry.addRecipes(FluidCompoundProducerRecipes.recipes, this.uid)
     }
 }
