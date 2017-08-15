@@ -17,6 +17,7 @@ enum class Textures(path: String) {
     FARM_TEXTURES("textures/gui/farm_machines.png"),
     MOST_TEXTURES("textures/gui/most_machines.png"),
     JEI_TEXTURES("textures/gui/jei.png"),
+    JEI_TEXTURES_2("textures/gui/jei-2.png"),
     JUST_NOISE("textures/blocks/just_noise.png"),
     MULTI_TANK_SIDE("blocks/multi_tank-side"),
     INSIDE_TANK("textures/blocks/inside_tank.png");

@@ -28,20 +28,18 @@ object FluidCompoundProducerCategory
         fluids.init(0, true, 8, 15, 8, 27, 1000, true, fluidOverlay)
         fluids.set(0, ingredients.getInputs(FluidStack::class.java)[0])
 
-        fluids.init(1, true, 30, 20)
-        fluids.set(0, ingredients.getInputs(FluidStack::class.java)[1])
+        fluids.init(1, true, 31, 15, 8, 27, 1000, true, fluidOverlay)
+        fluids.set(1, ingredients.getInputs(FluidStack::class.java)[1])
 
-        fluids.init(2, false, 61, 20)
-        fluids.set(1, ingredients.getOutputs(FluidStack::class.java)[0])
+        fluids.init(2, false, 54, 15, 8, 27, 1000, true, fluidOverlay)
+        fluids.set(2, ingredients.getOutputs(FluidStack::class.java)[0])
     }
 
     class RecipeWrapper(val recipe: FluidCompoundProducerRecipe)
         : IRecipeWrapper {
 
         override fun getIngredients(ingredients: IIngredients) {
-            ingredients.setInput(FluidStack::class.java, this.recipe.inputA.copy())
-            ingredients.setInput(FluidStack::class.java, this.recipe.inputB.copy())
-
+            ingredients.setInputs(FluidStack::class.java, mutableListOf(this.recipe.inputA.copy(), this.recipe.inputB.copy()))
             ingredients.setOutput(FluidStack::class.java, this.recipe.output.copy())
         }
 
@@ -54,8 +52,8 @@ object FluidCompoundProducerCategory
     override fun register(registry: IRecipeCategoryRegistration) {
         super.register(registry)
 
-        this.recipeBackground = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 124, 132, 124, 66)
-        fluidOverlay = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 132, 147, 8, 27)
+        this.recipeBackground = this.guiHelper.createDrawable(Textures.JEI_TEXTURES_2.resource, 124, 132, 124, 66)
+        fluidOverlay = this.guiHelper.createDrawable(Textures.JEI_TEXTURES_2.resource, 132, 147, 8, 27)
     }
 
     override fun register(registry: IModRegistry) {
