@@ -1,6 +1,7 @@
 package net.ndrei.teslapoweredthingies.machines.itemcompoundproducer
 
 import net.minecraftforge.fluids.FluidStack
+import net.ndrei.teslacorelib.utils.isEnough
 
 /**
  * Created by CF on 2017-07-13.
@@ -9,8 +10,8 @@ object FluidCompoundProducerRecipes {
     val recipes = mutableListOf<FluidCompoundProducerRecipe>()
 
     fun FluidCompoundProducerRecipe.matchesInput(fluid: FluidStack, other: FluidStack?, ignoreSize: Boolean = true)
-        = ((other == null) && ((this.inputA.isFluidEqual(fluid) && (ignoreSize || this.inputA.amount <= fluid.amount)) || (this.inputB.isFluidEqual(fluid) && (ignoreSize || this.inputB.amount <= fluid.amount))))
-            || this.inputA.isFluidEqual(fluid) && this.inputB.isFluidEqual(other) && (ignoreSize || ((this.inputA.amount <= fluid.amount) && (this.inputB.amount <= other?.amount ?: 0)))
+        = ((other == null) && (this.inputA.isEnough(fluid, ignoreSize) || this.inputB.isEnough(fluid, ignoreSize)))
+            || (this.inputA.isEnough(fluid, ignoreSize) && this.inputB.isEnough(other, ignoreSize))
 
     fun FluidCompoundProducerRecipe?.invert()
         = if (this == null) null else FluidCompoundProducerRecipe(this.inputB, this.inputA, this.output)
