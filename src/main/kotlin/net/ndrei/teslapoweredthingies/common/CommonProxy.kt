@@ -7,7 +7,6 @@ import net.ndrei.teslacorelib.BaseProxy
 import net.ndrei.teslapoweredthingies.config.Config
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerRecipes
 import net.ndrei.teslapoweredthingies.machines.incinerator.IncineratorRecipes
-import net.ndrei.teslapoweredthingies.machines.itemliquefier.LiquefierRecipes
 
 /**
  * Created by CF on 2017-06-30.
@@ -27,6 +26,5 @@ open class CommonProxy(side: Side) : BaseProxy(side) {
 
         IncineratorRecipes.registerRecipes()
         FluidBurnerRecipes.registerRecipes()
-        LiquefierRecipes.registerRecipes()
     }
 }

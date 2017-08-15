@@ -1,10 +1,10 @@
 package net.ndrei.teslapoweredthingies.machines.itemliquefier
 
-import com.google.common.collect.Lists
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
-import net.minecraft.item.Item
+import net.minecraft.item.ItemStack
 import net.minecraftforge.fluids.FluidRegistry
+import net.ndrei.teslacorelib.utils.equalsIgnoreSize
 import net.ndrei.teslapoweredthingies.fluids.MoltenTeslaFluid
 import net.ndrei.teslapoweredthingies.items.TeslaPlantSeeds
 
@@ -12,11 +12,11 @@ import net.ndrei.teslapoweredthingies.items.TeslaPlantSeeds
  * Created by CF on 2017-06-30.
  */
 object LiquefierRecipes {
-    private val VANILLA_STONE_TO_LAVA_RATE = 100
-    private lateinit var recipes: MutableList<LiquefierRecipe>
+    val VANILLA_STONE_TO_LAVA_RATE = 100
+    val recipes = mutableListOf<LiquefierRecipe>()
 
     fun registerRecipes() {
-        LiquefierRecipes.recipes = Lists.newArrayList<LiquefierRecipe>()
+        recipes.clear() // reset recipes every time this method is called... should only happen once
 
         // vanilla recipes
         for (b in arrayOf(Blocks.COBBLESTONE, Blocks.STONE, Blocks.STONEBRICK, Blocks.MOSSY_COBBLESTONE, Blocks.STONE_BRICK_STAIRS, Blocks.STONE_STAIRS, Blocks.BRICK_BLOCK, Blocks.BRICK_STAIRS)) {
@@ -38,16 +38,7 @@ object LiquefierRecipes {
         recipes.add(LiquefierRecipe(TeslaPlantSeeds, 1, MoltenTeslaFluid, 25))
     }
 
-    fun getRecipe(item: Item): LiquefierRecipe? {
-        if (recipes != null) {
-            for (recipe in recipes!!) {
-                if (recipe.input === item) {
-                    return recipe
-                }
-            }
-        }
-        return null
-    }
+    fun getRecipe(input: ItemStack) = recipes.firstOrNull { it.input.equalsIgnoreSize(input) && (it.input.count <= input.count) }
 
-    fun getRecipes() = this.recipes.toList()
+    fun getRecipesList() = this.recipes.toList()
 }

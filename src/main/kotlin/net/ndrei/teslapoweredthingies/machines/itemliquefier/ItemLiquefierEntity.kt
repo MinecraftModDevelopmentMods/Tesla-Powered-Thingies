@@ -5,7 +5,10 @@ import net.minecraft.inventory.Slot
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
-import net.minecraftforge.fluids.*
+import net.minecraftforge.fluids.Fluid
+import net.minecraftforge.fluids.FluidRegistry
+import net.minecraftforge.fluids.FluidUtil
+import net.minecraftforge.fluids.IFluidTank
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler
 import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
@@ -49,7 +52,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
         }
         super.addInventory(object : ColoredItemHandler(this.inputs!!, EnumDyeColor.GREEN, "Input Items", BoundingRectangle(61, 25, 18, 54)) {
             override fun canInsertItem(slot: Int, stack: ItemStack): Boolean {
-                return !ItemStackUtil.isEmpty(stack) && LiquefierRecipes.getRecipe(stack.item) != null
+                return !ItemStackUtil.isEmpty(stack) && LiquefierRecipes.getRecipe(stack) != null
             }
 
             override fun canExtractItem(slot: Int): Boolean {
@@ -198,7 +201,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
     override val workItem: ItemStack
         get() {
             if (this.currentRecipe != null) {
-                return ItemStack(this.currentRecipe!!.input, this.currentRecipe!!.inputStackSize)
+                return this.currentRecipe!!.input.copy() // ItemStack(this.currentRecipe!!.input, this.currentRecipe!!.inputStackSize)
             }
             return ItemStackUtil.emptyStack
         }
@@ -209,8 +212,8 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
     override fun performWork(): Float {
         var result = 0.0f
         if (this.currentRecipe != null) {
-            val fluid = FluidStack(this.currentRecipe!!.output, this.currentRecipe!!.outputQuantity)
-            if (this.lavaTank!!.fill(fluid, false) == this.currentRecipe!!.outputQuantity) {
+            val fluid = this.currentRecipe!!.output.copy() // FluidStack(this.currentRecipe!!.output, this.currentRecipe!!.outputQuantity)
+            if (this.lavaTank!!.fill(fluid, false) == fluid.amount) { // this.currentRecipe!!.outputQuantity) {
                 this.lavaTank!!.fill(fluid, true)
                 this.currentRecipe = null
                 result = 1.0f
@@ -244,11 +247,11 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
 
         if (this.currentRecipe == null) {
             for (input in ItemStackUtil.getCombinedInventory(this.inputs!!)) {
-                val recipe = LiquefierRecipes.getRecipe(input.item)
-                if (recipe != null && recipe.inputStackSize <= ItemStackUtil.getSize(input)) {
-                    val fluid = FluidStack(recipe.output, recipe.outputQuantity)
-                    if (this.lavaTank!!.fill(fluid, false) == recipe.outputQuantity) {
-                        ItemStackUtil.extractFromCombinedInventory(this.inputs!!, input, recipe.inputStackSize)
+                val recipe = LiquefierRecipes.getRecipe(input/*.item*/)
+                if (recipe != null) { // && recipe.inputStackSize <= ItemStackUtil.getSize(input)) {
+                    val fluid = recipe.output.copy() // FluidStack(recipe.output, recipe.outputQuantity)
+                    if (this.lavaTank!!.fill(fluid, false) == fluid.amount) { // recipe.outputQuantity) {
+                        ItemStackUtil.extractFromCombinedInventory(this.inputs!!, input, recipe.input.count) // inputStackSize)
                         this.currentRecipe = recipe
                         break
                     }

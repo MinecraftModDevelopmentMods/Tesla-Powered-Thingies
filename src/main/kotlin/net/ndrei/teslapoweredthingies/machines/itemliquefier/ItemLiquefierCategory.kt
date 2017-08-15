@@ -27,7 +27,7 @@ object ItemLiquefierCategory
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: ItemLiquefierCategoryWrapper, ingredients: IIngredients) {
         val fluids = recipeLayout.fluidStacks
 
-        fluids.init(0, true, 36, 18, 8, 27, recipeWrapper.recipe.outputQuantity, true, fluidOverlay)
+        fluids.init(0, true, 36, 18, 8, 27, 1000, true, fluidOverlay)
         fluids.set(0, ingredients.getOutputs(FluidStack::class.java)[0])
 
         val stacks = recipeLayout.itemStacks
@@ -39,8 +39,8 @@ object ItemLiquefierCategory
         : IRecipeWrapper {
 
         override fun getIngredients(ingredients: IIngredients) {
-            ingredients.setInput(ItemStack::class.java, ItemStack(this.recipe.input, this.recipe.inputStackSize))
-            ingredients.setOutput(FluidStack::class.java, FluidStack(this.recipe.output, this.recipe.outputQuantity))
+            ingredients.setInput(ItemStack::class.java, this.recipe.input.copy()) // ItemStack(this.recipe.input, this.recipe.inputStackSize))
+            ingredients.setOutput(FluidStack::class.java, this.recipe.output.copy()) // FluidStack(this.recipe.output, this.recipe.outputQuantity))
         }
 
         @SideOnly(Side.CLIENT)
@@ -60,6 +60,6 @@ object ItemLiquefierCategory
         super.register(registry)
 
         registry.handleRecipes(LiquefierRecipe::class.java, { ItemLiquefierCategoryWrapper(it) }, this.uid)
-        registry.addRecipes(LiquefierRecipes.getRecipes(), this.uid)
+        registry.addRecipes(LiquefierRecipes.getRecipesList(), this.uid)
     }
 }

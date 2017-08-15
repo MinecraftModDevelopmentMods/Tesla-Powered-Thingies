@@ -7,27 +7,29 @@ import net.minecraft.nbt.NBTTagCompound
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidStack
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 
 /**
  * Created by CF on 2017-06-30.
  */
-class LiquefierRecipe(val input: Item, val inputStackSize: Int, val output: Fluid, val outputQuantity: Int) {
+class LiquefierRecipe(val input: ItemStack, val output: FluidStack) {
     constructor(input: Block, output: Fluid, outputQuantity: Int)
             : this(input, 1, output, outputQuantity)
 
     constructor(input: Block, inputStackSize: Int, output: Fluid, outputQuantity: Int)
-            : this(Item.getItemFromBlock(input), inputStackSize, output, outputQuantity)
+            : this(ItemStack(Item.getItemFromBlock(input), inputStackSize), FluidStack(output, outputQuantity))
 
     constructor(input: Item, output: Fluid, outputQuantity: Int)
             : this(input, 1, output, outputQuantity)
 
+    constructor(input: Item, inputStackSize: Int, output: Fluid, outputQuantity: Int)
+            : this(ItemStack(input, inputStackSize), FluidStack(output, outputQuantity))
+
     fun serializeNBT(): NBTTagCompound {
         val nbt = NBTTagCompound()
 
-        nbt.setTag("input", ItemStack(this.input, this.inputStackSize).serializeNBT())
-        nbt.setTag("output", FluidStack(this.output, this.outputQuantity).writeToNBT(NBTTagCompound()))
+        nbt.setTag("input", this.input.serializeNBT())
+        nbt.setTag("output", this.output.writeToNBT(NBTTagCompound()))
 
         return nbt
     }
@@ -40,7 +42,7 @@ class LiquefierRecipe(val input: Item, val inputStackSize: Int, val output: Flui
             } else {
                 val input = ItemStack(nbt.getCompoundTag("input"))
                 val output = FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag("output"))
-                return LiquefierRecipe(input.item, ItemStackUtil.getSize(input), output!!.fluid, output.amount)
+                return LiquefierRecipe(input, output!!)
             }
         }
     }
