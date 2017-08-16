@@ -11,11 +11,10 @@ import net.minecraftforge.fluids.IFluidTank
 import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.gui.BasicRenderedGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
-import net.ndrei.teslacorelib.gui.FluidTankPiece
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
-import net.ndrei.teslacorelib.inventory.FluidTank
+import net.ndrei.teslacorelib.inventory.FluidTankType
 import net.ndrei.teslacorelib.inventory.LockableItemHandler
 import net.ndrei.teslacorelib.utils.insertItems
 import net.ndrei.teslapoweredthingies.client.Textures
@@ -54,16 +53,10 @@ class ItemCompoundProducerEntity
         })
         this.addInventoryToStorage(this.inputItems, "inv_inputs")
 
-        this.inputFluid = object: FluidTank(5000) {
-            override fun canFillFluidType(fluid: FluidStack?)
-                = if (fluid != null) ItemCompoundProducerRecipes.hasRecipe(fluid) else false
-
-            override fun onContentsChanged() {
-                this@ItemCompoundProducerEntity.markDirty()
-            }
-        }
-        super.addFluidTank(this.inputFluid, EnumDyeColor.BLUE, "Fluid Tank",
-                BoundingRectangle(70, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT))
+        this.inputFluid = this.addSimpleFluidTank(5000, "Fluid Tank", EnumDyeColor.BLUE,
+                70, 25, FluidTankType.INPUT, {
+            ItemCompoundProducerRecipes.hasRecipe(it)
+        })
 
         this.outputs = object: ItemStackHandler(6) {
             override fun onContentsChanged(slot: Int) {

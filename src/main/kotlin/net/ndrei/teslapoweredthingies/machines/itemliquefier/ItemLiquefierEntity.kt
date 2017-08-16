@@ -58,29 +58,6 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
             override fun canExtractItem(slot: Int): Boolean {
                 return false
             }
-//
-//            override fun getSlots(container: BasicTeslaContainer<*>): MutableList<Slot> {
-//                val slots = super.getSlots(container)
-//
-//                val box = this.boundingBox
-//                for (y in 0..2) {
-//                    slots.add(FilteredSlot(this.itemHandlerForContainer, y,
-//                            box.left + 1, box.top + 1 + y * 18))
-//                }
-//
-//                return slots
-//            }
-//
-//            override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
-//                val pieces = super.getGuiContainerPieces(container)
-//
-//                val box = this.boundingBox
-//                pieces.add(TiledRenderedGuiPiece(box.left, box.top, 18, 18,
-//                        1, 3,
-//                        BasicTeslaGuiContainer.MACHINE_BACKGROUND, 108, 225, EnumDyeColor.PURPLE))
-//
-//                return pieces
-//            }
         })
         super.addInventoryToStorage(this.inputs!!, "inv_inputs")
 

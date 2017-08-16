@@ -9,10 +9,9 @@ import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.IFluidTank
 import net.ndrei.teslacorelib.gui.BasicRenderedGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
-import net.ndrei.teslacorelib.gui.FluidTankPiece
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
-import net.ndrei.teslacorelib.inventory.FluidTank
+import net.ndrei.teslacorelib.inventory.FluidTankType
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.gui.FluidDisplayPiece
 import net.ndrei.teslapoweredthingies.gui.IMultiTankMachine
@@ -39,37 +38,18 @@ class FluidCompoundProducerEntity
     override fun initializeInventories() {
         super.initializeInventories()
 
-        this.inputFluidA = object: FluidTank(5000) {
-            override fun canFillFluidType(fluid: FluidStack?)
-                = if (fluid != null) FluidCompoundProducerRecipes.hasRecipe(fluid, this@FluidCompoundProducerEntity.inputFluidB.fluid) else false
+        this.inputFluidA = this.addSimpleFluidTank(5000, "Fluid Tank A", EnumDyeColor.BLUE,
+                79, 25, FluidTankType.INPUT, {
+            FluidCompoundProducerRecipes.hasRecipe(it, this@FluidCompoundProducerEntity.inputFluidB.fluid)
+        })
 
-            override fun onContentsChanged() {
-                this@FluidCompoundProducerEntity.markDirty()
-            }
-        }
-        super.addFluidTank(this.inputFluidA, EnumDyeColor.BLUE, "Fluid Tank A",
-                BoundingRectangle(79, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT))
+        this.inputFluidB = this.addSimpleFluidTank(5000, "Fluid Tank B", EnumDyeColor.RED,
+                97, 25, FluidTankType.INPUT, {
+            FluidCompoundProducerRecipes.hasRecipe(it, this@FluidCompoundProducerEntity.inputFluidA.fluid)
+        })
 
-        this.inputFluidB = object: FluidTank(5000) {
-            override fun canFillFluidType(fluid: FluidStack?)
-                    = if (fluid != null) FluidCompoundProducerRecipes.hasRecipe(fluid, this@FluidCompoundProducerEntity.inputFluidA.fluid) else false
-
-            override fun onContentsChanged() {
-                this@FluidCompoundProducerEntity.markDirty()
-            }
-        }
-        super.addFluidTank(this.inputFluidB, EnumDyeColor.RED, "Fluid Tank B",
-                BoundingRectangle(97, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT))
-
-        this.output = object: FluidTank(5000) {
-//            override fun canFillFluidType(fluid: FluidStack?) = false
-
-            override fun onContentsChanged() {
-                this@FluidCompoundProducerEntity.markDirty()
-            }
-        }
-        super.addFluidTank(this.output, EnumDyeColor.WHITE, "Output Fluid Tank",
-                BoundingRectangle(142, 25, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT))
+        this.output = this.addSimpleFluidTank(5000, "Output Fluid Tank", EnumDyeColor.WHITE,
+                142, 25, FluidTankType.OUTPUT)
     }
 
     override val fluidItemsBoundingBox: BoundingRectangle
