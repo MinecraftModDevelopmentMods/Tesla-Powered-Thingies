@@ -9,6 +9,8 @@ import net.minecraft.util.JsonUtils
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.FluidStack
+import net.minecraftforge.oredict.OreDictionary
+import net.ndrei.teslacorelib.utils.copyWithSize
 import net.ndrei.teslapoweredthingies.MOD_ID
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import java.io.BufferedWriter
@@ -79,19 +81,38 @@ fun JsonObject.readFluidStack(memberName: String): FluidStack? {
     return if (amount <= 0) null else FluidStack(fluid, amount)
 }
 
-fun JsonObject.readItemStack(memberName: String): ItemStack? { // there is a good reason for not using ItemStack.EMPTY :)
-    val json = JsonUtils.getJsonObject(this, memberName) ?: return null
+fun JsonObject.readItemStacks(memberName: String): List<ItemStack> {
+    val json = JsonUtils.getJsonObject(this, memberName) ?: return listOf()
+    return json.readItemStacks()
+}
 
-    val item = JsonUtils.getString(json, "name", "")
+fun JsonObject.readItemStacks(): List<ItemStack> {
+    val item = JsonUtils.getString(this, "name", "")
             .let {
                 val registryName = if (it.isNullOrEmpty()) null else ResourceLocation(it)
                 if ((registryName != null) && Item.REGISTRY.containsKey(registryName))
                     Item.REGISTRY.getObject(registryName)
                 else null
-            } ?: return null
+            }
+    if (item != null) {
+        val meta = JsonUtils.getInt(this, "meta", 0)
+        val amount = JsonUtils.getInt(this, "quantity", 1)
+        return listOf(ItemStack(item, amount, meta))
+    }
+    else {
+        val ore = JsonUtils.getString(this, "ore", "")
+        if (!ore.isNullOrEmpty()) {
+            val amount = JsonUtils.getInt(this, "quantity", 1)
+            return OreDictionary.getOres(ore)
+                    .map { it.copyWithSize(amount) }
+        }
+    }
 
-    val meta = JsonUtils.getInt(json, "meta", 0)
-    val amount = JsonUtils.getInt(json, "quantity", 1)
-
-    return ItemStack(item, amount, meta)
+    return listOf()
 }
+
+fun JsonObject.readItemStack(memberName: String)
+    = this.readItemStacks(memberName).firstOrNull()
+
+fun JsonObject.readItemStack()
+        = this.readItemStacks().firstOrNull()

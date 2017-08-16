@@ -7,7 +7,7 @@ import net.ndrei.teslacorelib.annotations.IRegistryHandler
 import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
 import net.ndrei.teslapoweredthingies.config.readFluidStack
-import net.ndrei.teslapoweredthingies.config.readItemStack
+import net.ndrei.teslapoweredthingies.config.readItemStacks
 
 @RegistryHandler
 object ItemLiquefierRegistry : IRegistryHandler {
@@ -15,12 +15,14 @@ object ItemLiquefierRegistry : IRegistryHandler {
         LiquefierRecipes.registerRecipes()
 
         readExtraRecipesFile(ItemLiquefierBlock.registryName!!.resourcePath) { json ->
-            val input = json.readItemStack("input_stack") ?: return@readExtraRecipesFile
-            val output = json.readFluidStack("output_fluid") ?: return@readExtraRecipesFile
+            val input = json.readItemStacks("input_stack")
+            if (input.isNotEmpty()) {
+                val output = json.readFluidStack("output_fluid") ?: return@readExtraRecipesFile
 
-            LiquefierRecipes.recipes.add(
-                    LiquefierRecipe(input, output)
-            )
+                input.mapTo(LiquefierRecipes.recipes) {
+                    LiquefierRecipe(it, output)
+                }
+            }
         }
     }
 }

@@ -18,6 +18,7 @@ import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
 import net.ndrei.teslapoweredthingies.config.readFluidStack
 import net.ndrei.teslapoweredthingies.config.readItemStack
+import net.ndrei.teslapoweredthingies.config.readItemStacks
 import net.ndrei.teslapoweredthingies.fluids.MoltenTeslaFluid
 import net.ndrei.teslapoweredthingies.items.BaseColoredTeslaLump
 import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerRecipes
@@ -85,13 +86,15 @@ object ItemCompoundProducerRegistry : IRegistryHandler {
         }
 
         readExtraRecipesFile(ItemCompoundProducerBlock.registryName!!.resourcePath) { json ->
-            val stack = json.readItemStack("input_stack") ?: return@readExtraRecipesFile
-            val fluid = json.readFluidStack("input_fluid") ?: return@readExtraRecipesFile
-            val output = json.readItemStack("output") ?: return@readExtraRecipesFile
+            val stacks = json.readItemStacks("input_stack")
+            if (stacks.isNotEmpty()) {
+                val fluid = json.readFluidStack("input_fluid") ?: return@readExtraRecipesFile
+                val output = json.readItemStack("output") ?: return@readExtraRecipesFile
 
-            ItemCompoundProducerRecipes.recipes.add(
-                    ItemCompoundProducerRecipe(stack, fluid, output)
-            )
+                stacks.mapTo(ItemCompoundProducerRecipes.recipes) {
+                    ItemCompoundProducerRecipe(it, fluid, output)
+                }
+            }
         }
     }
 }

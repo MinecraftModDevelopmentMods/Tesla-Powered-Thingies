@@ -1,8 +1,10 @@
 package net.ndrei.teslapoweredthingies.machines.powdermaker
 
+import com.google.gson.JsonElement
 import net.minecraft.init.Blocks
 import net.minecraft.item.Item
 import net.minecraft.item.crafting.IRecipe
+import net.minecraft.util.JsonUtils
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.oredict.OreDictionary
@@ -16,6 +18,9 @@ import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslacorelib.items.powders.ColoredPowderItem
 import net.ndrei.teslapoweredthingies.common.OreOutput
 import net.ndrei.teslapoweredthingies.common.SecondaryOutput
+import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
+import net.ndrei.teslapoweredthingies.config.readItemStack
+import net.ndrei.teslapoweredthingies.config.readItemStacks
 
 /**
  * Created by CF on 2017-07-06.
@@ -67,7 +72,9 @@ object PowderMakerRegistry : IRegistryHandler {
                 PowderMakerRecipes.registerDefaultOreRecipe(it)
             }
         }
+    }
 
+    override fun registerRecipes(asm: ASMDataTable, registry: IForgeRegistry<IRecipe>) {
         // register default recipes
         // stones -> 75% gravel
         listOf("stone", "cobblestone").forEach {
@@ -87,23 +94,44 @@ object PowderMakerRegistry : IRegistryHandler {
             ))
         }
 
-        // gravel -> 75% sand
-        PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
-                1, "gravel",
-                SecondaryOutput(.75f, Blocks.SAND)
-        ))
+//        // gravel -> 75% sand
+//        PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
+//                1, "gravel",
+//                SecondaryOutput(.75f, Blocks.SAND)
+//        ))
+//
+//        // sandstone -> 75% sand
+//        PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
+//                1, "sandstone",
+//                SecondaryOutput(.75f, Blocks.SAND)
+//        ))
 
-        // sandstone -> 75% sand
-        PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
-                1, "sandstone",
-                SecondaryOutput(.75f, Blocks.SAND)
-        ))
-        
         // vanilla default ore recipes
         PowderMakerRecipes.registerDefaultOreRecipe("coal")
         PowderMakerRecipes.registerDefaultOreRecipe("diamond")
         PowderMakerRecipes.registerDefaultOreRecipe("emerald")
         PowderMakerRecipes.registerDefaultOreRecipe("redstone")
         PowderMakerRecipes.registerDefaultOreRecipe("lapis")
+
+        readExtraRecipesFile(PowderMakerBlock.registryName!!.resourcePath) { json ->
+            val inputs = json.readItemStacks("input_stack")
+            if (inputs.isNotEmpty() && json.has("outputs")) {
+                val secondary = json.getAsJsonArray("outputs").mapNotNull<JsonElement, SecondaryOutput> {
+                    if (it.isJsonObject) {
+                        val stack = it.asJsonObject.readItemStack() ?: return@mapNotNull null
+                        val chance = JsonUtils.getFloat(it.asJsonObject, "chance", 1.0f)
+                        if (chance > 0.0f) {
+                            return@mapNotNull SecondaryOutput(Math.min(chance, 1.0f), stack)
+                        }
+                    }
+                    return@mapNotNull null
+                }
+                if (secondary.isNotEmpty()) {
+                    inputs.forEach {
+                        PowderMakerRecipes.registerRecipe(PowderMakerRecipe(it, *secondary.toTypedArray()))
+                    }
+                }
+            }
+        }
     }
 }
