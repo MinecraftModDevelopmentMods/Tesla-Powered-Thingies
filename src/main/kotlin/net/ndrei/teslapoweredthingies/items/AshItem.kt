@@ -1,5 +1,8 @@
 package net.ndrei.teslapoweredthingies.items
 
+import net.minecraft.item.Item
+import net.minecraftforge.oredict.OreDictionary
+import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.annotations.AutoRegisterItem
 
 /**
@@ -13,4 +16,9 @@ object AshItem : BaseThingyItem("ash") {
 //                "xx",
 //                'x', this
 //        )
+
+    override fun registerItem(registry: IForgeRegistry<Item>) {
+        super.registerItem(registry)
+        OreDictionary.registerOre("ash", AshItem)
+    }
 }

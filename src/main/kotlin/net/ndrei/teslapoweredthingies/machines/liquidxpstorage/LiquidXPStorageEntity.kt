@@ -1,5 +1,6 @@
 package net.ndrei.teslapoweredthingies.machines.liquidxpstorage
 
+import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.init.Items
 import net.minecraft.inventory.Slot
@@ -7,7 +8,9 @@ import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraftforge.fluids.Fluid
+import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.FluidUtil
+import net.minecraftforge.fluids.IFluidTank
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler
 import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
@@ -18,11 +21,14 @@ import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
-import net.ndrei.teslacorelib.inventory.FilteredFluidTank
-import net.ndrei.teslacorelib.inventory.FluidTank
+import net.ndrei.teslacorelib.inventory.FluidTankType
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
+import net.ndrei.teslacorelib.utils.canFillFrom
+import net.ndrei.teslacorelib.utils.copyWithSize
+import net.ndrei.teslacorelib.utils.processInputInventory
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.fluids.LiquidXPFluid
+import net.ndrei.teslapoweredthingies.items.XPTankAddonItem
 import net.ndrei.teslapoweredthingies.render.LiquidXPStorageSpecialRenderer
 
 /**
@@ -31,7 +37,7 @@ import net.ndrei.teslapoweredthingies.render.LiquidXPStorageSpecialRenderer
 class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.name.hashCode()) {
     private lateinit var inputItems: ItemStackHandler
     private lateinit var outputItems: ItemStackHandler
-    private lateinit var xpTank: FilteredFluidTank
+    private lateinit var xpTank: IFluidTank
 
     //#region inventories
 
@@ -39,34 +45,19 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
         super.initializeInventories()
 
         this.inputItems = object : ItemStackHandler(2) {
-            override fun getStackLimit(slot: Int, stack: ItemStack): Int {
-                if (slot == 0) {
-                    return 1
-                }
-                return super.getStackLimit(slot, stack)
-            }
-
             override fun onContentsChanged(slot: Int) {
                 this@LiquidXPStorageEntity.markDirty()
             }
         }
         this.outputItems = object : ItemStackHandler(2) {
-//            override fun getStackLimit(slot: Int, stack: ItemStack): Int {
-//                if (slot == 1) {
-//                    return 1
-//                }
-//                return super.getStackLimit(slot, stack)
-//            }
+            override fun getStackLimit(slot: Int, stack: ItemStack): Int {
+                return if (slot == 0) 1 else super.getStackLimit(slot, stack)
+            }
 
             override fun onContentsChanged(slot: Int) {
                 this@LiquidXPStorageEntity.markDirty()
             }
         }
-        this.xpTank = FilteredFluidTank(LiquidXPFluid, object : FluidTank(1500) {
-            override fun onContentsChanged() {
-                this@LiquidXPStorageEntity.markDirty()
-            }
-        })
 
         super.addInventory(object : ColoredItemHandler(this.inputItems, EnumDyeColor.GREEN,
                 "Input Liquid Containers", BoundingRectangle(56, 25, 18, 54)) {
@@ -92,8 +83,8 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
         })
         super.addInventoryToStorage(this.inputItems, "income")
 
-        super.addFluidTank(this.xpTank, EnumDyeColor.LIME, "Liquid XP",
-                BoundingRectangle(79, 25, 18, 54))
+        this.xpTank = this.addSimpleFluidTank(4200, "Liquid XP", EnumDyeColor.LIME,
+                79, 25, FluidTankType.BOTH, { it.fluid === LiquidXPFluid })
 
         super.addInventory(object : ColoredItemHandler(this.outputItems, EnumDyeColor.PURPLE,
                 "Output Liquid Containers", BoundingRectangle(102, 25, 18, 54)) {
@@ -121,52 +112,11 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
     }
 
     private fun isValidInContainer(stack: ItemStack): Boolean {
-        if (!ItemStackUtil.isEmpty(stack)) {
-            if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
-                val handler = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)
-                if (handler != null) {
-                    val tanks = handler.tankProperties
-                    if (tanks != null && tanks.size > 0) {
-                        for (tank in tanks) {
-                            if (tank.canDrain()) {
-                                val content = tank.contents
-                                if (content != null && content.amount > 0 && content.fluid === LiquidXPFluid) {
-                                    return true
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return false
+        return !stack.isEmpty && ((stack.item === Items.EXPERIENCE_BOTTLE) || this.xpTank.canFillFrom(stack))
     }
 
     private fun isValidOutContainer(stack: ItemStack): Boolean {
-        if (!ItemStackUtil.isEmpty(stack)) {
-            val item = stack.item
-            if (item === Items.GLASS_BOTTLE || item === Items.BUCKET) {
-                return true
-            }
-
-            if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
-                val handler = stack.getCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)
-                if (handler != null) {
-                    val tanks = handler.tankProperties
-                    if (tanks != null && tanks.size > 0) {
-                        for (tank in tanks) {
-                            if (tank.canFill()) {
-                                val content = tank.contents
-                                if (content == null || content.amount < tank.capacity && content.fluid === LiquidXPFluid) {
-                                    return true
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        return false
+        return !stack.isEmpty && ((stack.item === Items.GLASS_BOTTLE) || stack.copyWithSize(1).canFillFrom(this.xpTank))
     }
 
     override fun shouldAddFluidItemsInventory(): Boolean {
@@ -181,6 +131,14 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
 
         list.add(BasicRenderedGuiPiece(56, 25, 64, 54,
                 Textures.FARM_TEXTURES.resource, 65, 1))
+
+        if (this.hasAddon(XPTankAddonItem.javaClass)) {
+            list.add(LiquidXPStorageButton(25, 25, "+1", "Take 1 Level from Player", {
+                Minecraft.getMinecraft().player.expe
+            }))
+            list.add(LiquidXPStorageButton(25, 43, "+10", "Take 10 Levels from Player", { }))
+            list.add(LiquidXPStorageButton(25, 61, "all", "Take MAX Levels from Player", { }))
+        }
 
         return list
     }
@@ -211,18 +169,30 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
         val i_stack = this.inputItems.getStackInSlot(0)
         val capacity = this.xpTank.capacity - this.xpTank.fluidAmount
         if (!i_stack.isEmpty && (capacity > 0)) {
-            if (i_stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
-                val initial = this.xpTank.fluidAmount
-                val result = FluidUtil.tryEmptyContainer(i_stack, this.fluidHandler, Fluid.BUCKET_VOLUME, null, true)
-                if (result.isSuccess && !ItemStack.areItemStacksEqual(result.getResult(), i_stack)) {
-                    val r_stack = result.getResult()
-                    this.inputItems.setStackInSlot(0, r_stack)
-                    if (!r_stack.isEmpty && this.isEmptyFluidContainer(r_stack)) {
-                        this.inputItems.setStackInSlot(0, this.inputItems.insertItem(1, r_stack, false))
+            if ((i_stack.item === Items.EXPERIENCE_BOTTLE) && (capacity >= 15)) {
+                val outcome = ItemStack(Items.GLASS_BOTTLE, 1)
+                val income = FluidStack(LiquidXPFluid, 15)
+                val filled = this.xpTank.fill(income, false)
+                if (filled == 15) {
+                    val target = this.inputItems.getStackInSlot(1)
+                    var inputted = false
+                    if (target.isEmpty) {
+                        this.inputItems.setStackInSlot(1, outcome)
+                        inputted = true
+                    }
+                    else if ((target.item === outcome.item) && (target.count < target.maxStackSize)) {
+                        target.grow(1)
+                        inputted = true
                     }
 
-                    transferred += this.xpTank.fluidAmount - initial
+                    if (inputted) {
+                        i_stack.shrink(1)
+                        this.xpTank.fill(income, true)
+                    }
                 }
+            }
+            else {
+                listOf(this.xpTank).processInputInventory(this.inputItems)
             }
         }
 
@@ -284,11 +254,6 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
         } else if (this.delay < 0) {
             this.delay = 0
         }
-    }
-
-    private fun isEmptyFluidContainer(stack: ItemStack): Boolean {
-        val fluid = FluidUtil.getFluidContained(stack)
-        return fluid == null || fluid.amount == 0
     }
 
     val fillPercent: Float
