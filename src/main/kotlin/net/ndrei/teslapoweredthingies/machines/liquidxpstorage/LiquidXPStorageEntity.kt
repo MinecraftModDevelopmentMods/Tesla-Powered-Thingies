@@ -2,10 +2,12 @@ package net.ndrei.teslapoweredthingies.machines.liquidxpstorage
 
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
+import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.init.Items
 import net.minecraft.inventory.Slot
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
+import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.tileentity.TileEntity
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidStack
@@ -22,11 +24,15 @@ import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.FluidTankType
+import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
 import net.ndrei.teslacorelib.utils.canFillFrom
 import net.ndrei.teslacorelib.utils.copyWithSize
 import net.ndrei.teslacorelib.utils.processInputInventory
 import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.common.LiquidXPUtils
+import net.ndrei.teslapoweredthingies.common.changeExperience
+import net.ndrei.teslapoweredthingies.common.setExperience
 import net.ndrei.teslapoweredthingies.fluids.LiquidXPFluid
 import net.ndrei.teslapoweredthingies.items.XPTankAddonItem
 import net.ndrei.teslapoweredthingies.render.LiquidXPStorageSpecialRenderer
@@ -133,11 +139,37 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
                 Textures.FARM_TEXTURES.resource, 65, 1))
 
         if (this.hasAddon(XPTankAddonItem.javaClass)) {
-            list.add(LiquidXPStorageButton(25, 25, "+1", "Take 1 Level from Player", {
-                Minecraft.getMinecraft().player.expe
+            list.add(LiquidXPStorageButton(25, 25, "-1", "Take 1 Level from Player", {
+                val message = this.setupSpecialNBTMessage("TAKE_XP")
+                message.setInteger("levels", 1)
+                this.sendToServer(message)
             }))
-            list.add(LiquidXPStorageButton(25, 43, "+10", "Take 10 Levels from Player", { }))
-            list.add(LiquidXPStorageButton(25, 61, "all", "Take MAX Levels from Player", { }))
+            list.add(LiquidXPStorageButton(25, 43, "-10", "Take 10 Levels from Player", {
+                val message = this.setupSpecialNBTMessage("TAKE_XP")
+                message.setInteger("levels", 10)
+                this.sendToServer(message)
+            }))
+            list.add(LiquidXPStorageButton(25, 61, "MAX", "Take MAX Levels from Player", {
+                val message = this.setupSpecialNBTMessage("TAKE_XP")
+                message.setInteger("levels", 666)
+                this.sendToServer(message)
+            }))
+
+            list.add(LiquidXPStorageButton(125, 25, "+1", "Give 1 Level to Player", {
+                val message = this.setupSpecialNBTMessage("GIVE_XP")
+                message.setInteger("levels", 1)
+                this.sendToServer(message)
+            }))
+            list.add(LiquidXPStorageButton(125, 43, "+10", "Give 10 Levels to Player", {
+                val message = this.setupSpecialNBTMessage("GIVE_XP")
+                message.setInteger("levels", 10)
+                this.sendToServer(message)
+            }))
+            list.add(LiquidXPStorageButton(125, 61, "MAX", "Give MAX Levels to Player", {
+                val message = this.setupSpecialNBTMessage("GIVE_XP")
+                message.setInteger("levels", 666)
+                this.sendToServer(message)
+            }))
         }
 
         return list
@@ -147,6 +179,57 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
         val list = super.getRenderers()
         list.add(LiquidXPStorageSpecialRenderer)
         return list
+    }
+
+    override fun processClientMessage(messageType: String?, player: EntityPlayerMP?, compound: NBTTagCompound): SimpleNBTMessage? {
+        if (player != null) {
+            when (messageType) {
+                "TAKE_XP" -> {
+                    val levels = compound.getInteger("levels")
+                    val levelsToTake = when (levels) {
+                        1 -> 1
+                        10 -> 10
+                        else -> player.experienceLevel
+                    }
+                    val targetLevel = Math.max(1, player.experienceLevel - levelsToTake)
+                    val targetXP = LiquidXPUtils.getXPForLevel(targetLevel - 1)
+                    val xpToTake = player.experienceTotal - targetXP
+                    if (xpToTake > 0) {
+                        val maxXP = (this.xpTank.capacity - this.xpTank.fluidAmount) / LiquidXPUtils.LiquidXP_PER_XP
+                        val finalXP = Math.min(maxXP, xpToTake)
+                        if (finalXP > 0) {
+                            val filled = this.xpTank.fill(FluidStack(LiquidXPFluid, finalXP * LiquidXPUtils.LiquidXP_PER_XP), true)
+                            if (filled > 0) {
+                                player.changeExperience(-filled / LiquidXPUtils.LiquidXP_PER_XP)
+                            }
+                        }
+                    }
+                }
+                "GIVE_XP" -> {
+                    val levels = compound.getInteger("levels")
+                    val levelsToGive = when (levels) {
+                        1 -> 1
+                        10 -> 10
+                        else -> player.experienceLevel
+                    }
+                    val targetLevel = player.experienceLevel + levelsToGive
+                    val targetXP = LiquidXPUtils.getXPForLevel(targetLevel)
+                    val xpToGive = targetXP - player.experienceTotal
+                    if (xpToGive > 0) {
+                        val maxXP = this.xpTank.fluidAmount / LiquidXPUtils.LiquidXP_PER_XP
+                        val finalXP = Math.min(maxXP, xpToGive)
+                        if (finalXP > 0) {
+                            val drained = this.xpTank.drain(finalXP * LiquidXPUtils.LiquidXP_PER_XP, true)
+                            if ((drained != null) && (drained.amount > 0)) {
+                                player.changeExperience(drained.amount / LiquidXPUtils.LiquidXP_PER_XP)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return super.processClientMessage(messageType, player, compound)
     }
 
     //#endregion
