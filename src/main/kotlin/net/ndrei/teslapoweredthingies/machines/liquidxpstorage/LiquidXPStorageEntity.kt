@@ -155,17 +155,17 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
                 this.sendToServer(message)
             }))
 
-            list.add(LiquidXPStorageButton(125, 25, "+1", "Give 1 Level to Player", {
+            list.add(LiquidXPStorageButton(133, 25, "+1", "Give 1 Level to Player", {
                 val message = this.setupSpecialNBTMessage("GIVE_XP")
                 message.setInteger("levels", 1)
                 this.sendToServer(message)
             }))
-            list.add(LiquidXPStorageButton(125, 43, "+10", "Give 10 Levels to Player", {
+            list.add(LiquidXPStorageButton(133, 43, "+10", "Give 10 Levels to Player", {
                 val message = this.setupSpecialNBTMessage("GIVE_XP")
                 message.setInteger("levels", 10)
                 this.sendToServer(message)
             }))
-            list.add(LiquidXPStorageButton(125, 61, "MAX", "Give MAX Levels to Player", {
+            list.add(LiquidXPStorageButton(133, 61, "MAX", "Give MAX Levels to Player", {
                 val message = this.setupSpecialNBTMessage("GIVE_XP")
                 message.setInteger("levels", 666)
                 this.sendToServer(message)
@@ -210,10 +210,10 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
                     val levelsToGive = when (levels) {
                         1 -> 1
                         10 -> 10
-                        else -> player.experienceLevel
+                        else -> this.xpTank.fluidAmount / LiquidXPUtils.LiquidXP_PER_XP
                     }
                     val targetLevel = player.experienceLevel + levelsToGive
-                    val targetXP = LiquidXPUtils.getXPForLevel(targetLevel)
+                    val targetXP = LiquidXPUtils.getXPForLevel(targetLevel - 1)
                     val xpToGive = targetXP - player.experienceTotal
                     if (xpToGive > 0) {
                         val maxXP = this.xpTank.fluidAmount / LiquidXPUtils.LiquidXP_PER_XP
