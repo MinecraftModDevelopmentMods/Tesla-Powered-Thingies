@@ -13,6 +13,7 @@ import net.minecraftforge.fml.common.event.FMLConstructionEvent
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
+import net.ndrei.teslacorelib.config.ModConfigHandler
 import net.ndrei.teslapoweredthingies.common.CommonProxy
 import net.ndrei.teslapoweredthingies.items.TeslaPlantSeeds
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerBlock
@@ -31,6 +32,8 @@ object TeslaThingiesMod {
     lateinit var proxy: CommonProxy
     lateinit var logger: Logger
 
+    lateinit var config: ModConfigHandler
+
     val creativeTab: CreativeTabs = object : CreativeTabs("Tesla Powered Thingies") {
         override fun getIconItemStack() = ItemStack(FluidBurnerBlock)
         override fun getTabIconItem() = this.iconItemStack
@@ -45,6 +48,7 @@ object TeslaThingiesMod {
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
         TeslaThingiesMod.logger = event.modLog
+        TeslaThingiesMod.config = ModConfigHandler(MOD_ID, this.javaClass, this.logger, event.modConfigurationDirectory)
 
         proxy.preInit(event)
     }

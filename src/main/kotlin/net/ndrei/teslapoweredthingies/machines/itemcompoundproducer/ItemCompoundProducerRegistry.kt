@@ -15,10 +15,13 @@ import net.ndrei.teslacorelib.TeslaCoreLib
 import net.ndrei.teslacorelib.annotations.IRegistryHandler
 import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
+import net.ndrei.teslacorelib.config.readFluidStack
+import net.ndrei.teslacorelib.config.readItemStack
+import net.ndrei.teslacorelib.config.readItemStacks
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
-import net.ndrei.teslapoweredthingies.config.readFluidStack
-import net.ndrei.teslapoweredthingies.config.readItemStack
-import net.ndrei.teslapoweredthingies.config.readItemStacks
+import net.ndrei.teslacorelib.config.readFluidStack
+import net.ndrei.teslacorelib.config.readItemStack
+import net.ndrei.teslacorelib.config.readItemStacks
 import net.ndrei.teslapoweredthingies.fluids.MoltenTeslaFluid
 import net.ndrei.teslapoweredthingies.items.BaseColoredTeslaLump
 import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerRecipes

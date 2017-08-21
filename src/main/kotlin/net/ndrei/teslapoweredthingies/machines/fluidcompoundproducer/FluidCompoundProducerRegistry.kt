@@ -6,7 +6,7 @@ import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.annotations.IRegistryHandler
 import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
-import net.ndrei.teslapoweredthingies.config.readFluidStack
+import net.ndrei.teslacorelib.config.readFluidStack
 
 /**
  * Created by CF on 2017-07-13.

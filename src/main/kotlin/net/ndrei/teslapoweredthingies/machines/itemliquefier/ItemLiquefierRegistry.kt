@@ -6,8 +6,8 @@ import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.annotations.IRegistryHandler
 import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
-import net.ndrei.teslapoweredthingies.config.readFluidStack
-import net.ndrei.teslapoweredthingies.config.readItemStacks
+import net.ndrei.teslacorelib.config.readFluidStack
+import net.ndrei.teslacorelib.config.readItemStacks
 
 @RegistryHandler
 object ItemLiquefierRegistry : IRegistryHandler {

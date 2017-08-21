@@ -19,8 +19,8 @@ import net.ndrei.teslacorelib.items.powders.ColoredPowderItem
 import net.ndrei.teslapoweredthingies.common.OreOutput
 import net.ndrei.teslapoweredthingies.common.SecondaryOutput
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
-import net.ndrei.teslapoweredthingies.config.readItemStack
-import net.ndrei.teslapoweredthingies.config.readItemStacks
+import net.ndrei.teslacorelib.config.readItemStack
+import net.ndrei.teslacorelib.config.readItemStacks
 
 /**
  * Created by CF on 2017-07-06.
