@@ -19,9 +19,6 @@ import net.ndrei.teslacorelib.config.readFluidStack
 import net.ndrei.teslacorelib.config.readItemStack
 import net.ndrei.teslacorelib.config.readItemStacks
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
-import net.ndrei.teslacorelib.config.readFluidStack
-import net.ndrei.teslacorelib.config.readItemStack
-import net.ndrei.teslacorelib.config.readItemStacks
 import net.ndrei.teslapoweredthingies.fluids.MoltenTeslaFluid
 import net.ndrei.teslapoweredthingies.items.BaseColoredTeslaLump
 import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerRecipes
@@ -81,8 +78,7 @@ object ItemCompoundProducerRegistry : IRegistryHandler {
                          )
 
                          // lump -> dust recipes
-                         PowderMakerRecipes.registerDefaultOreRecipe(
-                                 it.decapitalize(), lump, false)
+                         PowderMakerRecipes.registerDefaultOreRecipe(it.decapitalize(), lump, false)
                      }
                  }
             }

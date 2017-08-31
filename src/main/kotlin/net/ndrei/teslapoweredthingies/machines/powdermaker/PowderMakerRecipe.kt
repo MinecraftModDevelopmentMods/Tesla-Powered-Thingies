@@ -17,13 +17,14 @@ interface IPowderMakerRecipe {
     fun getInputCount(): Int
     fun getPossibleInputs(): List<ItemStack>
     fun getPossibleOutputs(): List<List<ItemStack>>
+    fun ensureValidOutputs(): List<List<ItemStack>>
 
     fun getOutputs(): List<IRecipeOutput>
 }
 
 class PowderMakerRecipeResult(val remaining: ItemStack, val primary: Array<ItemStack>, val secondary: Array<ItemStack>)
 
-abstract class PowderMakerRecipeBase(vararg val output: IRecipeOutput)
+abstract class PowderMakerRecipeBase(private vararg var output: IRecipeOutput)
     : IPowderMakerRecipe {
 
     override fun process(stack: ItemStack): PowderMakerRecipeResult {
@@ -53,10 +54,19 @@ abstract class PowderMakerRecipeBase(vararg val output: IRecipeOutput)
             .map { it.getPossibleOutput() }
             .filter { !it.isEmpty }
             .map { listOf(it) }
+            .filter { !it.isEmpty() }
             .toList()
 
     override fun getOutputs()
             = this.output.toList()
+
+    override fun ensureValidOutputs(): List<List<ItemStack>> {
+        this.output = this.output.filter {
+            !it.getPossibleOutput().isEmpty
+        }.toTypedArray()
+
+        return this.getPossibleOutputs()
+    }
 }
 
 class PowderMakerRecipe(val input: ItemStack, vararg output: IRecipeOutput)
@@ -82,5 +92,4 @@ class PowderMakerOreRecipe(val inputSize: Int, val input: String, vararg output:
         = OreDictionary.getOres(this.input)
             .map { it.copyWithSize(this.inputSize) }
             .toList()
-
 }
