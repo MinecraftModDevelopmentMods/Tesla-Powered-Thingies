@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.ndrei.teslacorelib.config.ModConfigHandler
+import net.ndrei.teslacorelib.config.TeslaCoreLibConfig
 import net.ndrei.teslapoweredthingies.common.CommonProxy
 import net.ndrei.teslapoweredthingies.items.TeslaPlantSeeds
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerBlock
@@ -43,6 +44,18 @@ object TeslaThingiesMod {
     fun construction(event: FMLConstructionEvent) {
         // Use forge universal bucket
         FluidRegistry.enableUniversalBucket()
+
+        arrayOf(
+            TeslaCoreLibConfig.REGISTER_GEARS,
+            TeslaCoreLibConfig.REGISTER_BATTERY,
+            TeslaCoreLibConfig.REGISTER_MACHINE_CASE,
+            TeslaCoreLibConfig.REGISTER_ADDONS,
+            TeslaCoreLibConfig.REGISTER_SPEED_ADDONS,
+            TeslaCoreLibConfig.REGISTER_ENERGY_ADDONS,
+            TeslaCoreLibConfig.REGISTER_POWDERS
+        ).forEach {
+            TeslaCoreLibConfig.setDefaultFlag(it, true)
+        }
     }
 
     @Mod.EventHandler
