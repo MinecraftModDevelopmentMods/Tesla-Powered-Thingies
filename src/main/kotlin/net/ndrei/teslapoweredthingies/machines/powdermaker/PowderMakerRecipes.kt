@@ -86,7 +86,7 @@ object PowderMakerRecipes {
         this.addDefaultOreRecipe("iridium")
 
         this.addDefaultOreRecipe("coal", { it, ore ->
-            PowderMakerRecipe(it, *mutableListOf<IRecipeOutput>(Output(ItemStack(Items.COAL))).also { when (ore) {
+            PowderMakerRecipe(it, *mutableListOf<IRecipeOutput>(Output(ItemStack(Items.COAL, 5))).also { when (ore) {
                 true -> it.add(SecondaryOutput(0.15f, Blocks.COBBLESTONE))
             }}.toTypedArray())
         })
