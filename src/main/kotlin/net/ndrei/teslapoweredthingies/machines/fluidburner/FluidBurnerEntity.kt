@@ -11,7 +11,6 @@ import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.IFluidTank
 import net.minecraftforge.items.ItemStackHandler
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.containers.BasicTeslaContainer
 import net.ndrei.teslacorelib.containers.FilteredSlot
 import net.ndrei.teslacorelib.gui.BasicRenderedGuiPiece
@@ -168,13 +167,13 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
 
     private fun processFluidItems(handler: ItemStackHandler, tank: IFluidTank) {
         val stack = handler.getStackInSlot(0)
-        if (!ItemStackUtil.isEmpty(stack) && FluidUtils.canFillFrom(tank, stack)) {
+        if (!stack.isEmpty && FluidUtils.canFillFrom(tank, stack)) {
             val result = FluidUtils.fillFluidFrom(tank, stack)
             if (!ItemStack.areItemStacksEqual(stack, result)) {
                 handler.setStackInSlot(0, result)
                 this.discardUsedFluidItem(handler)
             }
-        } else if (!ItemStackUtil.isEmpty(stack)) {
+        } else if (!stack.isEmpty) {
             this.discardUsedFluidItem(handler)
         }
     }

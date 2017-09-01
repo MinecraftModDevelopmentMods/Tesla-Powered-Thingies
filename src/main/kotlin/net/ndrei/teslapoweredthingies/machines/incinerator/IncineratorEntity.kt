@@ -5,7 +5,6 @@ import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
 import net.minecraftforge.items.ItemHandlerHelper
 import net.minecraftforge.items.ItemStackHandler
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.gui.BasicRenderedGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
@@ -118,7 +117,7 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
 
     override fun fuelConsumed() {
         val stack = this.currentItem!!.getStackInSlot(0)
-        if (!ItemStackUtil.isEmpty(stack)) {
+        if (!stack.isEmpty) {
             val secondary = IncineratorRecipes.getSecondaryOutputs(stack.item)
             if (secondary != null && secondary.size > 0) {
                 for (so in secondary) {
@@ -126,9 +125,9 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
                     // TeslaThingiesMod.logger.info("Change: " + chance + " vs " + so.chance);
                     if (chance <= so.chance) {
                         var thing = so.getPossibleOutput()
-                        if (!ItemStackUtil.isEmpty(thing)) {
+                        if (!thing.isEmpty) {
                             thing = ItemHandlerHelper.insertItem(this.outputs, thing.copy(), false)
-                            if (!ItemStackUtil.isEmpty(thing)) {
+                            if (!thing.isEmpty) {
                                 val spawnPos = this.pos.offset(super.facing)
                                 this.getWorld().spawnEntity(
                                         EntityItem(this.getWorld(), spawnPos.x.toDouble(), spawnPos.y.toDouble(), spawnPos.z.toDouble(), thing))

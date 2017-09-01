@@ -7,7 +7,6 @@ import net.minecraft.nbt.NBTTagInt
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.IFluidTank
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.FilteredFluidTank
@@ -24,6 +23,7 @@ import net.ndrei.teslapoweredthingies.items.LiquidXPCollectorItem
 abstract class BaseXPCollectingMachine(typeId: Int)
     : ElectricFarmMachine(typeId), ILiquidXPCollector {
 
+    @Suppress("MemberVisibilityCanPrivate")
     protected var xpTank: IFluidTank? = null
 
     override fun hasXPCollector()
@@ -39,16 +39,16 @@ abstract class BaseXPCollectingMachine(typeId: Int)
             override fun onContentsChanged() {
                 val amount = this.fluidAmount
                 if (amount > 0) {
-                    val stack = this@BaseXPCollectingMachine.getAddonStack(LiquidXPCollectorItem::class.java)
-                    if (!ItemStackUtil.isEmpty(stack)) {
-                        stack.setTagInfo("StoredLiquidXP", NBTTagInt(this.fluidAmount))
+                    val addonStack = this@BaseXPCollectingMachine.getAddonStack(LiquidXPCollectorItem::class.java)
+                    if (!addonStack.isEmpty) {
+                        addonStack.setTagInfo("StoredLiquidXP", NBTTagInt(this.fluidAmount))
                     }
                 } else {
-                    val stack = this@BaseXPCollectingMachine.getAddonStack(LiquidXPCollectorItem::class.java)
-                    if (!ItemStackUtil.isEmpty(stack)) {
-                        val nbt = stack.getTagCompound()
-                        if (nbt != null && nbt!!.hasKey("StoredLiquidXP", Constants.NBT.TAG_INT)) {
-                            nbt!!.removeTag("StoredLiquidXP")
+                    val addonStack = this@BaseXPCollectingMachine.getAddonStack(LiquidXPCollectorItem::class.java)
+                    if (!addonStack.isEmpty) {
+                        val nbt = addonStack.tagCompound
+                        if ((nbt != null) && nbt.hasKey("StoredLiquidXP", Constants.NBT.TAG_INT)) {
+                            nbt.removeTag("StoredLiquidXP")
                         }
                     }
                 }

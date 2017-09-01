@@ -32,7 +32,7 @@ class CropFarmEntity : ElectricFarmMachine(CropFarmEntity::class.java.name.hashC
     override fun getWorkAreaColor(): Int = CROP_FARM_WORK_AREA_COLOR
 
     override fun acceptsInputStack(slot: Int, stack: ItemStack): Boolean {
-        if (ItemStackUtil.isEmpty(stack))
+        if (stack.isEmpty)
             return true
 
         // test for hoe
@@ -157,16 +157,16 @@ class CropFarmEntity : ElectricFarmMachine(CropFarmEntity::class.java.name.hashC
         //#region fertilize all the thingies
 
         if (result <= .9f) {
-            var fertilizer = ItemStackUtil.emptyStack
+            var fertilizer = ItemStack.EMPTY
             for (stack in ItemStackUtil.getCombinedInventory(inputs)) {
                 if (PlantWrapperFactory.isFertilizer(stack)) {
                     fertilizer = stack.copy()
                     break
                 }
             }
-            if (!ItemStackUtil.isEmpty(fertilizer)) {
+            if (!fertilizer.isEmpty) {
                 var tries = 10
-                while (tries >= 0 && result <= .9f && !ItemStackUtil.isEmpty(fertilizer)) {
+                while (tries >= 0 && result <= .9f && !fertilizer.isEmpty) {
                     val pos = cube.getRandomInside(this.getWorld().rand)
                     val plant = PlantWrapperFactory.getPlantWrapper(this.getWorld(), pos)
                     if (plant != null && plant!!.canUseFertilizer()) {

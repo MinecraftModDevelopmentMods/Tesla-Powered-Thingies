@@ -7,7 +7,6 @@ import net.minecraft.inventory.EntityEquipmentSlot
 import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumHand
 import net.minecraftforge.items.ItemHandlerHelper
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.common.IAnimalAgeFilterAcceptor
 import net.ndrei.teslapoweredthingies.items.BaseAnimalFilterItem
@@ -25,7 +24,7 @@ class ElectricButcherEntity
         get() = 1
 
     override fun acceptsInputStack(slot: Int, stack: ItemStack): Boolean {
-        if (ItemStackUtil.isEmpty(stack))
+        if (stack.isEmpty)
             return true
 
         if (slot == 0) {
@@ -60,7 +59,7 @@ class ElectricButcherEntity
         //region attack animal
 
         val stack = this.inStackHandler!!.getStackInSlot(0)
-        if (!ItemStackUtil.isEmpty(stack)) {
+        if (!stack.isEmpty) {
             // find animal
             val list = this.getWorld().getEntitiesWithinAABB(EntityAnimal::class.java, aabb)
             val filter = super.getAddon(BaseAnimalFilterItem::class.java)
@@ -82,9 +81,9 @@ class ElectricButcherEntity
                     player.attackTargetEntityWithCurrentItem(animalToHurt)
 
                     val weapon = player.getHeldItem(EnumHand.MAIN_HAND)
-                    this.inStackHandler!!.setStackInSlot(0, if (ItemStackUtil.isEmpty(weapon)) ItemStackUtil.emptyStack else weapon.copy())
+                    this.inStackHandler!!.setStackInSlot(0, if (weapon.isEmpty) ItemStack.EMPTY else weapon.copy())
 
-                    player.setHeldItem(EnumHand.MAIN_HAND, ItemStackUtil.emptyStack)
+                    player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY)
                     result += .9f
                 }
             }
@@ -101,10 +100,10 @@ class ElectricButcherEntity
                 val original = item.item
                 // TODO: add a method for picking up EntityItems at super class
                 val remaining = ItemHandlerHelper.insertItem(this.outStackHandler, original, false)
-                if (ItemStackUtil.isEmpty(remaining)) {
+                if (remaining.isEmpty) {
                     this.getWorld().removeEntity(item)
                     pickedUpLoot = true
-                } else if (ItemStackUtil.getSize(remaining) != ItemStackUtil.getSize(original)) {
+                } else if (remaining.count != original.count) {
                     item.item = remaining
                     pickedUpLoot = true
                 }

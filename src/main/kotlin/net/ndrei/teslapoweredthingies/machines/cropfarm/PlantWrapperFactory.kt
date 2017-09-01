@@ -8,14 +8,13 @@ import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraftforge.common.IPlantable
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 
 /**
  * Created by CF on 2017-07-07.
  */
 object PlantWrapperFactory {
     fun getSeedWrapper(seeds: ItemStack): ISeedWrapper? {
-        if (ItemStackUtil.isEmpty(seeds)) {
+        if (seeds.isEmpty) {
             return null
         }
         val seed = seeds.item

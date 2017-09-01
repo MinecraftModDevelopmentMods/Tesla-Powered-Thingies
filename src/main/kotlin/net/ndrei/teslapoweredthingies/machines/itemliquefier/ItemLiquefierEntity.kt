@@ -52,7 +52,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
         }
         super.addInventory(object : ColoredItemHandler(this.inputs!!, EnumDyeColor.GREEN, "Input Items", BoundingRectangle(61, 25, 18, 54)) {
             override fun canInsertItem(slot: Int, stack: ItemStack): Boolean {
-                return !ItemStackUtil.isEmpty(stack) && LiquefierRecipes.getRecipe(stack) != null
+                return !stack.isEmpty && LiquefierRecipes.getRecipe(stack) != null
             }
 
             override fun canExtractItem(slot: Int): Boolean {
@@ -104,7 +104,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
     }
 
     private fun isValidFluidContainer(stack: ItemStack): Boolean {
-        if (!ItemStackUtil.isEmpty(stack)) {
+        if (!stack.isEmpty) {
             val item = stack.item
             if (item === Items.GLASS_BOTTLE || item === Items.BUCKET) {
                 return true
@@ -180,7 +180,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
             if (this.currentRecipe != null) {
                 return this.currentRecipe!!.input.copy() // ItemStack(this.currentRecipe!!.input, this.currentRecipe!!.inputStackSize)
             }
-            return ItemStackUtil.emptyStack
+            return ItemStack.EMPTY
         }
 
     override val energyForWork: Int
@@ -205,7 +205,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
 
         var stack = this.fluidOutputs!!.getStackInSlot(0)
         val maxDrain = this.lavaTank!!.fluidAmount
-        if (!ItemStackUtil.isEmpty(stack) && maxDrain > 0) {
+        if (!stack.isEmpty && maxDrain > 0) {
             if (stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)) {
                 val toFill = Math.max(maxDrain, Fluid.BUCKET_VOLUME)
                 val dummy = FluidStorage()
@@ -216,7 +216,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
                     this.fluidOutputs!!.setStackInSlot(0, stack)
                 }
 
-                if (!ItemStackUtil.isEmpty(stack) && !this.isEmptyFluidContainer(stack)) {
+                if (!stack.isEmpty && !this.isEmptyFluidContainer(stack)) {
                     this.fluidOutputs!!.setStackInSlot(0, this.fluidOutputs!!.insertItem(1, stack, false))
                 }
             }
@@ -225,7 +225,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
         if (this.currentRecipe == null) {
             for (input in ItemStackUtil.getCombinedInventory(this.inputs!!)) {
                 val recipe = LiquefierRecipes.getRecipe(input/*.item*/)
-                if (recipe != null) { // && recipe.inputStackSize <= ItemStackUtil.getSize(input)) {
+                if (recipe != null) { // && recipe.inputStackSize <= input.count) {
                     val fluid = recipe.output.copy() // FluidStack(recipe.output, recipe.outputQuantity)
                     if (this.lavaTank!!.fill(fluid, false) == fluid.amount) { // recipe.outputQuantity) {
                         ItemStackUtil.extractFromCombinedInventory(this.inputs!!, input, recipe.input.count) // inputStackSize)

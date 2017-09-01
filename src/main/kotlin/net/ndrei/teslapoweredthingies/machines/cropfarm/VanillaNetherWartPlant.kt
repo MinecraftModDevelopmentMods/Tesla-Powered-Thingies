@@ -7,7 +7,6 @@ import net.minecraft.entity.item.EntityItem
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.utils.BlockPosUtils
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 
@@ -24,7 +23,7 @@ class VanillaNetherWartPlant(private val state: IBlockState, private val world: 
     override fun harvest(fortune: Int): List<ItemStack> {
         // return Blocks.NETHER_WART.getDrops(this.world, this.pos, this.state, fortune);
         val player = TeslaThingiesMod.getFakePlayer(this.world)
-        this.state.block.harvestBlock(this.world, player, this.pos, this.state, null, ItemStackUtil.emptyStack)
+        this.state.block.harvestBlock(this.world, player, this.pos, this.state, null, ItemStack.EMPTY)
         this.world.setBlockState(this.pos, this.state.block.defaultState)
         this.world.destroyBlock(this.pos, false) // <-- to force replanting
 

@@ -11,7 +11,6 @@ import net.minecraftforge.fluids.IFluidTank
 import net.minecraftforge.items.ItemHandlerHelper
 import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.TeslaCoreLib
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.gui.*
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
@@ -204,7 +203,7 @@ class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.jav
                     val lava = if (lavaRequired) this.lavaTank.drain(this.lastWorkResult!!.lavaMbConsumed, false) else null
                     if (!lavaRequired || lava != null && lava.amount == this.lastWorkResult!!.lavaMbConsumed) {
                         val remaining = ItemHandlerHelper.insertItem(this.outputs, this.lastWorkResult!!.resultStack.copy(), false)
-                        if (ItemStackUtil.isEmpty(remaining)) {
+                        if (remaining.isEmpty) {
                             // actually drain liquids
                             if (waterRequired) {
                                 this.waterTank.drain(this.lastWorkResult!!.waterMbConsumed, true)

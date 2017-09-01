@@ -4,7 +4,6 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 
 /**
  * Created by CF on 2017-07-07.
@@ -81,7 +80,7 @@ object TreeWrapperFactory {
     }
 
     fun getSaplingWrapper(stack: ItemStack): ITreeSaplingWrapper? {
-        if (!ItemStackUtil.isEmpty(stack)) {
+        if (!stack.isEmpty) {
             for (tree in TreeWrapperFactory.treeWrappers) {
                 val wrapper = tree.getPlantableSapling(stack)
                 if (wrapper != null) {

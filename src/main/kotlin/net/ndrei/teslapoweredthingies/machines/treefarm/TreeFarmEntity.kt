@@ -129,7 +129,7 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
                             if (planted > 0) {
                                 val original = sapling.stack
                                 val extracted = ItemStackUtil.extractFromCombinedInventory(inputs, original, planted)
-                                if (ItemStackUtil.getSize(original) <= extracted) {
+                                if (original.count <= extracted) {
                                     saplings.remove(sapling)
                                 } else {
                                     ItemStackUtil.shrink(original, extracted)
@@ -152,7 +152,7 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
         var shearsSlot = 0
         for (index in 0..inputs.getSlots() - 1) {
             val stack = inputs.getStackInSlot(index)
-            if (!ItemStackUtil.isEmpty(stack) && stack.item === Items.SHEARS) {
+            if (!stack.isEmpty && stack.item === Items.SHEARS) {
                 hasShears = true
                 shearsSlot = index
                 break
@@ -169,7 +169,7 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
                         items.addAll(wrapper.shearBlock())
                         if (shearsSlot >= 0) {
                             if (inputs.getStackInSlot(shearsSlot).attemptDamageItem(1, this.getWorld().rand, TeslaThingiesMod.getFakePlayer(this.getWorld()))) {
-                                inputs.setStackInSlot(shearsSlot, ItemStackUtil.emptyStack)
+                                inputs.setStackInSlot(shearsSlot, ItemStack.EMPTY)
                                 shearsSlot = -1
                                 hasShears = false
                             }

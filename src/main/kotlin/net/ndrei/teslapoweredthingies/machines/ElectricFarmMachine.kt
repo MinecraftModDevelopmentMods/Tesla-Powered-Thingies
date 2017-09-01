@@ -89,7 +89,7 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
     protected open val outputSlots: Int
         get() = 6
 
-    protected fun initializeOutputInventory() {
+    private fun initializeOutputInventory() {
         val outputSlots = this.outputSlots
         if (outputSlots > 0) {
             this.outStackHandler = object : ItemStackHandler(Math.max(0, Math.min(6, outputSlots))) {
@@ -201,7 +201,7 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
     protected val range: Int
         get() = this.getRange(3, 3)
 
-    protected fun getRange(base: Int, perTier: Int): Int {
+    private fun getRange(base: Int, perTier: Int): Int {
         val tier1 = if (this.hasAddon(MachineRangeAddonTier1::class.java)) 1 else 0
         val tier2 = tier1 * if (this.hasAddon(MachineRangeAddonTier2::class.java)) 1 else 0
 
@@ -215,7 +215,7 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
 //    open val groundArea: BlockCube
 //        get() = this.getWorkArea(this.facing.opposite, 1)
 
-    protected fun spawnOverloadedItem(stack: ItemStack): Boolean {
+    private fun spawnOverloadedItem(stack: ItemStack): Boolean {
         // TODO: readd config option for this
         // if (MekfarmMod.config.allowMachinesToSpawnItems()) {
             return null != super.spawnItemFromFrontSide(stack)
@@ -233,10 +233,10 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
                     ItemStackUtil.insertItemInExistingStacks(this.inStackHandler, lootStack, false)
                 else
                     ItemHandlerHelper.insertItemStacked(this.filteredInStackHandler, lootStack, false)
-                if (!ItemStackUtil.isEmpty(remaining)) {
+                if (!remaining.isEmpty) {
                     remaining = ItemHandlerHelper.insertItem(this.outStackHandler, lootStack, false)
                 }
-                if (!ItemStackUtil.isEmpty(remaining)) {
+                if (!remaining.isEmpty) {
                     return this.spawnOverloadedItem(remaining)
                 }
             }

@@ -59,13 +59,13 @@ class SewerEntity : BaseXPCollectingMachine(SewerEntity::class.java.name.hashCod
     override fun processFluidItems(fluidItems: ItemStackHandler) {
         val stack = fluidItems.getStackInSlot(0)
         val outputStack = fluidItems.getStackInSlot(1)
-        if (!ItemStackUtil.isEmpty(stack) && ItemStackUtil.isEmpty(outputStack)) {
+        if (!stack.isEmpty && outputStack.isEmpty) {
             val input = ItemStackUtil.copyWithSize(stack, 1)
             val result = FluidUtil.tryFillContainer(input, this.fluidHandler, Fluid.BUCKET_VOLUME, null, true)
             if (result.isSuccess) {
                 ItemStackUtil.shrink(stack, 1)
                 if (stack.isEmpty) {
-                    fluidItems.setStackInSlot(0, ItemStackUtil.emptyStack)
+                    fluidItems.setStackInSlot(0, ItemStack.EMPTY)
                 }
                 fluidItems.setStackInSlot(1, result.getResult())
             }

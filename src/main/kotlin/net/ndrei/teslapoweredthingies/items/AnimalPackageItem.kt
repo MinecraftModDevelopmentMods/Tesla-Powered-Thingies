@@ -9,7 +9,6 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
 import net.minecraftforge.common.util.Constants
 import net.ndrei.teslacorelib.annotations.AutoRegisterItem
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 
 /**
@@ -63,12 +62,12 @@ object AnimalPackageItem : BaseThingyItem("animal_package") {
     }
 
     fun hasAnimal(stack: ItemStack): Boolean {
-        val nbt = if (ItemStackUtil.isEmpty(stack)) null else stack.tagCompound
+        val nbt = if (stack.isEmpty) null else stack.tagCompound
         return nbt != null && nbt.getInteger("hasAnimal") == 1
     }
 
     fun unpackage(world: World?, stack: ItemStack): EntityAnimal? {
-        if (ItemStackUtil.isEmpty(stack) || stack.item !== AnimalPackageItem
+        if (stack.isEmpty || stack.item !== AnimalPackageItem
                 || !hasAnimal(stack)) {
             return null
         }

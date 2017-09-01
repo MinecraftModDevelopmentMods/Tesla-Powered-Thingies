@@ -13,7 +13,6 @@ import net.minecraftforge.common.IPlantable
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.IFluidTank
 import net.minecraftforge.items.ItemStackHandler
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.render.HudInfoLine
@@ -67,7 +66,7 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
         get() = false
 
     override fun acceptsInputStack(slot: Int, stack: ItemStack): Boolean {
-        if (ItemStackUtil.isEmpty(stack)) {
+        if (stack.isEmpty) {
             return false
         }
 

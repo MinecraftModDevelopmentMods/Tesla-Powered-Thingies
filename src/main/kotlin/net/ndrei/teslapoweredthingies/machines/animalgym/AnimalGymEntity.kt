@@ -10,7 +10,6 @@ import net.minecraftforge.common.util.Constants
 import net.minecraftforge.items.ItemHandlerHelper
 import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.TeslaCoreLib
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.ButtonPiece
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
@@ -230,8 +229,8 @@ class AnimalGymEntity : ElectricGenerator(AnimalGymEntity::class.java.name.hashC
             if (this.currentAnimal == null) {
                 for (index in 0..this.inStackHandler.slots - 1) {
                     val stack = this.inStackHandler.getStackInSlot(index)
-                    if (!ItemStackUtil.isEmpty(stack) && stack.item === AnimalPackageItem && AnimalPackageItem.hasAnimal(stack)) {
-                        this.inStackHandler.setStackInSlot(index, ItemStackUtil.emptyStack)
+                    if (!stack.isEmpty && stack.item === AnimalPackageItem && AnimalPackageItem.hasAnimal(stack)) {
+                        this.inStackHandler.setStackInSlot(index, ItemStack.EMPTY)
                         this.currentAnimal = AnimalPackageItem.unpackage(this.getWorld(), stack)
                         this.forceSync()
                         return if (this.currentAnimal == null) null else this.current
@@ -250,7 +249,7 @@ class AnimalGymEntity : ElectricGenerator(AnimalGymEntity::class.java.name.hashC
         val remaining = ItemHandlerHelper.insertItem(this.outStackHandler,
                 AnimalFarmEntity.packageAnimal(null, ea),
                 false)
-        if (ItemStackUtil.isEmpty(remaining)) {
+        if (remaining.isEmpty) {
             this.currentAnimal = null
             this.forceSync()
             this.markDirty()

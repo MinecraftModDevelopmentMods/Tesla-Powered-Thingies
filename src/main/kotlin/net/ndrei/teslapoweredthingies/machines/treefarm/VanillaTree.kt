@@ -6,7 +6,6 @@ import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 
 /**
  * Created by CF on 2017-07-07.
@@ -27,7 +26,7 @@ class VanillaTree : ITreeFactory {
     }
 
     override fun getPlantableSapling(stack: ItemStack): ITreeSaplingWrapper? {
-        if (!ItemStackUtil.isEmpty(stack) && stack.item === Item.getItemFromBlock(Blocks.SAPLING)) {
+        if (!stack.isEmpty && stack.item === Item.getItemFromBlock(Blocks.SAPLING)) {
             return VanillaSapling(stack)
         }
         return null

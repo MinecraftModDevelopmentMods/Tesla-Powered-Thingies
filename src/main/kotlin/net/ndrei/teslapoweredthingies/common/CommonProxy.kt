@@ -1,7 +1,6 @@
 package net.ndrei.teslapoweredthingies.common
 
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.ndrei.teslacorelib.BaseProxy
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerRecipes

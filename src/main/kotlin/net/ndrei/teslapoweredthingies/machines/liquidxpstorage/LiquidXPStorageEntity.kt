@@ -1,6 +1,5 @@
 package net.ndrei.teslapoweredthingies.machines.liquidxpstorage
 
-import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.init.Items
@@ -32,7 +31,6 @@ import net.ndrei.teslacorelib.utils.processInputInventory
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.common.LiquidXPUtils
 import net.ndrei.teslapoweredthingies.common.changeExperience
-import net.ndrei.teslapoweredthingies.common.setExperience
 import net.ndrei.teslapoweredthingies.fluids.LiquidXPFluid
 import net.ndrei.teslapoweredthingies.items.XPTankAddonItem
 import net.ndrei.teslapoweredthingies.render.LiquidXPStorageSpecialRenderer
@@ -295,7 +293,7 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
                     if (existing.isEmpty) {
                         result = ItemStack(Items.EXPERIENCE_BOTTLE, 1)
                     } else if (existing.count < existing.maxStackSize) {
-                        result = ItemStackUtil.copyWithSize(existing, ItemStackUtil.getSize(existing) + 1)
+                        result = ItemStackUtil.copyWithSize(existing, existing.count + 1)
                     }
 
                     if (!result.isEmpty) {

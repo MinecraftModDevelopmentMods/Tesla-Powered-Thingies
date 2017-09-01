@@ -15,7 +15,6 @@ import net.minecraftforge.fluids.capability.FluidTankProperties
 import net.minecraftforge.fluids.capability.IFluidHandlerItem
 import net.minecraftforge.fluids.capability.IFluidTankProperties
 import net.ndrei.teslacorelib.annotations.AutoRegisterItem
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.items.BaseAddon
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
@@ -89,7 +88,7 @@ object LiquidXPCollectorItem
 
         override fun <T> getCapability(capability: Capability<T>, facing: EnumFacing?): T? {
             if (capability === CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY) {
-                return this as T
+                return capability.cast(this)
             }
             return null
         }
@@ -144,7 +143,7 @@ object LiquidXPCollectorItem
     }
 
     fun getStoredXP(stack: ItemStack): Int {
-        if (!ItemStackUtil.isEmpty(stack) && stack.item === LiquidXPCollectorItem) {
+        if (!stack.isEmpty && stack.item === LiquidXPCollectorItem) {
             val nbt = stack.tagCompound
             if (nbt != null && nbt.hasKey("StoredLiquidXP", Constants.NBT.TAG_INT)) {
                 return nbt.getInteger("StoredLiquidXP")
@@ -154,7 +153,7 @@ object LiquidXPCollectorItem
     }
 
     fun setStoredXP(stack: ItemStack, storedXp: Int) {
-        if (!ItemStackUtil.isEmpty(stack) && stack.item === LiquidXPCollectorItem) {
+        if (!stack.isEmpty && stack.item === LiquidXPCollectorItem) {
             var nbt = stack.tagCompound
             if (nbt == null) {
                 stack.tagCompound = NBTTagCompound()

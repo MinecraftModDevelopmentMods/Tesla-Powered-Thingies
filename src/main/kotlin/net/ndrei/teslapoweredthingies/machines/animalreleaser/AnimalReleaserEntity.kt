@@ -3,7 +3,6 @@ package net.ndrei.teslapoweredthingies.machines.animalreleaser
 import net.minecraft.entity.passive.EntityAnimal
 import net.minecraft.item.ItemStack
 import net.minecraft.world.World
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.utils.BlockPosUtils
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.items.AnimalPackageItem
@@ -32,16 +31,16 @@ class AnimalReleaserEntity
     override fun getWorkAreaColor(): Int = ANIMAL_FARM_WORK_AREA_COLOR
 
     override fun performWork(): Float {
-        var stack = ItemStackUtil.emptyStack
+        var stack = ItemStack.EMPTY
         var stackIndex = 0
         while (stackIndex < this.inStackHandler!!.getSlots()) {
             stack = this.inStackHandler!!.extractItem(stackIndex, 1, true)
-            if (!ItemStackUtil.isEmpty(stack)) {
+            if (!stack.isEmpty) {
                 break
             }
             stackIndex++
         }
-        if (!ItemStackUtil.isEmpty(stack)) {
+        if (!stack.isEmpty) {
             val stackCopy = stack.copy()
             if (stackCopy.item is AnimalPackageItem && stackCopy.hasTagCompound()) {
                 val compound = stackCopy.tagCompound

@@ -10,7 +10,6 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.utils.BlockPosUtils
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 
@@ -28,7 +27,7 @@ open class VanillaGenericPlant(protected val block: Block, protected val state: 
 
     override fun harvest(fortune: Int): List<ItemStack> {
         val player = TeslaThingiesMod.getFakePlayer(this.world)
-        this.state.block.harvestBlock(this.world, player, this.pos, this.state, null, ItemStackUtil.emptyStack)
+        this.state.block.harvestBlock(this.world, player, this.pos, this.state, null, ItemStack.EMPTY)
         this.world.setBlockState(this.pos, this.state.block.defaultState)
         this.world.destroyBlock(this.pos, false) // <-- to force replanting
 
@@ -70,7 +69,7 @@ open class VanillaGenericPlant(protected val block: Block, protected val state: 
             if (player != null) {
                 player.setHeldItem(EnumHand.MAIN_HAND, fertilizer.copy())
                 val result = player.getHeldItem(EnumHand.MAIN_HAND).onItemUse(player, world, pos, EnumHand.MAIN_HAND, EnumFacing.UP, .5f, .5f, .5f)
-                player.setHeldItem(EnumHand.MAIN_HAND, ItemStackUtil.emptyStack)
+                player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY)
                 return 1
             }
             return 0

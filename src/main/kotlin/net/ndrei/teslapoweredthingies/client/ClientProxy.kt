@@ -14,8 +14,8 @@ import net.ndrei.teslapoweredthingies.common.CommonProxy
 class ClientProxy : CommonProxy(Side.CLIENT) {
     val TANK_MODEL = ResourceLocation(TeslaThingiesMod.MODID, "multi_tank")
 
-    override fun preInit(e: FMLPreInitializationEvent) {
-        super.preInit(e)
+    override fun preInit(ev: FMLPreInitializationEvent) {
+        super.preInit(ev)
         TeslaThingiesMod.logger.info("ClientProxy::preInit")
 
         OBJLoader.INSTANCE.addDomain(TeslaThingiesMod.MODID)

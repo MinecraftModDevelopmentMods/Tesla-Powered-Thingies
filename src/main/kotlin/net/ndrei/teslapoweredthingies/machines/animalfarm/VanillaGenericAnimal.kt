@@ -10,7 +10,6 @@ import net.minecraft.init.Items
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraftforge.common.IShearable
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 
 /**
  * Created by CF on 2017-07-07.
@@ -34,7 +33,7 @@ open class VanillaGenericAnimal(override val animal: EntityAnimal)
     override fun mate(player: EntityPlayer, stack: ItemStack, wrapper: IAnimalWrapper): Int {
         val consumedFood: Int
         val neededFood = 2 * this.getFoodNeededForMating(stack)
-        if (ItemStackUtil.getSize(stack) < neededFood) {
+        if (stack.count < neededFood) {
             consumedFood = 0
         } else if (!this.canMateWith(wrapper) || !this.isFood(stack)) {
             consumedFood = 0
@@ -56,7 +55,7 @@ open class VanillaGenericAnimal(override val animal: EntityAnimal)
     }
 
     override fun canBeShearedWith(stack: ItemStack): Boolean {
-        if (ItemStackUtil.isEmpty(stack) || stack.item !== Items.SHEARS) {
+        if (stack.isEmpty || stack.item !== Items.SHEARS) {
             return false
         }
         var isShearable = false
@@ -89,7 +88,7 @@ open class VanillaGenericAnimal(override val animal: EntityAnimal)
         return if (this.canBeMilked())
             ItemStack(Items.MILK_BUCKET, 1)
         else
-            ItemStackUtil.emptyStack
+            ItemStack.EMPTY
     }
 
     override fun canBeBowled(): Boolean {
@@ -101,7 +100,7 @@ open class VanillaGenericAnimal(override val animal: EntityAnimal)
         return if (this.canBeBowled())
             ItemStack(Items.MUSHROOM_STEW, 1)
         else
-            ItemStackUtil.emptyStack
+            ItemStack.EMPTY
     }
 
     companion object {

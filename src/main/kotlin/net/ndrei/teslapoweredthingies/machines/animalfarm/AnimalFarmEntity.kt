@@ -30,7 +30,7 @@ class AnimalFarmEntity
     private val ENERGY_MILK = .3f
 
     override fun acceptsInputStack(slot: Int, stack: ItemStack): Boolean {
-        if (ItemStackUtil.isEmpty(stack))
+        if (stack.isEmpty)
             return true
 
         // test for animal package
@@ -78,17 +78,17 @@ class AnimalFarmEntity
             var packageSlot = 0
             for (ti in 0..this.inStackHandler!!.getSlots() - 1) {
                 packageStack = this.inStackHandler!!.extractItem(ti, 1, true)
-                if (!ItemStackUtil.isEmpty(packageStack) && packageStack.item is AnimalPackageItem && !AnimalPackageItem.hasAnimal(packageStack)) {
+                if (!packageStack.isEmpty && packageStack.item is AnimalPackageItem && !AnimalPackageItem.hasAnimal(packageStack)) {
                     packageSlot = ti
                     break
                 }
                 packageStack = null
             }
-            if (!ItemStackUtil.isEmpty(packageStack)) {
+            if ((packageStack != null) && !packageStack.isEmpty) {
                 val animal = animalToPackage.animal
                 val stackCopy = AnimalFarmEntity.packageAnimal(packageStack, animal)
 
-                if (!ItemStackUtil.isEmpty(stackCopy) && super.outputItems(stackCopy)) {
+                if (!stackCopy.isEmpty && super.outputItems(stackCopy)) {
                     this.getWorld().removeEntity(animalToPackage.animal)
                     this.inStackHandler!!.extractItem(packageSlot, 1, false)
                     animalToPackage = null
@@ -125,7 +125,7 @@ class AnimalFarmEntity
                             val toMateWith = toProcess[j]
                             if (toMateWith.breedable() && toMateWith.isFood(foodStack) && wrapper.canMateWith(toMateWith)) {
                                 val foodUsed = wrapper.mate(TeslaThingiesMod.getFakePlayer(this.getWorld())!!, foodStack, toMateWith)
-                                if (foodUsed > 0 && foodUsed <= ItemStackUtil.getSize(foodStack)) {
+                                if (foodUsed > 0 && foodUsed <= foodStack.count) {
                                     ItemStackUtil.extractFromCombinedInventory(this.inStackHandler!!, foodStack, foodUsed)
                                     ItemStackUtil.shrink(foodStack, foodUsed)
                                     result += ENERGY_FEED
@@ -155,7 +155,7 @@ class AnimalFarmEntity
                             super.outputItems(loot) // TODO: test if successful
 
                             if (shears.attemptDamageItem(1, this.getWorld().rand, TeslaThingiesMod.getFakePlayer(this.getWorld())!!)) {
-                                this.inStackHandler!!.setStackInSlot(shearsSlot, ItemStackUtil.emptyStack)
+                                this.inStackHandler!!.setStackInSlot(shearsSlot, ItemStack.EMPTY)
                             }
 
                             result += ENERGY_SHEAR
@@ -170,7 +170,7 @@ class AnimalFarmEntity
 
                     for (b in 0..this.inStackHandler!!.getSlots() - 1) {
                         val stack = this.inStackHandler!!.extractItem(b, 1, true)
-                        if (ItemStackUtil.getSize(stack) == 1 && stack.getItem() === Items.BUCKET) {
+                        if (stack.count == 1 && stack.getItem() === Items.BUCKET) {
                             val milk = wrapper.milk()
                             if (super.outputItems(milk)) {
                                 this.inStackHandler!!.extractItem(b, 1, false)
@@ -188,9 +188,9 @@ class AnimalFarmEntity
                 if (wrapper.canBeBowled() && 1.0f - result >= ENERGY_MILK) {
                     for (b in 0..this.inStackHandler!!.getSlots() - 1) {
                         val stack = this.inStackHandler!!.extractItem(b, 1, true)
-                        if (ItemStackUtil.getSize(stack) == 1 && stack.getItem() === Items.BOWL) {
+                        if (stack.count == 1 && stack.getItem() === Items.BOWL) {
                             val stew = wrapper.bowl()
-                            if (!ItemStackUtil.isEmpty(stew) && super.outputItems(stew)) {
+                            if (!stew.isEmpty && super.outputItems(stew)) {
                                 this.inStackHandler!!.extractItem(b, 1, false)
                                 result += ENERGY_MILK
                                 break
@@ -217,10 +217,10 @@ class AnimalFarmEntity
                     // TODO: add a method for picking up EntityItems at super class
                     val remaining = ItemHandlerHelper.insertItem(this.outStackHandler, original, false)
                     var pickedUpLoot = false
-                    if (ItemStackUtil.isEmpty(remaining)) {
+                    if (remaining.isEmpty) {
                         this.getWorld().removeEntity(item)
                         pickedUpLoot = true
-                    } else if (ItemStackUtil.getSize(remaining) != ItemStackUtil.getSize(original)) {
+                    } else if (remaining.count != original.count) {
                         item.item = remaining
                         pickedUpLoot = true
                     }

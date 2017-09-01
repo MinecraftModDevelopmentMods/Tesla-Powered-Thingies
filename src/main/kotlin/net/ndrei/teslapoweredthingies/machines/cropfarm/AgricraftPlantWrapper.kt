@@ -7,7 +7,6 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 
 /**
@@ -19,8 +18,8 @@ class AgricraftPlantWrapper(block: Block, state: IBlockState, world: World, pos:
     override fun harvest(fortune: Int): List<ItemStack> {
         val player = TeslaThingiesMod.getFakePlayer(super.world)
         if (player != null) {
-            player.setHeldItem(EnumHand.MAIN_HAND, ItemStackUtil.emptyStack)
-            player.setHeldItem(EnumHand.OFF_HAND, ItemStackUtil.emptyStack)
+            player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY)
+            player.setHeldItem(EnumHand.OFF_HAND, ItemStack.EMPTY)
             super.block.onBlockActivated(super.world, super.pos, super.state, player, EnumHand.OFF_HAND,
                     EnumFacing.UP, .5f, .5f, .5f)
         }
@@ -32,7 +31,7 @@ class AgricraftPlantWrapper(block: Block, state: IBlockState, world: World, pos:
         val stack = fertilizer.copy()
         if (player != null) {
             player.setHeldItem(EnumHand.MAIN_HAND, stack)
-            player.setHeldItem(EnumHand.OFF_HAND, ItemStackUtil.emptyStack)
+            player.setHeldItem(EnumHand.OFF_HAND, ItemStack.EMPTY)
         }
         return if (super.block.onBlockActivated(super.world, super.pos, super.state, player, EnumHand.OFF_HAND,
                 EnumFacing.UP, .5f, .5f, .5f
