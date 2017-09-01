@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.ndrei.teslacorelib.config.ModConfigHandler
 import net.ndrei.teslacorelib.config.TeslaCoreLibConfig
+import net.ndrei.teslacorelib.items.gears.CoreGearType
 import net.ndrei.teslapoweredthingies.common.CommonProxy
 import net.ndrei.teslapoweredthingies.items.TeslaPlantSeeds
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerBlock
@@ -47,6 +48,11 @@ object TeslaThingiesMod {
 
         arrayOf(
             TeslaCoreLibConfig.REGISTER_GEARS,
+            "${TeslaCoreLibConfig.REGISTER_GEAR_TYPES}#${CoreGearType.WOOD.material}",
+            "${TeslaCoreLibConfig.REGISTER_GEAR_TYPES}#${CoreGearType.STONE.material}",
+            "${TeslaCoreLibConfig.REGISTER_GEAR_TYPES}#${CoreGearType.IRON.material}",
+            "${TeslaCoreLibConfig.REGISTER_GEAR_TYPES}#${CoreGearType.GOLD.material}",
+            "${TeslaCoreLibConfig.REGISTER_GEAR_TYPES}#${CoreGearType.DIAMOND.material}",
             TeslaCoreLibConfig.REGISTER_BATTERY,
             TeslaCoreLibConfig.REGISTER_MACHINE_CASE,
             TeslaCoreLibConfig.REGISTER_ADDONS,
