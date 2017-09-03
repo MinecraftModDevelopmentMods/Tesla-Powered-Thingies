@@ -12,3 +12,5 @@
 - improved liquid xp storage machine 
 - added 'player xp addon' - you put it into a 'liquid xp storage' and you can convert stored liquid xp to/from player xp
 - fixed some of the default recipes for 'powder maker'
+
+#1.0.9
