@@ -1,5 +1,10 @@
 package net.ndrei.teslapoweredthingies.machines.poweredkiln
 
+import net.minecraft.item.ItemStack
+import net.minecraft.item.crafting.FurnaceRecipes
+import net.ndrei.teslacorelib.utils.copyWithSize
+import net.ndrei.teslacorelib.utils.equalsIgnoreSize
+
 /**
  * Created by CF on 2017-07-06.
  */

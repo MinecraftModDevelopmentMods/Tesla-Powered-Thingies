@@ -1,5 +1,8 @@
 package net.ndrei.teslapoweredthingies.machines.itemcompoundproducer
 
+import net.minecraftforge.fluids.FluidStack
+import net.ndrei.teslacorelib.utils.isEnough
+
 /**
  * Created by CF on 2017-07-13.
  */
