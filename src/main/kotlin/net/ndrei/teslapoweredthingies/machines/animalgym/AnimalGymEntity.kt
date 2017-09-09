@@ -42,31 +42,9 @@ class AnimalGymEntity : ElectricGenerator(AnimalGymEntity::class.java.name.hashC
         }
         super.addInventory(object : ColoredItemHandler(this.inStackHandler, EnumDyeColor.GREEN, "Input Items", BoundingRectangle(61, 25, 18, 54)) {
             override fun canInsertItem(slot: Int, stack: ItemStack)
-                = this@AnimalGymEntity.acceptsInputStack(slot, stack)
+                = this@AnimalGymEntity.acceptsInputStack(/*slot, */stack)
 
             override fun canExtractItem(slot: Int) = false
-//
-//            override fun getSlots(container: BasicTeslaContainer<*>): MutableList<Slot> {
-//                val slots = super.getSlots(container)
-//
-//                val box = this.boundingBox
-//                for (y in 0..this.handler.getSlots() - 1) {
-//                    slots.add(FilteredSlot(this.itemHandlerForContainer, y, box.left + 1, box.top + 1 + y * 18))
-//                }
-//
-//                return slots
-//            }
-//
-//            override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
-//                val pieces = super.getGuiContainerPieces(container)
-//
-//                val box = this.boundingBox
-//                pieces.add(TiledRenderedGuiPiece(box.left, box.top, 18, 18,
-//                        1, 3,
-//                        BasicTeslaGuiContainer.MACHINE_BACKGROUND, 108, 225, EnumDyeColor.GREEN))
-//
-//                return pieces
-//            }
         })
         super.addInventoryToStorage(this.inStackHandler, "gym_inputs")
 
@@ -79,34 +57,11 @@ class AnimalGymEntity : ElectricGenerator(AnimalGymEntity::class.java.name.hashC
             override fun canInsertItem(slot: Int, stack: ItemStack) =  false
 
             override fun canExtractItem(slot: Int): Boolean = true
-
-//            override fun getSlots(container: BasicTeslaContainer<*>): MutableList<Slot> {
-//                val slots = super.getSlots(container)
-//
-//                val box = this.boundingBox
-//                for (y in 0..2) {
-//                    slots.add(FilteredSlot(this.itemHandlerForContainer, y,
-//                            box.left + 1, box.top + 1 + y * 18))
-//                }
-//
-//                return slots
-//            }
-//
-//            override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
-//                val pieces = super.getGuiContainerPieces(container)
-//
-//                val box = this.boundingBox
-//                pieces.add(TiledRenderedGuiPiece(box.left, box.top, 18, 18,
-//                        1, 3,
-//                        BasicTeslaGuiContainer.MACHINE_BACKGROUND, 108, 225, EnumDyeColor.PURPLE))
-//
-//                return pieces
-//            }
         })
         super.addInventoryToStorage(this.outStackHandler, "gym_outputs")
     }
 
-    fun acceptsInputStack(slot: Int, stack: ItemStack)
+    private fun acceptsInputStack(/*slot: Int, */stack: ItemStack)
         = !stack.isEmpty && (stack.item === AnimalPackageItem) && AnimalPackageItem.hasAnimal(stack)
 
     //#endregion
@@ -227,7 +182,7 @@ class AnimalGymEntity : ElectricGenerator(AnimalGymEntity::class.java.name.hashC
             }
 
             if (this.currentAnimal == null) {
-                for (index in 0..this.inStackHandler.slots - 1) {
+                for (index in 0 until this.inStackHandler.slots) {
                     val stack = this.inStackHandler.getStackInSlot(index)
                     if (!stack.isEmpty && stack.item === AnimalPackageItem && AnimalPackageItem.hasAnimal(stack)) {
                         this.inStackHandler.setStackInSlot(index, ItemStack.EMPTY)
@@ -295,7 +250,7 @@ class AnimalGymEntity : ElectricGenerator(AnimalGymEntity::class.java.name.hashC
         return this.current
     }
 
-    val speedForCurrent: Float
+    private val speedForCurrent: Float
         get() {
             val a = this.current
             return a?.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED)?.baseValue?.toFloat() ?: 0.0f
@@ -304,14 +259,14 @@ class AnimalGymEntity : ElectricGenerator(AnimalGymEntity::class.java.name.hashC
     val powerPerTick: Float
         get() = this.teslaSpeedMultiplier * this.speedForCurrent
 
-    val enduranceForCurrent: Float
+    private val enduranceForCurrent: Float
         get() {
             val a = this.current
             return a?.health ?: 0.0f
         }
 
-    val lifespanForCurrent: Int
-        get() = Math.round(this.enduranceForCurrent * 60.0f * 20.0f)
+//    val lifespanForCurrent: Int
+//        get() = Math.round(this.enduranceForCurrent * 60.0f * 20.0f)
 
     val maxPowerForCurrent: Int
         get() = Math.round(this.teslaPerHeart * this.enduranceForCurrent)

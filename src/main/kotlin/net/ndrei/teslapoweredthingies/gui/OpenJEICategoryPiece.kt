@@ -16,7 +16,6 @@ class OpenJEICategoryPiece(private val block: Block, topIndex: Int = 1) : SideDr
         get() = TheJeiThing.isBlockRegistered(this.block)
 
     override fun renderState(container: BasicTeslaGuiContainer<*>, state: Int, box: BoundingRectangle) {
-        // container.mc.textureManager.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
         Textures.MACHINES_TEXTURES.bind(container)
 
         GlStateManager.enableBlend()

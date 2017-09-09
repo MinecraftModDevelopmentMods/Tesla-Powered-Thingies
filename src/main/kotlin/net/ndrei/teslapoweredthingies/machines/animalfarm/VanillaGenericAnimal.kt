@@ -33,14 +33,14 @@ open class VanillaGenericAnimal(override val animal: EntityAnimal)
     override fun mate(player: EntityPlayer, stack: ItemStack, wrapper: IAnimalWrapper): Int {
         val consumedFood: Int
         val neededFood = 2 * this.getFoodNeededForMating(stack)
-        if (stack.count < neededFood) {
-            consumedFood = 0
+        consumedFood = if (stack.count < neededFood) {
+            0
         } else if (!this.canMateWith(wrapper) || !this.isFood(stack)) {
-            consumedFood = 0
+            0
         } else {
             this.animal.setInLove(player)
             wrapper.animal.setInLove(player)
-            consumedFood = neededFood
+            neededFood
         }
 
         return consumedFood

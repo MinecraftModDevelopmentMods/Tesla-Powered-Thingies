@@ -13,12 +13,9 @@ import java.util.*
  */
 abstract class GenericCropClonerPlant: ICropClonerPlant {
     override fun getAgeProperty(thing: IBlockState): PropertyInteger? {
-        for (p in thing.propertyKeys) {
-            if (p is PropertyInteger && p.getName() === "age") {
-                return p
-            }
-        }
-        return null
+        return thing.propertyKeys
+            .filterIsInstance<PropertyInteger>()
+            .firstOrNull { it.name === "age" }
     }
 
     override fun getDrops(world: World, pos: BlockPos, state: IBlockState): List<ItemStack> {

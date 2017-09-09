@@ -23,8 +23,7 @@ import net.ndrei.teslapoweredthingies.items.LiquidXPCollectorItem
 abstract class BaseXPCollectingMachine(typeId: Int)
     : ElectricFarmMachine(typeId), ILiquidXPCollector {
 
-    @Suppress("MemberVisibilityCanPrivate")
-    protected var xpTank: IFluidTank? = null
+    private var xpTank: IFluidTank? = null
 
     override fun hasXPCollector()
             = this.hasAddon(LiquidXPCollectorItem::class.java)

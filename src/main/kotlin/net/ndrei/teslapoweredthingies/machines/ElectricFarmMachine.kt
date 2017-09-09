@@ -7,8 +7,8 @@ import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.AxisAlignedBB
+import net.minecraftforge.items.IItemHandlerModifiable
 import net.minecraftforge.items.ItemHandlerHelper
-import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
@@ -16,7 +16,6 @@ import net.ndrei.teslacorelib.gui.LockedInventoryTogglePiece
 import net.ndrei.teslacorelib.gui.SideDrawerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
-import net.ndrei.teslacorelib.inventory.LockableItemHandler
 import net.ndrei.teslacorelib.render.IWorkAreaProvider
 import net.ndrei.teslacorelib.render.WorkingAreaRenderer
 import net.ndrei.teslacorelib.utils.BlockCube
@@ -30,11 +29,11 @@ import net.ndrei.teslapoweredthingies.items.MachineRangeAddonTier2
  * Created by CF on 2017-07-06.
  */
 abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThingyMachine(typeId), IWorkAreaProvider {
-    protected var inStackHandler: ItemStackHandler? = null
+    protected var inStackHandler: IItemHandlerModifiable? = null
     protected var filteredInStackHandler: ColoredItemHandler? = null
-    protected var outStackHandler: ItemStackHandler? = null
+    protected var outStackHandler: IItemHandlerModifiable? = null
 
-    //#region inventories & gui methods
+    //#region inventories & gui    methods
 
     override fun initializeInventories() {
         super.initializeInventories()
@@ -48,31 +47,40 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
 
     protected open fun initializeInputInventory() {
         val inputSlots = this.inputSlots
-        if (inputSlots > 0) {
-            this.inStackHandler = if (this.lockableInputInventory)
-                object : LockableItemHandler(Math.max(0, Math.min(3, inputSlots))) {
-                    override fun onContentsChanged(slot: Int) {
-                        this@ElectricFarmMachine.markDirty()
-                    }
-                }
-            else
-                object : ItemStackHandler(Math.max(0, Math.min(3, inputSlots))) {
-                    override fun onContentsChanged(slot: Int) {
-                        this@ElectricFarmMachine.markDirty()
-                    }
-                }
-            this.filteredInStackHandler = object : ColoredItemHandler(this.inStackHandler!!, EnumDyeColor.GREEN, "Input Items", this.getInputInventoryBounds(this.inStackHandler!!.slots, 1)) {
-                override fun canInsertItem(slot: Int, stack: ItemStack)
-                    = (if (this.innerHandler is LockableItemHandler) this.innerHandler.canInsertItem(slot, stack) else true)
-                        && this@ElectricFarmMachine.acceptsInputStack(slot, stack)
-
-                override fun canExtractItem(slot: Int) = false
-            }
-            super.addInventory(this.filteredInStackHandler!!)
-            super.addInventoryToStorage(this.inStackHandler!!, "inputs")
+        this.inStackHandler =if (inputSlots > 0) {
+//             if (this.lockableInputInventory)
+//                object : LockableItemHandler(Math.max(0, Math.min(3, inputSlots))) {
+//                    override fun onContentsChanged(slot: Int) {
+//                        this@ElectricFarmMachine.markDirty()
+//                    }
+//                }
+//            else
+//                object : ItemStackHandler(Math.max(0, Math.min(3, inputSlots))) {
+//                    override fun onContentsChanged(slot: Int) {
+//                        this@ElectricFarmMachine.markDirty()
+//                    }
+//                }
+//            this.filteredInStackHandler = object : ColoredItemHandler(this.inStackHandler!!, EnumDyeColor.GREEN, "Input Items", this.getInputInventoryBounds(this.inStackHandler!!.slots, 1)) {
+//                override fun canInsertItem(slot: Int, stack: ItemStack)
+//                    = (if (this.innerHandler is LockableItemHandler) this.innerHandler.canInsertItem(slot, stack) else true)
+//                        && this@ElectricFarmMachine.acceptsInputStack(slot, stack)
+//
+//                override fun canExtractItem(slot: Int) = false
+//            }
+//            super.addInventory(this.filteredInStackHandler!!)
+//            super.addInventoryToStorage(this.inStackHandler!!, "inputs")
+            val slots = Math.max(0, Math.min(3, inputSlots))
+            this.addSimpleInventory(slots, "inputs",
+                EnumDyeColor.GREEN, "Input Items",
+                this.getInputInventoryBounds(slots, 1),
+                { stack, slot -> this@ElectricFarmMachine.acceptsInputStack(slot, stack) },
+                { _, _ -> false },
+                this.lockableInputInventory,
+                colorIndex = COLOR_INDEX_INPUTS)
         } else {
-            this.inStackHandler = null
+            null
         }
+        this.filteredInStackHandler = this.inStackHandler as? ColoredItemHandler
     }
 
     protected open val lockableInputInventory: Boolean
@@ -91,22 +99,31 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
 
     private fun initializeOutputInventory() {
         val outputSlots = this.outputSlots
-        if (outputSlots > 0) {
-            this.outStackHandler = object : ItemStackHandler(Math.max(0, Math.min(6, outputSlots))) {
-                override fun onContentsChanged(slot: Int) {
-                    this@ElectricFarmMachine.markDirty()
-                }
-            }
-            val columns = Math.min(3, this.outStackHandler!!.slots)
-            val rows = Math.min(2, this.outStackHandler!!.slots / columns)
-            super.addInventory(object : ColoredItemHandler(this.outStackHandler!!, EnumDyeColor.PURPLE, "Output Items", this.getOutputInventoryBounds(columns, rows)) {
-                override fun canInsertItem(slot: Int, stack: ItemStack) =  false
-
-                override fun canExtractItem(slot: Int) = true
-            })
-            super.addInventoryToStorage(this.outStackHandler!!, "outputs")
+        this.outStackHandler = if (outputSlots > 0) {
+//            this.outStackHandler = object : ItemStackHandler(Math.max(0, Math.min(6, outputSlots))) {
+//                override fun onContentsChanged(slot: Int) {
+//                    this@ElectricFarmMachine.markDirty()
+//                }
+//            }
+//            val columns = Math.min(3, this.outStackHandler!!.slots)
+//            val rows = Math.min(2, this.outStackHandler!!.slots / columns)
+//            super.addInventory(object : ColoredItemHandler(this.outStackHandler!!, EnumDyeColor.PURPLE, "Output Items", this.getOutputInventoryBounds(columns, rows)) {
+//                override fun canInsertItem(slot: Int, stack: ItemStack) =  false
+//
+//                override fun canExtractItem(slot: Int) = true
+//            })
+//            super.addInventoryToStorage(this.outStackHandler!!, "outputs")
+            // TODO: the following math seems weird!
+            val slots = Math.max(0, Math.min(6, outputSlots))
+            val columns = Math.min(3, slots)
+            val rows = Math.min(2, slots / columns)
+            this.addSimpleInventory(slots, "outputs", EnumDyeColor.PURPLE, "Output Items",
+                this.getOutputInventoryBounds(columns, rows),
+                { _, _ -> false },
+                { _, _ -> true },
+                colorIndex = COLOR_INDEX_OUTPUTS)
         } else {
-            this.outStackHandler = null
+            null
         }
     }
 
@@ -168,33 +185,7 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
     }
 
     //#endregion
-    //#region write/read/sync   methods
-
-//    override fun readFromNBT(compound: NBTTagCompound) {
-//        super.readFromNBT(compound)
-//        if (compound.hasKey("income")) {
-//            this.inStackHandler!!.deserializeNBT(compound.getCompoundTag("income"))
-//        }
-//        if (compound.hasKey("outcome")) {
-//            this.outStackHandler!!.deserializeNBT(compound.getCompoundTag("outcome"))
-//        }
-//    }
-//
-//    override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
-//        var compound = compound
-//        compound = super.writeToNBT(compound)
-//
-//        if (this.inStackHandler != null) {
-//            compound.setTag("income", this.inStackHandler!!.serializeNBT())
-//        }
-//        if (this.outStackHandler != null) {
-//            compound.setTag("outcome", this.outStackHandler!!.serializeNBT())
-//        }
-//
-//        return compound
-//    }
-
-    //#endregion
+    //#region range addons         methods
 
     open fun supportsRangeAddons() = true
 
@@ -212,16 +203,11 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
         return BlockPosUtils.getCube(this.getPos(), facing, this.range, height)
     }
 
-//    open val groundArea: BlockCube
-//        get() = this.getWorkArea(this.facing.opposite, 1)
+    //#endregion
+    //#region output & spawn items methods
 
-    private fun spawnOverloadedItem(stack: ItemStack): Boolean {
-        // TODO: readd config option for this
-        // if (MekfarmMod.config.allowMachinesToSpawnItems()) {
-            return null != super.spawnItemFromFrontSide(stack)
-        // }
-        // return false
-    }
+    private fun spawnOverloadedItem(stack: ItemStack) =
+        null != super.spawnItemFromFrontSide(stack)
 
     fun outputItems(loot: ItemStack)
         = loot.isEmpty || this.outputItems(listOf(loot))
@@ -244,6 +230,9 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
         return true
     }
 
+    //#endregion
+    //#region work area diaplsy    methods
+
     open val hasWorkArea: Boolean = true
 
     var showWorkArea: Boolean = false
@@ -253,5 +242,12 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
 
     override fun getRenderBoundingBox(): AxisAlignedBB {
         return super.getRenderBoundingBox().union(this.getWorkArea().boundingBox)
+    }
+
+    //#endregion
+
+    companion object {
+        const val COLOR_INDEX_INPUTS = 10
+        const val COLOR_INDEX_OUTPUTS = 20
     }
 }

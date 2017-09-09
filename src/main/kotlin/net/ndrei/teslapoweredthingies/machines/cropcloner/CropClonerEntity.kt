@@ -12,9 +12,9 @@ import net.minecraftforge.common.EnumPlantType
 import net.minecraftforge.common.IPlantable
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.IFluidTank
-import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
+import net.ndrei.teslacorelib.inventory.SyncItemHandler
 import net.ndrei.teslacorelib.render.HudInfoLine
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
 import net.ndrei.teslapoweredthingies.render.CropClonerSpecialRenderer
@@ -45,21 +45,20 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
     }
 
     override fun initializeInputInventory() {
-        this.inStackHandler = object : ItemStackHandler(1) {
-            override fun onContentsChanged(slot: Int) {
-                this@CropClonerEntity.markDirty()
-            }
-
+        val inputs = object : SyncItemHandler(1) {
             override fun getStackLimit(slot: Int, stack: ItemStack) = 1
         }
-        this.filteredInStackHandler = object : ColoredItemHandler(this.inStackHandler!!, EnumDyeColor.GREEN, "Input Items", BoundingRectangle(115 + 18, 25, 18, 18)) {
+        this.inStackHandler = inputs
+        this.filteredInStackHandler = object : ColoredItemHandler(this.inStackHandler!!,
+            EnumDyeColor.GREEN, "Input Items",
+            BoundingRectangle(115 + 18, 25, 18, 18)) {
             override fun canInsertItem(slot: Int, stack: ItemStack)
                     = super.canInsertItem (slot, stack) && this@CropClonerEntity.acceptsInputStack(slot, stack)
 
             override fun canExtractItem(slot: Int) = false
         }
         super.addInventory(this.filteredInStackHandler!!)
-        super.addInventoryToStorage(this.inStackHandler!!, "inputs")
+        super.addInventoryToStorage(inputs, "inputs")
     }
 
     override val lockableInputInventory: Boolean
@@ -144,20 +143,19 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
     }
 
     override fun writeToNBT(compound: NBTTagCompound): NBTTagCompound {
-        var compound = compound
-        compound = super.writeToNBT(compound)
+        val nbt = super.writeToNBT(compound)
 
         if (this.plantedThing != null) {
             val resource = this.plantedThing!!.block.registryName
-            compound.setString("plantDomain", resource!!.resourceDomain)
-            compound.setString("plantPath", resource.resourcePath)
+            nbt.setString("plantDomain", resource!!.resourceDomain)
+            nbt.setString("plantPath", resource.resourcePath)
             val ageProperty = CropClonerPlantFactory.getPlant(this.plantedThing!!).getAgeProperty(this.plantedThing!!)
             if (ageProperty != null) {
-                compound.setInteger("plantAge", this.plantedThing!!.getValue(ageProperty))
+                nbt.setInteger("plantAge", this.plantedThing!!.getValue(ageProperty))
             }
         }
 
-        return compound
+        return nbt
     }
 
     //#endregion

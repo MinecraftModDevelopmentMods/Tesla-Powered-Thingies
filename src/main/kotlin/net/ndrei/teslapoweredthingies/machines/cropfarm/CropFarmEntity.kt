@@ -27,7 +27,11 @@ class CropFarmEntity : ElectricFarmMachine(CropFarmEntity::class.java.name.hashC
 
         this.waterTank = super.addFluidTank(FluidRegistry.WATER, 5000, EnumDyeColor.BLUE, "Water Tank",
                 BoundingRectangle(43, 25, 18, 54))
+        this.sideConfig.setColorIndex(EnumDyeColor.BLUE, COLOR_INDEX_INPUTS - 2 )
     }
+
+    override val fluidItemsColorIndex: Int?
+        get() = COLOR_INDEX_INPUTS - 1
 
     override fun getWorkAreaColor(): Int = CROP_FARM_WORK_AREA_COLOR
 

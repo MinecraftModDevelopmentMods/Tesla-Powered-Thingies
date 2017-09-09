@@ -16,7 +16,7 @@ class VanillaLlama(llama: EntityLlama)
         return stack.item === Items.WHEAT || stack.item === Item.getItemFromBlock(Blocks.HAY_BLOCK)
     }
 
-    override protected fun getFoodNeededForMating(stack: ItemStack): Int {
+    override fun getFoodNeededForMating(stack: ItemStack): Int {
         return if (stack.item === Item.getItemFromBlock(Blocks.HAY_BLOCK))
             1
         else

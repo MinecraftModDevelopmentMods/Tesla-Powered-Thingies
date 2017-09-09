@@ -66,13 +66,11 @@ class MooFluidCow(private val cow: EntityCow)
 
     override fun canBeMilked(): Boolean {
         val nbt = this.cow.serializeNBT()
-        if (nbt.hasKey("NextUseCooldown", Constants.NBT.TAG_INT)) {
-            return nbt.getInteger("NextUseCooldown") == 0
-        } else if (nbt.hasKey("CurrentUseCooldown", Constants.NBT.TAG_INT)) {
-            return nbt.getInteger("CurrentUseCooldown") == 0
-        } else {
+        return when {
+            nbt.hasKey("NextUseCooldown", Constants.NBT.TAG_INT) -> nbt.getInteger("NextUseCooldown") == 0
+            nbt.hasKey("CurrentUseCooldown", Constants.NBT.TAG_INT) -> nbt.getInteger("CurrentUseCooldown") == 0
+            else -> false
         }
-        return false
     }
 
     override fun milk(): ItemStack {
@@ -81,7 +79,7 @@ class MooFluidCow(private val cow: EntityCow)
             player.activeHand = EnumHand.MAIN_HAND
             player.setHeldItem(EnumHand.MAIN_HAND, ItemStack(Items.BUCKET))
             if (this.cow.processInteract(player, EnumHand.MAIN_HAND)) {
-                return player.getHeldItemMainhand()
+                return player.heldItemMainhand
             }
         }
         return ItemStack.EMPTY

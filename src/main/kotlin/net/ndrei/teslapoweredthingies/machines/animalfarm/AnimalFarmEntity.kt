@@ -34,7 +34,7 @@ class AnimalFarmEntity
             return true
 
         // test for animal package
-        if (stack.item.registryName == AnimalPackageItem.getRegistryName()) {
+        if (stack.item.registryName == AnimalPackageItem.registryName) {
             return !AnimalPackageItem.hasAnimal(stack)
         }
 
@@ -76,7 +76,7 @@ class AnimalFarmEntity
         if (animalToPackage != null) {
             var packageStack: ItemStack? = null
             var packageSlot = 0
-            for (ti in 0..this.inStackHandler!!.getSlots() - 1) {
+            for (ti in 0 until this.inStackHandler!!.slots) {
                 packageStack = this.inStackHandler!!.extractItem(ti, 1, true)
                 if (!packageStack.isEmpty && packageStack.item is AnimalPackageItem && !AnimalPackageItem.hasAnimal(packageStack)) {
                     packageSlot = ti
@@ -112,22 +112,17 @@ class AnimalFarmEntity
 
                     val potentialFood = ItemStackUtil.getCombinedInventory(this.inStackHandler!!)
 
-                    var foodStack: ItemStack? = null
-                    for (f in potentialFood.indices) {
-                        val tempFood = potentialFood[f]
-                        if (wrapper.isFood(tempFood)) {
-                            foodStack = tempFood
-                            break
-                        }
-                    }
+                    val foodStack: ItemStack? = potentialFood.indices
+                        .map { potentialFood[it] }
+                        .firstOrNull { wrapper.isFood(it) }
                     if ((foodStack != null) && !foodStack.isEmpty) {
-                        for (j in i + 1..toProcess.size - 1) {
+                        for (j in i + 1 until toProcess.size) {
                             val toMateWith = toProcess[j]
                             if (toMateWith.breedable() && toMateWith.isFood(foodStack) && wrapper.canMateWith(toMateWith)) {
                                 val foodUsed = wrapper.mate(TeslaThingiesMod.getFakePlayer(this.getWorld())!!, foodStack, toMateWith)
                                 if (foodUsed > 0 && foodUsed <= foodStack.count) {
                                     ItemStackUtil.extractFromCombinedInventory(this.inStackHandler!!, foodStack, foodUsed)
-                                    ItemStackUtil.shrink(foodStack, foodUsed)
+                                    foodStack.shrink(foodUsed)
                                     result += ENERGY_FEED
                                     break
                                 }
@@ -141,19 +136,15 @@ class AnimalFarmEntity
                 if (wrapper.shearable() && 1.0f - result >= ENERGY_SHEAR) {
                     //region shear this unfortunate animal
 
-                    var shearsSlot = -1
-                    for (s in 0..this.inStackHandler!!.getSlots() - 1) {
-                        if (wrapper.canBeShearedWith(this.inStackHandler!!.getStackInSlot(s))) {
-                            shearsSlot = s
-                            break
-                        }
-                    }
+                    val shearsSlot = (0 until this.inStackHandler!!.slots)
+                        .firstOrNull { wrapper.canBeShearedWith(this.inStackHandler!!.getStackInSlot(it)) }
+                        ?: -1
                     if (shearsSlot >= 0) {
                         val shears = this.inStackHandler!!.getStackInSlot(shearsSlot)
                         val loot = wrapper.shear(shears, 0)
-                        if (loot != null && loot!!.size > 0) {
+                        if (loot.isNotEmpty()) {
                             super.outputItems(loot) // TODO: test if successful
-
+                            // TODO: only damage shears if at least 1 item was output
                             if (shears.attemptDamageItem(1, this.getWorld().rand, TeslaThingiesMod.getFakePlayer(this.getWorld())!!)) {
                                 this.inStackHandler!!.setStackInSlot(shearsSlot, ItemStack.EMPTY)
                             }
@@ -168,9 +159,9 @@ class AnimalFarmEntity
                 if (wrapper.canBeMilked() && 1.0f - result >= ENERGY_MILK) {
                     //region no milk left behind!
 
-                    for (b in 0..this.inStackHandler!!.getSlots() - 1) {
+                    for (b in 0 until this.inStackHandler!!.slots) {
                         val stack = this.inStackHandler!!.extractItem(b, 1, true)
-                        if (stack.count == 1 && stack.getItem() === Items.BUCKET) {
+                        if (stack.count == 1 && stack.item === Items.BUCKET) {
                             val milk = wrapper.milk()
                             if (super.outputItems(milk)) {
                                 this.inStackHandler!!.extractItem(b, 1, false)
@@ -186,9 +177,9 @@ class AnimalFarmEntity
                 //region mushroom stew best stew
 
                 if (wrapper.canBeBowled() && 1.0f - result >= ENERGY_MILK) {
-                    for (b in 0..this.inStackHandler!!.getSlots() - 1) {
+                    for (b in 0 until this.inStackHandler!!.slots) {
                         val stack = this.inStackHandler!!.extractItem(b, 1, true)
-                        if (stack.count == 1 && stack.getItem() === Items.BOWL) {
+                        if (stack.count == 1 && stack.item === Items.BOWL) {
                             val stew = wrapper.bowl()
                             if (!stew.isEmpty && super.outputItems(stew)) {
                                 this.inStackHandler!!.extractItem(b, 1, false)
