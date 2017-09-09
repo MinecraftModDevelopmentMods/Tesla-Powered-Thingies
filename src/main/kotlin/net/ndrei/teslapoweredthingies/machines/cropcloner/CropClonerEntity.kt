@@ -58,7 +58,7 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
 
             override fun canExtractItem(slot: Int) = false
         }
-        super.addInventory(this.filteredInStackHandler)
+        super.addInventory(this.filteredInStackHandler!!)
         super.addInventoryToStorage(this.inStackHandler!!, "inputs")
     }
 

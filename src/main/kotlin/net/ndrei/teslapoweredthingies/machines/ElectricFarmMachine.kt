@@ -68,7 +68,7 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
 
                 override fun canExtractItem(slot: Int) = false
             }
-            super.addInventory(this.filteredInStackHandler)
+            super.addInventory(this.filteredInStackHandler!!)
             super.addInventoryToStorage(this.inStackHandler!!, "inputs")
         } else {
             this.inStackHandler = null
