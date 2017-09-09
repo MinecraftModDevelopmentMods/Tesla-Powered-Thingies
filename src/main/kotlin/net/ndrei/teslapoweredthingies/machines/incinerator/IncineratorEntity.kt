@@ -3,13 +3,14 @@ package net.ndrei.teslapoweredthingies.machines.incinerator
 import net.minecraft.entity.item.EntityItem
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
+import net.minecraftforge.items.IItemHandler
+import net.minecraftforge.items.IItemHandlerModifiable
 import net.minecraftforge.items.ItemHandlerHelper
-import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.gui.BasicRenderedGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
-import net.ndrei.teslacorelib.inventory.ColoredItemHandler
+import net.ndrei.teslacorelib.inventory.SyncItemHandler
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.gui.GeneratorBurnPiece
 import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
@@ -20,53 +21,27 @@ import net.ndrei.teslapoweredthingies.machines.BaseThingyGenerator
  * Created by CF on 2017-06-30.
  */
 class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name.hashCode()), IWorkItemProvider {
-    private var inputs: ItemStackHandler? = null
-    private var outputs: ItemStackHandler? = null
-    private var currentItem: ItemStackHandler? = null
+    private lateinit var inputs: IItemHandler
+    private lateinit var outputs: IItemHandler
+    private lateinit var currentItem: IItemHandlerModifiable
 
     //#region inventory & gui
 
     override fun initializeInventories() {
         super.initializeInventories()
 
-        this.inputs = object : ItemStackHandler(1) {
-            override fun onContentsChanged(slot: Int) {
-                this@IncineratorEntity.markDirty()
-            }
-        }
-        super.addInventory(object : ColoredItemHandler(this.inputs!!, EnumDyeColor.GREEN, "Input Items", BoundingRectangle(61, 43, 18, 18)) {
-            override fun canExtractItem(slot: Int): Boolean {
-                return false
-            }
+        this.inputs = this.addSimpleInventory(1, "inv_inputs", EnumDyeColor.GREEN, "Input Items",
+            BoundingRectangle.slots(61, 43, 1, 1),
+            { stack, _ -> IncineratorRecipes.isFuel(stack) },
+            { _, _ -> false },
+            true)
 
-            override fun canInsertItem(slot: Int, stack: ItemStack): Boolean {
-                if (stack.isEmpty) {
-                    return false
-                }
+        this.outputs = this.addSimpleInventory(3, "inv_outputs", EnumDyeColor.PURPLE, "Output Items",
+            BoundingRectangle.slots(133, 25, 1, 3),
+            { _, _ -> false })
 
-                return IncineratorRecipes.isFuel(stack)
-            }
-        })
-        super.addInventoryToStorage(this.inputs!!, "inv_inputs")
-
-        this.outputs = object : ItemStackHandler(3) {
-            override fun onContentsChanged(slot: Int) {
-                this@IncineratorEntity.markDirty()
-            }
-        }
-        super.addInventory(object : ColoredItemHandler(this.outputs!!, EnumDyeColor.PURPLE, "Output Items", BoundingRectangle(133, 25, 18, 54)) {
-            override fun canInsertItem(slot: Int, stack: ItemStack): Boolean {
-                return false
-            }
-        })
-        super.addInventoryToStorage(this.outputs!!, "inv_outputs")
-
-        this.currentItem = object : ItemStackHandler(1) {
-            override fun onContentsChanged(slot: Int) {
-                this@IncineratorEntity.markDirty()
-            }
-        }
-        super.addInventoryToStorage(this.currentItem!!, "inv_current")
+        this.currentItem = SyncItemHandler(1)
+        super.addInventoryToStorage(this.currentItem as SyncItemHandler, "inv_current")
     }
 
     override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
@@ -84,7 +59,7 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
                 }
 
                 val lines = GeneratorBurnPiece.getTooltipLines(this@IncineratorEntity)
-                if (lines != null && lines.size > 0) {
+                if (lines != null && lines.isNotEmpty()) {
                     container.drawTooltip(lines, mouseX - guiX, mouseY - guiY)
                 }
             }
@@ -94,19 +69,19 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
     }
 
     override val workItem: ItemStack
-        get() = if (this.currentItem == null) ItemStack.EMPTY else this.currentItem!!.getStackInSlot(0)
+        get() = this.currentItem.getStackInSlot(0)
 
     //#endregion
 
     override fun consumeFuel(): Long {
-        if (this.currentItem!!.getStackInSlot(0).isEmpty) {
-            var stack = this.inputs!!.extractItem(0, 1, true)
+        if (this.currentItem.getStackInSlot(0).isEmpty) {
+            var stack = this.inputs.extractItem(0, 1, true)
             if (!stack.isEmpty) {
                 val power = IncineratorRecipes.getPower(stack)
                 if (power > 0) {
-                    stack = this.inputs!!.extractItem(0, 1, false)
+                    stack = this.inputs.extractItem(0, 1, false)
                     if (!stack.isEmpty) {
-                        this.currentItem!!.setStackInSlot(0, stack)
+                        this.currentItem.setStackInSlot(0, stack)
                         return power
                     }
                 }
@@ -116,10 +91,10 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
     }
 
     override fun fuelConsumed() {
-        val stack = this.currentItem!!.getStackInSlot(0)
+        val stack = this.currentItem.getStackInSlot(0)
         if (!stack.isEmpty) {
             val secondary = IncineratorRecipes.getSecondaryOutputs(stack.item)
-            if (secondary != null && secondary.size > 0) {
+            if (secondary != null && secondary.isNotEmpty()) {
                 for (so in secondary) {
                     val chance = this.getWorld().rand.nextFloat()
                     // TeslaThingiesMod.logger.info("Change: " + chance + " vs " + so.chance);
@@ -138,7 +113,7 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
                 }
             }
         }
-        this.currentItem!!.setStackInSlot(0, ItemStack.EMPTY)
+        this.currentItem.setStackInSlot(0, ItemStack.EMPTY)
     }
 
     override val energyOutputRate: Long
