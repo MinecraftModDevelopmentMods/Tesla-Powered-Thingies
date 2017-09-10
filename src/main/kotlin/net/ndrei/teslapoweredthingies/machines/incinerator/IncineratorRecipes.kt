@@ -1,6 +1,5 @@
 package net.ndrei.teslapoweredthingies.machines.incinerator
 
-import com.google.common.collect.Lists
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
@@ -17,6 +16,10 @@ import net.ndrei.teslapoweredthingies.items.AshItem
 object IncineratorRecipes {
     private val VANILLA_BURN_TO_POWER_RATE: Long = 10
     private val recipes: MutableList<IncineratorRecipe> = mutableListOf()
+
+    fun registerRecipe(recipe: IncineratorRecipe) {
+        this.recipes.add(recipe)
+    }
 
     fun registerRecipes() {
         this.recipes.clear()
@@ -64,7 +67,7 @@ object IncineratorRecipes {
         val burnTime = TileEntityFurnace.getItemBurnTime(stack)
         if (burnTime > 0) {
             val power = burnTime.toLong() * VANILLA_BURN_TO_POWER_RATE
-            IncineratorRecipes.recipes!!.add(IncineratorRecipe(stack, power, secondary))
+            IncineratorRecipes.recipes.add(IncineratorRecipe(stack, power, secondary))
         }
     }
 
@@ -77,45 +80,21 @@ object IncineratorRecipes {
             return true
         }
 
-        if (IncineratorRecipes.recipes != null) {
-            for (recipe in IncineratorRecipes.recipes!!) {
-                if (recipe.input.isItemEqualIgnoreDurability(input)) {
-                    return true
-                }
-            }
-        }
-
-        return false
+        return IncineratorRecipes.recipes
+            .any { it.input.isItemEqualIgnoreDurability(input) }
     }
 
-    fun getPower(input: ItemStack): Long {
-        if (IncineratorRecipes.recipes != null) {
-            for (recipe in IncineratorRecipes.recipes!!) {
-                if (recipe.input.isItemEqualIgnoreDurability(input)) {
-                    return recipe.power
-                }
-            }
-        }
+    fun getPower(input: ItemStack): Long =
+        IncineratorRecipes.recipes
+            .firstOrNull { it.input.isItemEqualIgnoreDurability(input) }
+            ?.power
+            ?: if (isFuel(input)) VANILLA_BURN_TO_POWER_RATE * TileEntityFurnace.getItemBurnTime(input) else 0
 
-        return if (isFuel(input))
-            VANILLA_BURN_TO_POWER_RATE * TileEntityFurnace.getItemBurnTime(input)
-        else
-            0
+    fun getSecondaryOutputs(input: ItemStack): Array<SecondaryOutput> {
+        return IncineratorRecipes.recipes
+            .firstOrNull { it.input.isItemEqualIgnoreDurability(input) }
+            ?.secondaryOutputs ?: arrayOf()
     }
 
-    fun getSecondaryOutputs(input: Item): Array<SecondaryOutput>? {
-        if (IncineratorRecipes.recipes != null) {
-            val testStack = ItemStack(input)
-            for (recipe in IncineratorRecipes.recipes!!) {
-                if (recipe.input.isItemEqualIgnoreDurability(testStack)) {
-                    return recipe.secondaryOutputs
-                }
-            }
-        }
-        return null
-    }
-
-    fun getRecipes(): List<IncineratorRecipe> {
-        return IncineratorRecipes.recipes.toList()
-    }
+    fun getRecipes() =  IncineratorRecipes.recipes.toList()
 }

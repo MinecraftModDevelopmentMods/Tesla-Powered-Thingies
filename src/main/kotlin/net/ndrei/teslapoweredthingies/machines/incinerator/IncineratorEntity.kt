@@ -93,8 +93,8 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
     override fun fuelConsumed() {
         val stack = this.currentItem.getStackInSlot(0)
         if (!stack.isEmpty) {
-            val secondary = IncineratorRecipes.getSecondaryOutputs(stack.item)
-            if (secondary != null && secondary.isNotEmpty()) {
+            val secondary = IncineratorRecipes.getSecondaryOutputs(stack)
+            if (secondary.isNotEmpty()) {
                 for (so in secondary) {
                     val chance = this.getWorld().rand.nextFloat()
                     // TeslaThingiesMod.logger.info("Change: " + chance + " vs " + so.chance);

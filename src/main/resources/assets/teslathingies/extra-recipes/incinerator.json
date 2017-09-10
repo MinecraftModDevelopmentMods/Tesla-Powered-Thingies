@@ -1,0 +1,10 @@
+[
+  {
+    "_comment": "Redstone Dust => Thermal Foundation's Liquid Redstone",
+    "input_stack": { "name": "porkchop" },
+    "power": 4200,
+    "outputs": [
+      { "name": "cooked_porkchop", "chance": 0.05 }
+    ]
+  }
+]
