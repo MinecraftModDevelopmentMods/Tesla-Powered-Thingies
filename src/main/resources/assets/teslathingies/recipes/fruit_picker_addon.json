@@ -1,6 +1,6 @@
 {
   "type": "forge:ore_shaped",
-  "group": "tesla.farm.blocks",
+  "group": "tesla.farm.addons",
   "result": { "item": "teslathingies:fruit_picker_addon" },
   "pattern": [
     " t ",

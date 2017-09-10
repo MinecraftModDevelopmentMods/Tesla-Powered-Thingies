@@ -18,6 +18,7 @@ import net.ndrei.teslapoweredthingies.integrations.jei.TeslaThingyJeiCategory
 /**
  * Created by CF on 2017-06-30.
  */
+@Suppress("unused")
 @TeslaThingyJeiCategory
 object IncineratorCategory
     : BaseCategory<IncineratorCategory.IncineratorRecipeWrapper>(IncineratorBlock) {
@@ -46,11 +47,10 @@ object IncineratorCategory
 
         override fun getIngredients(ingredients: IIngredients) {
             ingredients.setInput(ItemStack::class.java, this.recipe.input)
-            if (this.recipe.secondaryOutputs != null && this.recipe.secondaryOutputs.size > 0) {
+            if (this.recipe.secondaryOutputs.isNotEmpty()) {
                 val secondary = Lists.newArrayList<ItemStack>()
-                for (so in this.recipe.secondaryOutputs) {
-                    secondary.add(so.getPossibleOutput().copy())
-                }
+                this.recipe.secondaryOutputs
+                    .mapTo(secondary) { it.getPossibleOutput().copy() }
                 ingredients.setOutputs(ItemStack::class.java, secondary)
             }
         }

@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.machine.incinerator",
+  "result": { "item": "teslathingies:incinerator" },
+  "pattern": [
+    "sfs",
+    "scs",
+    "sxs"
+  ],
+  "key": {
+    "s": { "type": "forge:ore_dict", "ore": "stone" },
+    "c": { "item": "teslacorelib:machine_case" },
+    "f": { "item": "minecraft:furnace" },
+    "x": { "item": "minecraft:flint_and_steel" }
+  }
+}

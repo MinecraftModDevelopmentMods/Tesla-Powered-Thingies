@@ -1,6 +1,6 @@
 {
   "type": "forge:ore_shaped",
-  "group": "tesla.farm.blocks",
+  "group": "tesla.farm.addons",
   "result": { "item": "teslathingies:animal_age_filter_adult" },
   "pattern": [
     "xxx",
