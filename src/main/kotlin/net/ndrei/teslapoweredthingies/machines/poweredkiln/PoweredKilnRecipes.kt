@@ -15,7 +15,19 @@ object PoweredKilnRecipes {
         this.recipes.add(PoweredKilnRecipe(input, output))
     }
 
-    fun getRecipes() = this.recipes.toList()
+    fun getRecipes(includeFurnace: Boolean = true): List<PoweredKilnRecipe> {
+        val recipes = mutableListOf<PoweredKilnRecipe>()
+        recipes.addAll(this.recipes)
+
+        if (includeFurnace) {
+            FurnaceRecipes.instance().smeltingList
+                .mapTo(recipes) {
+                    PoweredKilnRecipe(it.key, it.value)
+                }
+        }
+
+        return recipes.toList()
+    }
 
     fun findRecipe(input: ItemStack) =
         this.recipes.firstOrNull { it.input.equalsIgnoreSize(input) } ?:
