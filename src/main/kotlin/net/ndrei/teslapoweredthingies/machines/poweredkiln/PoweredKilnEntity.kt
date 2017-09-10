@@ -3,6 +3,8 @@ package net.ndrei.teslapoweredthingies.machines.poweredkiln
 import net.minecraft.inventory.Slot
 import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
+import net.minecraftforge.items.IItemHandler
+import net.minecraftforge.items.IItemHandlerModifiable
 import net.minecraftforge.items.ItemStackHandler
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.containers.BasicTeslaContainer
@@ -13,6 +15,7 @@ import net.ndrei.teslacorelib.gui.TiledRenderedGuiPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.LockableItemHandler
+import net.ndrei.teslacorelib.inventory.SyncItemHandler
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.gui.FurnaceBurnPiece
 import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
@@ -25,20 +28,16 @@ import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 class PoweredKilnEntity
     : BaseThingyMachine(PoweredKilnEntity::class.java.name.hashCode()) {
 
-    private lateinit var inputs: LockableItemHandler
-    private lateinit var outputs: ItemStackHandler
-    private lateinit var currentItems: ItemStackHandler
+    private lateinit var inputs: ItemStackHandler
+    private lateinit var outputs: IItemHandler
+    private lateinit var currentItems: IItemHandlerModifiable
 
     //#region Inventory and GUI stuff
 
     override fun initializeInventories() {
         super.initializeInventories()
 
-        this.inputs = object : LockableItemHandler(3) {
-            override fun onContentsChanged(slot: Int) {
-                this@PoweredKilnEntity.markDirty()
-            }
-        }
+        this.inputs = LockableItemHandler(3)
         super.addInventory(object : ColoredItemHandler(this.inputs, EnumDyeColor.GREEN, "Input Items", BoundingRectangle(57, 25, 62, 18)) {
             override fun canExtractItem(slot: Int) = false
 
@@ -64,22 +63,12 @@ class PoweredKilnEntity
         })
         super.addInventoryToStorage(this.inputs, "inv_inputs")
 
-        this.outputs = object : ItemStackHandler(6) {
-            override fun onContentsChanged(slot: Int) {
-                this@PoweredKilnEntity.markDirty()
-            }
-        }
-        super.addInventory(object : ColoredItemHandler(this.outputs, EnumDyeColor.PURPLE, "Output Items", BoundingRectangle(133, 25, 36, 54)) {
-            override fun canInsertItem(slot: Int, stack: ItemStack) = false
-        })
-        super.addInventoryToStorage(this.outputs, "inv_outputs")
+        this.outputs = this.addSimpleInventory(6, "inv_outputs", EnumDyeColor.PURPLE, "Output Items",
+            BoundingRectangle.slots(133, 25, 2, 3),
+            { _, _ -> false})
 
-        this.currentItems = object : ItemStackHandler(3) {
-            override fun onContentsChanged(slot: Int) {
-                this@PoweredKilnEntity.markDirty()
-            }
-        }
-        super.addInventoryToStorage(this.currentItems, "inv_current")
+        this.currentItems = SyncItemHandler(3)
+        super.addInventoryToStorage(this.currentItems as SyncItemHandler, "inv_current")
     }
 
     override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
