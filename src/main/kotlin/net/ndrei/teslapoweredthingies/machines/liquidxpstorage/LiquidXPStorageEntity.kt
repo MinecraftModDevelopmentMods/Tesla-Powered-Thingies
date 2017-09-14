@@ -27,7 +27,6 @@ import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
 import net.ndrei.teslacorelib.utils.canFillFrom
 import net.ndrei.teslacorelib.utils.copyWithSize
-import net.ndrei.teslacorelib.utils.processInputInventory
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.common.LiquidXPUtils
 import net.ndrei.teslapoweredthingies.common.changeExperience
@@ -116,7 +115,7 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
     }
 
     private fun isValidInContainer(stack: ItemStack): Boolean {
-        return !stack.isEmpty && ((stack.item === Items.EXPERIENCE_BOTTLE) || this.xpTank.canFillFrom(stack))
+        return !stack.isEmpty && ((stack.item === Items.EXPERIENCE_BOTTLE) || this.fluidHandler.canFillFrom(stack))
     }
 
     private fun isValidOutContainer(stack: ItemStack): Boolean {
@@ -273,7 +272,8 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
                 }
             }
             else {
-                listOf(this.xpTank).processInputInventory(this.inputItems)
+                super.processFluidItems(this.inputItems)
+                // listOf(this.xpTank).processInputInventory(this.inputItems)
             }
         }
 
@@ -310,7 +310,8 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
                 }
 
                 //#endregion
-            } else if (o_stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)
+            }
+            else if (o_stack.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_ITEM_CAPABILITY, null)
                     && this.outputItems.getStackInSlot(1).isEmpty) {
                 val toFill = Math.max(maxDrain, Fluid.BUCKET_VOLUME)
                 val initial = this.xpTank.fluidAmount

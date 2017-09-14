@@ -10,10 +10,10 @@ import net.ndrei.teslacorelib.utils.equalsIgnoreSize
 object ItemCompoundProducerRecipes {
     val recipes = mutableListOf<ItemCompoundProducerRecipe>()
 
-    fun ItemCompoundProducerRecipe.matchesInput(fluid: FluidStack, ignoreSize: Boolean = true)
+    private fun ItemCompoundProducerRecipe.matchesInput(fluid: FluidStack, ignoreSize: Boolean = true)
         = this.inputFluid.isFluidEqual(fluid) && (ignoreSize || (this.inputFluid.amount <= fluid.amount))
 
-    fun ItemCompoundProducerRecipe.matchesInput(stack: ItemStack, ignoreSize: Boolean = true)
+    private fun ItemCompoundProducerRecipe.matchesInput(stack: ItemStack, ignoreSize: Boolean = true)
         = this.inputStack.equalsIgnoreSize(stack) && (ignoreSize || (this.inputStack.count <= stack.count))
 
     fun hasRecipe(fluid: FluidStack) = this.recipes.any { it.matchesInput(fluid) }

@@ -86,7 +86,6 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
             override fun onContentsChanged() {
                 this@FluidBurnerEntity.markDirty()
             }
-
         }
         super.addFluidTank(
                 object : ColoredFluidHandler(this.coolantTank,
