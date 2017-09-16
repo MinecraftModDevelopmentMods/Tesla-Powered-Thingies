@@ -7,6 +7,7 @@
 - improved some GUIs (mainly about the order of the side config colors)
     - added 'incinerator' custom recipes json
 - added 'powered kiln' custom recipes json
+- localize all the things!
 
 #1.0.8
 - added 'fluid compound producer' (combines fluids into other fluids)

@@ -7,7 +7,10 @@ import net.minecraft.util.text.TextFormatting
 import net.ndrei.teslacorelib.compatibility.FontRendererUtil
 import net.ndrei.teslacorelib.gui.BasicRenderedGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
+import net.ndrei.teslacorelib.gui.EnergyDisplayType
 import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.integrations.GUI_ANIMAL_GYM
+import net.ndrei.teslapoweredthingies.integrations.localize
 import net.ndrei.teslapoweredthingies.machines.animalgym.AnimalGymEntity
 
 /**
@@ -24,11 +27,17 @@ class AnimalGymInfoPiece(private val entity: AnimalGymEntity, left: Int, top: In
         GlStateManager.pushMatrix()
         GlStateManager.scale(0.65, 0.65, 1.0)
         font.drawString("" + TextFormatting.BOLD + TextFormatting.DARK_PURPLE + this.entity.currentAnimalType,
-                4, 4, 0xFFFFFF)
-        font.drawString("" + TextFormatting.DARK_BLUE + String.format("%.2f", this.entity.powerPerTick) + " T / tick",
-                0, 2 * (font.FONT_HEIGHT + 2), 0xFFFFFF)
-        font.drawString("" + TextFormatting.DARK_AQUA + this.entity.maxPowerForCurrent + " T" + TextFormatting.RESET,
-                0, 3 * (font.FONT_HEIGHT + 2), 0xFFFFFF)
+            4, 4, 0xFFFFFF)
+        val energy = EnergyDisplayType.TESLA
+        font.drawString(/*"" + TextFormatting.DARK_BLUE + String.format("%.2f", this.entity.powerPerTick) + " T / tick"*/
+            localize(GUI_ANIMAL_GYM, "per_tick") {
+                +TextFormatting.DARK_BLUE
+                +energy.makeDarkTextComponent(this@AnimalGymInfoPiece.entity.powerPerTick.toLong())
+            }
+            ,0, 2 * (font.FONT_HEIGHT + 2), 0xFFFFFF)
+        font.drawString(/*"" + TextFormatting.DARK_AQUA + this.entity.maxPowerForCurrent + " T" + TextFormatting.RESET*/
+            energy.makeLightTextComponent(this@AnimalGymInfoPiece.entity.maxPowerForCurrent.toLong()).formattedText
+            ,0, 3 * (font.FONT_HEIGHT + 2), 0xFFFFFF)
         GlStateManager.popMatrix()
 
         GlStateManager.scale(0.5, 0.5, 1.0)

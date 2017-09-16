@@ -11,10 +11,13 @@ import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.gui.BasicRenderedGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
+import net.ndrei.teslacorelib.localization.makeTextComponent
 import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.common.GuiPieceSide
+import net.ndrei.teslapoweredthingies.integrations.GUI_TREE_FARM
+import net.ndrei.teslapoweredthingies.integrations.localize
 import net.ndrei.teslapoweredthingies.machines.CROP_FARM_WORK_AREA_COLOR
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
 
@@ -54,11 +57,20 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
 
                 if (this.isInside(container, mouseX, mouseY)) {
                     container.drawTooltip(if ((this@TreeFarmEntity.scannedBlocks == 0) && (this@TreeFarmEntity.pendingBlocks == 0))
-                            listOf("${TextFormatting.GRAY}waiting for a tree")
-                        else listOf(
-                            "${TextFormatting.RED}${this@TreeFarmEntity.scannedBlocks} blocks scanned",
-                            "${TextFormatting.GREEN}${this@TreeFarmEntity.pendingBlocks} blocks pending",
-                            "${TextFormatting.GRAY}last scan: ${this@TreeFarmEntity.lastScan}"
+                        listOf(localize(GUI_TREE_FARM, "waiting_for_tree") { +TextFormatting.GRAY })
+                    else listOf(
+                        localize(GUI_TREE_FARM, "scanned") {
+                            +TextFormatting.RED
+                            +this@TreeFarmEntity.scannedBlocks.makeTextComponent()
+                        },
+                        localize(GUI_TREE_FARM, "pending") {
+                            +TextFormatting.GREEN
+                            +this@TreeFarmEntity.pendingBlocks.makeTextComponent()
+                        },
+                        localize(GUI_TREE_FARM, "last_scan") {
+                            +TextFormatting.GRAY
+                            +this@TreeFarmEntity.lastScan.makeTextComponent()
+                        }
                     ), this.left + this.width, this.top)
                 }
             }

@@ -28,7 +28,7 @@ class FluidDisplayPiece(left: Int, top: Int, width: Int, height: Int, private va
         val color = fluid.color
         val still = fluid.flowing //.getStill(stack);
         if (still != null) {
-            val sprite = container.mc.textureMapBlocks.getTextureExtry(still.toString())
+            val sprite = container.mc.textureMapBlocks.getTextureExtry(still.toString()) ?: container.mc.textureMapBlocks.missingSprite
             container.mc.textureManager.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE)
             GL11.glColor3ub((color shr 16 and 0xFF).toByte(), (color shr 8 and 0xFF).toByte(), (color and 0xFF).toByte())
             GlStateManager.enableBlend()

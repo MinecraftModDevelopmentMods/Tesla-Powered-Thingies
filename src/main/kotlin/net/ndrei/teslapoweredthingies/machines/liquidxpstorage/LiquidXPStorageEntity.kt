@@ -31,6 +31,8 @@ import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.common.LiquidXPUtils
 import net.ndrei.teslapoweredthingies.common.changeExperience
 import net.ndrei.teslapoweredthingies.fluids.LiquidXPFluid
+import net.ndrei.teslapoweredthingies.integrations.GUI_PLAYER_LIQUID_XP
+import net.ndrei.teslapoweredthingies.integrations.localize
 import net.ndrei.teslapoweredthingies.items.XPTankAddonItem
 import net.ndrei.teslapoweredthingies.render.LiquidXPStorageSpecialRenderer
 
@@ -136,33 +138,33 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
                 Textures.FARM_TEXTURES.resource, 65, 1))
 
         if (this.hasAddon(XPTankAddonItem.javaClass)) {
-            list.add(LiquidXPStorageButton(25, 25, "-1", "Take 1 Level from Player", {
+            list.add(LiquidXPStorageButton(25, 25, "-1", localize(GUI_PLAYER_LIQUID_XP, "Take 1"), {
                 val message = this.setupSpecialNBTMessage("TAKE_XP")
                 message.setInteger("levels", 1)
                 this.sendToServer(message)
             }))
-            list.add(LiquidXPStorageButton(25, 43, "-10", "Take 10 Levels from Player", {
+            list.add(LiquidXPStorageButton(25, 43, "-10", localize(GUI_PLAYER_LIQUID_XP, "Take 10"), {
                 val message = this.setupSpecialNBTMessage("TAKE_XP")
                 message.setInteger("levels", 10)
                 this.sendToServer(message)
             }))
-            list.add(LiquidXPStorageButton(25, 61, "MAX", "Take MAX Levels from Player", {
+            list.add(LiquidXPStorageButton(25, 61, "MAX", localize(GUI_PLAYER_LIQUID_XP, "Take MAX"), {
                 val message = this.setupSpecialNBTMessage("TAKE_XP")
                 message.setInteger("levels", 666)
                 this.sendToServer(message)
             }))
 
-            list.add(LiquidXPStorageButton(133, 25, "+1", "Give 1 Level to Player", {
+            list.add(LiquidXPStorageButton(133, 25, "+1", localize(GUI_PLAYER_LIQUID_XP, "Give 1"), {
                 val message = this.setupSpecialNBTMessage("GIVE_XP")
                 message.setInteger("levels", 1)
                 this.sendToServer(message)
             }))
-            list.add(LiquidXPStorageButton(133, 43, "+10", "Give 10 Levels to Player", {
+            list.add(LiquidXPStorageButton(133, 43, "+10", localize(GUI_PLAYER_LIQUID_XP, "Give 10"), {
                 val message = this.setupSpecialNBTMessage("GIVE_XP")
                 message.setInteger("levels", 10)
                 this.sendToServer(message)
             }))
-            list.add(LiquidXPStorageButton(133, 61, "MAX", "Give MAX Levels to Player", {
+            list.add(LiquidXPStorageButton(133, 61, "MAX", localize(GUI_PLAYER_LIQUID_XP, "Give MAX"), {
                 val message = this.setupSpecialNBTMessage("GIVE_XP")
                 message.setInteger("levels", 666)
                 this.sendToServer(message)

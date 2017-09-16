@@ -1,11 +1,14 @@
 package net.ndrei.teslapoweredthingies.gui
 
-import com.google.common.collect.Lists
-import com.mojang.realmsclient.gui.ChatFormatting
+import net.minecraft.util.text.TextFormatting
 import net.ndrei.teslacorelib.gui.BasicContainerGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
+import net.ndrei.teslacorelib.gui.EnergyDisplayType
+import net.ndrei.teslacorelib.localization.makeTextComponent
 import net.ndrei.teslacorelib.tileentities.ElectricGenerator
 import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.integrations.GUI_GENERATOR_BURN
+import net.ndrei.teslapoweredthingies.integrations.localize
 
 /**
  * Created by CF on 2017-06-30.
@@ -39,17 +42,24 @@ class GeneratorBurnPiece(left: Int, top: Int, private val te: ElectricGenerator)
 
     companion object {
         fun getTooltipLines(entity: ElectricGenerator): List<String>? {
-            val lines = Lists.newArrayList<String>()
+            val lines = mutableListOf<String>()
             val generated = entity.generatedPowerCapacity
             if (generated > 0 && entity.generatedPowerStored > 0) {
-                lines.add(ChatFormatting.GRAY.toString() + "Total for fuel: "
-                        + ChatFormatting.AQUA + generated)
-                lines.add(ChatFormatting.GRAY.toString() + "Generating "
-                        + ChatFormatting.AQUA + entity.generatedPowerReleaseRate
-                        + ChatFormatting.GRAY + " / tick")
+                val energy = EnergyDisplayType.TESLA
+                lines.add(localize(GUI_GENERATOR_BURN, "total_for_fuel") {
+                    +TextFormatting.GRAY
+                    +energy.makeLightTextComponent(generated)
+                })
+                lines.add(localize(GUI_GENERATOR_BURN, "generating_tick") {
+                    +TextFormatting.GRAY
+                    +energy.makeLightTextComponent(entity.generatedPowerReleaseRate)
+                })
 
                 val ticks = entity.generatedPowerStored.toDouble() / entity.generatedPowerReleaseRate.toDouble() / 20.0
-                lines.add(ChatFormatting.GRAY.toString() + "~ " + java.lang.String.format("%.2f", ticks) + "s remaining")
+                lines.add(localize(GUI_GENERATOR_BURN, "ticks") {
+                    +TextFormatting.GRAY
+                    +String.format("%.2f", ticks).makeTextComponent()
+                })
             }
             return lines
         }

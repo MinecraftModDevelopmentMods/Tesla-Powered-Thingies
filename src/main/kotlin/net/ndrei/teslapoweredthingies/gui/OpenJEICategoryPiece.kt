@@ -6,7 +6,9 @@ import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.SideDrawerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.integrations.GUI_BUTTONS
 import net.ndrei.teslapoweredthingies.integrations.jei.TheJeiThing
+import net.ndrei.teslapoweredthingies.integrations.localize
 
 /**
  * Created by CF on 2017-07-06.
@@ -29,7 +31,7 @@ class OpenJEICategoryPiece(private val block: Block, topIndex: Int = 1) : SideDr
     }
 
     override fun getStateToolTip(state: Int)
-        = listOf("Open JEI")
+        = listOf(localize(GUI_BUTTONS, "open jei"))
 
     override fun clicked() {
         TheJeiThing.showCategory(this.block)

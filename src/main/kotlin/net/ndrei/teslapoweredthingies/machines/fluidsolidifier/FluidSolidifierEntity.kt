@@ -6,6 +6,7 @@ import net.minecraft.item.EnumDyeColor
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.tileentity.TileEntity
+import net.minecraft.util.text.TextFormatting
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fluids.IFluidTank
 import net.minecraftforge.items.ItemHandlerHelper
@@ -14,10 +15,14 @@ import net.ndrei.teslacorelib.TeslaCoreLib
 import net.ndrei.teslacorelib.gui.*
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
+import net.ndrei.teslacorelib.localization.localizeFluidAmount
+import net.ndrei.teslacorelib.localization.makeTextComponent
 import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.gui.IMultiTankMachine
 import net.ndrei.teslapoweredthingies.gui.TankInfo
+import net.ndrei.teslapoweredthingies.integrations.GUI_FLUID_SOLIDIFIER
+import net.ndrei.teslapoweredthingies.integrations.localize
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 import net.ndrei.teslapoweredthingies.render.DualTankEntityRenderer
 
@@ -99,11 +104,23 @@ class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.jav
                 val lines = Lists.newArrayList<String>()
 
                 val result = this@FluidSolidifierEntity.resultType
+                val energy = EnergyDisplayType.TESLA
 
-                lines.add("Result: " + result.resultStack.displayName)
-                lines.add("Water: " + result.waterMbConsumed + " mb (min: " + result.waterMbMin + " mb)")
-                lines.add("Lava: " + result.lavaMbConsumed + " mb (min: " + result.lavaMbMin + " mb)")
-                lines.add("Time: " + result.ticksRequired.toFloat() / 20.0f + " s (~ " + result.ticksRequired * this@FluidSolidifierEntity.workEnergyTick + " T)")
+                lines.add(localize(GUI_FLUID_SOLIDIFIER, "result") {
+                    +result.resultStack.displayName.makeTextComponent(TextFormatting.LIGHT_PURPLE)
+                })
+                lines.add(localize(GUI_FLUID_SOLIDIFIER, "water") {
+                    +localizeFluidAmount(result.waterMbConsumed, TextFormatting.BLUE)
+                    +localizeFluidAmount(result.waterMbMin, TextFormatting.DARK_BLUE)
+                })
+                lines.add(localize(GUI_FLUID_SOLIDIFIER, "lava") {
+                    +localizeFluidAmount(result.lavaMbConsumed, TextFormatting.RED)
+                    +localizeFluidAmount(result.lavaMbMin, TextFormatting.DARK_RED)
+                })
+                lines.add(localize(GUI_FLUID_SOLIDIFIER, "time") {
+                    +Math.round(result.ticksRequired.toFloat() / 20.0f).makeTextComponent()
+                    +energy.makeDarkTextComponent(result.ticksRequired * this@FluidSolidifierEntity.workEnergyTick)
+                })
 
                 container.drawTooltip(lines, mouseX - guiX, mouseY - guiY)
             }
