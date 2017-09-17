@@ -1,15 +1,19 @@
 package net.ndrei.teslapoweredthingies.items
 
-import com.mojang.realmsclient.gui.ChatFormatting
 import net.minecraft.client.util.ITooltipFlag
 import net.minecraft.entity.SharedMonsterAttributes
 import net.minecraft.entity.passive.EntityAnimal
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
+import net.minecraft.util.text.TextFormatting
 import net.minecraft.world.World
 import net.minecraftforge.common.util.Constants
 import net.ndrei.teslacorelib.annotations.AutoRegisterItem
+import net.ndrei.teslacorelib.localization.localizeModString
+import net.ndrei.teslacorelib.localization.makeTextComponent
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.integrations.GUI_ANIMAL_PACKAGE
+import net.ndrei.teslapoweredthingies.integrations.localize
 
 /**
  * Created by CF on 2017-07-07.
@@ -26,16 +30,6 @@ object AnimalPackageItem : BaseThingyItem("animal_package") {
         })
     }
 
-//    override val recipe: IRecipe
-//        get() = ShapedOreRecipe(null, ItemStack(this, 1),
-//                "xyx",
-//                "yzy",
-//                "xyx",
-//                'x', "plankWood",
-//                'y', Blocks.IRON_BARS,
-//                'z', "dustRedstone"
-//        )
-
     override fun getUnlocalizedName(stack: ItemStack): String {
         if (this.hasAnimal(stack)) {
             return this.unlocalizedName + "_full"
@@ -49,14 +43,27 @@ object AnimalPackageItem : BaseThingyItem("animal_package") {
         if ((tooltip != null) && (stack != null)) {
             val nbt = if (stack.isEmpty) null else stack.tagCompound
             if ((nbt != null) && nbt.getInteger("hasAnimal") == 1) {
-                tooltip.add(ChatFormatting.AQUA.toString() + "Contains Animal")
-                val className = nbt.getString("animalClass")
-                tooltip.add(ChatFormatting.DARK_AQUA.toString() + className.substring(className.lastIndexOf(".") + 1))
+                tooltip.add(localize(GUI_ANIMAL_PACKAGE, "Contains Animal") {
+                    +TextFormatting.AQUA
+                })
+                val entityName = nbt.getString("animalName").let {
+                    if (it.isNullOrBlank()) {
+                        nbt.getString("animalClass").let { it.substring(it.lastIndexOf(".") + 1) }
+                    } else it!!
+                }
+                tooltip.add(localizeModString(entityName) {
+                    +TextFormatting.DARK_AQUA
+                }.formattedText)
                 if (nbt.hasKey("animalHealth", Constants.NBT.TAG_FLOAT)) {
-                    tooltip.add(ChatFormatting.BLUE.toString() + "Health: " + String.format("%.2f", nbt.getFloat("animalHealth")))
+                    tooltip.add(localize(GUI_ANIMAL_PACKAGE, "health") {
+                        +TextFormatting.BLUE
+                        +String.format("%.2f", nbt.getFloat("animalHealth")).makeTextComponent()
+                    })
                 }
             } else {
-                tooltip.add(ChatFormatting.DARK_GRAY.toString() + "No Animal")
+                tooltip.add(localize(GUI_ANIMAL_PACKAGE, "no_animal") {
+                    +TextFormatting.DARK_GRAY
+                })
             }
         }
     }

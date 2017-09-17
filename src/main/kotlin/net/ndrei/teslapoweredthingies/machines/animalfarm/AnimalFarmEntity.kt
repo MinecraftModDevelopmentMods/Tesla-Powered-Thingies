@@ -13,6 +13,7 @@ import net.minecraftforge.items.ItemHandlerHelper
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.common.IAnimalAgeFilterAcceptor
+import net.ndrei.teslapoweredthingies.integrations.getUnlocalizedName
 import net.ndrei.teslapoweredthingies.items.AnimalPackageItem
 import net.ndrei.teslapoweredthingies.items.BaseAnimalFilterItem
 import net.ndrei.teslapoweredthingies.machines.ANIMAL_FARM_WORK_AREA_COLOR
@@ -256,6 +257,7 @@ class AnimalFarmEntity
             stackCopy.setTagInfo("animal", animalCompound)
             stackCopy.setTagInfo("animalClass", NBTTagString(animal.javaClass.name))
             stackCopy.setTagInfo("animalHealth", NBTTagFloat(animal.health))
+            stackCopy.setTagInfo("animalName", NBTTagString(animal.getUnlocalizedName()))
             return stackCopy
         }
     }

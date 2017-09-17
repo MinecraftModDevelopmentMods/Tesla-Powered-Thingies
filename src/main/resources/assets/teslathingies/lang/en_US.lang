@@ -110,8 +110,8 @@ gui.teslathingies.generator_burn.ticks=~%ss remaining
 #fluid solidifier
 gui.teslathingies.fluid_solidifier.result=Result: %s
 gui.teslathingies.fluid_solidifier.water=Water: %s (min: %s)
-gui.teslathingies.fluid_solidifier.lava=~Lava: %s (min: %s)
-gui.teslathingies.fluid_solidifier.time=Time: %ss (~ %s)"
+gui.teslathingies.fluid_solidifier.lava=Lava: %s (min: %s)
+gui.teslathingies.fluid_solidifier.time=Time: %ss (~ %s)
 
 
 #misc buttons
@@ -120,6 +120,12 @@ gui.teslathingies.buttons.open_jei=Open JEI
 
 #animal gym
 gui.teslathingies.animal_gym.per_tick=%s / tick
+
+
+#animal package
+gui.teslathingies.animal_package.contains_animal=Contains Animal
+gui.teslathingies.animal_package.health=Health: %s
+gui.teslathingies.animal_package.no_animal=No Animal
 
 
 #tree farm
