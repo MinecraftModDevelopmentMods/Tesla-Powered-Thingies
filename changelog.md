@@ -3,9 +3,11 @@
 #future
 - make 'power kiln' recipes take different power amounts 
 
+#1.0.10
+
 #1.0.9
 - improved some GUIs (mainly about the order of the side config colors)
-    - added 'incinerator' custom recipes json
+- added 'incinerator' custom recipes json
 - added 'powered kiln' custom recipes json
 - localize all the things!
 
