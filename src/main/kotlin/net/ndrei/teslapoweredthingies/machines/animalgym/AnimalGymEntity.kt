@@ -15,6 +15,7 @@ import net.ndrei.teslacorelib.gui.ButtonPiece
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
+import net.ndrei.teslacorelib.inventory.SyncItemHandler
 import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
 import net.ndrei.teslacorelib.tileentities.ElectricGenerator
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
@@ -35,11 +36,11 @@ class AnimalGymEntity : ElectricGenerator(AnimalGymEntity::class.java.name.hashC
     override fun initializeInventories() {
         super.initializeInventories()
 
-        this.inStackHandler = object : ItemStackHandler(3) {
+        this.inStackHandler = /*object :*/ SyncItemHandler(3)/* {
             override fun onContentsChanged(slot: Int) {
                 this@AnimalGymEntity.markDirty()
             }
-        }
+        }*/
         super.addInventory(object : ColoredItemHandler(this.inStackHandler, EnumDyeColor.GREEN, "Input Items", BoundingRectangle(61, 25, 18, 54)) {
             override fun canInsertItem(slot: Int, stack: ItemStack)
                 = this@AnimalGymEntity.acceptsInputStack(/*slot, */stack)
@@ -48,11 +49,11 @@ class AnimalGymEntity : ElectricGenerator(AnimalGymEntity::class.java.name.hashC
         })
         super.addInventoryToStorage(this.inStackHandler, "gym_inputs")
 
-        this.outStackHandler = object : ItemStackHandler(3) {
+        this.outStackHandler = /*object :*/ SyncItemHandler(3)/* {
             override fun onContentsChanged(slot: Int) {
                 this@AnimalGymEntity.markDirty()
             }
-        }
+        }*/
         super.addInventory(object : ColoredItemHandler(this.outStackHandler, EnumDyeColor.PURPLE, "Output Items", BoundingRectangle(151, 25, 18, 54)) {
             override fun canInsertItem(slot: Int, stack: ItemStack) =  false
 

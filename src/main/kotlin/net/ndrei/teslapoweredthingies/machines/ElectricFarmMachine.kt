@@ -48,27 +48,6 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
     protected open fun initializeInputInventory() {
         val inputSlots = this.inputSlots
         this.inStackHandler =if (inputSlots > 0) {
-//             if (this.lockableInputInventory)
-//                object : LockableItemHandler(Math.max(0, Math.min(3, inputSlots))) {
-//                    override fun onContentsChanged(slot: Int) {
-//                        this@ElectricFarmMachine.markDirty()
-//                    }
-//                }
-//            else
-//                object : ItemStackHandler(Math.max(0, Math.min(3, inputSlots))) {
-//                    override fun onContentsChanged(slot: Int) {
-//                        this@ElectricFarmMachine.markDirty()
-//                    }
-//                }
-//            this.filteredInStackHandler = object : ColoredItemHandler(this.inStackHandler!!, EnumDyeColor.GREEN, "Input Items", this.getInputInventoryBounds(this.inStackHandler!!.slots, 1)) {
-//                override fun canInsertItem(slot: Int, stack: ItemStack)
-//                    = (if (this.innerHandler is LockableItemHandler) this.innerHandler.canInsertItem(slot, stack) else true)
-//                        && this@ElectricFarmMachine.acceptsInputStack(slot, stack)
-//
-//                override fun canExtractItem(slot: Int) = false
-//            }
-//            super.addInventory(this.filteredInStackHandler!!)
-//            super.addInventoryToStorage(this.inStackHandler!!, "inputs")
             val slots = Math.max(0, Math.min(3, inputSlots))
             this.addSimpleInventory(slots, "inputs",
                 EnumDyeColor.GREEN, "Input Items",
@@ -100,19 +79,6 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
     private fun initializeOutputInventory() {
         val outputSlots = this.outputSlots
         this.outStackHandler = if (outputSlots > 0) {
-//            this.outStackHandler = object : ItemStackHandler(Math.max(0, Math.min(6, outputSlots))) {
-//                override fun onContentsChanged(slot: Int) {
-//                    this@ElectricFarmMachine.markDirty()
-//                }
-//            }
-//            val columns = Math.min(3, this.outStackHandler!!.slots)
-//            val rows = Math.min(2, this.outStackHandler!!.slots / columns)
-//            super.addInventory(object : ColoredItemHandler(this.outStackHandler!!, EnumDyeColor.PURPLE, "Output Items", this.getOutputInventoryBounds(columns, rows)) {
-//                override fun canInsertItem(slot: Int, stack: ItemStack) =  false
-//
-//                override fun canExtractItem(slot: Int) = true
-//            })
-//            super.addInventoryToStorage(this.outStackHandler!!, "outputs")
             // TODO: the following math seems weird!
             val slots = Math.max(0, Math.min(6, outputSlots))
             val columns = Math.min(3, slots)
