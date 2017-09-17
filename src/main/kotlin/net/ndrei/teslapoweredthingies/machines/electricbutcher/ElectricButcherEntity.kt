@@ -77,8 +77,10 @@ class ElectricButcherEntity
             if (animalToHurt != null) {
                 val player = TeslaThingiesMod.getFakePlayer(this.getWorld())
                 if (player != null) {
-                    player.setHeldItem(EnumHand.MAIN_HAND, stack.copy())
+                    player.setItemInUse(stack.copy())
+                    val health = animalToHurt.health
                     player.attackTargetEntityWithCurrentItem(animalToHurt)
+                    animalToHurt.health -= (health - animalToHurt.health) * 4 // to speed things up
 
                     val weapon = player.getHeldItem(EnumHand.MAIN_HAND)
                     this.inStackHandler!!.setStackInSlot(0, if (weapon.isEmpty) ItemStack.EMPTY else weapon.copy())

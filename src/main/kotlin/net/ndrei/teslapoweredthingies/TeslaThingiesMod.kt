@@ -4,8 +4,6 @@ import net.minecraft.creativetab.CreativeTabs
 import net.minecraft.item.ItemStack
 import net.minecraft.world.World
 import net.minecraft.world.WorldServer
-import net.minecraftforge.common.util.FakePlayer
-import net.minecraftforge.common.util.FakePlayerFactory
 import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.SidedProxy
@@ -17,6 +15,7 @@ import net.ndrei.teslacorelib.config.ModConfigHandler
 import net.ndrei.teslacorelib.config.TeslaCoreLibConfig
 import net.ndrei.teslacorelib.items.gears.CoreGearType
 import net.ndrei.teslapoweredthingies.common.CommonProxy
+import net.ndrei.teslapoweredthingies.common.TeslaFakePlayer
 import net.ndrei.teslapoweredthingies.items.TeslaPlantSeeds
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerBlock
 import org.apache.logging.log4j.Logger
@@ -84,24 +83,7 @@ object TeslaThingiesMod {
         proxy.postInit(e)
     }
 
-    private val fakePlayers = mutableMapOf<String, FakePlayer>()
-
-    fun getFakePlayer(world: World?): FakePlayer? {
-        val key = if (world != null && world.provider != null)
-            String.format("%d", world.provider.dimension)
-        else
-            null
-        if (key != null) {
-            if (fakePlayers.containsKey(key)) {
-                return fakePlayers[key]
-            }
-
-            if (world is WorldServer) {
-                val player = FakePlayerFactory.getMinecraft(world) // FakePlayer(world, )
-                fakePlayers[key] = player
-                return player
-            }
-        }
-        return null
+    fun getFakePlayer(world: World?): TeslaFakePlayer? {
+        return TeslaFakePlayer.getPlayer((world as? WorldServer) ?: return null)
     }
 }
