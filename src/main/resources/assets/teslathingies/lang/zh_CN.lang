@@ -3,11 +3,11 @@ itemGroup.Tesla Powered Thingies=Tesla驱动科技
 item.teslathingies.ash.name=灰烬
 
 tile.teslathingies.incinerator.name=固体焚烧炉
-tile.teslathingies.fluid_burner.name=液体燃烧炉
-tile.teslathingies.fluid_solidifier.name=液体造石机
+tile.teslathingies.fluid_burner.name=流体燃烧炉
+tile.teslathingies.fluid_solidifier.name=流体凝固造石机
 tile.teslathingies.item_liquefier.name=物品液化机
 tile.teslathingies.powder_maker.name=物品粉碎机
-tile.teslathingies.powered_kiln.name=物品烧制机
+tile.teslathingies.powered_kiln.name=电动熔炉
 tile.teslathingies.item_compound_producer.name=物品混合机
 tile.teslathingies.fluid_compound_producer.name=液体混合机
 tile.teslathingies.multi_tank.name=组合液罐（WIP）
@@ -49,7 +49,7 @@ tile.teslathingies.crop_cloner.name=作物复制机
 tile.teslathingies.animal_gym.name=动物健身机
 tile.teslathingies.tree_farm.name=伐木场
 tile.teslathingies.sewer.name=污水收集器
-tile.teslathingies.liquidxp_storage.name=经验储罐
+tile.teslathingies.liquidxp_storage.name=液态经验储罐
 
 tile.teslathingies.dung_block.name=肥料块
 tile.teslathingies.dung_bricks.name=肥料砖
@@ -61,12 +61,87 @@ fluid.teslathingies.tf-liquidxp=液态经验
 tile.teslathingies.tf-liquidxp.block.name=液态经验
 fluid.teslathingies.tf-molten_tesla=熔融Tesla
 tile.teslathingies.tf-molten_tesla.block.name=熔融Tesla
+fluid.teslathingies.redstone=液态红石
 
 advancements.teslathingies:controlling.description=Tesla驱动科技的魅力之路从此开始!
 advancements.teslathingies:wrench.title=Wrench Everything!
-advancements.teslathingies:wrench.description=No... this is not a mistyped wench... :(
+advancements.teslathingies:wrench.description=No... this is not a mistyped wench... :（
 
 advancements.teslathingies.ore_processing.title=获得Tesla种子（WIP）
 advancements.teslathingies.ore_processing.description=Tesla驱动科技的魅力之路从此开始...
 advancements.teslathingies.ore_processing.machine_case.title=合成机械外壳
 advancements.teslathingies.ore_processing.machine_case.description=所有酷炫的东西都需要装在金属外壳中...
+
+
+
+
+#*************
+#* GUI STUFF *
+#*************
+
+#side config "tabs"
+gui.teslathingies.side_config.input_items=物品输入槽
+gui.teslathingies.side_config.output_items=物品输出槽
+gui.teslathingies.side_config.fluid_tank=流体缓存槽
+gui.teslathingies.side_config.fluid_tank_a=流体缓存槽 A
+gui.teslathingies.side_config.fluid_tank_b=流体缓存槽 B
+gui.teslathingies.side_config.fluid_output=流体输出容器交互槽
+gui.teslathingies.side_config.output_fluid_tank=流体输出缓存槽
+gui.teslathingies.side_config.water_tank=水缓存槽
+gui.teslathingies.side_config.lava_tank=熔岩缓存槽
+gui.teslathingies.side_config.sewage_tank=污水缓存槽
+gui.teslathingies.side_config.coolant_containers=冷却液容器交互槽
+gui.teslathingies.side_config.coolant_tank=冷却液缓存槽
+gui.teslathingies.side_config.fuel_containers=液态燃料容器交互槽
+gui.teslathingies.side_config.fuel_tank=液态燃料缓存槽
+gui.teslathingies.side_config.tank_0=流体储罐 1
+gui.teslathingies.side_config.tank_1=流体储罐 2
+gui.teslathingies.side_config.tank_2=流体储罐 3
+gui.teslathingies.side_config.tank_3=流体储罐 4
+gui.teslathingies.side_config.input_liquid_containers=液体输入容器交互槽
+gui.teslathingies.side_config.liquid_xp=液态经验存储槽
+gui.teslathingies.side_config.output_liquid_containers=液体输出容器交互槽
+
+
+#generator burn piece
+gui.teslathingies.generator_burn.total_for_fuel=燃料产能总量：%s
+gui.teslathingies.generator_burn.generating_tick=产能 %s / tick
+gui.teslathingies.generator_burn.ticks=~%ss剩余发电时间
+
+
+#fluid solidifier
+gui.teslathingies.fluid_solidifier.result=产出：%s
+gui.teslathingies.fluid_solidifier.water=水：%s （需求：%s）
+gui.teslathingies.fluid_solidifier.lava=熔岩：%s （需求：%s）
+gui.teslathingies.fluid_solidifier.time=时间：%ss （~ %s）
+
+
+#misc buttons
+gui.teslathingies.buttons.open_jei=打开JEI
+
+
+#animal gym
+gui.teslathingies.animal_gym.per_tick=%s / tick
+
+
+#animal package
+gui.teslathingies.animal_package.contains_animal=已包裹动物
+gui.teslathingies.animal_package.health=生命值：%s
+gui.teslathingies.animal_package.no_animal=无包裹动物
+
+
+#tree farm
+gui.teslathingies.tree_farm.waiting_for_tree=正在等待树木生长
+gui.teslathingies.tree_farm.scanned=%s个方块被扫描
+gui.teslathingies.tree_farm.pending=%s个方块等待处理
+gui.teslathingies.tree_farm.last_scan=最后扫描： %s 个方块
+
+
+#player liquid xp
+gui.teslathingies.player_liquid_xp.take_1=将1级经验存入储罐
+gui.teslathingies.player_liquid_xp.take_10=将10级经验存入储罐
+gui.teslathingies.player_liquid_xp.take_max=将所有经验存入储罐
+gui.teslathingies.player_liquid_xp.give_1=给予玩家1级经验
+gui.teslathingies.player_liquid_xp.give_10=给予玩家10级经验
+gui.teslathingies.player_liquid_xp.give_max=给予玩家所有经验
+
