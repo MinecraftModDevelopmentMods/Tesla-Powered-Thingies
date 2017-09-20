@@ -15,35 +15,15 @@ import net.ndrei.teslapoweredthingies.fluids.SewageFluid
  * Created by CF on 2017-07-07.
  */
 @AutoRegisterBlock
-object SewageBlock : FiniteFluidThingyBlock(SewageFluid, MapColor.BROWN) { // BlockFluidFinite(SewageFluid, MaterialLiquid(MapColor.BROWN)) {
-//    init {
-//        this.setRegistryName(TeslaThingiesMod.MODID, "${SewageFluid.name}_block")
-//        this.unlocalizedName = "${TeslaThingiesMod.MODID}.${SewageFluid.name}.block"
-//
-//        this.setCreativeTab(TeslaThingiesMod.creativeTab)
-//        this.setRenderLayer(BlockRenderLayer.SOLID)
-//    }
+object SewageBlock
+    : FiniteFluidThingyBlock(SewageFluid, MapColor.BROWN) {
 
     override fun onEntityCollidedWithBlock(world: World?, pos: BlockPos?, state: IBlockState?, entity: Entity?) {
         if ((world != null) && (pos != null) && (entity is EntityLivingBase)) {
             val quanta = this.getQuantaValue(world, pos)
             if (quanta > 0) {
-                entity.addPotionEffect(PotionEffect(MobEffects.REGENERATION, quanta * 100 / 15))
+                entity.addPotionEffect(PotionEffect(MobEffects.POISON, quanta * 100 / 15))
             }
         }
     }
-
-//    @SideOnly(Side.CLIENT)
-//    fun registerRenderer() {
-//        val item = Item.getItemFromBlock(this)
-//        ModelBakery.registerItemVariants(item)
-//
-//        val modelResourceLocation = ModelResourceLocation(TeslaThingiesMod.MODID + ":fluids", SewageFluid.name)
-//        ModelLoader.setCustomMeshDefinition(item) { modelResourceLocation }
-//        ModelLoader.setCustomStateMapper(this, object : StateMapperBase() {
-//            override fun getModelResourceLocation(state: IBlockState): ModelResourceLocation {
-//                return modelResourceLocation
-//            }
-//        })
-//    }
 }

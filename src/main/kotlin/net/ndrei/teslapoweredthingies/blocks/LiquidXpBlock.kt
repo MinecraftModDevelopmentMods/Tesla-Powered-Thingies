@@ -16,14 +16,7 @@ import net.ndrei.teslapoweredthingies.fluids.LiquidXPFluid
  */
 @AutoRegisterBlock
 object LiquidXpBlock
-    : FiniteFluidThingyBlock(LiquidXPFluid, MapColor.LIME) { // BlockFluidFinite(LiquidXPFluid, MaterialLiquid(MapColor.LIME)) {
-//    init {
-//        this.setRegistryName(TeslaThingiesMod.MODID, "${LiquidXPFluid.name}block")
-//        this.unlocalizedName = "${TeslaThingiesMod.MODID}.${LiquidXPFluid.name}block"
-//
-//        this.setCreativeTab(TeslaThingiesMod.creativeTab)
-//        this.setRenderLayer(BlockRenderLayer.SOLID)
-//    }
+    : FiniteFluidThingyBlock(LiquidXPFluid, MapColor.LIME) {
 
     override fun onEntityCollidedWithBlock(world: World?, pos: BlockPos?, state: IBlockState?, entity: Entity?) {
         if ((world != null) && (pos != null) && (entity is EntityLivingBase)) {
@@ -33,18 +26,4 @@ object LiquidXpBlock
             }
         }
     }
-
-//    @SideOnly(Side.CLIENT)
-//    fun registerRenderer() {
-//        val item = Item.getItemFromBlock(this)
-//        ModelBakery.registerItemVariants(item)
-//
-//        val modelResourceLocation = ModelResourceLocation(TeslaThingiesMod.MODID + ":fluids", LiquidXPFluid.name)
-//        ModelLoader.setCustomMeshDefinition(item) { modelResourceLocation }
-//        ModelLoader.setCustomStateMapper(this, object : StateMapperBase() {
-//            override fun getModelResourceLocation(state: IBlockState): ModelResourceLocation {
-//                return modelResourceLocation
-//            }
-//        })
-//    }
 }

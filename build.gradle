@@ -57,7 +57,7 @@ for (set in sourceSets) {
     compileTask.source = dir
     compileTask.dependsOn taskName
     def dirPath = dir.toPath()
-    compileKotlin.include {
+    compileTask.include {
         return it.file.toPath().startsWith(dirPath)
     }
 }
