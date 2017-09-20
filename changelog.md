@@ -5,6 +5,10 @@
 
 #1.0.10
 
+#1.0.9 - HFs
+- fixed some missing/broken recipes
+- fixed problem with redstone fluid textures on server side
+
 #1.0.9
 - improved some GUIs (mainly about the order of the side config colors)
 - added 'incinerator' custom recipes json
