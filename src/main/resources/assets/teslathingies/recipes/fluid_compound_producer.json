@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.machine.fluid_compound_producer",
+  "result": { "item": "teslathingies:fluid_compound_producer" },
+  "pattern": [
+    "sxs",
+    "gcg",
+    "sss"
+  ],
+  "key": {
+    "g": { "type": "forge:ore_dict", "ore": "blockGlass" },
+    "c": { "item": "teslacorelib:machine_case" },
+    "x": { "type": "forge:ore_dict", "ore": "gearGold" },
+    "s": { "type": "forge:ore_dict", "ore": "stone" }
+  }
+}

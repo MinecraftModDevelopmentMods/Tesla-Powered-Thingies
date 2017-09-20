@@ -1,7 +1,7 @@
 {
   "type": "forge:ore_shaped",
-  "group": "tesla.machine.incinerator",
-  "result": { "item": "teslathingies:incinerator" },
+  "group": "tesla.machine.powered_kiln",
+  "result": { "item": "teslathingies:powered_kiln" },
   "pattern": [
     "fff",
     "scs",
