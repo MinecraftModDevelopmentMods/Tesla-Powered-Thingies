@@ -92,7 +92,7 @@ class CropFarmEntity : ElectricFarmMachine(CropFarmEntity::class.java.name.hashC
             }
 
             val landPos = pos.offset(EnumFacing.DOWN)
-            if (this.getWorld().isAirBlock(pos) && result <= 0.8f) {
+            if (result <= 0.8f) {
                 //region plant thing
 
                 var plant: IBlockState? = null

@@ -19,6 +19,10 @@ object PlantWrapperFactory {
         }
         val seed = seeds.item
 
+        if (RusticBlockStakeSeed.isSeed(seeds)) {
+            return RusticBlockStakeSeed(seeds)
+        }
+
         if (seed === Items.MELON_SEEDS || seed === Items.PUMPKIN_SEEDS) {
             return VanillaMelonSeed(seeds.copy())
         }
@@ -44,6 +48,7 @@ object PlantWrapperFactory {
 
     fun isSeed(stack: ItemStack): Boolean {
         return VanillaGenericSeed.isSeed(stack)
+                || RusticBlockStakeSeed.isSeed(stack)
                 || VanillaCactusSeed.isSeed(stack)
                 || VanillaMelonSeed.isSeed(stack)
                 || VanillaReedsSeed.isSeed(stack)
@@ -54,8 +59,10 @@ object PlantWrapperFactory {
         val state = world.getBlockState(pos)
         val block = state.block
 
-        if (block.javaClass.name.startsWith("com.infinityraider.agricraft.blocks")) {
-            return AgricraftPlantWrapper(block, state, world, pos)
+        if ((block.javaClass.name.startsWith("com.infinityraider.agricraft.blocks")
+            || block.javaClass.name.startsWith("rustic.common.blocks.crops"))
+            && (block is IGrowable)) {
+            return RightClickPlantWrapper(block, state, world, pos)
         }
 
         if (block === Blocks.MELON_STEM || block === Blocks.PUMPKIN_STEM) {

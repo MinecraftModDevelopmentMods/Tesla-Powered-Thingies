@@ -12,6 +12,8 @@ class VanillaMelonSeed(seed: ItemStack)
     : VanillaGenericSeed(seed) {
 
     override fun canPlantHere(world: World, pos: BlockPos): Boolean {
+        if (!world.isAirBlock(pos)) return false
+
         return (world.isAirBlock(pos.north())
                 || world.isAirBlock(pos.east())
                 || world.isAirBlock(pos.south())

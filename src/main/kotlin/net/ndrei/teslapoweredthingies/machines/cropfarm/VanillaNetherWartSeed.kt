@@ -13,6 +13,8 @@ class VanillaNetherWartSeed(seed: ItemStack)
     : VanillaGenericSeed(seed) {
 
     override fun canPlantHere(world: World, pos: BlockPos): Boolean {
+        if (!world.isAirBlock(pos)) return false
+
         val under = world.getBlockState(pos.down()).block
         return under === Blocks.SOUL_SAND
     }

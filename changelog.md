@@ -4,6 +4,8 @@
 - make 'power kiln' recipes take different power amounts 
 
 #1.0.10
+- added support (tree farm) for forestry trees
+- added support (crop farm) for rustic stake crops
 
 #1.0.9 - HFs
 - fixed some missing/broken recipes

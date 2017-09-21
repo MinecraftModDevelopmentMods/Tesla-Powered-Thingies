@@ -14,6 +14,8 @@ class VanillaCactusSeed(override val seeds: ItemStack)
     : ISeedWrapper {
 
     override fun canPlantHere(world: World, pos: BlockPos): Boolean {
+        if (!world.isAirBlock(pos)) return false
+
         return world.getBlockState(pos.down()).block === Blocks.SAND
                 && world.isAirBlock(pos.south())
                 && world.isAirBlock(pos.east())

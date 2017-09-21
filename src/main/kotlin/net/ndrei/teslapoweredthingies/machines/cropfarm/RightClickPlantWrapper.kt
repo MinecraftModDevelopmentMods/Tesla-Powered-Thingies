@@ -12,7 +12,7 @@ import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 /**
  * Created by CF on 2017-07-07.
  */
-class AgricraftPlantWrapper(block: Block, state: IBlockState, world: World, pos: BlockPos)
+class RightClickPlantWrapper(block: Block, state: IBlockState, world: World, pos: BlockPos)
     : VanillaGenericPlant(block, state, world, pos) {
 
     override fun harvest(fortune: Int): List<ItemStack> {
@@ -32,12 +32,10 @@ class AgricraftPlantWrapper(block: Block, state: IBlockState, world: World, pos:
         if (player != null) {
             player.setHeldItem(EnumHand.MAIN_HAND, stack)
             player.setHeldItem(EnumHand.OFF_HAND, ItemStack.EMPTY)
-        }
-        return if (super.block.onBlockActivated(super.world, super.pos, super.state, player, EnumHand.OFF_HAND,
+            return if (super.block.onBlockActivated(super.world, super.pos, super.state, player, EnumHand.OFF_HAND,
                 EnumFacing.UP, .5f, .5f, .5f
-        ))
-            1
-        else
-            0
+            )) 1 else 0
+        }
+        return 0
     }
 }
