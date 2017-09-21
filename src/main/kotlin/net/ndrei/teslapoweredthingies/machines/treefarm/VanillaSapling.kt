@@ -11,7 +11,7 @@ import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 /**
  * Created by CF on 2017-07-07.
  */
-class VanillaSapling(override val stack: ItemStack)
+open class VanillaSapling(override val stack: ItemStack)
     : ITreeSaplingWrapper {
 
     override fun canPlant(world: World, pos: BlockPos): Boolean {

@@ -2,8 +2,11 @@ package net.ndrei.teslapoweredthingies.machines.treefarm
 
 import net.minecraft.block.state.IBlockState
 import net.minecraft.item.ItemStack
+import net.minecraft.util.EnumActionResult
+import net.minecraft.util.EnumHand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 
 /**
  * Created by CF on 2017-07-07.
@@ -38,6 +41,35 @@ object TreeWrapperFactory {
                     return VanillaTreeLeaf(world, pos)
                 }
                 return null
+            }
+        })
+
+        // FORESTRY
+        TreeWrapperFactory.treeWrappers.add(object: BaseModTreeFactory("forestry") {
+            override fun getPlantableSapling(stack: ItemStack): ITreeSaplingWrapper? {
+                if (stack.item.javaClass.name.endsWith("ItemGermlingGE")) {
+                    return object: VanillaSapling(stack) {
+                        override fun canPlant(world: World, pos: BlockPos): Boolean {
+                            return true // TODO: find a way to test this
+                        }
+
+                        override fun plant(world: World, pos: BlockPos): Int {
+                            val player = TeslaThingiesMod.getFakePlayer(world)
+                            if (player != null) {
+                                player.setPosition(pos.x.toDouble(), pos.y.toDouble(), pos.z.toDouble())
+                                player.rotationYaw = 90.0f
+                                player.rotationPitch = 90.0f
+                                player.setItemInUse(stack.copy())
+                                val result = stack.useItemRightClick(world, player, EnumHand.MAIN_HAND)
+                                if (result.type == EnumActionResult.SUCCESS) {
+                                    return stack.count - result.result.count
+                                }
+                            }
+                            return 0
+                        }
+                    }
+                }
+                return super.getPlantableSapling(stack)
             }
         })
 
