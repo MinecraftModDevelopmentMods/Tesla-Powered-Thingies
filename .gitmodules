@@ -1,0 +1,9 @@
+[submodule "Tesla-Core-Lib"]
+	path = Tesla-Core-Lib
+	url = https://github.com/faceofcat/tesla-core-lib
+[submodule "Wiki"]
+	path = Wiki
+	url = https://github.com/faceofcat/Tesla-Powered-Thingies.wiki.git
+[submodule "Bush-Master-Core"]
+	path = Bush-Master-Core
+	url = https://github.com/modcrafters/Bush-Master-Core.git

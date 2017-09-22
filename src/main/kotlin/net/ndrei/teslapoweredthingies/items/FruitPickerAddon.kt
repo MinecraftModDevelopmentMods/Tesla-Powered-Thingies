@@ -1,39 +1,26 @@
 package net.ndrei.teslapoweredthingies.items
 
 import net.minecraft.block.state.IBlockState
-import net.minecraft.item.ItemStack
-import net.minecraft.util.NonNullList
 import net.ndrei.teslacorelib.annotations.AutoRegisterItem
 import net.ndrei.teslacorelib.items.BaseAddon
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 import net.ndrei.teslapoweredthingies.common.IAdditionalProcessingAddon
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
-import net.ndrei.teslapoweredthingies.machines.cropfarm.CropFarmEntity
+import net.ndrei.teslapoweredthingies.machines.miscfarmer.MiscFarmerEntity
 import java.lang.reflect.InvocationTargetException
 
 /**
  * Created by CF on 2017-07-07.
  */
-@AutoRegisterItem
+@AutoRegisterItem("mod-exists:harvestcraft")
 object FruitPickerAddon
     : BaseAddon(TeslaThingiesMod.MODID, TeslaThingiesMod.creativeTab, "fruit_picker_addon")
         , IAdditionalProcessingAddon {
     const val PICK_ENERGY = .05f
 
-//    override val recipe: IRecipe?
-//        get() = ShapedOreRecipe(null,this,
-//                " t ",
-//                "tat",
-//                "shs",
-//                't', "treeSapling",
-//                'a', BaseAddonItem,
-//                's', "stickWood",
-//                'h', Blocks.HOPPER
-//        )
-
     override fun canBeAddedTo(machine: SidedTileEntity)
-        = machine is CropFarmEntity
+        = machine is MiscFarmerEntity
 
     override fun processAddon(machine: ElectricFarmMachine, availableProcessing: Float): Float {
         val energyUsed = 0.0f
@@ -48,16 +35,17 @@ object FruitPickerAddon
                             val isMature = block.javaClass.getMethod("isMature", IBlockState::class.java)
                             val mature = isMature.invoke(block, state) as Boolean
                             if (mature) {
-                                val loot = NonNullList.create <ItemStack>()
-                                block.getDrops(loot, machine.world, current, state, 1)
+                                // val loot = NonNullList.create<ItemStack>()
+                                // block.getDrops(loot, machine.world, current, state, 1)
+                                val loot = block.getDrops(machine.world, current, state, 1)
                                 if (machine.outputItems(loot)) {
                                     machine.world.setBlockState(current, block.defaultState)
                                 }
                             }
-                        } catch (e: NoSuchMethodException) {
-                        } catch (e: InvocationTargetException) {
-                        } catch (e: IllegalAccessException) {
                         }
+                        catch (e: NoSuchMethodException) { }
+                        catch (e: InvocationTargetException) { }
+                        catch (e: IllegalAccessException) { }
                     }
                 }
             }

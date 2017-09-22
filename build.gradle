@@ -85,7 +85,19 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:${project.kotlin_version}"
     compile "net.shadowfacts:Forgelin:${project.forgelin_version}"
 
-    compile ("net.ndrei:tesla-core-lib:${project.minecraft_version}-${project.teslacorelib_version}:deobf") { changing = true }
+    if (project.teslacorelib_version.endsWith('-snapshot')) {
+        compile project(':Tesla-Core-Lib')
+    }
+    else {
+        compile("net.ndrei:tesla-core-lib:${project.minecraft_version}-${project.teslacorelib_version}:deobf") { changing = true }
+    }
+
+    if (project.bushmaster_version.endsWith('-snapshot')) {
+        compile project(':Bush-Master-Core')
+    }
+    else {
+        compile("net.ndrei:bush-master-core:${project.minecraft_version}-${project.bushmaster_version}:deobf") { changing = true }
+    }
 
     deobfCompile "mezz.jei:jei_${project.minecraft_version}:${project.jei_version}:api"
     runtime "mezz.jei:jei_${project.minecraft_version}:${project.jei_version}"

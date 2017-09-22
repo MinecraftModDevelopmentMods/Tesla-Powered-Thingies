@@ -1,1 +1,3 @@
-rootProject.name = 'teslathingies'
+rootProject.name = 'Tesla Powered Thingies - 1.12'
+include 'Tesla-Core-Lib'
+include 'Bush-Master-Core'

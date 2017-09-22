@@ -47,11 +47,13 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
 
     protected open fun initializeInputInventory() {
         val inputSlots = this.inputSlots
-        this.inStackHandler =if (inputSlots > 0) {
-            val slots = Math.max(0, Math.min(3, inputSlots))
+        this.inStackHandler = if (inputSlots > 0) {
+            val slots = Math.max(0, inputSlots)
+            val suggestedColumns = Math.min(this.inputInventoryColumns, slots)
+            val bounds = this.getInputInventoryBounds(suggestedColumns, slots / suggestedColumns)
             this.addSimpleInventory(slots, "inputs",
                 EnumDyeColor.GREEN, "Input Items",
-                this.getInputInventoryBounds(slots, 1),
+                bounds,
                 { stack, slot -> this@ElectricFarmMachine.acceptsInputStack(slot, stack) },
                 { _, _ -> false },
                 this.lockableInputInventory,
@@ -59,7 +61,7 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
         } else {
             null
         }
-        this.filteredInStackHandler = this.inStackHandler as? ColoredItemHandler
+        this.filteredInStackHandler = this.getInventory(EnumDyeColor.GREEN)
     }
 
     protected open val lockableInputInventory: Boolean
@@ -67,6 +69,8 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
 
     protected open val lockableInputLockPosition: GuiPieceSide
         get() = GuiPieceSide.NONE
+
+    protected open val inputInventoryColumns get() = Math.max(this.inputSlots, 3)
 
     protected open fun getInputInventoryBounds(columns: Int, rows: Int)
         = BoundingRectangle(115 + (3 - columns) * 9, 25, 18 * columns, 18 * rows)
@@ -79,12 +83,11 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
     private fun initializeOutputInventory() {
         val outputSlots = this.outputSlots
         this.outStackHandler = if (outputSlots > 0) {
-            // TODO: the following math seems weird!
-            val slots = Math.max(0, Math.min(6, outputSlots))
-            val columns = Math.min(3, slots)
-            val rows = Math.min(2, slots / columns)
+            val slots = Math.max(0, outputSlots)
+            val suggestedColumns = Math.min(this.outputInventoryColumns, slots)
+            val bounds = this.getOutputInventoryBounds(suggestedColumns, slots / suggestedColumns)
             this.addSimpleInventory(slots, "outputs", EnumDyeColor.PURPLE, "Output Items",
-                this.getOutputInventoryBounds(columns, rows),
+                bounds,
                 { _, _ -> false },
                 { _, _ -> true },
                 colorIndex = COLOR_INDEX_OUTPUTS)
@@ -93,8 +96,10 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
         }
     }
 
+    protected open val outputInventoryColumns get() = 3
+
     protected open fun getOutputInventoryBounds(columns: Int, rows: Int)
-        = BoundingRectangle(115, 43, 18 * columns, 18 * rows)
+        = BoundingRectangle(115, if (this.inputSlots > 0) 43 else 25, 18 * columns, 18 * rows)
 
     override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
         val list = super.getGuiContainerPieces(container)
@@ -185,6 +190,7 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
                     ItemStackUtil.insertItemInExistingStacks(this.inStackHandler, lootStack, false)
                 else
                     ItemHandlerHelper.insertItemStacked(this.filteredInStackHandler, lootStack, false)
+
                 if (!remaining.isEmpty) {
                     remaining = ItemHandlerHelper.insertItem(this.outStackHandler, lootStack, false)
                 }
