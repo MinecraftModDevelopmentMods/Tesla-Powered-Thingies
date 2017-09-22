@@ -48,6 +48,7 @@ tile.teslathingies.animal_gym.name=Animal Gym
 tile.teslathingies.tree_farm.name=Tree Farm
 tile.teslathingies.sewer.name=Sewer
 tile.teslathingies.liquidxp_storage.name=Liquid XP Storage
+tile.teslathingies.misc_farmer.name=Farmer Machine
 
 tile.teslathingies.dung_block.name=Dung Block
 tile.teslathingies.dung_bricks.name=Dung Bricks
