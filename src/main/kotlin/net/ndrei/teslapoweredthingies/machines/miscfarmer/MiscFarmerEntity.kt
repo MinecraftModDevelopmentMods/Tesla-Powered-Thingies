@@ -15,11 +15,13 @@ class MiscFarmerEntity
     override fun getInputInventoryBounds(columns: Int, rows: Int) =
         BoundingRectangle(52, 25, 18 * columns, 18 * rows)
 
-    override val outputSlots: Int get() = 15
-    override val outputInventoryColumns: Int get() = 5
+    override val outputSlots: Int get() = 12
+    override val outputInventoryColumns: Int get() = 4
 
     override fun getOutputInventoryBounds(columns: Int, rows: Int) =
         BoundingRectangle(79, 25, 18 * columns, 18 * rows)
+
+    override val supportedAddonColumns: Int get() = 2
 
     //#endregion
 
