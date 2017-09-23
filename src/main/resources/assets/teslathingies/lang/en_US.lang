@@ -20,7 +20,8 @@ item.teslathingies.animal_age_filter_baby.name=Animal Filter (baby)
 item.teslathingies.liquidxp_collector.name=XP Orb Collector Addon
 item.teslathingies.addon_range_tier1.name=Range Addon I
 item.teslathingies.addon_range_tier2.name=Range Addon II
-item.teslathingies.fruit_picker_addon.name=Fruit Picker
+item.teslathingies.fruit_picker_addon.name=Fruit Picker Addon
+item.teslathingies.bush_master_addon.name=Bush Master Addon
 item.teslathingies.xp_tank_addon.name=Player XP Addon
 item.teslathingies.tesla_plant_seeds.name=Tesla Plant Seeds (WIP)
 

@@ -6,6 +6,9 @@
 #1.0.10
 - added support (tree farm) for forestry trees
 - added support (crop farm) for rustic stake crops
+- added 'misc farmer' machine (only farms based on addons)
+    - 'tree fruit picker' addon only works with this machine now
+    - added 'bush picker' addon that will work with this and harvest bushes from various mods (using the optional BushMasterCore lib)
 
 #1.0.9 - HFs
 - fixed some missing/broken recipes
