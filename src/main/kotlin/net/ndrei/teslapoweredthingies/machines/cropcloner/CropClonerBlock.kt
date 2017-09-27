@@ -16,6 +16,7 @@ import net.minecraftforge.oredict.ShapedOreRecipe
 import net.ndrei.teslacorelib.GearRegistry
 import net.ndrei.teslacorelib.MATERIAL_IRON
 import net.ndrei.teslacorelib.annotations.AutoRegisterBlock
+import net.ndrei.teslacorelib.blocks.AxisAlignedBlock
 import net.ndrei.teslacorelib.items.MachineCaseItem
 import net.ndrei.teslapoweredthingies.machines.BaseThingyBlock
 
@@ -67,7 +68,7 @@ object CropClonerBlock
 //        get() = CropClonerSpecialRenderer()
 
     override fun createBlockState(): BlockStateContainer {
-        return BlockStateContainer(this, FACING, STATE)
+        return BlockStateContainer(this, AxisAlignedBlock.FACING, STATE)
     }
 
     override fun getStateFromMeta(meta: Int): IBlockState {
@@ -77,12 +78,12 @@ object CropClonerBlock
             enumfacing = EnumFacing.NORTH
         }
         return this.getDefaultState()
-                .withProperty(FACING, enumfacing)
+                .withProperty(AxisAlignedBlock.FACING, enumfacing)
                 .withProperty(STATE, state)
     }
 
     override fun getMetaFromState(state: IBlockState): Int {
-        var meta = state.getValue(FACING).index
+        var meta = state.getValue(AxisAlignedBlock.FACING).index
         meta = meta shl 1
         meta += state.getValue(STATE)
         return meta

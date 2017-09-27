@@ -64,23 +64,28 @@ object TeslaThingiesMod {
     }
 
     @Mod.EventHandler
+    fun construct(event: FMLConstructionEvent) {
+        this.proxy.construction(event)
+    }
+
+    @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
         TeslaThingiesMod.logger = event.modLog
         TeslaThingiesMod.config = ModConfigHandler(MOD_ID, this.javaClass, this.logger, event.modConfigurationDirectory)
 
-        proxy.preInit(event)
+        this.proxy.preInit(event)
     }
 
     @Mod.EventHandler
     fun init(e: FMLInitializationEvent) {
-        proxy.init(e)
+        this.proxy.init(e)
 
         TeslaPlantSeeds.registerSeeds()
     }
 
     @Mod.EventHandler
     fun postInit(e: FMLPostInitializationEvent) {
-        proxy.postInit(e)
+        this.proxy.postInit(e)
     }
 
     fun getFakePlayer(world: World?): TeslaFakePlayer? {

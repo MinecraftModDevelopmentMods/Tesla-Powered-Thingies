@@ -29,6 +29,7 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.annotations.AutoRegisterBlock
+import net.ndrei.teslacorelib.blocks.AxisAlignedBlock
 import net.ndrei.teslacorelib.render.selfrendering.*
 import net.ndrei.teslapoweredthingies.client.Textures
 import net.ndrei.teslapoweredthingies.machines.BaseThingyBlock
@@ -58,7 +59,7 @@ object MultiTankBlock
         this.FLUID_4_PROP = UnlistedFluidProperty("fluid4")
         this.FLUID_PROPS = arrayOf(FLUID_1_PROP, FLUID_2_PROP, FLUID_3_PROP, FLUID_4_PROP)
 
-        return ExtendedBlockState(this, arrayOf(FACING), this.FLUID_PROPS)
+        return ExtendedBlockState(this, arrayOf(AxisAlignedBlock.FACING), this.FLUID_PROPS)
     }
 
     override fun registerItem(registry: IForgeRegistry<Item>) {
