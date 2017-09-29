@@ -1,10 +1,15 @@
 package net.ndrei.teslapoweredthingies.machines.itemcompoundproducer
 
+import net.minecraft.block.Block
 import net.minecraft.client.Minecraft
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
 import net.minecraftforge.fluids.FluidStack
+import net.minecraftforge.fml.common.Loader
+import net.minecraftforge.fml.common.ModClassLoader
+import net.minecraftforge.fml.common.ModContainer
+import net.minecraftforge.fml.common.ModContainerFactory
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
@@ -31,11 +36,19 @@ object ItemCompoundProducerRegistry : IRegistryHandler {
     private val registeredLumps = mutableListOf<BaseColoredTeslaLump>()
 
     override fun registerItems(asm: ASMDataTable, registry: IForgeRegistry<Item>) {
-        // get ores
-        val ores = OreDictionary.getOreNames()
-                .filter { it.startsWith("ore") }
-                .map { it.substring(3).decapitalize() }
-        ores.forEach {
+        val lumpNames = mutableSetOf<String>()
+        arrayOf("basemetals", "modernmetals").forEach { modId ->
+            if (Loader.isModLoaded(modId)) {
+                Block.REGISTRY.keys
+                    .filter { (it.resourceDomain == modId) && it.resourcePath.endsWith("_ore") }
+                    .map { it.resourcePath }
+                    .mapTo(lumpNames) { it.substring(0, it.length - 4) }
+            }
+        }
+        OreDictionary.getOreNames()
+            .filter { it.startsWith("ore") }
+            .mapTo(lumpNames) { it.substring(3).decapitalize() }
+        lumpNames.forEach {
             val color = MaterialColors.getColor(it)
             if (color != null) {
                 val lump = BaseColoredTeslaLump(it, color)
