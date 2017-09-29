@@ -1,0 +1,17 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.farm.blocks",
+  "result": { "item": "teslathingies:misc_farmer" },
+  "pattern": [
+    "sys",
+    "gcg",
+    "wgw"
+  ],
+  "key": {
+    "s": { "item": "teslacorelib:base_addon"},
+    "y": { "item": "minecraft:diamond_hoe" },
+    "c": { "item": "teslacorelib:machine_case" },
+    "w": { "type": "forge:ore_dict", "ore": "plankWood" },
+    "g": { "type": "forge:ore_dict", "ore": "gearIron" }
+  }
+}
