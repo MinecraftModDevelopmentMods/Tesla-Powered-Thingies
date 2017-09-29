@@ -93,7 +93,7 @@ dependencies {
     }
 
     if (project.bushmaster_version.endsWith('-snapshot')) {
-        compile project(':Bush-Master-Core')
+        compile project(path: ':Bush-Master-Core')
     }
     else {
         compile("net.ndrei:bush-master-core:${project.minecraft_version}-${project.bushmaster_version}:deobf") { changing = true }
