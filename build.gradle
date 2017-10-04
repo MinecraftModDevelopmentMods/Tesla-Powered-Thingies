@@ -85,14 +85,20 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:${project.kotlin_version}"
     compile "net.shadowfacts:Forgelin:${project.forgelin_version}"
 
-    if (project.teslacorelib_version.endsWith('-snapshot')) {
+    if (file("ci-lib/tesla-core-lib-${project.minecraft_version}-${project.teslacorelib_version}-deobf.jar").exists()) {
+        compile files("ci-lib/tesla-core-lib-${project.minecraft_version}-${project.teslacorelib_version}-deobf.jar")
+    }
+    else if (project.teslacorelib_version.endsWith('-snapshot')) {
         compile project(':Tesla-Core-Lib')
     }
     else {
         compile("net.ndrei:tesla-core-lib:${project.minecraft_version}-${project.teslacorelib_version}:deobf") { changing = true }
     }
 
-    if (project.bushmaster_version.endsWith('-snapshot')) {
+    if (file("ci-lib/bush-master-core-${project.minecraft_version}-${project.bushmaster_version}-deobf.jar").exists()) {
+        compile files("ci-lib/bush-master-core-${project.minecraft_version}-${project.bushmaster_version}-deobf.jar")
+    }
+    else if (project.bushmaster_version.endsWith('-snapshot')) {
         compile project(path: ':Bush-Master-Core')
     }
     else {
