@@ -26,21 +26,24 @@ class MultiTankEntity
 
         this.tanks = mutableListOf()
         arrayOf(EnumDyeColor.BLUE, EnumDyeColor.GREEN, EnumDyeColor.ORANGE, EnumDyeColor.RED).forEachIndexed { index, it ->
-            this.tanks.add(object: FluidTank(6000) {
-                private var tankIndex: Int = 0
-
-                override fun onContentsChanged() {
-                    this@MultiTankEntity.markDirty()
-                    if (this@MultiTankEntity.hasWorld() && this@MultiTankEntity.getWorld().isRemote) {
-                        this@MultiTankEntity.getWorld().markBlockRangeForRenderUpdate(this@MultiTankEntity.getPos(), this@MultiTankEntity.getPos())
-                    }
-                }
-
-                fun setTankIndex(idx: Int) = this.also { it.tankIndex = idx }
-            }.setTankIndex(index))
-
-            super.addFluidTank(this.tanks[index], it, "Tank $index",
-                    BoundingRectangle(20 + FluidTankPiece.WIDTH * index, 24, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT))
+            this.tanks.add(this.addSimpleFluidTank(6000, "Tank $index", it,
+                20 + FluidTankPiece.WIDTH * index, 24))
+//            this.tanks.add(object: FluidTank(6000) {
+//                private var tankIndex: Int = 0
+//
+//                override fun onContentsChanged() {
+//
+////                    this@MultiTankEntity.markDirty()
+////                    if (this@MultiTankEntity.hasWorld() && this@MultiTankEntity.getWorld().isRemote) {
+////                        this@MultiTankEntity.getWorld().markBlockRangeForRenderUpdate(this@MultiTankEntity.getPos(), this@MultiTankEntity.getPos())
+////                    }
+//                }
+//
+//                fun setTankIndex(idx: Int) = this.also { it.tankIndex = idx }
+//            }.setTankIndex(index))
+//
+//            super.addFluidTank(this.tanks[index], it, "Tank $index",
+//                    BoundingRectangle(20 + FluidTankPiece.WIDTH * index, 24, FluidTankPiece.WIDTH, FluidTankPiece.HEIGHT))
         }
     }
 

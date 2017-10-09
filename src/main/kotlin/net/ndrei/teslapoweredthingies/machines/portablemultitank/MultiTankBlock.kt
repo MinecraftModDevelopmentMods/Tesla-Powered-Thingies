@@ -61,10 +61,10 @@ object MultiTankBlock
 
         return ExtendedBlockState(this, arrayOf(AxisAlignedBlock.FACING), this.FLUID_PROPS)
     }
-
-    override fun registerItem(registry: IForgeRegistry<Item>) {
-        registry.register(MultiTankItem)
-    }
+//
+//    override fun registerItem(registry: IForgeRegistry<Item>) {
+//        registry.register(MultiTankItem)
+//    }
 
     override fun canRenderInLayer(state: IBlockState?, layer: BlockRenderLayer?): Boolean {
         return layer == BlockRenderLayer.TRANSLUCENT || layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT
@@ -77,8 +77,8 @@ object MultiTankBlock
 
     //#endregion
 
-    override fun getExtendedState(state: IBlockState?, world: IBlockAccess?, pos: BlockPos?): IBlockState {
-        if ((state is IExtendedBlockState) && (world != null) && (pos != null)) {
+    override fun getExtendedState(state: IBlockState, world: IBlockAccess, pos: BlockPos): IBlockState {
+        if (state is IExtendedBlockState) {
             val te = world.getTileEntity(pos)
             if (te is MultiTankEntity) {
                 return (0..3).fold(state) { it, index ->
