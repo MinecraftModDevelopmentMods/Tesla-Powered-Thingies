@@ -20,6 +20,7 @@ enum class Textures(path: String) {
     JEI_TEXTURES_2("textures/gui/jei-2.png"),
     JUST_NOISE("textures/blocks/just_noise.png"),
     MULTI_TANK_SIDE("blocks/multi_tank-side"),
+    SIMPLE_TANK_SIDE("blocks/tank-side"),
     INSIDE_TANK("textures/blocks/inside_tank.png");
 
     private val _resource = ResourceLocation(TeslaThingiesMod.MODID, path)
