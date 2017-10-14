@@ -141,6 +141,14 @@ artifacts {
     archives sourceJar, deobfJar
 }
 
+if (System.getProperty("runClient.jvmArgs") != null) {
+    runClient.jvmArgs System.getProperty("runClient.jvmArgs").split(" ")
+}
+
+if (System.getProperty("runServer.jvmArgs") != null) {
+    runServer.jvmArgs System.getProperty("runServer.jvmArgs").split(" ")
+}
+
 if (project.hasProperty('mavenFTPServer') && project.hasProperty('mavenFTPUser') && project.hasProperty('mavenFTPPassword')) {
     uploadArchives {
         repositories.mavenDeployer {
