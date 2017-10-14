@@ -74,6 +74,6 @@ object IncineratorCategory
         super.register(registry)
 
         registry.handleRecipes(IncineratorRecipe::class.java, { IncineratorRecipeWrapper(it) }, this.uid)
-        registry.addRecipes(IncineratorRecipes.getRecipes(), this.uid)
+        registry.addRecipes(IncineratorRegistry.getAllRecipes(), this.uid)
     }
 }

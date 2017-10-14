@@ -11,6 +11,8 @@ tile.teslathingies.powered_kiln.name=Powered Kiln
 tile.teslathingies.item_compound_producer.name=Item Compound Producer
 tile.teslathingies.fluid_compound_producer.name=Fluid Compound Producer
 tile.teslathingies.multi_tank.name=Multi Tank (WIP)
+tile.teslathingies.simple_tank.name=Simple Tank (WIP)
+tile.teslathingies.compound_maker.name=Compound Maker
 
 item.teslathingies.animal_package.name=Animal Package
 item.teslathingies.animal_package_full.name=Animal Package (full)
@@ -24,6 +26,7 @@ item.teslathingies.fruit_picker_addon.name=Fruit Picker Addon
 item.teslathingies.bush_master_addon.name=Bush Master Addon
 item.teslathingies.xp_tank_addon.name=Player XP Addon
 item.teslathingies.tesla_plant_seeds.name=Tesla Plant Seeds (WIP)
+item.teslathingies.teslified_obsidian.name=Teslified Obsidian
 
 item.teslathingies.lump_iron.name=Teslified Iron Lump
 item.teslathingies.lump_gold.name=Teslified Gold Lump

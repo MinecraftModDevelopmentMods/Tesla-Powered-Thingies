@@ -60,6 +60,6 @@ object FluidCompoundProducerCategory
         super.register(registry)
 
         registry.handleRecipes(FluidCompoundProducerRecipe::class.java, { RecipeWrapper(it) }, this.uid)
-        registry.addRecipes(FluidCompoundProducerRecipes.recipes, this.uid)
+        registry.addRecipes(FluidCompoundProducerRegistry.getAllRecipes(), this.uid)
     }
 }

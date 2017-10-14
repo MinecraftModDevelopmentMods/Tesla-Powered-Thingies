@@ -49,13 +49,13 @@ class ItemCompoundProducerEntity
             override fun canExtractItem(slot: Int) = false
 
             override fun canInsertItem(slot: Int, stack: ItemStack)
-                    = super.canInsertItem(slot, stack) && !stack.isEmpty && ItemCompoundProducerRecipes.hasRecipe(stack)
+                    = super.canInsertItem(slot, stack) && !stack.isEmpty && ItemCompoundProducerRegistry.hasRecipe(stack)
         })
         this.addInventoryToStorage(this.inputItems, "inv_inputs")
 
         this.inputFluid = this.addSimpleFluidTank(5000, "Fluid Tank", EnumDyeColor.BLUE,
                 70, 25, FluidTankType.INPUT, {
-            ItemCompoundProducerRecipes.hasRecipe(it)
+            ItemCompoundProducerRegistry.hasRecipe(it)
         })
 
         this.outputs = object: ItemStackHandler(6) {
@@ -141,7 +141,7 @@ class ItemCompoundProducerEntity
                 for(slot in 0 until this.inputItems.slots) {
                     val stack = this.inputItems.getStackInSlot(slot)
                     if (!stack.isEmpty) {
-                        val recipe = ItemCompoundProducerRecipes.findRecipe(fluid, stack) ?: continue
+                        val recipe = ItemCompoundProducerRegistry.findRecipe(fluid, stack) ?: continue
                         val drained = this.inputFluid.drain(recipe.inputFluid.amount, false) ?: continue
                         val taken = this.inputItems.extractItem(slot, recipe.inputStack.count, true)
                         if ((drained.amount == recipe.inputFluid.amount) && (taken.count == recipe.inputStack.count)) {
@@ -158,7 +158,7 @@ class ItemCompoundProducerEntity
     override fun performWork(): Float {
         var result = 0.0f
         if (!this.currentStack.isEmpty && (this.currentFluid != null)) {
-            val recipe = ItemCompoundProducerRecipes.findRecipe(this.currentFluid!!, this.currentStack) ?: return result
+            val recipe = ItemCompoundProducerRegistry.findRecipe(this.currentFluid!!, this.currentStack) ?: return result
 
             val remaining = this.outputs.insertItems(recipe.result.copy(), true)
             if (remaining.isEmpty) {

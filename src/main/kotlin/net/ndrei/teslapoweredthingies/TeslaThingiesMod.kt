@@ -71,7 +71,7 @@ object TeslaThingiesMod {
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
         TeslaThingiesMod.logger = event.modLog
-        TeslaThingiesMod.config = ModConfigHandler(MOD_ID, this.javaClass, this.logger, event.modConfigurationDirectory)
+        TeslaThingiesMod.config = ModConfigHandler(MOD_ID, this.javaClass, this.logger, event.modConfigurationDirectory, MOD_VERSION)
 
         this.proxy.preInit(event)
     }

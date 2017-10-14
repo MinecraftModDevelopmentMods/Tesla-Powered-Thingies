@@ -47,6 +47,6 @@ object PoweredKilnCategory
         super.register(registry)
 
         registry.handleRecipes(PoweredKilnRecipe::class.java, { PoweredKilnRecipeWrapper(it) }, this.uid)
-        registry.addRecipes(PoweredKilnRecipes.getRecipes(), this.uid)
+        registry.addRecipes(PoweredKilnRegistry.getRecipes(), this.uid)
     }
 }

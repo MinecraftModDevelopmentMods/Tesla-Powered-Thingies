@@ -40,12 +40,12 @@ class FluidCompoundProducerEntity
 
         this.inputFluidA = this.addSimpleFluidTank(5000, "Fluid Tank A", EnumDyeColor.BLUE,
                 79, 25, FluidTankType.INPUT, {
-            FluidCompoundProducerRecipes.hasRecipe(it, this@FluidCompoundProducerEntity.inputFluidB.fluid)
+            FluidCompoundProducerRegistry.hasRecipe(it, this@FluidCompoundProducerEntity.inputFluidB.fluid)
         })
 
         this.inputFluidB = this.addSimpleFluidTank(5000, "Fluid Tank B", EnumDyeColor.RED,
                 97, 25, FluidTankType.INPUT, {
-            FluidCompoundProducerRecipes.hasRecipe(it, this@FluidCompoundProducerEntity.inputFluidA.fluid)
+            FluidCompoundProducerRegistry.hasRecipe(it, this@FluidCompoundProducerEntity.inputFluidA.fluid)
         })
 
         this.output = this.addSimpleFluidTank(5000, "Output Fluid Tank", EnumDyeColor.WHITE,
@@ -128,7 +128,7 @@ class FluidCompoundProducerEntity
             val fluidA = this.inputFluidA.fluid
             val fluidB = this.inputFluidB.fluid
             if ((fluidA != null) && (fluidA.amount > 0) && (fluidB != null) && (fluidB.amount > 0)) {
-                val recipe = FluidCompoundProducerRecipes.findRecipe(fluidA, fluidB)
+                val recipe = FluidCompoundProducerRegistry.findRecipe(fluidA, fluidB)
                 if (recipe != null) {
                     val drainedA = this.inputFluidA.drain(recipe.inputA.amount, false)
                     if ((drainedA?.amount == recipe.inputA.amount) && drainedA.isFluidEqual(recipe.inputA)) {

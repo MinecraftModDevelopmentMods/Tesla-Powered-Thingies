@@ -52,7 +52,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
         }
         super.addInventory(object : ColoredItemHandler(this.inputs!!, EnumDyeColor.GREEN, "Input Items", BoundingRectangle(61, 25, 18, 54)) {
             override fun canInsertItem(slot: Int, stack: ItemStack): Boolean {
-                return !stack.isEmpty && LiquefierRecipes.getRecipe(stack) != null
+                return !stack.isEmpty && ItemLiquefierRegistry.getRecipe(stack) != null
             }
 
             override fun canExtractItem(slot: Int): Boolean {
@@ -224,7 +224,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
 
         if (this.currentRecipe == null) {
             for (input in ItemStackUtil.getCombinedInventory(this.inputs!!)) {
-                val recipe = LiquefierRecipes.getRecipe(input/*.item*/)
+                val recipe = ItemLiquefierRegistry.getRecipe(input/*.item*/)
                 if (recipe != null) { // && recipe.inputStackSize <= input.count) {
                     val fluid = recipe.output.copy() // FluidStack(recipe.output, recipe.outputQuantity)
                     if (this.lavaTank!!.fill(fluid, false) == fluid.amount) { // recipe.outputQuantity) {

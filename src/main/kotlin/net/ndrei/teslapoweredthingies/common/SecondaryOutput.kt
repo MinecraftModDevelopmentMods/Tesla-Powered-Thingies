@@ -23,7 +23,7 @@ open class Output(private val stack: ItemStack)
     : IRecipeOutput {
     override fun getOutput() = this.stack.copy()
 
-    override final fun getPossibleOutput() = this.stack
+    override final fun getPossibleOutput() = this.stack.copy()
 }
 
 class SecondaryOutput(override val chance: Float, stack: ItemStack)

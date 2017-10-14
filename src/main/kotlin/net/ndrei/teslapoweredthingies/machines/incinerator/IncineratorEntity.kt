@@ -32,7 +32,7 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
 
         this.inputs = this.addSimpleInventory(1, "inv_inputs", EnumDyeColor.GREEN, "Input Items",
             BoundingRectangle.slots(61, 43, 1, 1),
-            { stack, _ -> IncineratorRecipes.isFuel(stack) },
+            { stack, _ -> IncineratorRegistry.isFuel(stack) },
             { _, _ -> false },
             true)
 
@@ -77,7 +77,7 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
         if (this.currentItem.getStackInSlot(0).isEmpty) {
             var stack = this.inputs.extractItem(0, 1, true)
             if (!stack.isEmpty) {
-                val power = IncineratorRecipes.getPower(stack)
+                val power = IncineratorRegistry.getPower(stack)
                 if (power > 0) {
                     stack = this.inputs.extractItem(0, 1, false)
                     if (!stack.isEmpty) {
@@ -93,7 +93,7 @@ class IncineratorEntity : BaseThingyGenerator(IncineratorEntity::class.java.name
     override fun fuelConsumed() {
         val stack = this.currentItem.getStackInSlot(0)
         if (!stack.isEmpty) {
-            val secondary = IncineratorRecipes.getSecondaryOutputs(stack)
+            val secondary = IncineratorRegistry.getSecondaryOutputs(stack)
             if (secondary.isNotEmpty()) {
                 for (so in secondary) {
                     val chance = this.getWorld().rand.nextFloat()

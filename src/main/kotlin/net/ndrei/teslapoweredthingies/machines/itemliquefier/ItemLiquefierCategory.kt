@@ -60,6 +60,6 @@ object ItemLiquefierCategory
         super.register(registry)
 
         registry.handleRecipes(LiquefierRecipe::class.java, { ItemLiquefierCategoryWrapper(it) }, this.uid)
-        registry.addRecipes(LiquefierRecipes.getRecipesList(), this.uid)
+        registry.addRecipes(ItemLiquefierRegistry.getAllRecipes(), this.uid)
     }
 }

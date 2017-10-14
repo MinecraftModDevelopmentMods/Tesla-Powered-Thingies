@@ -39,7 +39,7 @@ class PowderMakerEntity
             override fun canExtractItem(slot: Int) = false
 
             override fun canInsertItem(slot: Int, stack: ItemStack)
-                = (!stack.isEmpty && PowderMakerRecipes.hasRecipe(stack))
+                = (!stack.isEmpty && PowderMakerRegistry.hasRecipe(stack))
         })
         super.addInventoryToStorage(this.inputs, "inv_inputs")
 
@@ -86,7 +86,7 @@ class PowderMakerEntity
             for(slot in 0..(this.inputs.slots-1)) {
                 val stack = this.inputs.getStackInSlot(slot)
                 if (!stack.isEmpty) {
-                    val recipe = PowderMakerRecipes.findRecipe(stack) ?: continue
+                    val recipe = PowderMakerRegistry.findRecipe(stack) ?: continue
                     this.currentItem.setStackInSlot(0,
                             this.inputs.extractItem(slot, recipe.getInputCount(stack), false))
                     if (!this.currentItem.getStackInSlot(0).isEmpty) {
@@ -100,7 +100,7 @@ class PowderMakerEntity
     override fun performWork(): Float {
         val stack = this.currentItem.getStackInSlot(0)
         if (!stack.isEmpty) {
-            val recipe = PowderMakerRecipes.findRecipe(stack)
+            val recipe = PowderMakerRegistry.findRecipe(stack)
             val result = recipe?.process(stack)
             if (result != null) {
                 // see if we can output all primaries

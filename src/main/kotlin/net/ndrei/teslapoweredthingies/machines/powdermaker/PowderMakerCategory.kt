@@ -38,7 +38,7 @@ object PowderMakerCategory
         }
     }
 
-    class PowderMakerRecipeWrapper(val recipe: IPowderMakerRecipe)
+    class PowderMakerRecipeWrapper(val recipe: PowderMakerRecipe)
         : IRecipeWrapper {
 
         override fun getIngredients(ingredients: IIngredients) {
@@ -56,7 +56,7 @@ object PowderMakerCategory
     override fun register(registry: IModRegistry) {
         super.register(registry)
 
-        registry.handleRecipes(IPowderMakerRecipe::class.java, { PowderMakerRecipeWrapper(it) }, this.uid)
-        registry.addRecipes(PowderMakerRecipes.getRecipes(), this.uid)
+        registry.handleRecipes(PowderMakerRecipe::class.java, { PowderMakerRecipeWrapper(it) }, this.uid)
+        registry.addRecipes(PowderMakerRegistry.getAllRecipes(), this.uid)
     }
 }

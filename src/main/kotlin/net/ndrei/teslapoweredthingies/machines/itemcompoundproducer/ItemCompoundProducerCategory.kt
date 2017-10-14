@@ -64,6 +64,6 @@ object ItemCompoundProducerCategory
         super.register(registry)
 
         registry.handleRecipes(ItemCompoundProducerRecipe::class.java, { RecipeWrapper(it) }, this.uid)
-        registry.addRecipes(ItemCompoundProducerRecipes.recipes, this.uid)
+        registry.addRecipes(ItemCompoundProducerRegistry.getAllRecipes(), this.uid)
     }
 }

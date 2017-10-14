@@ -42,7 +42,7 @@ class PoweredKilnEntity
             override fun canExtractItem(slot: Int) = false
 
             override fun canInsertItem(slot: Int, stack: ItemStack)
-                = super.canInsertItem(slot, stack) && !stack.isEmpty && PoweredKilnRecipes.hasRecipe(stack)
+                = super.canInsertItem(slot, stack) && !stack.isEmpty && PoweredKilnRegistry.hasRecipe(stack)
 
             override fun getSlots(container: BasicTeslaContainer<*>): MutableList<Slot> {
                 val result = mutableListOf<Slot>()
@@ -107,7 +107,7 @@ class PoweredKilnEntity
                 for (input in 0..(this.inputs.slots - 1)) {
                     val stack = this.inputs.getStackInSlot(input)
                     if (!stack.isEmpty) {
-                        val recipe = PoweredKilnRecipes.findRecipe(stack) ?: continue
+                        val recipe = PoweredKilnRegistry.findRecipe(stack) ?: continue
                         this.currentItems.setStackInSlot(slot,
                                 this.inputs.extractItem(input, recipe.input.count, false))
                         if (!this.currentItems.getStackInSlot(slot).isEmpty) {
@@ -125,7 +125,7 @@ class PoweredKilnEntity
         for (slot in 0..(this.currentItems.slots - 1)) {
             val stack = this.currentItems.getStackInSlot(slot)
             if (!stack.isEmpty) {
-                val recipe = PoweredKilnRecipes.findRecipe(stack) ?: continue
+                val recipe = PoweredKilnRegistry.findRecipe(stack) ?: continue
                 if (ItemStackUtil.insertItems(this.outputs, recipe.output.copy(), true).isEmpty) {
                     ItemStackUtil.insertItems(this.outputs, recipe.output.copy(), false)
                     this.currentItems.setStackInSlot(slot, ItemStack.EMPTY)

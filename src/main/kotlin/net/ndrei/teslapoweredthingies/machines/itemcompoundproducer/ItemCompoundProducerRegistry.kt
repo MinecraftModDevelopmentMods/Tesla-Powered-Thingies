@@ -7,9 +7,6 @@ import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.common.Loader
-import net.minecraftforge.fml.common.ModClassLoader
-import net.minecraftforge.fml.common.ModContainer
-import net.minecraftforge.fml.common.ModContainerFactory
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
@@ -17,22 +14,27 @@ import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.MaterialColors
 import net.ndrei.teslacorelib.TeslaCoreLib
-import net.ndrei.teslacorelib.annotations.IRegistryHandler
 import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslacorelib.compatibility.ItemStackUtil
 import net.ndrei.teslacorelib.config.readFluidStack
 import net.ndrei.teslacorelib.config.readItemStack
 import net.ndrei.teslacorelib.config.readItemStacks
+import net.ndrei.teslacorelib.utils.equalsIgnoreSize
+import net.ndrei.teslapoweredthingies.common.BaseTeslaRegistry
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
 import net.ndrei.teslapoweredthingies.fluids.MoltenTeslaFluid
 import net.ndrei.teslapoweredthingies.items.BaseColoredTeslaLump
-import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerRecipes
+import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerRegistry
 
 /**
  * Created by CF on 2017-07-13.
  */
 @RegistryHandler
-object ItemCompoundProducerRegistry : IRegistryHandler {
+object ItemCompoundProducerRegistry
+    : BaseTeslaRegistry<ItemCompoundProducerRecipe>("item_compound_recipes", ItemCompoundProducerRecipe::class.java) {
+
+    //#region registration methods
+
     private val registeredLumps = mutableListOf<BaseColoredTeslaLump>()
 
     override fun registerItems(asm: ASMDataTable, registry: IForgeRegistry<Item>) {
@@ -79,21 +81,22 @@ object ItemCompoundProducerRegistry : IRegistryHandler {
         ores.forEach {
             val lump = OreDictionary.getOres("teslaLump$it")?.firstOrNull()
             if ((lump != null) && !lump.isEmpty) {
-                 OreDictionary.getOres("ore$it").forEach { ore ->
-                     if ((ore != null) && !ore.isEmpty) {
-                         // add ore -> lump recipe
-                         ItemCompoundProducerRecipes.recipes.add(
-                                 ItemCompoundProducerRecipe(
-                                         ItemStackUtil.copyWithSize(ore, 1),
-                                         FluidStack(MoltenTeslaFluid, 100),
-                                         ItemStackUtil.copyWithSize(lump, 2)
-                                 )
-                         )
+                OreDictionary.getOres("ore$it").forEach { ore ->
+                    if ((ore != null) && !ore.isEmpty) {
+                        // add ore -> lump recipe
+                        ItemCompoundProducerRegistry.addRecipe(
+                            ItemCompoundProducerRecipe(
+                                "lump_${it}_${ore.item.registryName.toString().replace(':', '_')}",
+                                ItemStackUtil.copyWithSize(ore, 1),
+                                FluidStack(MoltenTeslaFluid, 100),
+                                ItemStackUtil.copyWithSize(lump, 2)
+                            )
+                        )
 
-                         // lump -> dust recipes
-                         PowderMakerRecipes.registerDefaultOreRecipe(it.decapitalize(), lump, false)
-                     }
-                 }
+                        // lump -> dust recipes
+                        PowderMakerRegistry.registerDefaultOreRecipe(it.decapitalize(), lump, false)
+                    }
+                }
             }
         }
 
@@ -103,10 +106,24 @@ object ItemCompoundProducerRegistry : IRegistryHandler {
                 val fluid = json.readFluidStack("input_fluid") ?: return@readExtraRecipesFile
                 val output = json.readItemStack("output") ?: return@readExtraRecipesFile
 
-                stacks.mapTo(ItemCompoundProducerRecipes.recipes) {
-                    ItemCompoundProducerRecipe(it, fluid, output)
+                stacks.forEach {
+                    ItemCompoundProducerRegistry.addRecipe(ItemCompoundProducerRecipe(it, fluid, output))
                 }
             }
         }
     }
+
+    //#endregion
+
+    private fun ItemCompoundProducerRecipe.matchesInput(fluid: FluidStack, ignoreSize: Boolean = true)
+        = this.inputFluid.isFluidEqual(fluid) && (ignoreSize || (this.inputFluid.amount <= fluid.amount))
+
+    private fun ItemCompoundProducerRecipe.matchesInput(stack: ItemStack, ignoreSize: Boolean = true)
+        = this.inputStack.equalsIgnoreSize(stack) && (ignoreSize || (this.inputStack.count <= stack.count))
+
+    fun hasRecipe(fluid: FluidStack) = this.hasRecipe { it.matchesInput(fluid) }
+    fun hasRecipe(stack: ItemStack) = this.hasRecipe { it.matchesInput(stack) }
+
+    fun findRecipe(fluid: FluidStack, stack: ItemStack)
+        = this.findRecipe { it.matchesInput(fluid, false) && it.matchesInput(stack, false) }
 }
