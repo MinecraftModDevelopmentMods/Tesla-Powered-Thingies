@@ -5,14 +5,13 @@ import net.minecraft.init.Blocks
 import net.minecraft.item.Item
 import net.minecraft.item.crafting.IRecipe
 import net.minecraft.util.JsonUtils
+import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fml.common.discovery.ASMDataTable
-import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.MaterialColors
 import net.ndrei.teslacorelib.PowderRegistry
 import net.ndrei.teslacorelib.TeslaCoreLib
-import net.ndrei.teslacorelib.annotations.AutoRegisterRecipesHandler
 import net.ndrei.teslacorelib.annotations.IRegistryHandler
 import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslacorelib.items.powders.ColoredPowderItem
@@ -21,6 +20,8 @@ import net.ndrei.teslapoweredthingies.common.SecondaryOutput
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
 import net.ndrei.teslacorelib.config.readItemStack
 import net.ndrei.teslacorelib.config.readItemStacks
+import net.ndrei.teslacorelib.utils.copyWithSize
+import net.ndrei.teslapoweredthingies.MOD_ID
 
 /**
  * Created by CF on 2017-07-06.
@@ -46,7 +47,7 @@ object PowderMakerRegistry : IRegistryHandler {
                     PowderRegistry.addMaterial(it) { registry ->
                         val item = object: ColoredPowderItem(material, color, 0.0f, "ingot${material.capitalize()}") { }
                         registry.register(item)
-                        item.registerRecipe { AutoRegisterRecipesHandler.registerRecipe(GameRegistry.findRegistry(IRecipe::class.java), it) }
+//                        item.registerRecipe { AutoRegisterRecipesHandler.registerRecipe(GameRegistry.findRegistry(IRecipe::class.java), it) }
                         if (TeslaCoreLib.isClientSide) {
                             item.registerRenderer()
                         }
@@ -60,10 +61,11 @@ object PowderMakerRegistry : IRegistryHandler {
 
             if (hasDust) {
                 // register ingot -> dust
-                PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
-                        1, "ingot$it",
-                        OreOutput("dust$it", 1))
-                )
+                PowderMakerRecipes.registerRecipe(PowderMakerRecipe(
+                    ResourceLocation(MOD_ID, "ore_ingot$it"),
+                    OreDictionary.getOres("ingot$it").map { it.copyWithSize(1) },
+                    listOf(OreOutput("dust$it", 1))
+                ))
 
                 // register ore -> dust
 //                OreDictionary.getOres("ore$it").forEach { stack ->
@@ -78,19 +80,22 @@ object PowderMakerRegistry : IRegistryHandler {
         // register default recipes
         // stones -> 75% gravel
         listOf("stone", "cobblestone").forEach {
-            PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
-                    1, it,
-                    SecondaryOutput(.75f, Blocks.GRAVEL)
+            PowderMakerRecipes.registerRecipe(PowderMakerRecipe(
+                ResourceLocation(MOD_ID, "ore_$it"),
+                OreDictionary.getOres(it).map { it.copyWithSize(1) },
+                listOf(SecondaryOutput(.75f, Blocks.GRAVEL))
             ))
         }
         listOf("stoneGranite", "stoneDiorite", "stoneAndesite").forEach {
-            PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
-                    1, it,
-                    SecondaryOutput(.75f, Blocks.GRAVEL)
+            PowderMakerRecipes.registerRecipe(PowderMakerRecipe(
+                ResourceLocation(MOD_ID, "ore_$it"),
+                OreDictionary.getOres(it).map { it.copyWithSize(1) },
+                listOf(SecondaryOutput(.75f, Blocks.GRAVEL))
             ))
-            PowderMakerRecipes.registerRecipe(PowderMakerOreRecipe(
-                    1, "${it}Polished",
-                    SecondaryOutput(.75f, Blocks.GRAVEL)
+            PowderMakerRecipes.registerRecipe(PowderMakerRecipe(
+                ResourceLocation(MOD_ID, "ore_${it}Polished"),
+                OreDictionary.getOres("${it}Polished").map { it.copyWithSize(1) },
+                listOf(SecondaryOutput(.75f, Blocks.GRAVEL))
             ))
         }
 
@@ -128,7 +133,9 @@ object PowderMakerRegistry : IRegistryHandler {
                 }
                 if (secondary.isNotEmpty()) {
                     inputs.forEach {
-                        PowderMakerRecipes.registerRecipe(PowderMakerRecipe(it, *secondary.toTypedArray()))
+                        PowderMakerRecipes.registerRecipe(PowderMakerRecipe(
+                            ResourceLocation(MOD_ID, it.item.registryName.toString().replace(':', '_')),
+                            listOf(it), secondary))
                     }
                 }
             }

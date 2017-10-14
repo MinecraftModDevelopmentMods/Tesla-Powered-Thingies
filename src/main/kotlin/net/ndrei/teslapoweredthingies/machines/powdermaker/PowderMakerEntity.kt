@@ -88,7 +88,7 @@ class PowderMakerEntity
                 if (!stack.isEmpty) {
                     val recipe = PowderMakerRecipes.findRecipe(stack) ?: continue
                     this.currentItem.setStackInSlot(0,
-                            this.inputs.extractItem(slot, recipe.getInputCount(), false))
+                            this.inputs.extractItem(slot, recipe.getInputCount(stack), false))
                     if (!this.currentItem.getStackInSlot(0).isEmpty) {
                         break
                     }

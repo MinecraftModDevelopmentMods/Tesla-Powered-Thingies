@@ -3,7 +3,9 @@ package net.ndrei.teslapoweredthingies.machines.powdermaker
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
+import net.minecraft.util.ResourceLocation
 import net.minecraftforge.oredict.OreDictionary
+import net.ndrei.teslapoweredthingies.MOD_ID
 import net.ndrei.teslapoweredthingies.common.*
 
 /**
@@ -24,7 +26,7 @@ object PowderMakerRecipes {
 
     fun hasRecipe(stack: ItemStack) = (this.findRecipe(stack) != null)
 
-    fun findDefaultOreRecipe(oreKey: String, input: ItemStack, isOre: Boolean): IPowderMakerRecipe? {
+    private fun findDefaultOreRecipe(oreKey: String, input: ItemStack, isOre: Boolean): IPowderMakerRecipe? {
         return if (this.defaultOreRecipes.containsKey(oreKey)) {
             this.defaultOreRecipes[oreKey]?.invoke(input, isOre)
         }
@@ -55,11 +57,15 @@ object PowderMakerRecipes {
 
     private fun addDefaultOreRecipe(key: String, primaryOutput: String, primaryOutputCount: Int, vararg output: IRecipeOutput) {
         this.addDefaultOreRecipe(key, { it, ore ->
-            PowderMakerRecipe(it,
-                    OreOutput(primaryOutput, primaryOutputCount),
-                    *if (ore) arrayOf(SecondaryOutput(0.15f, Blocks.COBBLESTONE), *output)
-                    else output
-            )
+            PowderMakerRecipe(
+                ResourceLocation(MOD_ID, it.item.registryName.toString().replace(':', '_')),
+                listOf(it), mutableListOf<IRecipeOutput>().also { list ->
+                list.add(OreOutput(primaryOutput, primaryOutputCount))
+                if (ore) {
+                    list.add(SecondaryOutput(0.15f, Blocks.COBBLESTONE))
+                }
+                list.addAll(output)
+            })
         })
     }
 
@@ -86,9 +92,17 @@ object PowderMakerRecipes {
         this.addDefaultOreRecipe("iridium")
 
         this.addDefaultOreRecipe("coal", { it, ore ->
-            PowderMakerRecipe(it, *mutableListOf<IRecipeOutput>(Output(ItemStack(Items.COAL, 5))).also { when (ore) {
-                true -> it.add(SecondaryOutput(0.15f, Blocks.COBBLESTONE))
-            }}.toTypedArray())
+//            PowderMakerRecipe(it, *mutableListOf<IRecipeOutput>(Output(ItemStack(Items.COAL, 5))).also { when (ore) {
+//                true -> it.add(SecondaryOutput(0.15f, Blocks.COBBLESTONE))
+//            }}.toTypedArray())
+            PowderMakerRecipe(
+                ResourceLocation(MOD_ID, it.item.registryName.toString().replace(':', '_')),
+                listOf(it), mutableListOf<IRecipeOutput>().also { list ->
+                list.add(Output(ItemStack(Items.COAL, 5)))
+                if (ore) {
+                    list.add(SecondaryOutput(0.15f, Blocks.COBBLESTONE))
+                }
+            })
         })
         this.addDefaultOreRecipe("diamond", "dustDiamond", 3)
         this.addDefaultOreRecipe("emerald", "dustEmerald", 3)
