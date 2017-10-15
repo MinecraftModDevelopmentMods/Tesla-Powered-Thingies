@@ -19,8 +19,7 @@ import net.ndrei.teslacorelib.inventory.SyncItemHandler
 import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
 import net.ndrei.teslacorelib.tileentities.ElectricGenerator
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
-import net.ndrei.teslapoweredthingies.client.Textures
-import net.ndrei.teslapoweredthingies.gui.AnimalGymInfoPiece
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import net.ndrei.teslapoweredthingies.items.AnimalPackageItem
 import net.ndrei.teslapoweredthingies.machines.animalfarm.AnimalFarmEntity
 
@@ -119,7 +118,7 @@ class AnimalGymEntity : ElectricGenerator(AnimalGymEntity::class.java.name.hashC
                     return
                 }
 
-                container.mc.textureManager.bindTexture(Textures.FARM_TEXTURES.resource)
+                container.mc.textureManager.bindTexture(ThingiesTexture.FARM_TEXTURES.resource)
                 container.drawTexturedRect(box.left - container.guiLeft, box.top - container.guiTop,
                         56, if (over) 9 else 1, 8, 7)
             }

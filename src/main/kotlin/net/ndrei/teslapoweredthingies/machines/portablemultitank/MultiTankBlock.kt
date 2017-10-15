@@ -10,7 +10,6 @@ import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.client.renderer.texture.TextureMap
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.BlockRenderLayer
@@ -27,11 +26,10 @@ import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.annotations.AutoRegisterBlock
 import net.ndrei.teslacorelib.blocks.AxisAlignedBlock
 import net.ndrei.teslacorelib.render.selfrendering.*
-import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import net.ndrei.teslapoweredthingies.machines.BaseThingyBlock
 import org.lwjgl.opengl.GL11
 
@@ -96,7 +94,7 @@ object MultiTankBlock
 
     @SideOnly(Side.CLIENT)
     override fun getTextures(): List<ResourceLocation> {
-        return listOf(Textures.MULTI_TANK_SIDE.resource)
+        return listOf(ThingiesTexture.MULTI_TANK_SIDE.resource)
     }
 
     @SideOnly(Side.CLIENT)
@@ -106,30 +104,30 @@ object MultiTankBlock
 
         if ((layer == BlockRenderLayer.SOLID) || (layer == null)) {
             bakeries.add(listOf(
-                    RawCube(Vec3d(0.0, 0.0, 0.0), Vec3d(32.0, 2.0, 32.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(0.0, 0.0, 0.0), Vec3d(32.0, 2.0, 32.0), ThingiesTexture.MULTI_TANK_SIDE.sprite)
                             .addFace(EnumFacing.UP).uv(8.0f, 8.0f, 16.0f, 16.0f)
                             .addFace(EnumFacing.DOWN).uv(8.0f, 8.0f, 16.0f, 16.0f)
                             .addFace(EnumFacing.WEST).uv(0.0f, 0.0f, 8.0f, 0.5f)
                             .addFace(EnumFacing.NORTH).uv(0.0f, 0.0f, 8.0f, 0.5f)
                             .addFace(EnumFacing.EAST).uv(0.0f, 0.0f, 8.0f, 0.5f)
                             .addFace(EnumFacing.SOUTH).uv(0.0f, 0.0f, 8.0f, 0.5f),
-                    RawCube(Vec3d(1.0, 2.0, 1.0), Vec3d(15.0, 30.0, 15.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(1.0, 2.0, 1.0), Vec3d(15.0, 30.0, 15.0), ThingiesTexture.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.SOUTH).uv(4.5f, 0.5f, 8.0f, 7.5f)
                             .addFace(EnumFacing.EAST).uv(4.5f, 0.5f, 8.0f, 7.5f),
-                    RawCube(Vec3d(17.0, 2.0, 1.0), Vec3d(31.0, 30.0, 15.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(17.0, 2.0, 1.0), Vec3d(31.0, 30.0, 15.0), ThingiesTexture.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.SOUTH).uv(4.5f, 0.5f, 8.0f, 7.5f)
                             .addFace(EnumFacing.WEST).uv(4.5f, 0.5f, 8.0f, 7.5f),
-                    RawCube(Vec3d(17.0, 2.0, 17.0), Vec3d(31.0, 30.0, 31.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(17.0, 2.0, 17.0), Vec3d(31.0, 30.0, 31.0), ThingiesTexture.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.NORTH).uv(4.5f, 0.5f, 8.0f, 7.5f)
                             .addFace(EnumFacing.WEST).uv(4.5f, 0.5f, 8.0f, 7.5f),
-                    RawCube(Vec3d(1.0, 2.0, 17.0), Vec3d(15.0, 30.0, 31.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(1.0, 2.0, 17.0), Vec3d(15.0, 30.0, 31.0), ThingiesTexture.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.NORTH).uv(4.5f, 0.5f, 8.0f, 7.5f)
                             .addFace(EnumFacing.EAST).uv(4.5f, 0.5f, 8.0f, 7.5f),
-                    RawCube(Vec3d(0.0, 30.0, 0.0), Vec3d(32.0, 32.0, 32.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(0.0, 30.0, 0.0), Vec3d(32.0, 32.0, 32.0), ThingiesTexture.MULTI_TANK_SIDE.sprite)
                             .addFace(EnumFacing.WEST).uv(0.0f, 0.0f, 8.0f, 0.5f)
                             .addFace(EnumFacing.NORTH).uv(0.0f, 0.0f, 8.0f, 0.5f)
                             .addFace(EnumFacing.EAST).uv(0.0f, 0.0f, 8.0f, 0.5f)
@@ -140,19 +138,19 @@ object MultiTankBlock
         }
         if ((layer == BlockRenderLayer.CUTOUT) || (layer == null)) {
             bakeries.add(listOf(
-                    RawCube(Vec3d(1.0, 2.0, 1.0), Vec3d(15.0, 30.0, 15.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(1.0, 2.0, 1.0), Vec3d(15.0, 30.0, 15.0), ThingiesTexture.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.NORTH).uv(0.0f, 8.5f, 3.5f, 15.5f)
                             .addFace(EnumFacing.WEST).uv(0.0f, 8.5f, 3.5f, 15.5f),
-                    RawCube(Vec3d(17.0, 2.0, 1.0), Vec3d(31.0, 30.0, 15.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(17.0, 2.0, 1.0), Vec3d(31.0, 30.0, 15.0), ThingiesTexture.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.NORTH).uv(0.0f, 8.5f, 3.5f, 15.5f)
                             .addFace(EnumFacing.EAST).uv(0.0f, 8.5f, 3.5f, 15.5f),
-                    RawCube(Vec3d(17.0, 2.0, 17.0), Vec3d(31.0, 30.0, 31.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(17.0, 2.0, 17.0), Vec3d(31.0, 30.0, 31.0), ThingiesTexture.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.SOUTH).uv(0.0f, 8.5f, 3.5f, 15.5f)
                             .addFace(EnumFacing.EAST).uv(0.0f, 8.5f, 3.5f, 15.5f),
-                    RawCube(Vec3d(1.0, 2.0, 17.0), Vec3d(15.0, 30.0, 31.0), Textures.MULTI_TANK_SIDE.sprite)
+                    RawCube(Vec3d(1.0, 2.0, 17.0), Vec3d(15.0, 30.0, 31.0), ThingiesTexture.MULTI_TANK_SIDE.sprite)
                             .dualSide()
                             .addFace(EnumFacing.SOUTH).uv(0.0f, 8.5f, 3.5f, 15.5f)
                             .addFace(EnumFacing.WEST).uv(0.0f, 8.5f, 3.5f, 15.5f)

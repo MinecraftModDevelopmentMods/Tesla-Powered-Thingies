@@ -49,7 +49,7 @@ class ClientProxy : CommonProxy(Side.CLIENT) {
 //    @SubscribeEvent
 //    fun stitchEvent(ev: TextureStitchEvent) {
 //        if (ev.map == Minecraft.getMinecraft().textureMapBlocks) {
-//            ev.map.registerSprite(Textures.MULTI_TANK_SIDE.resource)
+//            ev.map.registerSprite(ThingiesTexture.MULTI_TANK_SIDE.resource)
 //        }
 //    }
 }

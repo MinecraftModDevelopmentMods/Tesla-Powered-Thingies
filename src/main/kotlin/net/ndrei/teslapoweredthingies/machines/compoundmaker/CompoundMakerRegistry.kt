@@ -23,10 +23,10 @@ import net.ndrei.teslapoweredthingies.machines.itemcompoundproducer.ItemCompound
 object CompoundMakerRegistry
     : BaseTeslaRegistry<CompoundMakerRecipe>("compoung_maker_recipes", CompoundMakerRecipe::class.java) {
 
-    fun acceptsLeft(fluid: FluidStack) = this.hasRecipe { it.matchesLeft(fluid, true) }
-    fun acceptsRight(fluid: FluidStack) = this.hasRecipe { it.matchedRight(fluid, true) }
-    fun acceptsTop(stack: ItemStack) = this.hasRecipe { it.matchesTop(stack, true) }
-    fun acceptsBottom(stack: ItemStack) = this.hasRecipe { it.matchesBottom(stack, true) }
+    fun acceptsLeft(fluid: FluidStack) = this.hasRecipe { it.matchesLeft(fluid, true, false) }
+    fun acceptsRight(fluid: FluidStack) = this.hasRecipe { it.matchedRight(fluid, true, false) }
+    fun acceptsTop(stack: ItemStack) = this.hasRecipe { it.matchesTop(stack, true, false) }
+    fun acceptsBottom(stack: ItemStack) = this.hasRecipe { it.matchesBottom(stack, true, false) }
 
     fun findRecipes(left: IFluidTank, top: IItemHandler, right: IFluidTank, bottom: IItemHandler) =
         this.findRecipes { it.matches(left, top, right, bottom) }

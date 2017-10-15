@@ -18,9 +18,9 @@ import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.localization.localizeFluidAmount
 import net.ndrei.teslacorelib.localization.makeTextComponent
 import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
-import net.ndrei.teslapoweredthingies.client.Textures
-import net.ndrei.teslapoweredthingies.gui.IMultiTankMachine
-import net.ndrei.teslapoweredthingies.gui.TankInfo
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
+import net.ndrei.teslapoweredthingies.common.gui.IMultiTankMachine
+import net.ndrei.teslapoweredthingies.common.gui.TankInfo
 import net.ndrei.teslapoweredthingies.integrations.GUI_FLUID_SOLIDIFIER
 import net.ndrei.teslapoweredthingies.integrations.localize
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
@@ -70,14 +70,14 @@ class FluidSolidifierEntity : BaseThingyMachine(FluidSolidifierEntity::class.jav
 
     override fun addFluidItemsBackground(pieces: MutableList<IGuiContainerPiece>, box: BoundingRectangle) {
         pieces.add(BasicRenderedGuiPiece(box.left, box.top, 18, 54,
-                Textures.MACHINES_TEXTURES.resource, 6, 44))
+                ThingiesTexture.MACHINES_TEXTURES.resource, 6, 44))
     }
 
     override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
         val pieces = super.getGuiContainerPieces(container)
 
         pieces.add(BasicRenderedGuiPiece(115, 32, 36, 40,
-                Textures.MACHINES_TEXTURES.resource, 61, 43))
+                ThingiesTexture.MACHINES_TEXTURES.resource, 61, 43))
 
         pieces.add(object : ToggleButtonPiece(125, 44, 16, 16) {
             override val currentState: Int

@@ -21,9 +21,9 @@ import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.FluidStorage
-import net.ndrei.teslapoweredthingies.client.Textures
-import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
-import net.ndrei.teslapoweredthingies.gui.ItemStackPiece
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
+import net.ndrei.teslapoweredthingies.common.gui.IWorkItemProvider
+import net.ndrei.teslapoweredthingies.common.gui.ItemStackPiece
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 
 /**
@@ -95,7 +95,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
 
                 val box = this.boundingBox
                 pieces.add(BasicRenderedGuiPiece(box.left, box.top, box.width, box.height,
-                        Textures.MACHINES_TEXTURES.resource, 98, 36))
+                        ThingiesTexture.MACHINES_TEXTURES.resource, 98, 36))
 
                 return pieces
             }
@@ -138,10 +138,10 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
         val pieces = super.getGuiContainerPieces(container)
 
         pieces.add(BasicRenderedGuiPiece(79, 41, 54, 22,
-                Textures.MACHINES_TEXTURES.resource, 24, 4))
+                ThingiesTexture.MACHINES_TEXTURES.resource, 24, 4))
 
         pieces.add(BasicRenderedGuiPiece(99, 64, 14, 14,
-                Textures.MACHINES_TEXTURES.resource, 44, 27))
+                ThingiesTexture.MACHINES_TEXTURES.resource, 44, 27))
 
         pieces.add(ItemStackPiece(96, 42, 20, 20, this))
 

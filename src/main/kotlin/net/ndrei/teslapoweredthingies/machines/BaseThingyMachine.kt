@@ -3,7 +3,7 @@ package net.ndrei.teslapoweredthingies.machines
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.tileentities.ElectricMachine
 import net.ndrei.teslacorelib.utils.alsoAdd
-import net.ndrei.teslapoweredthingies.gui.OpenJEICategoryPiece
+import net.ndrei.teslapoweredthingies.common.gui.OpenJEICategoryPiece
 
 /**
  * Created by CF on 2017-07-06.

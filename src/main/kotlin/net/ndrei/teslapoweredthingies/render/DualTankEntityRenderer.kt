@@ -15,8 +15,8 @@ import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.ndrei.teslacorelib.tileentities.ElectricTileEntity
-import net.ndrei.teslapoweredthingies.client.Textures
-import net.ndrei.teslapoweredthingies.gui.IMultiTankMachine
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
+import net.ndrei.teslapoweredthingies.common.gui.IMultiTankMachine
 import org.lwjgl.opengl.GL11
 
 /**
@@ -67,7 +67,7 @@ object DualTankEntityRenderer : TileEntitySpecialRenderer<TileEntity>() {
 
         val tankHeight = 14.0
 
-        super.bindTexture(Textures.INSIDE_TANK.resource)
+        super.bindTexture(ThingiesTexture.INSIDE_TANK.resource)
         val buffer = Tessellator.getInstance().buffer
         buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX)
 

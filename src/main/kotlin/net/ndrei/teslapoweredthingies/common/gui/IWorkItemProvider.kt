@@ -1,4 +1,4 @@
-package net.ndrei.teslapoweredthingies.gui
+package net.ndrei.teslapoweredthingies.common.gui
 
 import net.minecraft.item.ItemStack
 

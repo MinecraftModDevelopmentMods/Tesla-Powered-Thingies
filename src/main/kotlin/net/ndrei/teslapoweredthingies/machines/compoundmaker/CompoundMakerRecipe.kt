@@ -20,12 +20,14 @@ class CompoundMakerRecipe(name: ResourceLocation,
                           val bottom: Array<ItemStack> = arrayOf())
     : BaseTeslaRegistryEntry<CompoundMakerRecipe>(CompoundMakerRecipe::class.java, name) {
 
-    private fun FluidStack?.matchesFluid(fluid: FluidStack?, ignoreSize: Boolean) =
-        (this == null) || (this.amount == 0) // this stack doesn't matter
-            || this.isEnough(fluid, ignoreSize)
+    private fun FluidStack?.matchesFluid(fluid: FluidStack?, ignoreSize: Boolean, nullMatches: Boolean) =
+        if (nullMatches) {
+            (this == null) || (this.amount == 0) // this stack doesn't matter
+                || this.isEnough(fluid, ignoreSize)
+        } else (this != null) && (this.amount > 0) && this.isEnough(fluid, ignoreSize)
 
-    fun matchesLeft(fluid: FluidStack?, ignoreSize: Boolean) = this.left.matchesFluid(fluid, ignoreSize)
-    fun matchedRight(fluid: FluidStack?, ignoreSize: Boolean) = this.right.matchesFluid(fluid, ignoreSize)
+    fun matchesLeft(fluid: FluidStack?, ignoreSize: Boolean, nullMatches: Boolean) = this.left.matchesFluid(fluid, ignoreSize, nullMatches)
+    fun matchedRight(fluid: FluidStack?, ignoreSize: Boolean, nullMatches: Boolean) = this.right.matchesFluid(fluid, ignoreSize, nullMatches)
 
     private fun Array<ItemStack>.getCombinedInventory(): List<ItemStack> {
         val list = Lists.newArrayList<ItemStack>()
@@ -44,30 +46,32 @@ class CompoundMakerRecipe(name: ResourceLocation,
         return list
     }
 
-    private fun Array<ItemStack>.matchesInventory(holder: IItemHandler, ignoreSize: Boolean): Boolean {
+    private fun Array<ItemStack>.matchesInventory(holder: IItemHandler, ignoreSize: Boolean, emptyMatches: Boolean): Boolean {
         if (this.isEmpty())
-            return true
+            return emptyMatches
 
         val inventory = holder.getCombinedInventory()
-        return !this.getCombinedInventory().any { test ->
+        return this.getCombinedInventory().all { test ->
             inventory.any { it.equalsIgnoreSize(test) && (ignoreSize || (it.count >= test.count)) }
         }
     }
 
-    fun matchesTop(holder: IItemHandler, ignoreSize: Boolean) = this.top.matchesInventory(holder, ignoreSize)
-    fun matchesBottom(holder: IItemHandler, ignoreSize: Boolean) = this.bottom.matchesInventory(holder, ignoreSize)
+    private fun matchesTop(holder: IItemHandler, ignoreSize: Boolean) = this.top.matchesInventory(holder, ignoreSize, true)
+    private fun matchesBottom(holder: IItemHandler, ignoreSize: Boolean) = this.bottom.matchesInventory(holder, ignoreSize, true)
 
-    fun matchesTop(stack: ItemStack, ignoreSize: Boolean) = this.top.isNotEmpty() && this.top.getCombinedInventory().any {
-        it.equalsIgnoreSize(stack) && (ignoreSize || (stack.count >= it.count))
-    }
+    fun matchesTop(stack: ItemStack, ignoreSize: Boolean, emptyMatcher: Boolean) =
+        (emptyMatcher && this.top.isEmpty()) || this.top.getCombinedInventory().any {
+            it.equalsIgnoreSize(stack) && (ignoreSize || (stack.count >= it.count))
+        }
 
-    fun matchesBottom(stack: ItemStack, ignoreSize: Boolean) = this.bottom.isNotEmpty() && this.bottom.getCombinedInventory().any {
-        it.equalsIgnoreSize(stack) && (ignoreSize || (stack.count >= it.count))
-    }
+    fun matchesBottom(stack: ItemStack, ignoreSize: Boolean, emptyMatcher: Boolean) =
+        (emptyMatcher && this.bottom.isEmpty()) || this.bottom.getCombinedInventory().any {
+            it.equalsIgnoreSize(stack) && (ignoreSize || (stack.count >= it.count))
+        }
 
     fun matches(left: IFluidTank, top: IItemHandler, right: IFluidTank, bottom: IItemHandler) =
-        this.matchesLeft(left.fluid, false)
-            && this.matchedRight(right.fluid, false)
+        this.matchesLeft(left.fluid, false, true)
+            && this.matchedRight(right.fluid, false, true)
             && this.matchesTop(top, false)
             && this.matchesBottom(bottom, false)
 
@@ -82,7 +86,7 @@ class CompoundMakerRecipe(name: ResourceLocation,
         if (this.isEmpty())
             return true
 
-        return this.getCombinedInventory().all { handler.extractFromCombinedInventory(it, it.count) == it.count }
+        return this.getCombinedInventory().all { handler.extractFromCombinedInventory(it, it.count, !doTake) == it.count }
     }
 
     fun processInventories(left: IFluidTank, top: IItemHandler, right: IFluidTank, bottom: IItemHandler): Boolean {

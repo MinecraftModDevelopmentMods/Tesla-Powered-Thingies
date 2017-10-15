@@ -27,7 +27,7 @@ import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
 import net.ndrei.teslacorelib.utils.canFillFrom
 import net.ndrei.teslacorelib.utils.copyWithSize
-import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import net.ndrei.teslapoweredthingies.common.LiquidXPUtils
 import net.ndrei.teslapoweredthingies.common.changeExperience
 import net.ndrei.teslapoweredthingies.fluids.LiquidXPFluid
@@ -135,7 +135,7 @@ class LiquidXPStorageEntity : SidedTileEntity(LiquidXPStorageEntity::class.java.
         val list = super.getGuiContainerPieces(container)
 
         list.add(BasicRenderedGuiPiece(56, 25, 64, 54,
-                Textures.FARM_TEXTURES.resource, 65, 1))
+                ThingiesTexture.FARM_TEXTURES.resource, 65, 1))
 
         if (this.hasAddon(XPTankAddonItem.javaClass)) {
             list.add(LiquidXPStorageButton(25, 25, "-1", localize(GUI_PLAYER_LIQUID_XP, "Take 1"), {

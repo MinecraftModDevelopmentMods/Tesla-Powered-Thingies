@@ -6,7 +6,7 @@ import mezz.jei.api.ingredients.IIngredients
 import mezz.jei.api.recipe.IRecipeCategoryRegistration
 import mezz.jei.api.recipe.IRecipeWrapper
 import net.minecraft.item.ItemStack
-import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import net.ndrei.teslapoweredthingies.integrations.jei.BaseCategory
 import net.ndrei.teslapoweredthingies.integrations.jei.TeslaThingyJeiCategory
 
@@ -40,7 +40,7 @@ object PoweredKilnCategory
     override fun register(registry: IRecipeCategoryRegistration) {
         super.register(registry)
 
-        this.recipeBackground = this.guiHelper.createDrawable(Textures.JEI_TEXTURES.resource, 0, 0, 124, 66)
+        this.recipeBackground = this.guiHelper.createDrawable(ThingiesTexture.JEI_TEXTURES.resource, 0, 0, 124, 66)
     }
 
     override fun register(registry: IModRegistry) {

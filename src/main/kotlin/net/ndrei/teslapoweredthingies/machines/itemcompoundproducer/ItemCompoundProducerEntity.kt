@@ -17,8 +17,8 @@ import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.FluidTankType
 import net.ndrei.teslacorelib.inventory.LockableItemHandler
 import net.ndrei.teslacorelib.utils.insertItems
-import net.ndrei.teslapoweredthingies.client.Textures
-import net.ndrei.teslapoweredthingies.gui.*
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
+import net.ndrei.teslapoweredthingies.common.gui.*
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 import net.ndrei.teslapoweredthingies.render.DualTankEntityRenderer
 
@@ -74,14 +74,14 @@ class ItemCompoundProducerEntity
 
     override fun addFluidItemsBackground(pieces: MutableList<IGuiContainerPiece>, box: BoundingRectangle) {
         pieces.add(BasicRenderedGuiPiece(box.left, box.top, 18, 54,
-                Textures.MACHINES_TEXTURES.resource, 6, 44))
+                ThingiesTexture.MACHINES_TEXTURES.resource, 6, 44))
     }
 
     override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
         val list = super.getGuiContainerPieces(container)
 
         list.add(BasicRenderedGuiPiece(106, 32, 27, 40,
-                Textures.MACHINES_TEXTURES.resource, 66, 86))
+                ThingiesTexture.MACHINES_TEXTURES.resource, 66, 86))
 
         list.add(FluidDisplayPiece(108, 42, 20, 20, { this.currentFluid }))
         list.add(ItemStackPiece(108, 42, 20, 20, object: IWorkItemProvider {

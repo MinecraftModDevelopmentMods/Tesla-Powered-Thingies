@@ -1,6 +1,9 @@
 #future - 1.13
+- change mod id to 'thingies'
+- change classes / namespaces to get rid of 'tesla'
 
 #future
+- add 'not-instant-first-run' machines (machines that start to fill the work buffer when a valid recipe is locked in)
 - make 'power kiln' recipes take different power amounts 
 
 #1.0.10
@@ -9,6 +12,9 @@
 - added 'misc farmer' machine (only farms based on addons)
     - 'tree fruit picker' addon only works with this machine now
     - added 'bush picker' addon that will work with this and harvest bushes from various mods (using the optional BushMasterCore lib)
+- added 'compound maker' machine (to replace item compound producer)
+    - supports 2 input fluid tanks... and 6 total input stacks
+    - just 1 output slot! 
 
 #1.0.9 - HFs
 - fixed some missing/broken recipes

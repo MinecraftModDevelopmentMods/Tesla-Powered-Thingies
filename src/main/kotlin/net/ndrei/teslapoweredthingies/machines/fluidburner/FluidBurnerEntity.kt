@@ -19,11 +19,10 @@ import net.ndrei.teslacorelib.gui.FluidTankPiece
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.*
 import net.ndrei.teslacorelib.utils.FluidUtils
-import net.ndrei.teslapoweredthingies.client.Textures
-import net.ndrei.teslapoweredthingies.gui.FluidBurnerTankPiece
-import net.ndrei.teslapoweredthingies.gui.GeneratorBurnPiece
-import net.ndrei.teslapoweredthingies.gui.IMultiTankMachine
-import net.ndrei.teslapoweredthingies.gui.TankInfo
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
+import net.ndrei.teslapoweredthingies.common.gui.GeneratorBurnPiece
+import net.ndrei.teslapoweredthingies.common.gui.IMultiTankMachine
+import net.ndrei.teslapoweredthingies.common.gui.TankInfo
 import net.ndrei.teslapoweredthingies.machines.BaseThingyGenerator
 import net.ndrei.teslapoweredthingies.render.DualTankEntityRenderer
 import java.util.function.Consumer
@@ -93,7 +92,7 @@ class FluidBurnerEntity : BaseThingyGenerator(FluidBurnerEntity::class.java.name
 
                 val box = this.boundingBox
                 pieces.add(BasicRenderedGuiPiece(box.left, box.top, 18, 54,
-                        Textures.MACHINES_TEXTURES.resource, 6, 44))
+                        ThingiesTexture.MACHINES_TEXTURES.resource, 6, 44))
 
                 return pieces
             }

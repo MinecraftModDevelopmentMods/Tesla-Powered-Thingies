@@ -12,10 +12,10 @@ import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.FluidTankType
-import net.ndrei.teslapoweredthingies.client.Textures
-import net.ndrei.teslapoweredthingies.gui.FluidDisplayPiece
-import net.ndrei.teslapoweredthingies.gui.IMultiTankMachine
-import net.ndrei.teslapoweredthingies.gui.TankInfo
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
+import net.ndrei.teslapoweredthingies.common.gui.FluidDisplayPiece
+import net.ndrei.teslapoweredthingies.common.gui.IMultiTankMachine
+import net.ndrei.teslapoweredthingies.common.gui.TankInfo
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 import net.ndrei.teslapoweredthingies.render.DualTankEntityRenderer
 
@@ -57,14 +57,14 @@ class FluidCompoundProducerEntity
 
     override fun addFluidItemsBackground(pieces: MutableList<IGuiContainerPiece>, box: BoundingRectangle) {
         pieces.add(BasicRenderedGuiPiece(box.left, box.top, 18, 54,
-                Textures.MACHINES_TEXTURES.resource, 6, 44))
+                ThingiesTexture.MACHINES_TEXTURES.resource, 6, 44))
     }
 
     override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
         val list = super.getGuiContainerPieces(container)
 
         list.add(BasicRenderedGuiPiece(115, 32, 27, 40,
-                Textures.MACHINES_TEXTURES.resource, 66, 86))
+                ThingiesTexture.MACHINES_TEXTURES.resource, 66, 86))
 
         list.add(FluidDisplayPiece(117, 42, 11, 20, { this.currentFluidA }))
         list.add(FluidDisplayPiece(126, 42, 11, 20, { this.currentFluidB }))

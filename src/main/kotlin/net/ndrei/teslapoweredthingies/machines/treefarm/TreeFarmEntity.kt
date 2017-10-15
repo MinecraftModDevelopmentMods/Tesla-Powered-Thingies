@@ -14,7 +14,7 @@ import net.ndrei.teslacorelib.gui.IGuiContainerPiece
 import net.ndrei.teslacorelib.localization.makeTextComponent
 import net.ndrei.teslacorelib.netsync.SimpleNBTMessage
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
-import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import net.ndrei.teslapoweredthingies.common.GuiPieceSide
 import net.ndrei.teslapoweredthingies.integrations.GUI_TREE_FARM
 import net.ndrei.teslapoweredthingies.integrations.localize
@@ -51,7 +51,7 @@ class TreeFarmEntity : ElectricFarmMachine(TreeFarmEntity::class.java.name.hashC
     override fun getGuiContainerPieces(container: BasicTeslaGuiContainer<*>): MutableList<IGuiContainerPiece> {
         val list = super.getGuiContainerPieces(container)
 
-        list.add(object: BasicRenderedGuiPiece(45, 45, 14, 14, Textures.MACHINES_TEXTURES.resource, 100, 96) {
+        list.add(object: BasicRenderedGuiPiece(45, 45, 14, 14, ThingiesTexture.MACHINES_TEXTURES.resource, 100, 96) {
             override fun drawForegroundTopLayer(container: BasicTeslaGuiContainer<*>, guiX: Int, guiY: Int, mouseX: Int, mouseY: Int) {
                 super.drawForegroundTopLayer(container, guiX, guiY, mouseX, mouseY)
 

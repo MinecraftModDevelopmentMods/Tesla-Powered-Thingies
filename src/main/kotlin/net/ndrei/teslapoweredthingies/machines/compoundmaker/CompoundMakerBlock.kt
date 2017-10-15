@@ -9,5 +9,5 @@ import net.ndrei.teslapoweredthingies.machines.itemcompoundproducer.FluidCompoun
 object CompoundMakerBlock
     : BaseThingyBlock<CompoundMakerEntity>("compound_maker", CompoundMakerEntity::class.java) {
 
-    override fun getBlockLayer() = BlockRenderLayer.CUTOUT
+    override fun getBlockLayer() = BlockRenderLayer.TRANSLUCENT
 }

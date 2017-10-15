@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import net.ndrei.teslapoweredthingies.integrations.jei.BaseCategory
 import net.ndrei.teslapoweredthingies.integrations.jei.TeslaThingyJeiCategory
 
@@ -52,8 +52,8 @@ object FluidCompoundProducerCategory
     override fun register(registry: IRecipeCategoryRegistration) {
         super.register(registry)
 
-        this.recipeBackground = this.guiHelper.createDrawable(Textures.JEI_TEXTURES_2.resource, 124, 132, 124, 66)
-        fluidOverlay = this.guiHelper.createDrawable(Textures.JEI_TEXTURES_2.resource, 132, 147, 8, 27)
+        this.recipeBackground = this.guiHelper.createDrawable(ThingiesTexture.JEI_TEXTURES_2.resource, 124, 132, 124, 66)
+        fluidOverlay = this.guiHelper.createDrawable(ThingiesTexture.JEI_TEXTURES_2.resource, 132, 147, 8, 27)
     }
 
     override fun register(registry: IModRegistry) {

@@ -1,12 +1,11 @@
-package net.ndrei.teslapoweredthingies.gui
+package net.ndrei.teslapoweredthingies.machines.fluidburner
 
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.texture.TextureMap
 import net.minecraftforge.fluids.Fluid
 import net.ndrei.teslacorelib.gui.BasicContainerGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
-import net.ndrei.teslapoweredthingies.client.Textures
-import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerEntity
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import org.lwjgl.opengl.GL11
 
 /**
@@ -20,7 +19,7 @@ class FluidBurnerTankPiece(left: Int, top: Int, private val te: FluidBurnerEntit
         val stored = this.te.generatedPowerStored
         val percent = Math.round(Math.min(Math.max(stored.toFloat() / generated.toFloat(), 0f), 1f) * (this.height - if (null == this.te.coolantInUse) 5 else 2))
         // container.mc.textureManager.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
-        Textures.MACHINES_TEXTURES.bind(container)
+        ThingiesTexture.MACHINES_TEXTURES.bind(container)
         container.drawTexturedRect(this.left, this.top,
                 27, 44, this.width, this.height)
         if (percent > 0) {
@@ -29,7 +28,7 @@ class FluidBurnerTankPiece(left: Int, top: Int, private val te: FluidBurnerEntit
         }
 
         // container.mc.textureManager.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
-        Textures.MACHINES_TEXTURES.bind(container)
+        ThingiesTexture.MACHINES_TEXTURES.bind(container)
         container.drawTexturedRect(this.left + 4, this.top + 5,
                 31, 49, this.width - 8, this.height - 5)
 
@@ -38,7 +37,7 @@ class FluidBurnerTankPiece(left: Int, top: Int, private val te: FluidBurnerEntit
             this.drawFluid(container, this.te.fuelInUse, guiX + this.left + 5, guiY + this.top + 4 + (this.height - 5 - h), this.width - 10, h)
         }
         // container.mc.textureManager.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
-        Textures.MACHINES_TEXTURES.bind(container)
+        ThingiesTexture.MACHINES_TEXTURES.bind(container)
         container.drawTexturedRect(this.left + 4, this.top + 5,
                 47, 49, this.width - 8, this.height - 5)
     }

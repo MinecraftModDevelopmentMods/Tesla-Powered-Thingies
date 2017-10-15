@@ -16,10 +16,9 @@ import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.LockableItemHandler
 import net.ndrei.teslacorelib.inventory.SyncItemHandler
-import net.ndrei.teslapoweredthingies.client.Textures
-import net.ndrei.teslapoweredthingies.gui.FurnaceBurnPiece
-import net.ndrei.teslapoweredthingies.gui.IWorkItemProvider
-import net.ndrei.teslapoweredthingies.gui.ItemStackPiece
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
+import net.ndrei.teslapoweredthingies.common.gui.IWorkItemProvider
+import net.ndrei.teslapoweredthingies.common.gui.ItemStackPiece
 import net.ndrei.teslapoweredthingies.machines.BaseThingyMachine
 
 /**
@@ -75,7 +74,7 @@ class PoweredKilnEntity
         val list = super.getGuiContainerPieces(container)
 
         list.add(TiledRenderedGuiPiece(55, 44, 22, 22, 3, 1,
-                Textures.MACHINES_TEXTURES.resource, 119, 4, null))
+                ThingiesTexture.MACHINES_TEXTURES.resource, 119, 4, null))
 
         list.add(ItemStackPiece(55, 44, 22, 22, object: IWorkItemProvider {
             override val workItem: ItemStack

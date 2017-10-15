@@ -20,7 +20,7 @@ import net.ndrei.teslacorelib.render.IWorkAreaProvider
 import net.ndrei.teslacorelib.render.WorkingAreaRenderer
 import net.ndrei.teslacorelib.utils.BlockCube
 import net.ndrei.teslacorelib.utils.BlockPosUtils
-import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import net.ndrei.teslapoweredthingies.common.GuiPieceSide
 import net.ndrei.teslapoweredthingies.items.MachineRangeAddonTier1
 import net.ndrei.teslapoweredthingies.items.MachineRangeAddonTier2
@@ -119,7 +119,7 @@ abstract class ElectricFarmMachine protected constructor(typeId: Int) : BaseThin
         if (this.hasWorkArea) {
             list.add(object: SideDrawerPiece(SideDrawerPiece.findFreeSpot(list)) {
                 override fun renderState(container: BasicTeslaGuiContainer<*>, state: Int, box: BoundingRectangle) {
-                    Textures.MACHINES_TEXTURES.bind(container)
+                    ThingiesTexture.MACHINES_TEXTURES.bind(container)
 
                     GlStateManager.enableBlend()
                     GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)

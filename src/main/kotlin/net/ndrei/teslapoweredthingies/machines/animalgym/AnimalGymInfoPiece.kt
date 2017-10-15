@@ -1,4 +1,4 @@
-package net.ndrei.teslapoweredthingies.gui
+package net.ndrei.teslapoweredthingies.machines.animalgym
 
 import net.minecraft.client.gui.Gui
 import net.minecraft.client.renderer.GlStateManager
@@ -8,16 +8,15 @@ import net.ndrei.teslacorelib.compatibility.FontRendererUtil
 import net.ndrei.teslacorelib.gui.BasicRenderedGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.EnergyDisplayType
-import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import net.ndrei.teslapoweredthingies.integrations.GUI_ANIMAL_GYM
 import net.ndrei.teslapoweredthingies.integrations.localize
-import net.ndrei.teslapoweredthingies.machines.animalgym.AnimalGymEntity
 
 /**
  * Created by CF on 2017-07-08.
  */
 class AnimalGymInfoPiece(private val entity: AnimalGymEntity, left: Int, top: Int)
-    : BasicRenderedGuiPiece(left, top, 54, 54, Textures.FARM_TEXTURES.resource, 1, 1) {
+    : BasicRenderedGuiPiece(left, top, 54, 54, ThingiesTexture.FARM_TEXTURES.resource, 1, 1) {
 
     override fun drawForegroundLayer(container: BasicTeslaGuiContainer<*>, guiX: Int, guiY: Int, mouseX: Int, mouseY: Int) {
         val font = FontRendererUtil.fontRenderer

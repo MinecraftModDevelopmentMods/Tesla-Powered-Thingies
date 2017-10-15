@@ -1,4 +1,4 @@
-package net.ndrei.teslapoweredthingies.gui
+package net.ndrei.teslapoweredthingies.common.gui
 
 import net.minecraft.util.text.TextFormatting
 import net.ndrei.teslacorelib.gui.BasicContainerGuiPiece
@@ -6,7 +6,7 @@ import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.EnergyDisplayType
 import net.ndrei.teslacorelib.localization.makeTextComponent
 import net.ndrei.teslacorelib.tileentities.ElectricGenerator
-import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import net.ndrei.teslapoweredthingies.integrations.GUI_GENERATOR_BURN
 import net.ndrei.teslapoweredthingies.integrations.localize
 
@@ -18,7 +18,7 @@ class GeneratorBurnPiece(left: Int, top: Int, private val te: ElectricGenerator)
 
     override fun drawBackgroundLayer(container: BasicTeslaGuiContainer<*>, guiX: Int, guiY: Int, partialTicks: Float, mouseX: Int, mouseY: Int) {
         // container.mc.textureManager.bindTexture(TeslaThingiesMod.MACHINES_TEXTURES)
-        Textures.MACHINES_TEXTURES.bind(container)
+        ThingiesTexture.MACHINES_TEXTURES.bind(container)
 
         container.drawTexturedRect(this.left, this.top, 44, 27, 14, 14)
         val generated = this.te.generatedPowerCapacity

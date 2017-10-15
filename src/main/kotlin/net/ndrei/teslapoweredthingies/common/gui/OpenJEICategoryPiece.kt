@@ -1,11 +1,11 @@
-package net.ndrei.teslapoweredthingies.gui
+package net.ndrei.teslapoweredthingies.common.gui
 
 import net.minecraft.block.Block
 import net.minecraft.client.renderer.GlStateManager
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.SideDrawerPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
-import net.ndrei.teslapoweredthingies.client.Textures
+import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import net.ndrei.teslapoweredthingies.integrations.GUI_BUTTONS
 import net.ndrei.teslapoweredthingies.integrations.jei.TheJeiThing
 import net.ndrei.teslapoweredthingies.integrations.localize
@@ -18,7 +18,7 @@ class OpenJEICategoryPiece(private val block: Block, topIndex: Int = 1) : SideDr
         get() = TheJeiThing.isBlockRegistered(this.block)
 
     override fun renderState(container: BasicTeslaGuiContainer<*>, state: Int, box: BoundingRectangle) {
-        Textures.MACHINES_TEXTURES.bind(container)
+        ThingiesTexture.MACHINES_TEXTURES.bind(container)
 
         GlStateManager.enableBlend()
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
