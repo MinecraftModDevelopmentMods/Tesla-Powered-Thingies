@@ -1,10 +1,16 @@
 package net.ndrei.teslapoweredthingies.machines.compoundmaker
 
 import net.minecraft.client.Minecraft
+import net.minecraft.util.text.ITextComponent
 import net.minecraft.util.text.TextFormatting
 import net.ndrei.teslacorelib.gui.BasicContainerGuiPiece
 import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
+import net.ndrei.teslacorelib.localization.localizeModString
+import net.ndrei.teslacorelib.localization.makeTextComponent
 import net.ndrei.teslapoweredthingies.client.ThingiesTexture
+import net.ndrei.teslapoweredthingies.integrations.GUI_ANIMAL_GYM
+import net.ndrei.teslapoweredthingies.integrations.GUI_COMPOUND_MAKER
+import net.ndrei.teslapoweredthingies.integrations.localize
 
 class CompoundRecipeSelectorPiece(private val entity: CompoundMakerEntity, left: Int = 149, top: Int = 33) : BasicContainerGuiPiece(left, top, 18, 18) {
     override fun drawBackgroundLayer(container: BasicTeslaGuiContainer<*>, guiX: Int, guiY: Int, partialTicks: Float, mouseX: Int, mouseY: Int) {
@@ -29,9 +35,22 @@ class CompoundRecipeSelectorPiece(private val entity: CompoundMakerEntity, left:
         if (this.isInside(container, mouseX, mouseY)) {
             val recipe = this.entity.selectedRecipe
 
-            container.drawTooltip(if (recipe != null) listOf(
-                "${TextFormatting.LIGHT_PURPLE}Making:${TextFormatting.WHITE} ${recipe.output.displayName}"
-            ) else listOf("${TextFormatting.GRAY}No recipe available"), mouseX - guiX, mouseY - guiY)
+            val lines = mutableListOf<String>()
+
+            if (recipe != null) {
+                lines.add(localize(GUI_COMPOUND_MAKER, if (this.entity.hasCurrentRecipe) "recipe_making" else "recipe") {
+                    +TextFormatting.LIGHT_PURPLE
+                    +recipe.output.displayName.makeTextComponent(TextFormatting.WHITE)
+                })
+            }
+            else {
+                lines.add(localize(GUI_COMPOUND_MAKER, "no_recipe") {
+                    +TextFormatting.GRAY
+                })
+            }
+
+            if (lines.isNotEmpty())
+                container.drawTooltip(lines, mouseX - guiX, mouseY - guiY)
         }
     }
 }

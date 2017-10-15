@@ -5,6 +5,8 @@ import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.GuiIcon
 import net.ndrei.teslacorelib.gui.ToggleButtonPiece
 import net.ndrei.teslacorelib.inventory.BoundingRectangle
+import net.ndrei.teslapoweredthingies.integrations.GUI_COMPOUND_MAKER
+import net.ndrei.teslapoweredthingies.integrations.localize
 
 class CompoundRecipeTriggerPiece(private val entity: CompoundMakerEntity, left: Int = 151, top: Int = 65)
     : ToggleButtonPiece(left, top, 14, 14, 1) {
@@ -14,8 +16,11 @@ class CompoundRecipeTriggerPiece(private val entity: CompoundMakerEntity, left: 
 
     override fun getStateToolTip(state: Int): List<String> {
         return listOf(
-            CompoundMakerEntity.RecipeRunType.byOrdinal(state).langKey,
-            if (!this.isEnabled) "${TextFormatting.DARK_GRAY}No recipes available" else "${TextFormatting.GRAY}Click to toggle"
+            localize(GUI_COMPOUND_MAKER, CompoundMakerEntity.RecipeRunType.byOrdinal(state).langKey),
+            if (!this.isEnabled)
+                localize(GUI_COMPOUND_MAKER, "no_recipe", { +TextFormatting.DARK_GRAY })
+            else
+                localize(GUI_COMPOUND_MAKER, "toggle", { +TextFormatting.GRAY })
         )
     }
 

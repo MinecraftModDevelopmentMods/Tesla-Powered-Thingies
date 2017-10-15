@@ -12,7 +12,7 @@ tile.teslathingies.item_compound_producer.name=Item Compound Producer
 tile.teslathingies.fluid_compound_producer.name=Fluid Compound Producer
 tile.teslathingies.multi_tank.name=Multi Tank (WIP)
 tile.teslathingies.simple_tank.name=Simple Tank (WIP)
-tile.teslathingies.compound_maker.name=Compound Maker
+tile.teslathingies.compound_maker.name=Compound Maker (WIP)
 
 item.teslathingies.animal_package.name=Animal Package
 item.teslathingies.animal_package_full.name=Animal Package (full)
@@ -28,20 +28,56 @@ item.teslathingies.xp_tank_addon.name=Player XP Addon
 item.teslathingies.tesla_plant_seeds.name=Tesla Plant Seeds (WIP)
 item.teslathingies.teslified_obsidian.name=Teslified Obsidian
 
+#Standard Lumps
 item.teslathingies.lump_iron.name=Teslified Iron Lump
 item.teslathingies.lump_gold.name=Teslified Gold Lump
 item.teslathingies.lump_coal.name=Teslified Coal Lump
 item.teslathingies.lump_diamond.name=Teslified Diamond Lump
 item.teslathingies.lump_emerald.name=Teslified Emerald Lump
 
+#Base Metals Lumps
+item.teslathingies.lump_adamantine.name=Teslified Adamantine Lump
+item.teslathingies.lump_antimony.name=Teslified Antimony Lump
+item.teslathingies.lump_aquarium.name=Teslified Aquarium Lump
+item.teslathingies.lump_bismuth.name=Teslified Bismuth Lump
+item.teslathingies.lump_brass.name=Teslified Brass Lump
+item.teslathingies.lump_bronze.name=Teslified Bronze Lump
+item.teslathingies.lump_coldiron.name=Teslified Coldiron Lump
 item.teslathingies.lump_copper.name=Teslified Copper Lump
-item.teslathingies.lump_tin.name=Teslified Tin Lump
-item.teslathingies.lump_silver.name=Teslified Silver Lump
+item.teslathingies.lump_cupronickel.name=Teslified Cupronickel Lump
+item.teslathingies.lump_electrum.name=Teslified Electrum Lump
+item.teslathingies.lump_invar.name=Teslified Invar Lump
 item.teslathingies.lump_lead.name=Teslified Lead Lump
-item.teslathingies.lump_aluminum.name=Teslified Aluminium Lump
+item.teslathingies.lump_mercury.name=Teslified Mercury Lump
+item.teslathingies.lump_mithril.name=Teslified Mithril Lump
 item.teslathingies.lump_nickel.name=Teslified Nickel Lump
+item.teslathingies.lump_pewter.name=Teslified Pewter Lump
 item.teslathingies.lump_platinum.name=Teslified Platinum Lump
+item.teslathingies.lump_silver.name=Teslified Silver Lump
+item.teslathingies.lump_starsteel.name=Teslified Starsteel Lump
+item.teslathingies.lump_steel.name=Teslified Steel Lump
+item.teslathingies.lump_tin.name=Teslified Tin Lump
+item.teslathingies.lump_zinc.name=Teslified Zinc Lump
+
+#Modern Metals Lumps
+item.teslathingies.lump_aluminum.name=Teslified Aluminium Lump
+item.teslathingies.lump_aluminum_brass.name=Teslified Aluminium Brass Lump
+item.teslathingies.lump_cadmium.name=Teslified Cadmium Lump
+item.teslathingies.lump_chromium.name=Teslified Chromium Lump
+item.teslathingies.lump_galvanized_steel.name=Teslified Galvanized Steel Lump
 item.teslathingies.lump_iridium.name=Teslified Iridium Lump
+item.teslathingies.lump_magnesium.name=Teslified Magnesium Lump
+item.teslathingies.lump_manganese.name=Teslified Manganese Lump
+item.teslathingies.lump_nichrome.name=Teslified Nichrome Lump
+item.teslathingies.lump_osmium.name=Teslified Osmium Lump
+item.teslathingies.lump_plutonium.name=Teslified Plutonium Lump
+item.teslathingies.lump_rutile.name=Teslified Rutile Lump
+item.teslathingies.lump_stainless_steel.name=Teslified Stainless Steel Lump
+item.teslathingies.lump_tantalum.name=Teslified Tantalum Lump
+item.teslathingies.lump_titanium.name=Teslified Titanium Lump
+item.teslathingies.lump_tungsten.name=Teslified Tungsten Lump
+item.teslathingies.lump_uranium.name=Teslified Uranium Lump
+item.teslathingies.lump_zirconium.name=Teslified Zirconium Lump
 
 tile.teslathingies.animal_farm.name=Animal Farm
 tile.teslathingies.animal_releaser.name=Animal Releaser
@@ -148,3 +184,13 @@ gui.teslathingies.player_liquid_xp.give_1=Give 1 Level to Player
 gui.teslathingies.player_liquid_xp.give_10=Give 10 Levels to Player
 gui.teslathingies.player_liquid_xp.give_max=Give MAX Levels to Player
 
+
+#compound maker
+gui.teslathingies.compound_maker.recipe=%s
+gui.teslathingies.compound_maker.recipe_making=Making: %s
+gui.teslathingies.compound_maker.no_recipe=No recipe available
+gui.teslathingies.compound_maker.toggle=Click to toggle
+gui.teslathingies.compound_maker.machine_paused=Machine Paused
+gui.teslathingies.compound_maker.make_single_item=Make Single Item
+gui.teslathingies.compound_maker.make_maximum_items=Make Maximum Items
+gui.teslathingies.compound_maker.lock_recipe=Lock Recipe
