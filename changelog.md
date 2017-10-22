@@ -5,6 +5,8 @@
 #future
 - add 'not-instant-first-run' machines (machines that start to fill the work buffer when a valid recipe is locked in)
 - make 'power kiln' recipes take different power amounts 
+- make all recipes take different amount of power
+- replace 'crop farmer' with the 'misc farmer' machine via upgrades
 
 #1.0.10
 - added support (tree farm) for forestry trees
@@ -15,6 +17,10 @@
 - added 'compound maker' machine (to replace item compound producer)
     - supports 2 input fluid tanks... and 6 total input stacks
     - just 1 output slot! 
+- first version of the 'possible' 6x ore processing
+    - ore -\> teslified lump -\> augmented lump -\> powder -\> ingot
+- added craft tweaker support to most machines
+- new textures for teslified lumps and augmented lumps
 
 #1.0.9 - HFs
 - fixed some missing/broken recipes

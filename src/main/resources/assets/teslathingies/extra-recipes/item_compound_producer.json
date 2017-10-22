@@ -36,10 +36,5 @@
     "input_stack": { "name": "stone", "meta": 6 },
     "input_fluid": { "name": "lava", "quantity": 25 },
     "output": { "name": "stone", "meta": 5 }
-  },
-  {
-    "input_stack": { "name": "obsidian" },
-    "input_fluid": { "name": "tf-liquidxp", "quantity": 125},
-    "output": { "name": "teslathingies:teslified_obsidian" }
   }
 ]

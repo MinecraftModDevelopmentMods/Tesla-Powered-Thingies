@@ -23,6 +23,7 @@ import net.ndrei.teslacorelib.utils.equalsIgnoreSize
 import net.ndrei.teslapoweredthingies.common.BaseTeslaRegistry
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
 import net.ndrei.teslapoweredthingies.fluids.MoltenTeslaFluid
+import net.ndrei.teslapoweredthingies.items.BaseAugmentedLump
 import net.ndrei.teslapoweredthingies.items.BaseColoredTeslaLump
 import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerRegistry
 

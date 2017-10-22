@@ -21,6 +21,4 @@ class BaseColoredTeslaLump(material: String, val color: Int)
     }
 
     override fun getColorFromItemStack(stack: ItemStack, tintIndex: Int)= this.color
-
-    // override fun hasEffect(stack: ItemStack?) = true
 }

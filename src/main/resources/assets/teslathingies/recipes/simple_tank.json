@@ -1,11 +1,11 @@
 {
   "type": "forge:ore_shaped",
   "group": "tesla.machine.tank",
-  "result": { "item": "teslathingies:multi_tank" },
+  "result": { "item": "teslathingies:simple_tank" },
   "pattern": [
-    "bgb",
+    "ggg",
     "gcg",
-    "bgb"
+    "gbg"
   ],
   "key": {
     "b": { "item": "minecraft:bucket" },

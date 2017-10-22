@@ -34,6 +34,8 @@ item.teslathingies.lump_gold.name=Teslified Gold Lump
 item.teslathingies.lump_coal.name=Teslified Coal Lump
 item.teslathingies.lump_diamond.name=Teslified Diamond Lump
 item.teslathingies.lump_emerald.name=Teslified Emerald Lump
+item.teslathingies.lump_lapis.name=Teslified Lapis Lump
+item.teslathingies.lump_redstone.name=Teslified Redstone Lump
 
 #Base Metals Lumps
 item.teslathingies.lump_adamantine.name=Teslified Adamantine Lump
@@ -78,6 +80,60 @@ item.teslathingies.lump_titanium.name=Teslified Titanium Lump
 item.teslathingies.lump_tungsten.name=Teslified Tungsten Lump
 item.teslathingies.lump_uranium.name=Teslified Uranium Lump
 item.teslathingies.lump_zirconium.name=Teslified Zirconium Lump
+
+#Standard Augmented Lumps
+item.teslathingies.augmented_iron.name=Augmented Iron Lump
+item.teslathingies.augmented_gold.name=Augmented Gold Lump
+item.teslathingies.augmented_coal.name=Augmented Coal Lump
+item.teslathingies.augmented_diamond.name=Augmented Diamond Lump
+item.teslathingies.augmented_emerald.name=Augmented Emerald Lump
+item.teslathingies.augmented_lapis.name=Augmented Lapis Lump
+item.teslathingies.augmented_redstone.name=Augmented Redstone Lump
+
+#Base Metals Augmented Lumps
+item.teslathingies.augmented_adamantine.name=Augmented Adamantine Lump
+item.teslathingies.augmented_antimony.name=Augmented Antimony Lump
+item.teslathingies.augmented_aquarium.name=Augmented Aquarium Lump
+item.teslathingies.augmented_bismuth.name=Augmented Bismuth Lump
+item.teslathingies.augmented_brass.name=Augmented Brass Lump
+item.teslathingies.augmented_bronze.name=Augmented Bronze Lump
+item.teslathingies.augmented_coldiron.name=Augmented Coldiron Lump
+item.teslathingies.augmented_copper.name=Augmented Copper Lump
+item.teslathingies.augmented_cupronickel.name=Augmented Cupronickel Lump
+item.teslathingies.augmented_electrum.name=Augmented Electrum Lump
+item.teslathingies.augmented_invar.name=Augmented Invar Lump
+item.teslathingies.augmented_lead.name=Augmented Lead Lump
+item.teslathingies.augmented_mercury.name=Augmented Mercury Lump
+item.teslathingies.augmented_mithril.name=Augmented Mithril Lump
+item.teslathingies.augmented_nickel.name=Augmented Nickel Lump
+item.teslathingies.augmented_pewter.name=Augmented Pewter Lump
+item.teslathingies.augmented_platinum.name=Augmented Platinum Lump
+item.teslathingies.augmented_silver.name=Augmented Silver Lump
+item.teslathingies.augmented_starsteel.name=Augmented Starsteel Lump
+item.teslathingies.augmented_steel.name=Augmented Steel Lump
+item.teslathingies.augmented_tin.name=Augmented Tin Lump
+item.teslathingies.augmented_zinc.name=Augmented Zinc Lump
+
+#Modern Metals Augmented Lumps
+item.teslathingies.augmented_aluminum.name=Augmented Aluminium Lump
+item.teslathingies.augmented_aluminum_brass.name=Augmented Aluminium Brass Lump
+item.teslathingies.augmented_cadmium.name=Augmented Cadmium Lump
+item.teslathingies.augmented_chromium.name=Augmented Chromium Lump
+item.teslathingies.augmented_galvanized_steel.name=Augmented Galvanized Steel Lump
+item.teslathingies.augmented_iridium.name=Augmented Iridium Lump
+item.teslathingies.augmented_magnesium.name=Augmented Magnesium Lump
+item.teslathingies.augmented_manganese.name=Augmented Manganese Lump
+item.teslathingies.augmented_nichrome.name=Augmented Nichrome Lump
+item.teslathingies.augmented_osmium.name=Augmented Osmium Lump
+item.teslathingies.augmented_plutonium.name=Augmented Plutonium Lump
+item.teslathingies.augmented_rutile.name=Augmented Rutile Lump
+item.teslathingies.augmented_stainless_steel.name=Augmented Stainless Steel Lump
+item.teslathingies.augmented_tantalum.name=Augmented Tantalum Lump
+item.teslathingies.augmented_titanium.name=Augmented Titanium Lump
+item.teslathingies.augmented_tungsten.name=Augmented Tungsten Lump
+item.teslathingies.augmented_uranium.name=Augmented Uranium Lump
+item.teslathingies.augmented_zirconium.name=Augmented Zirconium Lump
+
 
 tile.teslathingies.animal_farm.name=Animal Farm
 tile.teslathingies.animal_releaser.name=Animal Releaser

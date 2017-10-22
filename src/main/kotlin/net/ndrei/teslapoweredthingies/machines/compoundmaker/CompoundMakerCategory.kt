@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import net.ndrei.teslacorelib.utils.isEmpty
 import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import net.ndrei.teslapoweredthingies.integrations.jei.BaseCategory
 import net.ndrei.teslapoweredthingies.integrations.jei.TeslaThingyJeiCategory
@@ -25,16 +26,35 @@ object CompoundMakerCategory
     private lateinit var fluidOverlay: IDrawable
 
     override fun setRecipe(recipeLayout: IRecipeLayout, recipeWrapper: RecipeWrapper, ingredients: IIngredients) {
+        val recipe = recipeWrapper.recipe
+
         val fluids = recipeLayout.fluidStacks
-        fluids.init(0, true, 8, 15, 8, 27, 1000, true, fluidOverlay)
-        fluids.set(0, ingredients.getInputs(FluidStack::class.java)[0])
+        var fluidIndex = 0
+        if (!recipe.left.isEmpty) {
+            fluids.init(0, true, 5, 15, 8, 27, 1000, true, fluidOverlay)
+            fluids.set(0, recipe.left)
+            fluidIndex = 1
+        }
+        if (!recipe.right.isEmpty) {
+            fluids.init(fluidIndex, true, 71, 15, 8, 27, 1000, true, fluidOverlay)
+            fluids.set(fluidIndex, recipe.right)
+        }
 
         val stacks = recipeLayout.itemStacks
-//        stacks.init(0, true, 30, 20)
-//        stacks.set(0, ingredients.getInputs(ItemStack::class.java)[0])
+        var stackIndex = 0
+        recipe.top.forEachIndexed { i, it ->
+            stacks.init(stackIndex, true, 15 + i * 18, 6)
+            stacks.set(stackIndex, it)
+            stackIndex++
+        }
+        recipe.bottom.forEachIndexed { i, it ->
+            stacks.init(stackIndex, true, 15 + i * 18, 33)
+            stacks.set(stackIndex, it)
+            stackIndex++
+        }
 
-        stacks.init(1, false, 61, 20)
-        stacks.set(1, ingredients.getOutputs(ItemStack::class.java)[0])
+        stacks.init(stackIndex, false, 92, 20)
+        stacks.set(stackIndex, recipe.output)
     }
 
     class RecipeWrapper(val recipe: CompoundMakerRecipe)
@@ -46,8 +66,12 @@ object CompoundMakerCategory
             if (fluids.isNotEmpty()) {
                 ingredients.setInputs(FluidStack::class.java, fluids)
             }
-
-//            ingredients.setInput(ItemStack::class.java, this.recipe.inputStack.copy())
+            val items = mutableListOf<ItemStack>()
+            items.addAll(this.recipe.top)
+            items.addAll(this.recipe.bottom)
+            if (items.isNotEmpty()) {
+                ingredients.setInputs(ItemStack::class.java, items.map { it.copy() })
+            }
 
             ingredients.setOutput(ItemStack::class.java, this.recipe.output.copy())
         }
@@ -61,7 +85,7 @@ object CompoundMakerCategory
     override fun register(registry: IRecipeCategoryRegistration) {
         super.register(registry)
 
-        this.recipeBackground = this.guiHelper.createDrawable(ThingiesTexture.JEI_TEXTURES.resource, 124, 132, 124, 66)
+        this.recipeBackground = this.guiHelper.createDrawable(ThingiesTexture.JEI_TEXTURES_2.resource, 124, 66, 124, 57)
         fluidOverlay = this.guiHelper.createDrawable(ThingiesTexture.JEI_TEXTURES.resource, 132, 147, 8, 27)
     }
 
