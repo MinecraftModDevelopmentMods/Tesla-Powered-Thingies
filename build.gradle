@@ -78,6 +78,7 @@ repositories {
     maven { name='forgelin'; url='http://maven.shadowfacts.net/' }
 
     maven { name='jei'; url="http://dvs1.progwml6.com/files/maven" }
+    maven { name="ct2"; url="http://maven.blamejared.com" }
 }
 
 dependencies {
@@ -85,14 +86,14 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:${project.kotlin_version}"
     compile "net.shadowfacts:Forgelin:${project.forgelin_version}"
 
-    if (file("ci-lib/tesla-core-lib-${project.minecraft_version}-${project.teslacorelib_version}-deobf.jar").exists()) {
-        compile files("ci-lib/tesla-core-lib-${project.minecraft_version}-${project.teslacorelib_version}-deobf.jar")
+    if (file("ci-lib/tesla-core-lib-${project.teslacorelib_mc_version}-${project.teslacorelib_version}-deobf.jar").exists()) {
+        compile files("ci-lib/tesla-core-lib-${project.teslacorelib_mc_version}-${project.teslacorelib_version}-deobf.jar")
     }
     else if (project.teslacorelib_version.endsWith('-snapshot')) {
         compile project(':Tesla-Core-Lib')
     }
     else {
-        compile("net.ndrei:tesla-core-lib:${project.minecraft_version}-${project.teslacorelib_version}:deobf") { changing = true }
+        compile("net.ndrei:tesla-core-lib:${project.teslacorelib_mc_version}-${project.teslacorelib_version}:deobf") { changing = true }
     }
 
     if (file("ci-lib/bush-master-core-${project.minecraft_version}-${project.bushmaster_version}-deobf.jar").exists()) {
@@ -107,6 +108,9 @@ dependencies {
 
     deobfCompile "mezz.jei:jei_${project.minecraft_version}:${project.jei_version}:api"
     runtime "mezz.jei:jei_${project.minecraft_version}:${project.jei_version}"
+
+    compileOnly "CraftTweaker2:CraftTweaker2-API:${project.ct_version}"
+    runtime "CraftTweaker2:CraftTweaker2-MC1120-Main:${project.ct_mc_version}-${project.ct_version}"
 }
 
 processResources {
