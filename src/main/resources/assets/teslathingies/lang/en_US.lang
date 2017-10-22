@@ -12,7 +12,7 @@ tile.teslathingies.item_compound_producer.name=Item Compound Producer
 tile.teslathingies.fluid_compound_producer.name=Fluid Compound Producer
 tile.teslathingies.multi_tank.name=Multi Tank (WIP)
 tile.teslathingies.simple_tank.name=Simple Tank (WIP)
-tile.teslathingies.compound_maker.name=Compound Maker (WIP)
+tile.teslathingies.compound_maker.name=Compound Maker
 
 item.teslathingies.animal_package.name=Animal Package
 item.teslathingies.animal_package_full.name=Animal Package (full)
@@ -250,3 +250,8 @@ gui.teslathingies.compound_maker.machine_paused=Machine Paused
 gui.teslathingies.compound_maker.make_single_item=Make Single Item
 gui.teslathingies.compound_maker.make_maximum_items=Make Maximum Items
 gui.teslathingies.compound_maker.lock_recipe=Lock Recipe
+gui.teslathingies.side_config.left_tank=Left Input Tank
+gui.teslathingies.side_config.top_inputs=Top Input Inventory
+gui.teslathingies.side_config.right_tank=Right Input Tank
+gui.teslathingies.side_config.bottom_inputs=Bottom Input Inventory
+gui.teslathingies.side_config.output=Output Slot

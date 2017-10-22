@@ -7,6 +7,7 @@
 - make 'power kiln' recipes take different power amounts 
 - make all recipes take different amount of power
 - replace 'crop farmer' with the 'misc farmer' machine via upgrades
+- make simple/multi tanks behave like 1 big tank vertically (maybe cube size for simple tank)
 
 #1.0.10
 - added support (tree farm) for forestry trees
