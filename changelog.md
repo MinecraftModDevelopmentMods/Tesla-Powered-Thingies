@@ -8,6 +8,9 @@
 - make all recipes take different amount of power
 - replace 'crop farmer' with the 'misc farmer' machine via upgrades
 - make simple/multi tanks behave like 1 big tank vertically (maybe cube size for simple tank)
+- added craft tweaker support to most machines
+
+#1.0.11
 
 #1.0.10
 - added support (tree farm) for forestry trees
@@ -20,7 +23,6 @@
     - just 1 output slot! 
 - first version of the 'possible' 6x ore processing
     - ore -\> teslified lump -\> augmented lump -\> powder -\> ingot
-- added craft tweaker support to most machines
 - new textures for teslified lumps and augmented lumps
 
 #1.0.9 - HFs
