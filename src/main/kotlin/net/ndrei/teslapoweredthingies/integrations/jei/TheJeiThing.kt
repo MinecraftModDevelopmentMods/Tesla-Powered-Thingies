@@ -58,5 +58,7 @@ class TheJeiThing : IModPlugin {
                 ))
             }
         }
+
+        val isJeiAvailable: Boolean get() = (JEI != null)
     }
 }

@@ -1,11 +1,8 @@
 package net.ndrei.teslapoweredthingies.client
 
-import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import net.ndrei.teslacorelib.gui.BasicTeslaGuiContainer
 import net.ndrei.teslacorelib.gui.IGuiTexture
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 
@@ -22,6 +19,7 @@ enum class ThingiesTexture(path: String): IGuiTexture {
     JUST_NOISE("textures/blocks/just_noise.png"),
     MULTI_TANK_SIDE("blocks/multi_tank-side"),
     SIMPLE_TANK_SIDE("blocks/tank-side"),
+    PUMP_SIDE("blocks/pump-side"),
     INSIDE_TANK("textures/blocks/inside_tank.png");
 
     override val resource = ResourceLocation(TeslaThingiesMod.MODID, path)
