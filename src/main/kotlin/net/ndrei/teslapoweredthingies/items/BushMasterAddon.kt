@@ -29,7 +29,7 @@ object BushMasterAddon
                 if (harvestable != null) {
                     val state = machine.world.getBlockState(pos)
                     if (harvestable.canBeHarvested(machine.world, pos, state)) {
-                        val loot = harvestable.harvest(machine.world, pos, state, true)
+                        val loot = harvestable.harvest(machine.world, pos, state, false)
                         machine.outputItems(loot)
                         energyUsed += PICK_ENERGY
                         if ((availableProcessing - energyUsed) < PICK_ENERGY) {
