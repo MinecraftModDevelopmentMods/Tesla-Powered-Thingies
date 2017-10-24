@@ -15,7 +15,7 @@ import net.ndrei.teslapoweredthingies.integrations.localize
  */
 class OpenJEICategoryPiece(private val block: Block, topIndex: Int = 1) : SideDrawerPiece(topIndex) {
     override val isVisible: Boolean
-        get() = TheJeiThing.isBlockRegistered(this.block)
+        get() = TheJeiThing.isJeiAvailable && TheJeiThing.isBlockRegistered(this.block)
 
     override fun renderState(container: BasicTeslaGuiContainer<*>, state: Int, box: BoundingRectangle) {
         ThingiesTexture.MACHINES_TEXTURES.bind(container)
