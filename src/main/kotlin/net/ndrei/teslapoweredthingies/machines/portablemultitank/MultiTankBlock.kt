@@ -65,7 +65,7 @@ object MultiTankBlock
 //    }
 
     override fun canRenderInLayer(state: IBlockState?, layer: BlockRenderLayer?): Boolean {
-        return layer == BlockRenderLayer.TRANSLUCENT || layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT
+        return /*layer == BlockRenderLayer.TRANSLUCENT ||*/ layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT
     }
 
     override fun isOpaqueCube(state: IBlockState?) = false

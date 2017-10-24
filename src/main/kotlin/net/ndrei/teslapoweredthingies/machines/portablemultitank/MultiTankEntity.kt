@@ -8,8 +8,6 @@ import net.minecraft.world.World
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.IFluidTank
 import net.ndrei.teslacorelib.gui.FluidTankPiece
-import net.ndrei.teslacorelib.inventory.BoundingRectangle
-import net.ndrei.teslacorelib.inventory.FluidTank
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
 import net.ndrei.teslapoweredthingies.render.bakery.SelfRenderingTESR
 
@@ -48,6 +46,9 @@ class MultiTankEntity
     }
 
     override fun supportsAddons() = false
+    override fun canBePaused() = false
+    override val allowRedstoneControl: Boolean
+        get() = false
 
     override fun setWorld(worldIn: World?) {
         super.setWorld(worldIn)

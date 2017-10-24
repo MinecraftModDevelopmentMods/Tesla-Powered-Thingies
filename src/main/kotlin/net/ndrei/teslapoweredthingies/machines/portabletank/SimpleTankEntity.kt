@@ -2,14 +2,9 @@ package net.ndrei.teslapoweredthingies.machines.portabletank
 
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer
 import net.minecraft.item.EnumDyeColor
-import net.minecraft.nbt.NBTTagCompound
 import net.minecraft.tileentity.TileEntity
-import net.minecraft.world.World
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fluids.IFluidTank
-import net.ndrei.teslacorelib.gui.FluidTankPiece
-import net.ndrei.teslacorelib.inventory.BoundingRectangle
-import net.ndrei.teslacorelib.inventory.FluidTank
 import net.ndrei.teslacorelib.tileentities.SidedTileEntity
 import net.ndrei.teslapoweredthingies.render.bakery.SelfRenderingTESR
 
@@ -28,6 +23,9 @@ class SimpleTankEntity
     }
 
     override fun supportsAddons() = false
+    override fun canBePaused() = false
+    override val allowRedstoneControl: Boolean
+        get() = false
 
     override fun getRenderers(): MutableList<TileEntitySpecialRenderer<TileEntity>> {
         return super.getRenderers().also { it.add(SelfRenderingTESR) }

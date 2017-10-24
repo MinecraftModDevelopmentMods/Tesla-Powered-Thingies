@@ -51,15 +51,13 @@ object SimpleTankBlock
     }
 
     override fun canRenderInLayer(state: IBlockState?, layer: BlockRenderLayer?): Boolean {
-        return layer == BlockRenderLayer.TRANSLUCENT || layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT
+        return /*layer == BlockRenderLayer.TRANSLUCENT ||*/ layer == BlockRenderLayer.SOLID || layer == BlockRenderLayer.CUTOUT
     }
 
     override fun isOpaqueCube(state: IBlockState?) = false
     override fun isFullCube(state: IBlockState?) = false
     override fun isTranslucent(state: IBlockState?) = true
     override fun doesSideBlockRendering(state: IBlockState?, world: IBlockAccess?, pos: BlockPos?, face: EnumFacing?) = false
-
-    //#endregion
 
     override fun getExtendedState(state: IBlockState, world: IBlockAccess, pos: BlockPos): IBlockState {
         if (state is IExtendedBlockState) {
@@ -71,6 +69,8 @@ object SimpleTankBlock
         }
         return super.getExtendedState(state, world, pos)
     }
+
+    //#endregion
 
     @SideOnly(Side.CLIENT)
     override fun getTextures(): List<ResourceLocation> {
