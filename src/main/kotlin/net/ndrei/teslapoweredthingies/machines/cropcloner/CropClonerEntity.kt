@@ -16,6 +16,7 @@ import net.ndrei.teslacorelib.inventory.BoundingRectangle
 import net.ndrei.teslacorelib.inventory.ColoredItemHandler
 import net.ndrei.teslacorelib.inventory.SyncItemHandler
 import net.ndrei.teslacorelib.render.HudInfoLine
+import net.ndrei.teslacorelib.utils.equalsIgnoreSize
 import net.ndrei.teslapoweredthingies.machines.ElectricFarmMachine
 import net.ndrei.teslapoweredthingies.render.CropClonerSpecialRenderer
 import java.awt.Color
@@ -171,7 +172,10 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
                 val age = planted.getValue(ageProperty)
                 val ages = ageProperty.allowedValues.toTypedArray()
                 if (age == ages[ages.size - 1]) {
+                    val input = this.inStackHandler?.getStackInSlot(0) ?: ItemStack.EMPTY
                     val stacks = wrapper.getDrops(this.getWorld(), this.getPos(), planted)
+                        .map { if (it.equalsIgnoreSize(input)) it.also { it.shrink(1) } else it }
+                        .filter { !it.isEmpty }
                     if (super.outputItems(stacks)) {
                         this.plantedThing = null
                         result += .85f
