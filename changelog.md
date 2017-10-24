@@ -11,6 +11,7 @@
 - added craft tweaker support to most machines
 
 #1.0.11
+- fixed crop cloner seed duplication bug
 
 #1.0.10
 - added support (tree farm) for forestry trees
