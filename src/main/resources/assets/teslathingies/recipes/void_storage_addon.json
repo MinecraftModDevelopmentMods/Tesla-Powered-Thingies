@@ -1,0 +1,16 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.addons",
+  "result": { "item": "teslathingies:void_storage_addon" },
+  "pattern": [
+    "ogo",
+    "oco",
+    "obo"
+  ],
+  "key": {
+    "c": { "item": "teslacorelib:base_addon" },
+    "o": { "type": "forge:ore_dict", "ore": "obsidian" },
+    "g": { "type": "forge:ore_dict", "ore": "gearIron" },
+    "b": { "type": "teslacorelib:fluid_container", "fluid": "lava" }
+  }
+}
