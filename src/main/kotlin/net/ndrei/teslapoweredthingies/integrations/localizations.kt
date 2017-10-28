@@ -14,6 +14,7 @@ const val GUI_ANIMAL_GYM = "animal_gym"
 const val GUI_TREE_FARM = "tree_farm"
 const val GUI_ANIMAL_PACKAGE = "animal_package"
 const val GUI_COMPOUND_MAKER = "compound_maker"
+const val GUI_PUMP = "pump"
 
 fun localize(guiType: String, key: String, init: (LocalizedModText.() -> Unit)? = null) =
     localizeModString(MOD_ID, guiType, key, init).formattedText

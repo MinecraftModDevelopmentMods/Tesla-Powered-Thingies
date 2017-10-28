@@ -8,10 +8,14 @@
 - make all recipes take different amount of power
 - replace 'crop farmer' with the 'misc farmer' machine via upgrades
 - make simple/multi tanks behave like 1 big tank vertically (maybe cube size for simple tank)
-- added craft tweaker support to most machines
+- add craft tweaker support to most machines
+- add a quarry machine
+- add 'strategy' addons for pump and quarry
 
 #1.0.11
 - fixed crop cloner seed duplication bug
+- added fluid pump machine
+- added 'void storage' upgrade for tanks (keep accepting fluids even if full)
 
 #1.0.10
 - added support (tree farm) for forestry trees

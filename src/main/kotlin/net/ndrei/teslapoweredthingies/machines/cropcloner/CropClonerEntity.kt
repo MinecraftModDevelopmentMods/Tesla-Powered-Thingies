@@ -83,9 +83,9 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
 
     //#region gui       methods
 
-    override val hudLines: List<HudInfoLine>
+    override val hudLines: MutableList<HudInfoLine>
         get() {
-            val list = super.hudLines.toMutableList()
+            val list = super.hudLines //.toMutableList()
 
             if (this.plantedThing == null) {
                 list.add(HudInfoLine(Color(255, 159, 51),
@@ -106,7 +106,7 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
                 }
             }
 
-            return list.toList()
+            return list //.toList()
         }
 
     override fun getRenderers(): MutableList<TileEntitySpecialRenderer<in TileEntity>> {
