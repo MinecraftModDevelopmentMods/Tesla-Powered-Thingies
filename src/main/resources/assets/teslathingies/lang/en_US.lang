@@ -13,6 +13,7 @@ tile.teslathingies.fluid_compound_producer.name=Fluid Compound Producer
 tile.teslathingies.multi_tank.name=Multi Tank (WIP)
 tile.teslathingies.simple_tank.name=Simple Tank (WIP)
 tile.teslathingies.compound_maker.name=Compound Maker
+tile.teslathingies.pump.name=Powered Pump
 
 item.teslathingies.animal_package.name=Animal Package
 item.teslathingies.animal_package_full.name=Animal Package (full)
@@ -196,6 +197,8 @@ gui.teslathingies.side_config.tank_3=Tank 4
 gui.teslathingies.side_config.input_liquid_containers=Input Liquid Containers
 gui.teslathingies.side_config.liquid_xp=Liquid XP Tank
 gui.teslathingies.side_config.output_liquid_containers=Output Liquid Containers
+gui.teslathingies.side_config.output_liquid_containers=Output Liquid Containers
+gui.teslathingies.side_config.blocks_buffer=Blocks Buffer
 
 
 #generator burn piece
@@ -255,3 +258,9 @@ gui.teslathingies.side_config.top_inputs=Top Input Inventory
 gui.teslathingies.side_config.right_tank=Right Input Tank
 gui.teslathingies.side_config.bottom_inputs=Bottom Input Inventory
 gui.teslathingies.side_config.output=Output Slot
+
+
+#pump
+gui.teslathingies.pump.no_scanner=Not scanning
+gui.teslathingies.pump.scanned=%s blocks scanned
+gui.teslathingies.side_config.blocks_buffer=Blocks Buffer

@@ -1,16 +1,27 @@
 package net.ndrei.teslapoweredthingies.machines.pump
 
+import net.minecraft.block.Block
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
+import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.BufferBuilder
+import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.client.renderer.Tessellator
+import net.minecraft.client.renderer.texture.TextureAtlasSprite
+import net.minecraft.client.renderer.texture.TextureMap
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.item.ItemStack
+import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.Vec3d
 import net.minecraft.world.IBlockAccess
+import net.minecraft.world.World
 import net.minecraftforge.common.model.TRSRTransformation
 import net.minecraftforge.common.property.IExtendedBlockState
+import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.ndrei.teslacorelib.annotations.AutoRegisterBlock
@@ -18,6 +29,7 @@ import net.ndrei.teslacorelib.render.selfrendering.*
 import net.ndrei.teslapoweredthingies.client.ThingiesTexture
 import net.ndrei.teslapoweredthingies.machines.BaseRunningBlock
 import net.ndrei.teslapoweredthingies.machines.portablemultitank.UnlistedFluidProperty
+import org.lwjgl.opengl.GL11
 
 @AutoRegisterBlock
 @SelfRenderingBlock
@@ -55,7 +67,18 @@ object PumpBlock: BaseRunningBlock<PumpEntity>("pump", PumpEntity::class.java), 
         return super.getExtendedState(state, world, pos)
     }
 
-    //#endregion
+    override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos) {
+        super.neighborChanged(state, worldIn, pos, blockIn, fromPos)
+        if (!worldIn.isRemote) {
+            val te = worldIn.getTileEntity(pos) as? PumpEntity
+            if (te != null)
+                te.neighborChanged(fromPos)
+        }
+    }
+
+//#endregion
+
+    //#region Rendering
 
     @SideOnly(Side.CLIENT)
     override fun getTextures(): List<ResourceLocation> {
@@ -135,4 +158,101 @@ object PumpBlock: BaseRunningBlock<PumpEntity>("pump", PumpEntity::class.java), 
         }
         return bakeries.toList()
     }
+
+    @SideOnly(Side.CLIENT)
+    override fun renderTESR(proxy: TESRProxy, te: TileEntity, x: Double, y: Double, z: Double, partialTicks: Float, destroyStage: Int, alpha: Float) {
+        GlStateManager.enableBlend()
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA)
+
+        proxy.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE)
+        val fluid = (te as? PumpEntity)?.getFluid()
+        if ((fluid != null) && (fluid.fluid != null) && (fluid.amount > 0)) {
+            val amount = Math.round(fluid.amount.toFloat() / 375f * 4f) / 64.0f
+            this.drawFluid(fluid.fluid, amount)
+        }
+
+        GlStateManager.disableBlend()
+        GlStateManager.color(1.0f, 1.0f, 1.0f, 1.0f)
+    }
+
+    @SideOnly(Side.CLIENT)
+    private fun drawFluid(fluid: Fluid?, fluidPercent: Float) {
+        GlStateManager.pushMatrix()
+        GlStateManager.translate(1.1, 2.0, 1.1)
+
+        if ((fluidPercent > 0.0f) && (fluid != null)) {
+            if (fluidPercent > 0) {
+                val still = fluid.still
+                if (still != null) {
+                    val height = 22 * fluidPercent
+                    val color = fluid.color
+                    GlStateManager.color((color shr 16 and 0xFF) / 255.0f, (color shr 8 and 0xFF) / 255.0f, (color and 0xFF) / 255.0f, (color ushr 24 and 0xFF) / 255.0f)
+
+                    val stillSprite = Minecraft.getMinecraft().textureMapBlocks.getTextureExtry(still.toString())
+                        ?: Minecraft.getMinecraft().textureMapBlocks.missingSprite
+                    if (stillSprite != null) {
+                        this.drawSprite(
+                            Vec3d(0.0, 22.0 - height, 0.0),
+                            Vec3d(29.8, 22.0, 0.0),
+                            stillSprite, false, true)
+                        this.drawSprite(
+                            Vec3d(0.0, 22.0 - height, 0.0),
+                            Vec3d(0.0, 22.0, 29.8),
+                            stillSprite, true, false)
+                        this.drawSprite(
+                            Vec3d(0.0, 22.0 - height, 29.8),
+                            Vec3d(29.8, 22.0, 29.8),
+                            stillSprite, true, false)
+                        this.drawSprite(
+                            Vec3d(29.8, 22.0 - height, 0.0),
+                            Vec3d(29.8, 22.0, 29.8),
+                            stillSprite, false, true)
+                        this.drawSprite(
+                            Vec3d(0.0, 22.0 - height, 29.8),
+                            Vec3d(29.8, 22.0 - height, 0.0),
+                            stillSprite)
+                    }
+                }
+            }
+        }
+
+        GlStateManager.popMatrix()
+    }
+
+    @SideOnly(Side.CLIENT)
+    private fun drawSprite(start: Vec3d, end: Vec3d, sprite: TextureAtlasSprite, draw1: Boolean = true, draw2: Boolean = true) {
+        val buffer = Tessellator.getInstance().buffer
+        buffer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX)
+
+        val width = Math.abs(if (end.x == start.x) end.z - start.z else end.x - start.x)
+        val height = Math.abs(if (end.y == start.y) end.z - start.z else end.y - start.y)
+
+        val texW = sprite.maxU - sprite.minU
+        val texH = sprite.maxV - sprite.minV
+
+        val finalW = texW * width / 32.0
+        val finalH = texH * height / 32.0
+
+        this.drawTexture(buffer, start, end, sprite.minU.toDouble(), sprite.minV.toDouble(), sprite.minU + finalW, sprite.minV + finalH, draw1, draw2)
+        Tessellator.getInstance().draw()
+    }
+
+    @SideOnly(Side.CLIENT)
+    private fun drawTexture(buffer: BufferBuilder, start: Vec3d, end: Vec3d, minU: Double, minV: Double, maxU: Double, maxV: Double, draw1: Boolean = true, draw2: Boolean = true) {
+        if (draw1) {
+            buffer.pos(start.x, start.y, start.z).tex(minU, minV).endVertex()
+            buffer.pos(start.x, end.y, if (start.x == end.x) start.z else end.z).tex(minU, maxV).endVertex()
+            buffer.pos(end.x, end.y, end.z).tex(maxU, maxV).endVertex()
+            buffer.pos(end.x, start.y, if (start.x == end.x) end.z else start.z).tex(maxU, minV).endVertex()
+        }
+
+        if (draw2) {
+            buffer.pos(start.x, start.y, start.z).tex(minU, minV).endVertex()
+            buffer.pos(end.x, start.y, if (start.x == end.x) end.z else start.z).tex(maxU, minV).endVertex()
+            buffer.pos(end.x, end.y, end.z).tex(maxU, maxV).endVertex()
+            buffer.pos(start.x, end.y, if (start.x == end.x) start.z else end.z).tex(minU, maxV).endVertex()
+        }
+    }
+
+    //#endregion
 }
