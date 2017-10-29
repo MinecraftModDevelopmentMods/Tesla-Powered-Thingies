@@ -5,56 +5,46 @@ import net.minecraft.client.Minecraft
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.item.crafting.IRecipe
-import net.minecraft.util.ResourceLocation
-import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fluids.FluidStack
-import net.minecraftforge.fluids.IFluidTank
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import net.minecraftforge.items.IItemHandler
 import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.registries.IForgeRegistry
-import net.minecraftforge.registries.RegistryBuilder
 import net.ndrei.teslacorelib.MaterialColors
 import net.ndrei.teslacorelib.TeslaCoreLib
-import net.ndrei.teslacorelib.annotations.IRegistryHandler
 import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslacorelib.config.readFluidStack
 import net.ndrei.teslacorelib.config.readItemStack
-import net.ndrei.teslacorelib.config.readItemStacks
 import net.ndrei.teslacorelib.utils.isEmpty
 import net.ndrei.teslacorelib.utils.stack
-import net.ndrei.teslapoweredthingies.MOD_ID
+import net.ndrei.teslapoweredthingies.api.PoweredThingiesAPI
+import net.ndrei.teslapoweredthingies.api.compoundmaker.ICompoundMakerRegistry
 import net.ndrei.teslapoweredthingies.common.BaseTeslaRegistry
 import net.ndrei.teslapoweredthingies.common.OreOutput
 import net.ndrei.teslapoweredthingies.common.SecondaryOreOutput
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
 import net.ndrei.teslapoweredthingies.items.BaseAugmentedLump
-import net.ndrei.teslapoweredthingies.items.BaseColoredTeslaLump
 import net.ndrei.teslapoweredthingies.items.TeslifiedObsidian
-import net.ndrei.teslapoweredthingies.machines.itemcompoundproducer.ItemCompoundProducerBlock
 import net.ndrei.teslapoweredthingies.machines.itemcompoundproducer.ItemCompoundProducerRecipe
-import net.ndrei.teslapoweredthingies.machines.itemcompoundproducer.ItemCompoundProducerRegistry
 import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerRecipe
 import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerRegistry
 
 @RegistryHandler
 object CompoundMakerRegistry
-    : BaseTeslaRegistry<CompoundMakerRecipe>("compound_maker_recipes", CompoundMakerRecipe::class.java) {
+    : BaseTeslaRegistry<CompoundMakerRecipe>("compound_maker_recipes", CompoundMakerRecipe::class.java), ICompoundMakerRegistry<CompoundMakerRecipe> {
 
     private val registeredAugments = mutableListOf<BaseAugmentedLump>()
 
-    fun acceptsLeft(fluid: FluidStack) = this.hasRecipe { it.matchesLeft(fluid, true, false) }
-    fun acceptsRight(fluid: FluidStack) = this.hasRecipe { it.matchedRight(fluid, true, false) }
-    fun acceptsTop(stack: ItemStack) = this.hasRecipe { it.matchesTop(stack, true, false) }
-    fun acceptsBottom(stack: ItemStack) = this.hasRecipe { it.matchesBottom(stack, true, false) }
+    private var finished = false
+    private var itemCompoundFinished = false
 
-    fun findRecipes(left: IFluidTank, top: IItemHandler, right: IFluidTank, bottom: IItemHandler) =
-        this.findRecipes { it.matches(left, top, right, bottom) }
+    override fun construct(asm: ASMDataTable) {
+        super.construct(asm)
+        PoweredThingiesAPI.compoundMakerRegistry = this
+    }
 
     override fun registerItems(asm: ASMDataTable, registry: IForgeRegistry<Item>) {
         val lumpNames = mutableSetOf<String>()
@@ -127,13 +117,38 @@ object CompoundMakerRegistry
                     leftFluid, topStacks.toTypedArray(), rightFluid, bottomStacks.toTypedArray()))
             }
         }
+
+        this.finished = true
+        this.checkCompletion()
     }
 
     @SubscribeEvent
+    @Suppress("unused")
     fun onItemCompoundRecipeAdded(ev: BaseTeslaRegistry.EntryAddedEvent<ItemCompoundProducerRecipe>) {
         val recipe = ev.entry
         if (this.getRecipe(recipe.name) == null) {
             this.addRecipe(CompoundMakerRecipe(recipe.name, recipe.result, recipe.inputFluid, arrayOf(recipe.inputStack)))
         }
+    }
+
+    @SubscribeEvent
+    @Suppress("unused")
+    fun onItemCompoundFinished(ev: BaseTeslaRegistry.DefaultRegistrationCompletedEvent<ItemCompoundProducerRecipe>) {
+        this.itemCompoundFinished = true
+        this.checkCompletion()
+    }
+
+    private fun checkCompletion() {
+        if (this.finished && this.itemCompoundFinished) {
+            this.registrationCompleted()
+        }
+    }
+
+    override fun registerRecipe(output: ItemStack,
+                                left: FluidStack?,
+                                top: Array<ItemStack>,
+                                right: FluidStack?,
+                                bottom: Array<ItemStack>) = this.also {
+        this.addRecipe(CompoundMakerRecipe(output.item.registryName!!, output, left, top, right, bottom))
     }
 }

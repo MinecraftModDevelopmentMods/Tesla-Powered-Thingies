@@ -10,15 +10,16 @@ import net.ndrei.teslacorelib.utils.equalsIgnoreSize
 import net.ndrei.teslacorelib.utils.extractFromCombinedInventory
 import net.ndrei.teslacorelib.utils.getCombinedInventory
 import net.ndrei.teslacorelib.utils.isEnough
+import net.ndrei.teslapoweredthingies.api.compoundmaker.ICompoundMakerRecipe
 import net.ndrei.teslapoweredthingies.common.BaseTeslaRegistryEntry
 
 class CompoundMakerRecipe(name: ResourceLocation,
-                          val output: ItemStack,
+                          override val output: ItemStack,
                           val left: FluidStack? = null,
                           val top: Array<ItemStack> = arrayOf(),
                           val right: FluidStack? = null,
                           val bottom: Array<ItemStack> = arrayOf())
-    : BaseTeslaRegistryEntry<CompoundMakerRecipe>(CompoundMakerRecipe::class.java, name) {
+    : BaseTeslaRegistryEntry<CompoundMakerRecipe>(CompoundMakerRecipe::class.java, name), ICompoundMakerRecipe<CompoundMakerRecipe> {
 
     private fun FluidStack?.matchesFluid(fluid: FluidStack?, ignoreSize: Boolean, nullMatches: Boolean) =
         if (nullMatches) {
@@ -26,8 +27,8 @@ class CompoundMakerRecipe(name: ResourceLocation,
                 || this.isEnough(fluid, ignoreSize)
         } else (this != null) && (this.amount > 0) && this.isEnough(fluid, ignoreSize)
 
-    fun matchesLeft(fluid: FluidStack?, ignoreSize: Boolean, nullMatches: Boolean) = this.left.matchesFluid(fluid, ignoreSize, nullMatches)
-    fun matchedRight(fluid: FluidStack?, ignoreSize: Boolean, nullMatches: Boolean) = this.right.matchesFluid(fluid, ignoreSize, nullMatches)
+    override fun matchesLeft(fluid: FluidStack?, ignoreSize: Boolean, nullMatches: Boolean) = this.left.matchesFluid(fluid, ignoreSize, nullMatches)
+    override fun matchedRight(fluid: FluidStack?, ignoreSize: Boolean, nullMatches: Boolean) = this.right.matchesFluid(fluid, ignoreSize, nullMatches)
 
     private fun Array<ItemStack>.getCombinedInventory(): List<ItemStack> {
         val list = Lists.newArrayList<ItemStack>()
@@ -59,17 +60,17 @@ class CompoundMakerRecipe(name: ResourceLocation,
     private fun matchesTop(holder: IItemHandler, ignoreSize: Boolean) = this.top.matchesInventory(holder, ignoreSize, true)
     private fun matchesBottom(holder: IItemHandler, ignoreSize: Boolean) = this.bottom.matchesInventory(holder, ignoreSize, true)
 
-    fun matchesTop(stack: ItemStack, ignoreSize: Boolean, emptyMatcher: Boolean) =
+    override fun matchesTop(stack: ItemStack, ignoreSize: Boolean, emptyMatcher: Boolean) =
         (emptyMatcher && this.top.isEmpty()) || this.top.getCombinedInventory().any {
             it.equalsIgnoreSize(stack) && (ignoreSize || (stack.count >= it.count))
         }
 
-    fun matchesBottom(stack: ItemStack, ignoreSize: Boolean, emptyMatcher: Boolean) =
+    override fun matchesBottom(stack: ItemStack, ignoreSize: Boolean, emptyMatcher: Boolean) =
         (emptyMatcher && this.bottom.isEmpty()) || this.bottom.getCombinedInventory().any {
             it.equalsIgnoreSize(stack) && (ignoreSize || (stack.count >= it.count))
         }
 
-    fun matches(left: IFluidTank, top: IItemHandler, right: IFluidTank, bottom: IItemHandler) =
+    override fun matches(left: IFluidTank, top: IItemHandler, right: IFluidTank, bottom: IItemHandler) =
         this.matchesLeft(left.fluid, false, true)
             && this.matchedRight(right.fluid, false, true)
             && this.matchesTop(top, false)
@@ -89,7 +90,7 @@ class CompoundMakerRecipe(name: ResourceLocation,
         return this.getCombinedInventory().all { handler.extractFromCombinedInventory(it, it.count, !doTake) == it.count }
     }
 
-    fun processInventories(left: IFluidTank, top: IItemHandler, right: IFluidTank, bottom: IItemHandler): Boolean {
+    override fun processInventories(left: IFluidTank, top: IItemHandler, right: IFluidTank, bottom: IItemHandler): Boolean {
         if (!this.matches(left, top, right, bottom))
             return false
 

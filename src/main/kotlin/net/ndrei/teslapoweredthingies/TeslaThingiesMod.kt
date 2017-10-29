@@ -61,10 +61,7 @@ object TeslaThingiesMod {
         ).forEach {
             TeslaCoreLibConfig.setDefaultFlag(it, true)
         }
-    }
 
-    @Mod.EventHandler
-    fun construct(event: FMLConstructionEvent) {
         this.proxy.construction(event)
     }
 

@@ -131,18 +131,44 @@ processResources {
     }
 }
 
+jar {
+    from sourceSets.api.output
+    from sourceSets.main.output
+}
+
 task sourcesJar(type: Jar) {
+    from sourceSets.api.allSource
     from sourceSets.main.allSource
     classifier = 'sources'
 }
 
 task deobfJar(type: Jar) {
+    from sourceSets.api.output
     from sourceSets.main.output
     classifier = 'deobf'
 }
 
+task apiJar(type: Jar) {
+    from sourceSets.api.output
+    classifier = 'api'
+}
+
 artifacts {
-    archives sourceJar, deobfJar
+    archives apiJar, sourceJar, deobfJar
+}
+
+if (project.hasProperty('mavenFTPServer') && project.hasProperty('mavenFTPUser') && project.hasProperty('mavenFTPPassword')) {
+    uploadArchives {
+        repositories.mavenDeployer {
+            dependsOn build, apiJar, deobfJar, sourcesJar
+
+            configuration = configurations.deployerJars
+            repository(url: project.mavenFTPServer) {
+                authentication(userName: project.mavenFTPUser, password: mavenFTPPassword)
+            }
+        }
+    }
+    uploadArchives.dependsOn build, apiJar, sourcesJar, deobfJar
 }
 
 if (System.getProperty("runClient.jvmArgs") != null) {
@@ -151,17 +177,4 @@ if (System.getProperty("runClient.jvmArgs") != null) {
 
 if (System.getProperty("runServer.jvmArgs") != null) {
     runServer.jvmArgs System.getProperty("runServer.jvmArgs").split(" ")
-}
-
-if (project.hasProperty('mavenFTPServer') && project.hasProperty('mavenFTPUser') && project.hasProperty('mavenFTPPassword')) {
-    uploadArchives {
-        repositories.mavenDeployer {
-            dependsOn build, deobfJar, sourcesJar
-            configuration = configurations.deployerJars
-            repository(url: project.mavenFTPServer) {
-                authentication(userName: project.mavenFTPUser, password: mavenFTPPassword)
-            }
-        }
-    }
-    uploadArchives.dependsOn build, sourcesJar, deobfJar
 }
