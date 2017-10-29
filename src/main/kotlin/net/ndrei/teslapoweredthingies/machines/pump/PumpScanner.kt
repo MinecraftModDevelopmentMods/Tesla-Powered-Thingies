@@ -9,14 +9,12 @@ import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.IFluidBlock
 
 open class PumpScanner(private val entity: PumpEntity) {
-//    private val blocks = mutableMapOf<BlockPos, Float>()
     private val visited = mutableListOf<BlockPos>()
     private var scanIndex = -1
     private var sourceFluid: Fluid? = null
 
     constructor(entity: PumpEntity, initial: BlockPos)
         : this(entity) {
-//        this.blocks.put(initial, initial.getFluidLevel())
         this.visited.add(initial)
         this.scanIndex = 0
         this.onChanged()
@@ -43,7 +41,6 @@ open class PumpScanner(private val entity: PumpEntity) {
             nbt.setInteger("x", item.x)
             nbt.setInteger("y", item.y)
             nbt.setInteger("z", item.z)
-//            nbt.setFloat("level", this.blocks.getOrPut(item, { item.getFluidLevel() }))
             list.appendTag(nbt)
             return@fold list
         })
@@ -100,7 +97,6 @@ open class PumpScanner(private val entity: PumpEntity) {
             changed = true
             val current = this.visited.removeAt(this.visited.size - 1)
             val fluid = this.entity.world.getBlockState(current).getFluidWrapper()
-//            TeslaCoreLib.logger.info("Fluid at: $current with level: ${fluid?.getFilledPercentage(this.world, current) ?: 0f} :: ${this.world.getBlockState(current)} :: ${this.world.getBlockState(current).block.javaClass.name}")
             if ((fluid != null) && (!onlyDrainable || fluid.canDrain(this.entity.world, current))) {
                 picked.put(current, fluid)
             }
@@ -109,8 +105,6 @@ open class PumpScanner(private val entity: PumpEntity) {
         if (changed) this.onChanged()
         return picked
     }
-
-    val buffer get() = this.visited.size
 
     companion object {
         private const val SCAN_PER_TICK = 24 // TODO: make this into a config option

@@ -28,6 +28,7 @@ item.teslathingies.bush_master_addon.name=Bush Master Addon
 item.teslathingies.xp_tank_addon.name=Player XP Addon
 item.teslathingies.tesla_plant_seeds.name=Tesla Plant Seeds (WIP)
 item.teslathingies.teslified_obsidian.name=Teslified Obsidian
+item.teslathingies.void_storage_addon.name=Void Storage Addon
 
 #Standard Lumps
 item.teslathingies.lump_iron.name=Teslified Iron Lump
@@ -264,3 +265,6 @@ gui.teslathingies.side_config.output=Output Slot
 gui.teslathingies.pump.no_scanner=Not scanning
 gui.teslathingies.pump.scanned=%s blocks scanned
 gui.teslathingies.side_config.blocks_buffer=Blocks Buffer
+gui.teslathingies.pump.mode_auto=Auto
+gui.teslathingies.pump.mode_fluid=Extract fluids
+gui.teslathingies.pump.mode_blocks=Replace with blocks
