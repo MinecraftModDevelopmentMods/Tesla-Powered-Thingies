@@ -74,7 +74,7 @@ repositories {
     mavenCentral()
     mavenLocal()
     jcenter()
-    maven { name='mine'; url='http://maven.ndrei.net' }
+    maven { name='mine'; url='https://maven.modcrafters.net' }
     maven { name='forgelin'; url='http://maven.shadowfacts.net/' }
 
     maven { name='jei'; url="http://dvs1.progwml6.com/files/maven" }
@@ -82,7 +82,7 @@ repositories {
 }
 
 dependencies {
-    deployerJars 'org.apache.maven.wagon:wagon-ftp:2.2'
+    deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:${project.kotlin_version}"
     compile "net.shadowfacts:Forgelin:${project.forgelin_version}"
 
