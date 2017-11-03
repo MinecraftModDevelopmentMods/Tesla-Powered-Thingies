@@ -5,6 +5,7 @@ import net.minecraftforge.registries.IForgeRegistryModifiable
 
 interface IPoweredRegistry<T: IPoweredRecipe<T>> {
     val registry: IForgeRegistryModifiable<T>?
+    val registryName: ResourceLocation
 
     fun addRecipe(recipe: T, suffixDuplicates: Boolean = true) = this.also {
         val name = recipe.registryName

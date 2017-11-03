@@ -15,7 +15,7 @@ import net.ndrei.teslapoweredthingies.api.IPoweredRegistry
 
 abstract class BaseTeslaRegistry<T: IPoweredRecipe<T>>(registryName: String, private val type: Class<T>)
     : IRegistryHandler, IPoweredRegistry<T> {
-    protected val REGISTRY_NAME = ResourceLocation(MOD_ID, registryName)
+    override val registryName = ResourceLocation(MOD_ID, registryName)
 
     override fun construct(asm: ASMDataTable) {
         super.construct(asm)
@@ -25,7 +25,7 @@ abstract class BaseTeslaRegistry<T: IPoweredRecipe<T>>(registryName: String, pri
     @SubscribeEvent
     fun registerRegistry(ev: RegistryEvent.NewRegistry) {
         RegistryBuilder<T>()
-            .setName(REGISTRY_NAME)
+            .setName(registryName)
             .setMaxID(MAX_RECIPE_ID)
             .setType(this.type)
             .add(AddCallback(this.type))
