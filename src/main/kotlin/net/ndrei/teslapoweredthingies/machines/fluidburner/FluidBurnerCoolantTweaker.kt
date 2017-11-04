@@ -18,7 +18,7 @@ class FluidBurnerCoolantTweaker : BaseRegistryTweaker<FluidBurnerCoolantRecipe>(
         super.add {
             val fluid = (rawFluid.internal as? FluidStack) ?: throw Exception("Fluid not specified or not a fluid stack.")
 
-            FluidBurnerCoolantRecipe(fluid.fluid, fluid.amount, timeMultiplier)
+            FluidBurnerCoolantRecipe(fluid.copy(), timeMultiplier)
         }
     }
 

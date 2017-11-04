@@ -29,9 +29,9 @@ object FluidBurnerCategory
         val fluids = recipeLayout.fluidStacks
 
         val capacity = if (recipeWrapper.coolant != null)
-            Math.max(recipeWrapper.fuel.amount, recipeWrapper.coolant.amount)
+            Math.max(recipeWrapper.fuel.fluid.amount, recipeWrapper.coolant.fluid.amount)
         else
-            recipeWrapper.fuel.amount
+            recipeWrapper.fuel.fluid.amount
         fluids.init(0, true, 8, 8, 8, 27, capacity, false, fuelOverlay)
         fluids.set(0, ingredients.getInputs(FluidStack::class.java)[0])
         if (ingredients.getInputs(FluidStack::class.java).size == 2) {
@@ -45,11 +45,11 @@ object FluidBurnerCategory
 
         override fun getIngredients(ingredients: IIngredients) {
             if (this.coolant == null) {
-                ingredients.setInput(FluidStack::class.java, FluidStack(this.fuel.fluid, this.fuel.amount))
+                ingredients.setInput(FluidStack::class.java, FluidStack(this.fuel.fluid, this.fuel.fluid.amount))
             } else {
                 ingredients.setInputs(FluidStack::class.java, Lists.newArrayList(
-                        FluidStack(this.fuel.fluid, this.fuel.amount),
-                        FluidStack(this.coolant.fluid, this.coolant.amount)
+                        FluidStack(this.fuel.fluid, this.fuel.fluid.amount),
+                        FluidStack(this.coolant.fluid, this.coolant.fluid.amount)
                 ))
             }
         }

@@ -17,7 +17,8 @@ import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
  */
 @RegistryHandler
 object FluidCompoundProducerRegistry
-    : BaseTeslaRegistry<FluidCompoundProducerRecipe>("fluid_compound_recipes", FluidCompoundProducerRecipe::class.java), IFluidCompoundProducerRegistry<FluidCompoundProducerRecipe> {
+    : BaseTeslaRegistry<FluidCompoundProducerRecipe>("fluid_compound_recipes", FluidCompoundProducerRecipe::class.java)
+    , IFluidCompoundProducerRegistry<FluidCompoundProducerRecipe> {
 
     override fun construct(asm: ASMDataTable) {
         super.construct(asm)

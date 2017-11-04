@@ -18,7 +18,7 @@ class FluidBurnerFuelTweaker : BaseRegistryTweaker<FluidBurnerFuelRecipe>(FluidB
         super.add {
             val fluid = (rawFluid.internal as? FluidStack) ?: throw Exception("Fluid not specified or not a fluid stack.")
 
-            FluidBurnerFuelRecipe(fluid.fluid, fluid.amount, ticks)
+            FluidBurnerFuelRecipe(fluid.copy(), ticks)
         }
     }
 
