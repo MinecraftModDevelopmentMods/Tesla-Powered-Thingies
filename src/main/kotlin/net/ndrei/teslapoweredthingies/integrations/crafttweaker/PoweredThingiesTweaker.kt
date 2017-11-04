@@ -20,29 +20,22 @@ import stanhebben.zenscript.annotations.ZenMethod
 @InitializeDuringConstruction
 object PoweredThingiesTweaker {
     private val compoundTweakerInstance = CompoundMakerTweaker()
-    @ZenMethod @JvmStatic fun compoundTweaker() = this.compoundTweakerInstance
-
-    private val fluidCompoundTweakerInstance = FluidCompoundProducerTweaker()
-    @ZenMethod @JvmStatic fun fluidCompoundTweaker() = this.fluidCompoundTweakerInstance
-
     private val fluidBurnerCoolantInstance = FluidBurnerCoolantTweaker()
-    @ZenMethod @JvmStatic fun fluidBurnerCoolantTweaker() = this.fluidBurnerCoolantInstance
-
     private val fluidBurnerFuelInstance = FluidBurnerFuelTweaker()
-    @ZenMethod @JvmStatic fun fluidBurnerFuelTweaker() = this.fluidBurnerFuelInstance
-
-    private val itemCompoundProducerInstance = ItemCompoundProducerTweaker()
-    @ZenMethod @JvmStatic fun itemCompoundProducerTweaker() = this.itemCompoundProducerInstance
-
+    private val fluidCompoundTweakerInstance = FluidCompoundProducerTweaker()
     private val incineratorInstance = IncineratorTweaker()
-    @ZenMethod @JvmStatic fun incineratorTweaker() = this.incineratorInstance
-
+    private val itemCompoundProducerInstance = ItemCompoundProducerTweaker()
     private val itemLiquefierInstance = ItemLiquefierTweaker()
-    @ZenMethod @JvmStatic fun itemLiquefierTweaker() = this.itemLiquefierInstance
-
-    private val poweredKilnInstance = PoweredKilnTweaker()
-    @ZenMethod @JvmStatic fun poweredKilnTweaker() = this.poweredKilnInstance
-
     private val powderMakerInstance = PowderMakerTweaker()
+    private val poweredKilnInstance = PoweredKilnTweaker()
+
+    @ZenMethod @JvmStatic fun compoundTweaker() = this.compoundTweakerInstance
+    @ZenMethod @JvmStatic fun fluidBurnerCoolantTweaker() = this.fluidBurnerCoolantInstance
+    @ZenMethod @JvmStatic fun fluidBurnerFuelTweaker() = this.fluidBurnerFuelInstance
+    @ZenMethod @JvmStatic fun fluidCompoundTweaker() = this.fluidCompoundTweakerInstance
+    @ZenMethod @JvmStatic fun incineratorTweaker() = this.incineratorInstance
+    @ZenMethod @JvmStatic fun itemCompoundProducerTweaker() = this.itemCompoundProducerInstance
+    @ZenMethod @JvmStatic fun itemLiquefierTweaker() = this.itemLiquefierInstance
     @ZenMethod @JvmStatic fun powderMakerTweaker() = this.powderMakerInstance
+    @ZenMethod @JvmStatic fun poweredKilnTweaker() = this.poweredKilnInstance
 }
