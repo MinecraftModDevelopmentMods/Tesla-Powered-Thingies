@@ -19,6 +19,8 @@
 - added 'void storage' upgrade for tanks (keep accepting fluids even if full)
 - added craft tweaker support to most machines
 - added api support to most machines
+- updated to latest forge
+- fixed fluid solidifier jei recipe display
 
 #1.0.10
 - added support (tree farm) for forestry trees
