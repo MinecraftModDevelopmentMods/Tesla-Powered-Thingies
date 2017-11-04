@@ -8,6 +8,7 @@ import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerFuelTweake
 import net.ndrei.teslapoweredthingies.machines.fluidcompoundproducer.FluidCompoundProducerTweaker
 import net.ndrei.teslapoweredthingies.machines.incinerator.IncineratorTweaker
 import net.ndrei.teslapoweredthingies.machines.itemcompoundproducer.ItemCompoundProducerTweaker
+import net.ndrei.teslapoweredthingies.machines.itemliquefier.ItemLiquefierTweaker
 import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 
@@ -33,4 +34,7 @@ object PoweredThingiesTweaker {
 
     private val incineratorInstance = IncineratorTweaker()
     @ZenMethod @JvmStatic fun incineratorTweaker() = this.incineratorInstance
+
+    private val itemLiquefierInstance = ItemLiquefierTweaker()
+    @ZenMethod @JvmStatic fun itemLiquefierTweaker() = this.itemLiquefierInstance
 }

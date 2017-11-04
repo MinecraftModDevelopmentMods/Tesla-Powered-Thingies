@@ -34,7 +34,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
     private var inputs: ItemStackHandler? = null
     private var fluidOutputs: ItemStackHandler? = null
 
-    private var currentRecipe: LiquefierRecipe? = null
+    private var currentRecipe: ItemLiquefierRecipe? = null
 
     //region Inventory and GUI stuff
 
@@ -156,7 +156,7 @@ class ItemLiquefierEntity : BaseThingyMachine(ItemLiquefierEntity::class.java.na
         super.readFromNBT(compound)
 
         if (compound.hasKey("currentRecipe")) {
-            this.currentRecipe = LiquefierRecipe.deserializeNBT(compound.getCompoundTag("currentRecipe"))
+            this.currentRecipe = ItemLiquefierRecipe.deserializeNBT(compound.getCompoundTag("currentRecipe"))
         } else {
             this.currentRecipe = null
         }

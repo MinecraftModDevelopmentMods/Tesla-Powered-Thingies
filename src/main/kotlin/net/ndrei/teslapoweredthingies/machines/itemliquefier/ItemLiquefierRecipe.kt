@@ -10,13 +10,15 @@ import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidStack
 import net.ndrei.teslapoweredthingies.MOD_ID
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
+import net.ndrei.teslapoweredthingies.api.itemliquefier.IItemLiquefierRecipe
 import net.ndrei.teslapoweredthingies.common.BaseTeslaRegistryEntry
 
 /**
  * Created by CF on 2017-06-30.
  */
-class LiquefierRecipe(name: ResourceLocation, val input: ItemStack, val output: FluidStack)
-    : BaseTeslaRegistryEntry<LiquefierRecipe>(LiquefierRecipe::class.java, name) {
+class ItemLiquefierRecipe(name: ResourceLocation, override val input: ItemStack, override val output: FluidStack)
+    : BaseTeslaRegistryEntry<ItemLiquefierRecipe>(ItemLiquefierRecipe::class.java, name)
+    , IItemLiquefierRecipe<ItemLiquefierRecipe> {
 
     constructor(input: ItemStack, output: FluidStack)
         : this(ResourceLocation(MOD_ID, "fluid_${output.fluid.name}"), input, output)
@@ -44,14 +46,14 @@ class LiquefierRecipe(name: ResourceLocation, val input: ItemStack, val output: 
     }
 
     companion object {
-        fun deserializeNBT(nbt: NBTTagCompound?): LiquefierRecipe? {
+        fun deserializeNBT(nbt: NBTTagCompound?): ItemLiquefierRecipe? {
             if (nbt == null || !nbt.hasKey("input", Constants.NBT.TAG_COMPOUND) || !nbt.hasKey("output", Constants.NBT.TAG_COMPOUND)) {
                 TeslaThingiesMod.logger.error("Incorrect NBT storage for Liquefier Recipe.", nbt)
                 return null
             } else {
                 val input = ItemStack(nbt.getCompoundTag("input"))
                 val output = FluidStack.loadFluidStackFromNBT(nbt.getCompoundTag("output"))
-                return LiquefierRecipe(input, output!!)
+                return ItemLiquefierRecipe(input, output!!)
             }
         }
     }

@@ -35,7 +35,7 @@ object ItemLiquefierCategory
         stacks.set(0, ingredients.getInputs(ItemStack::class.java)[0])
     }
 
-    class ItemLiquefierCategoryWrapper(val recipe: LiquefierRecipe)
+    class ItemLiquefierCategoryWrapper(val recipe: ItemLiquefierRecipe)
         : IRecipeWrapper {
 
         override fun getIngredients(ingredients: IIngredients) {
@@ -59,7 +59,7 @@ object ItemLiquefierCategory
     override fun register(registry: IModRegistry) {
         super.register(registry)
 
-        registry.handleRecipes(LiquefierRecipe::class.java, { ItemLiquefierCategoryWrapper(it) }, this.uid)
+        registry.handleRecipes(ItemLiquefierRecipe::class.java, { ItemLiquefierCategoryWrapper(it) }, this.uid)
         registry.addRecipes(ItemLiquefierRegistry.getAllRecipes(), this.uid)
     }
 }

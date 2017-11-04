@@ -5,6 +5,7 @@ import net.ndrei.teslapoweredthingies.api.fluidburner.IFluidBurnerCoolantRegistr
 import net.ndrei.teslapoweredthingies.api.fluidburner.IFluidBurnerFuelRegistry
 import net.ndrei.teslapoweredthingies.api.fluidcompoundproducer.IFluidCompoundProducerRegistry
 import net.ndrei.teslapoweredthingies.api.itemcompoundproducer.IItemCompoundProducerRegistry
+import net.ndrei.teslapoweredthingies.api.itemliquefier.IItemLiquefierRegistry
 
 object PoweredThingiesAPI {
     lateinit var compoundMakerRegistry: ICompoundMakerRegistry<*>
@@ -14,4 +15,6 @@ object PoweredThingiesAPI {
     lateinit var fluidBurnerFuelRegistry: IFluidBurnerFuelRegistry<*>
 
     lateinit var itemCompoundProducerRegistry: IItemCompoundProducerRegistry<*>
+
+    lateinit var itemLiquefierRegistry: IItemLiquefierRegistry<*>
 }
