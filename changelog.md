@@ -10,7 +10,7 @@
 - make simple/multi tanks behave like 1 big tank vertically (maybe cube size for simple tank)
 - add a quarry machine
 - add 'strategy' addons for pump and quarry
-- add CT and API support to all non-farming machines
+- add CT and API support to all non-farming machines (including the ones with Secondary Outputs, might be dependent on the support for that being added to TCL)
 
 #1.0.11
 - fixed crop cloner seed duplication bug

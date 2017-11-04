@@ -17,7 +17,7 @@ import stanhebben.zenscript.annotations.ZenMethod
 class FluidCompoundProducerTweaker : BaseRegistryTweaker<FluidCompoundProducerRecipe>(FluidCompoundProducerRegistry) {
     @ZenMethod
     fun addRecipe(rawOutput: ILiquidStack, rawInputA: ILiquidStack?, rawInputB: ILiquidStack?) {
-            super.add {
+        super.add {
             val output = (rawOutput.internal as? FluidStack) ?: throw Exception("Output not specified or not a fluid stack.")
             val inputA = (rawInputA?.internal as? FluidStack) ?: throw Exception("First Input not specified or not a fluid stack.")
             val inputB = (rawInputB?.internal as? FluidStack) ?: throw Exception("Second Input not specified or not a fluid stack.")

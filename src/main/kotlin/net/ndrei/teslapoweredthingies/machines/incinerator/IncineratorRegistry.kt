@@ -12,7 +12,6 @@ import net.minecraft.util.JsonUtils
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import net.minecraftforge.registries.IForgeRegistry
-import net.ndrei.teslacorelib.annotations.IRegistryHandler
 import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslacorelib.config.getLong
 import net.ndrei.teslacorelib.config.readItemStack
@@ -52,6 +51,8 @@ object IncineratorRegistry : BaseTeslaRegistry<IncineratorRecipe>("incinerator_r
                 }
             }
         }
+
+        super.registrationCompleted()
     }
 
     private fun registerForcedRecipes() {
