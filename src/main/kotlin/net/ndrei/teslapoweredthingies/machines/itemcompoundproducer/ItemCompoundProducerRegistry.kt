@@ -20,6 +20,8 @@ import net.ndrei.teslacorelib.config.readFluidStack
 import net.ndrei.teslacorelib.config.readItemStack
 import net.ndrei.teslacorelib.config.readItemStacks
 import net.ndrei.teslacorelib.utils.equalsIgnoreSize
+import net.ndrei.teslapoweredthingies.api.PoweredThingiesAPI
+import net.ndrei.teslapoweredthingies.api.itemcompoundproducer.IItemCompoundProducerRegistry
 import net.ndrei.teslapoweredthingies.common.BaseTeslaRegistry
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
 import net.ndrei.teslapoweredthingies.fluids.MoltenTeslaFluid
@@ -31,7 +33,13 @@ import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerRegistry
  */
 @RegistryHandler
 object ItemCompoundProducerRegistry
-    : BaseTeslaRegistry<ItemCompoundProducerRecipe>("item_compound_recipes", ItemCompoundProducerRecipe::class.java) {
+    : BaseTeslaRegistry<ItemCompoundProducerRecipe>("item_compound_recipes", ItemCompoundProducerRecipe::class.java)
+    , IItemCompoundProducerRegistry<ItemCompoundProducerRecipe> {
+
+    override fun construct(asm: ASMDataTable) {
+        super.construct(asm)
+        PoweredThingiesAPI.itemCompoundProducerRegistry = this
+    }
 
     //#region registration methods
 
@@ -123,9 +131,9 @@ object ItemCompoundProducerRegistry
     private fun ItemCompoundProducerRecipe.matchesInput(stack: ItemStack, ignoreSize: Boolean = true)
         = this.inputStack.equalsIgnoreSize(stack) && (ignoreSize || (this.inputStack.count <= stack.count))
 
-    fun hasRecipe(fluid: FluidStack) = this.hasRecipe { it.matchesInput(fluid) }
-    fun hasRecipe(stack: ItemStack) = this.hasRecipe { it.matchesInput(stack) }
+    override fun hasRecipe(fluid: FluidStack) = this.hasRecipe { it.matchesInput(fluid) }
+    override fun hasRecipe(stack: ItemStack) = this.hasRecipe { it.matchesInput(stack) }
 
-    fun findRecipe(fluid: FluidStack, stack: ItemStack)
+    override fun findRecipe(fluid: FluidStack, stack: ItemStack)
         = this.findRecipe { it.matchesInput(fluid, false) && it.matchesInput(stack, false) }
 }

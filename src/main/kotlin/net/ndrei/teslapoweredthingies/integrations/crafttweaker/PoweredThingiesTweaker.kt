@@ -6,6 +6,7 @@ import net.ndrei.teslapoweredthingies.machines.compoundmaker.CompoundMakerTweake
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerCoolantTweaker
 import net.ndrei.teslapoweredthingies.machines.fluidburner.FluidBurnerFuelTweaker
 import net.ndrei.teslapoweredthingies.machines.fluidcompoundproducer.FluidCompoundProducerTweaker
+import net.ndrei.teslapoweredthingies.machines.itemcompoundproducer.ItemCompoundProducerTweaker
 import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 
@@ -25,4 +26,7 @@ object PoweredThingiesTweaker {
 
     private val fluidBurnerFuelInstance = FluidBurnerFuelTweaker()
     @ZenMethod @JvmStatic fun fluidBurnerFuelTweaker() = this.fluidBurnerFuelInstance
+
+    private val itemCompoundProducerInstance = ItemCompoundProducerTweaker()
+    @ZenMethod @JvmStatic fun itemCompoundProducerTweaker() = this.itemCompoundProducerInstance
 }

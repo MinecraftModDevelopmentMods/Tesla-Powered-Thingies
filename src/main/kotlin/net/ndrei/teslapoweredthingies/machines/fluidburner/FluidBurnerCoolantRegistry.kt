@@ -20,7 +20,7 @@ object FluidBurnerCoolantRegistry
 
     override fun construct(asm: ASMDataTable) {
         super.construct(asm)
-        PoweredThingiesAPI.fluidBurnerCoolanRegistry = this
+        PoweredThingiesAPI.fluidBurnerCoolantRegistry = this
     }
 
     override fun registerRecipes(asm: ASMDataTable, registry: IForgeRegistry<IRecipe>) {
