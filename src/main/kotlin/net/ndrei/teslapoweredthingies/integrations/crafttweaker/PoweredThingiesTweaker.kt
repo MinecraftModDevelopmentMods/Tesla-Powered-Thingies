@@ -9,6 +9,7 @@ import net.ndrei.teslapoweredthingies.machines.fluidcompoundproducer.FluidCompou
 import net.ndrei.teslapoweredthingies.machines.incinerator.IncineratorTweaker
 import net.ndrei.teslapoweredthingies.machines.itemcompoundproducer.ItemCompoundProducerTweaker
 import net.ndrei.teslapoweredthingies.machines.itemliquefier.ItemLiquefierTweaker
+import net.ndrei.teslapoweredthingies.machines.powdermaker.PowderMakerTweaker
 import net.ndrei.teslapoweredthingies.machines.poweredkiln.PoweredKilnTweaker
 import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
@@ -41,4 +42,7 @@ object PoweredThingiesTweaker {
 
     private val poweredKilnInstance = PoweredKilnTweaker()
     @ZenMethod @JvmStatic fun poweredKilnTweaker() = this.poweredKilnInstance
+
+    private val powderMakerInstance = PowderMakerTweaker()
+    @ZenMethod @JvmStatic fun powderMakerTweaker() = this.powderMakerInstance
 }
