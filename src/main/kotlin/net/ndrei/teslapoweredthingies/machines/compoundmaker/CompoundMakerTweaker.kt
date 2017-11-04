@@ -13,7 +13,7 @@ import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 
 @ZenRegister
-@ZenClass("mod.poweredthingies.CompoundMaker")
+@ZenClass("mods.poweredthingies.CompoundMaker")
 @Suppress("unused")
 class CompoundMakerTweaker: BaseRegistryTweaker<CompoundMakerRecipe>(CompoundMakerRegistry) {
     @ZenMethod

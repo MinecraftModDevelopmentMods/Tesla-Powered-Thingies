@@ -8,17 +8,17 @@ import net.minecraftforge.fluids.IFluidTank
  * Created by CF on 2017-06-30.
  */
 object FluidBurnerRecipes {
-    private val coolantRecipes: MutableList<FluidBurnerCoolantRecipe> = mutableListOf()
-    private val fuelRecipes: MutableList<FluidBurnerFuelRecipe> = mutableListOf()
+//    private val coolantRecipes: MutableList<FluidBurnerCoolantRecipe> = mutableListOf()
+//    private val fuelRecipes: MutableList<FluidBurnerFuelRecipe> = mutableListOf()
 
-    fun registerRecipes() {
-        coolantRecipes.clear()
-        fuelRecipes.clear()
-
-        // register vanilla fluids
-        coolantRecipes.add(FluidBurnerCoolantRecipe(FluidRegistry.WATER, 100, 1.2f))
-        fuelRecipes.add(FluidBurnerFuelRecipe(FluidRegistry.LAVA, 100, 20 * 30))
-    }
+//    fun registerRecipes() {
+//        coolantRecipes.clear()
+//        fuelRecipes.clear()
+//
+//        // register vanilla fluids
+//        coolantRecipes.add(FluidBurnerCoolantRecipe(FluidRegistry.WATER, 100, 1.2f))
+//        fuelRecipes.add(FluidBurnerFuelRecipe(FluidRegistry.LAVA, 100, 20 * 30))
+//    }
 
     fun isCoolant(stack: FluidStack): Boolean {
         return stack.fluid === FluidRegistry.WATER
@@ -31,7 +31,7 @@ object FluidBurnerRecipes {
     fun drainCoolant(tank: IFluidTank, doDrain: Boolean): FluidBurnerCoolant? {
         val existing = tank.fluid
         if (existing != null && existing.amount > 0) {
-            for (recipe in coolantRecipes) {
+            FluidBurnerCoolantRegistry.getAllRecipes().forEach { recipe ->
                 if (recipe.fluid == existing.fluid && recipe.amount <= existing.amount) {
                     return FluidBurnerCoolant(recipe, tank.drain(recipe.amount, doDrain)!!)
                 }
@@ -43,7 +43,7 @@ object FluidBurnerRecipes {
     fun drainFuel(tank: IFluidTank, doDrain: Boolean): FluidBurnerFuel? {
         val existing = tank.fluid
         if (existing != null && existing.amount > 0) {
-            for (recipe in fuelRecipes) {
+            FluidBurnerFuelRegistry.getAllRecipes().forEach { recipe ->
                 if (recipe.fluid == existing.fluid && recipe.amount <= existing.amount) {
                     return FluidBurnerFuel(recipe, tank.drain(recipe.amount, doDrain)!!)
                 }
@@ -52,9 +52,7 @@ object FluidBurnerRecipes {
         return null
     }
 
-    val fuels: List<FluidBurnerFuelRecipe>
-        get() = fuelRecipes.toList()
+    val fuels get() = FluidBurnerFuelRegistry.getAllRecipes()
 
-    val coolants: List<FluidBurnerCoolantRecipe>
-        get() = coolantRecipes.toList()
+    val coolants get() = FluidBurnerCoolantRegistry.getAllRecipes()
 }

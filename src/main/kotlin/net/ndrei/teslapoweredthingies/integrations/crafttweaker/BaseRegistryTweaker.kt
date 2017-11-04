@@ -2,6 +2,7 @@
 
 package net.ndrei.teslapoweredthingies.integrations.crafttweaker
 
+import crafttweaker.CraftTweakerAPI
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.MinecraftForge
 import net.ndrei.teslapoweredthingies.api.IPoweredRecipe
@@ -42,6 +43,17 @@ abstract class BaseRegistryTweaker<R: IPoweredRecipe<R>>(protected val registry:
     private class Remove<T: IPoweredRecipe<T>>(tweaker: BaseRegistryTweaker<T>, key: ResourceLocation)
         : BaseRegistryRemoveAction<T>(tweaker.registry, key)
 
+    private class LogKeys<T: IPoweredRecipe<T>>(tweaker: BaseRegistryTweaker<T>)
+        : BaseRegistryAction<T>(tweaker.registry, "Logging keys of") {
+        override fun apply(registry: IPoweredRegistry<T>) {
+            CraftTweakerAPI.logCommand(this.describe())
+            registry.registry!!.keys.forEach {
+                CraftTweakerAPI.logCommand(it.toString())
+            }
+            CraftTweakerAPI.logCommand("<${this.describe()}> finished.")
+        }
+    }
+
     fun add(recipe: R) { this.addDelayedAction(Add(this, { recipe })) }
     fun add(getter: () -> R) { this.addDelayedAction(Add(this, getter ))}
 
@@ -57,4 +69,7 @@ abstract class BaseRegistryTweaker<R: IPoweredRecipe<R>>(protected val registry:
 
     fun replaceRecipe(key: String, getter: () -> R) { this.removeRecipe(key); this.add(getter) }
     fun replaceRecipe(key: ResourceLocation, getter: () -> R) { this.removeRecipe(key); this.add(getter) }
+
+    @ZenMethod
+    fun logKeys() { this.addDelayedAction(LogKeys(this)) }
 }

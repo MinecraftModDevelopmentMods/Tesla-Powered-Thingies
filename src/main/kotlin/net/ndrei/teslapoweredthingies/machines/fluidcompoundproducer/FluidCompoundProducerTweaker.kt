@@ -12,7 +12,7 @@ import stanhebben.zenscript.annotations.ZenClass
 import stanhebben.zenscript.annotations.ZenMethod
 
 @ZenRegister
-@ZenClass("mod.poweredthingies.FluidCompoundProducer")
+@ZenClass("mods.poweredthingies.FluidCompoundProducer")
 @Suppress("unused")
 class FluidCompoundProducerTweaker : BaseRegistryTweaker<FluidCompoundProducerRecipe>(FluidCompoundProducerRegistry) {
     @ZenMethod
