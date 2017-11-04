@@ -54,8 +54,12 @@ abstract class BaseTeslaRegistry<T: IPoweredRecipe<T>>(registryName: String, pri
 
     class DefaultRegistrationCompletedEvent<T: IPoweredRecipe<T>> internal constructor(type: Class<T>, val registry: IPoweredRegistry<T>): GenericEvent<T>(type)
 
+    override final var isRegistrationCompleted = false
+        private set
+
     protected fun registrationCompleted() {
         MinecraftForge.EVENT_BUS.post(DefaultRegistrationCompletedEvent(this.type, this))
+        this.isRegistrationCompleted = true
     }
 
     // just for the ease of remembered the event name

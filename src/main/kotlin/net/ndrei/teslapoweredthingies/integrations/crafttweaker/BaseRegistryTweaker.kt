@@ -17,6 +17,7 @@ abstract class BaseRegistryTweaker<R: IPoweredRecipe<R>>(protected val registry:
     init {
         @Suppress("LeakingThis")
         MinecraftForge.EVENT_BUS.register(this)
+        this.registrationCompleted = registry.isRegistrationCompleted
     }
 
     protected fun addDelayedAction(action: BaseRegistryAction<R>) {

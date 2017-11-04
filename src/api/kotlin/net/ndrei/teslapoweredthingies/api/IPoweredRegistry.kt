@@ -7,6 +7,8 @@ interface IPoweredRegistry<T: IPoweredRecipe<T>> {
     val registry: IForgeRegistryModifiable<T>?
     val registryName: ResourceLocation
 
+    val isRegistrationCompleted: Boolean
+
     fun addRecipe(recipe: T, suffixDuplicates: Boolean = true) = this.also {
         val name = recipe.registryName
         if ((name != null) && (this.getRecipe(name) != null)) {

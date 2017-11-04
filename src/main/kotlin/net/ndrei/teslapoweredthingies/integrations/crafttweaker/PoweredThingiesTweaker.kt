@@ -19,15 +19,15 @@ import stanhebben.zenscript.annotations.ZenMethod
 @Suppress("unused")
 @InitializeDuringConstruction
 object PoweredThingiesTweaker {
-    private val compoundTweakerInstance = CompoundMakerTweaker()
-    private val fluidBurnerCoolantInstance = FluidBurnerCoolantTweaker()
-    private val fluidBurnerFuelInstance = FluidBurnerFuelTweaker()
-    private val fluidCompoundTweakerInstance = FluidCompoundProducerTweaker()
-    private val incineratorInstance = IncineratorTweaker()
-    private val itemCompoundProducerInstance = ItemCompoundProducerTweaker()
-    private val itemLiquefierInstance = ItemLiquefierTweaker()
-    private val powderMakerInstance = PowderMakerTweaker()
-    private val poweredKilnInstance = PoweredKilnTweaker()
+    private val compoundTweakerInstance by lazy { CompoundMakerTweaker() }
+    private val fluidBurnerCoolantInstance by lazy { FluidBurnerCoolantTweaker() }
+    private val fluidBurnerFuelInstance by lazy { FluidBurnerFuelTweaker() }
+    private val fluidCompoundTweakerInstance by lazy { FluidCompoundProducerTweaker() }
+    private val incineratorInstance by lazy { IncineratorTweaker() }
+    private val itemCompoundProducerInstance by lazy { ItemCompoundProducerTweaker() }
+    private val itemLiquefierInstance by lazy { ItemLiquefierTweaker() }
+    private val powderMakerInstance by lazy { PowderMakerTweaker() }
+    private val poweredKilnInstance by lazy { PoweredKilnTweaker() }
 
     @ZenMethod @JvmStatic fun compoundTweaker() = this.compoundTweakerInstance
     @ZenMethod @JvmStatic fun fluidBurnerCoolantTweaker() = this.fluidBurnerCoolantInstance
