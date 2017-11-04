@@ -36,9 +36,9 @@ object FluidSolidifierCategory
         fluids.set(1, ingredients.getInputs(FluidStack::class.java)[1])
 
         fluids.init(2, true, 43, 15, 8, 27, 1000, true, lavaOverlay)
-        fluids.set(2, FluidStack(FluidRegistry.LAVA, recipeWrapper.recipe.lavaMbMin - recipeWrapper.recipe.lavaMbConsumed))
+        fluids.set(2, FluidStack(FluidRegistry.LAVA, recipeWrapper.recipe.lavaMbConsumed))
         fluids.init(3, true, 55, 15, 8, 27, 1000, true, waterOverlay)
-        fluids.set(3, FluidStack(FluidRegistry.WATER, recipeWrapper.recipe.waterMbMin - recipeWrapper.recipe.waterMbConsumed))
+        fluids.set(3, FluidStack(FluidRegistry.WATER, recipeWrapper.recipe.waterMbConsumed))
 
         val stacks = recipeLayout.itemStacks
         stacks.init(0, false, 77, 20)
