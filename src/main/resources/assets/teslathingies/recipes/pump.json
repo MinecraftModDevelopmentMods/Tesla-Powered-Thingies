@@ -1,0 +1,17 @@
+{
+  "type": "forge:ore_shaped",
+  "group": "tesla.machine.pump",
+  "result": { "item": "teslathingies:pump" },
+  "pattern": [
+    "gbg",
+    "gcg",
+    "pxp"
+  ],
+  "key": {
+    "g": { "type": "forge:ore_dict", "ore": "glass" },
+    "b": { "item": "minecraft:bucket" },
+    "c": { "item": "teslacorelib:machine_case" },
+    "x": { "type": "forge:ore_dict", "ore": "gearGold" },
+    "p": { "item": "minecraft:piston" }
+  }
+}
