@@ -17,33 +17,6 @@ object TreeWrapperFactory {
     init {
         TreeWrapperFactory.treeWrappers.add(VanillaTree())
 
-        // RUSTIC
-        TreeWrapperFactory.treeWrappers.add(object: BaseModTreeFactory("rustic") {
-            override fun getHarvestableLeaf(world: World, pos: BlockPos, block: IBlockState): ITreeLeafWrapper? {
-                if (block.block.registryName?.toString() == "rustic:leaves") {
-                    return VanillaTreeLeaf(world, pos)
-                }
-                return null
-            }
-        })
-
-        // BIOMES O' PLENTY
-        TreeWrapperFactory.treeWrappers.add(object: BaseModTreeFactory("biomesoplenty") {
-            override fun getHarvestableLog(world: World, pos: BlockPos, block: IBlockState): ITreeLogWrapper? {
-                if (block.block.registryName?.toString()?.startsWith("biomesoplenty:log_") ?: false) {
-                    return VanillaTreeLog(world, pos)
-                }
-                return null
-            }
-
-            override fun getHarvestableLeaf(world: World, pos: BlockPos, block: IBlockState): ITreeLeafWrapper? {
-                if (block.block.registryName?.toString()?.startsWith("biomesoplenty:leaves_") ?: false) {
-                    return VanillaTreeLeaf(world, pos)
-                }
-                return null
-            }
-        })
-
         // FORESTRY
         TreeWrapperFactory.treeWrappers.add(object: BaseModTreeFactory("forestry") {
             override fun getPlantableSapling(stack: ItemStack): ITreeSaplingWrapper? {
@@ -72,6 +45,9 @@ object TreeWrapperFactory {
                 return super.getPlantableSapling(stack)
             }
         })
+
+        // add recipe based trees
+        TreeWrapperFactory.treeWrappers.add(TreeFarmRegistry)
 
         // add generic modded tree factory
         TreeWrapperFactory.treeWrappers.add(BaseModTreeFactory(""))
