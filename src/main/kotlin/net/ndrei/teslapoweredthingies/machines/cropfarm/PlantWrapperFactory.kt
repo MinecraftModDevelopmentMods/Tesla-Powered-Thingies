@@ -81,6 +81,10 @@ object PlantWrapperFactory {
             return VanillaNetherWartPlant(state, world, pos)
         }
 
+        if (ImmersiveHempPlant.isMatch(state)) {
+            return ImmersiveHempPlant(world, pos)
+        }
+
         if (block is IGrowable) {
             return VanillaGenericPlant(block, state, world, pos)
         }

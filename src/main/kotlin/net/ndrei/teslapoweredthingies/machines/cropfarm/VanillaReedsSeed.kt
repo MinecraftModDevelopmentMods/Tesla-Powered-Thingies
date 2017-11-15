@@ -17,7 +17,7 @@ class VanillaReedsSeed(override val seeds: ItemStack)
         if (!world.isAirBlock(pos)) return false
 
         val under = world.getBlockState(pos.down()).block
-        return (under === Blocks.SAND || under === Blocks.DIRT || under == Blocks.GRASS) &&
+        return (under === Blocks.SAND || under === Blocks.DIRT || under === Blocks.GRASS) &&
                 (world.getBlockState(pos.north().down()).block === Blocks.WATER
                 || world.getBlockState(pos.east().down()).block === Blocks.WATER
                 || world.getBlockState(pos.south().down()).block === Blocks.WATER
