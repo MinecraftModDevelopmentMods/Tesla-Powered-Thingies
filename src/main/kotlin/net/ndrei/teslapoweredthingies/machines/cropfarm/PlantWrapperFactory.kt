@@ -23,6 +23,10 @@ object PlantWrapperFactory {
             return RusticBlockStakeSeed(seeds)
         }
 
+        if (RandomBeanSeed.isSeed(seeds)) {
+            return RandomBeanSeed(seeds)
+        }
+
         if (seed === Items.MELON_SEEDS || seed === Items.PUMPKIN_SEEDS) {
             return VanillaMelonSeed(seeds.copy())
         }
@@ -48,11 +52,12 @@ object PlantWrapperFactory {
 
     fun isSeed(stack: ItemStack): Boolean {
         return VanillaGenericSeed.isSeed(stack)
-                || RusticBlockStakeSeed.isSeed(stack)
-                || VanillaCactusSeed.isSeed(stack)
-                || VanillaMelonSeed.isSeed(stack)
-                || VanillaReedsSeed.isSeed(stack)
-                || VanillaNetherWartSeed.isSeed(stack)
+            || RusticBlockStakeSeed.isSeed(stack)
+            || RandomBeanSeed.isSeed(stack)
+            || VanillaCactusSeed.isSeed(stack)
+            || VanillaMelonSeed.isSeed(stack)
+            || VanillaReedsSeed.isSeed(stack)
+            || VanillaNetherWartSeed.isSeed(stack)
     }
 
     fun getPlantWrapper(world: World, pos: BlockPos): IPlantWrapper? {
