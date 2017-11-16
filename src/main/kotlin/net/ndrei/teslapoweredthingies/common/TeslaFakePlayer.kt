@@ -28,6 +28,8 @@ class TeslaFakePlayer(world: WorldServer, name: GameProfile) : FakePlayer(world,
     override fun getDistanceSq(x: Double, y: Double, z: Double) = 0.0
     override fun getDistance(x: Double, y: Double, z: Double) = 0.0
 
+//    override fun getSoundVolume() = 0.0f
+
     companion object {
         private val PROFILE = GameProfile(UUID.fromString("225F6E4B-5BAE-4BDA-9B88-2397DEFD95EB"), "[TESLA_THINGIES]")
         private var PLAYER: WeakReference<TeslaFakePlayer>? = null
