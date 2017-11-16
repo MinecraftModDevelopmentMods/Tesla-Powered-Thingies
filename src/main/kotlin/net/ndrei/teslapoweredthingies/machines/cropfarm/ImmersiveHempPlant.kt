@@ -25,8 +25,9 @@ class ImmersiveHempPlant(private val world: World, private val pos: BlockPos) : 
     override fun canBlockNeighbours() = false
     override fun blocksNeighbour(pos: BlockPos) = false
 
-    override fun canUseFertilizer() = false
-    override fun useFertilizer(fertilizer: ItemStack) = 0
+    override fun canUseFertilizer() = true
+    override fun useFertilizer(fertilizer: ItemStack) =
+        VanillaGenericPlant.useFertilizer(this.world, this.pos, fertilizer)
 
     companion object {
         const val REGISTRY_NAME = "immersiveengineering:hemp"
