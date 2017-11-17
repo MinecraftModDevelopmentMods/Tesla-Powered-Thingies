@@ -1,8 +1,14 @@
 #!/bin/groovy
-catchError() {
+
+pipeline {
+    agent Any
     milestone label: 'Start'
 
-    node() {
+    triggers {
+        upstream(upstreamProjects: '/Face of Cat/Tesla-Core-Lib', threshold: hudson.model.Result.SUCCESS)
+    }
+
+    stages() {
         stage("Checkout") {
             checkout scm
         }
