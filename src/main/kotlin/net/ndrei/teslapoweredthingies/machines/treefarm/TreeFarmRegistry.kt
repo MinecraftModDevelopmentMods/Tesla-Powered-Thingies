@@ -9,9 +9,9 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraftforge.fml.common.discovery.ASMDataTable
 import net.minecraftforge.registries.IForgeRegistry
+import net.modcrafters.mclib.ingredients.IItemIngredient
+import net.modcrafters.mclib.ingredients.implementations.IngredientFactory
 import net.modcrafters.mclib.mapFirstOrNull
-import net.modcrafters.mclib.recipes.IItemIngredient
-import net.modcrafters.mclib.recipes.implementations.IngredientFactory
 import net.ndrei.teslacorelib.annotations.RegistryHandler
 import net.ndrei.teslapoweredthingies.common.BaseTeslaRegistry
 import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
