@@ -11,6 +11,9 @@ tile.teslathingies.powered_kiln.name=电动熔炉
 tile.teslathingies.item_compound_producer.name=物品混合机
 tile.teslathingies.fluid_compound_producer.name=液体混合机
 tile.teslathingies.multi_tank.name=组合液罐（WIP）
+tile.teslathingies.simple_tank.name=单体液罐(WIP)
+tile.teslathingies.compound_maker.name=混合制造机
+tile.teslathingies.pump.name=电力泵
 
 item.teslathingies.animal_package.name=动物包裹
 item.teslathingies.animal_package_full.name=动物包裹（已装载）
@@ -23,6 +26,8 @@ item.teslathingies.addon_range_tier2.name=范围升级组件 II
 item.teslathingies.fruit_picker_addon.name=水果采集组件（需潘马斯农场）
 item.teslathingies.xp_tank_addon.name=玩家经验交互组件
 item.teslathingies.tesla_plant_seeds.name=Tesla种子（WIP）
+item.teslathingies.teslified_obsidian.name=特斯拉黑曜石
+item.teslathingies.void_storage_addon.name=虚空储罐插件
 
 item.teslathingies.lump_iron.name=铁碎块
 item.teslathingies.lump_gold.name=金碎块
@@ -40,6 +45,59 @@ item.teslathingies.lump_aluminum.name=铝碎块
 item.teslathingies.lump_nickel.name=镍碎块
 item.teslathingies.lump_platinum.name=铂碎块
 item.teslathingies.lump_iridium.name=铱碎块
+
+#Standard Lumps
+item.teslathingies.lump_iron.name=特斯拉铁碎块
+item.teslathingies.lump_gold.name=特斯拉金锁块
+item.teslathingies.lump_coal.name=特斯拉煤炭碎块
+item.teslathingies.lump_diamond.name=特斯拉钻石碎块
+item.teslathingies.lump_emerald.name=特斯拉绿宝石碎块
+item.teslathingies.lump_lapis.name=特斯拉青金石碎块
+item.teslathingies.lump_redstone.name=特斯拉红石碎块
+
+#Base Metals Lumps
+item.teslathingies.lump_adamantine.name=Teslified Adamantine Lump
+item.teslathingies.lump_antimony.name=Teslified Antimony Lump
+item.teslathingies.lump_aquarium.name=Teslified Aquarium Lump
+item.teslathingies.lump_bismuth.name=Teslified Bismuth Lump
+item.teslathingies.lump_brass.name=Teslified Brass Lump
+item.teslathingies.lump_bronze.name=Teslified Bronze Lump
+item.teslathingies.lump_coldiron.name=Teslified Coldiron Lump
+item.teslathingies.lump_copper.name=Teslified Copper Lump
+item.teslathingies.lump_cupronickel.name=Teslified Cupronickel Lump
+item.teslathingies.lump_electrum.name=Teslified Electrum Lump
+item.teslathingies.lump_invar.name=Teslified Invar Lump
+item.teslathingies.lump_lead.name=Teslified Lead Lump
+item.teslathingies.lump_mercury.name=Teslified Mercury Lump
+item.teslathingies.lump_mithril.name=Teslified Mithril Lump
+item.teslathingies.lump_nickel.name=Teslified Nickel Lump
+item.teslathingies.lump_pewter.name=Teslified Pewter Lump
+item.teslathingies.lump_platinum.name=Teslified Platinum Lump
+item.teslathingies.lump_silver.name=Teslified Silver Lump
+item.teslathingies.lump_starsteel.name=Teslified Starsteel Lump
+item.teslathingies.lump_steel.name=Teslified Steel Lump
+item.teslathingies.lump_tin.name=Teslified Tin Lump
+item.teslathingies.lump_zinc.name=Teslified Zinc Lump
+
+#Modern Metals Lumps
+item.teslathingies.lump_aluminum.name=Teslified Aluminium Lump
+item.teslathingies.lump_aluminum_brass.name=Teslified Aluminium Brass Lump
+item.teslathingies.lump_cadmium.name=Teslified Cadmium Lump
+item.teslathingies.lump_chromium.name=Teslified Chromium Lump
+item.teslathingies.lump_galvanized_steel.name=Teslified Galvanized Steel Lump
+item.teslathingies.lump_iridium.name=Teslified Iridium Lump
+item.teslathingies.lump_magnesium.name=Teslified Magnesium Lump
+item.teslathingies.lump_manganese.name=Teslified Manganese Lump
+item.teslathingies.lump_nichrome.name=Teslified Nichrome Lump
+item.teslathingies.lump_osmium.name=Teslified Osmium Lump
+item.teslathingies.lump_plutonium.name=Teslified Plutonium Lump
+item.teslathingies.lump_rutile.name=Teslified Rutile Lump
+item.teslathingies.lump_stainless_steel.name=Teslified Stainless Steel Lump
+item.teslathingies.lump_tantalum.name=Teslified Tantalum Lump
+item.teslathingies.lump_titanium.name=Teslified Titanium Lump
+item.teslathingies.lump_tungsten.name=Teslified Tungsten Lump
+item.teslathingies.lump_uranium.name=Teslified Uranium Lump
+item.teslathingies.lump_zirconium.name=Teslified Zirconium Lump
 
 tile.teslathingies.animal_farm.name=动物农场
 tile.teslathingies.animal_releaser.name=动物放生机
