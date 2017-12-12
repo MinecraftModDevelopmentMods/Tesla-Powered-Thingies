@@ -35,9 +35,11 @@ pipeline {
 
         stage("Maven") {
             steps {
-                sh """set -x
-                      ./gradlew uploadArchives
-                   """
+                if (!env.BRANCH_NAME.startsWith('PR-')) {
+                    sh """set -x
+                          ./gradlew uploadArchives
+                       """
+                }
             }
         }
     }
