@@ -4,7 +4,7 @@ pipeline {
     agent any
 
     triggers {
-        upstream(upstreamProjects: '/Face of Cat/Tesla-Core-Lib,/Late Night Mod Crafters/Bush-Master-Core', threshold: hudson.model.Result.SUCCESS)
+        upstream(upstreamProjects: '/Face of Cat/Tesla-Core-Lib/1.12,/Late Night Mod Crafters/Bush-Master-Core/1.12', threshold: hudson.model.Result.SUCCESS)
     }
 
     stages() {
