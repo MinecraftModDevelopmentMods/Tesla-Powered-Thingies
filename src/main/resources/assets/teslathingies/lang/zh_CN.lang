@@ -11,6 +11,9 @@ tile.teslathingies.powered_kiln.name=电动熔炉
 tile.teslathingies.item_compound_producer.name=物品混合机
 tile.teslathingies.fluid_compound_producer.name=液体混合机
 tile.teslathingies.multi_tank.name=组合液罐（WIP）
+tile.teslathingies.simple_tank.name=单体液罐(WIP)
+tile.teslathingies.compound_maker.name=混合制造机
+tile.teslathingies.pump.name=电力泵
 
 item.teslathingies.animal_package.name=动物包裹
 item.teslathingies.animal_package_full.name=动物包裹（已装载）
@@ -20,26 +23,119 @@ item.teslathingies.animal_age_filter_baby.name=动物过滤组件（幼年）
 item.teslathingies.liquidxp_collector.name=经验球收集组件
 item.teslathingies.addon_range_tier1.name=范围升级组件 I
 item.teslathingies.addon_range_tier2.name=范围升级组件 II
-item.teslathingies.fruit_picker_addon.name=水果采集组件（需潘马斯农场）
+item.teslathingies.fruit_picker_addon.name=水果采集组件
+item.teslathingies.bush_master_addon.name=灌木采集组件
 item.teslathingies.xp_tank_addon.name=玩家经验交互组件
 item.teslathingies.tesla_plant_seeds.name=Tesla种子（WIP）
+item.teslathingies.teslified_obsidian.name=特斯拉黑曜石
+item.teslathingies.void_storage_addon.name=虚空储罐组件
 
-item.teslathingies.lump_iron.name=铁碎块
-item.teslathingies.lump_gold.name=金碎块
-item.teslathingies.lump_coal.name=煤炭碎块
-item.teslathingies.lump_lapis.name=青金石碎块
-item.teslathingies.lump_diamond.name=钻石碎块
-item.teslathingies.lump_redstone.name=红石碎块
-item.teslathingies.lump_emerald.name=绿宝石碎块
+#Standard Lumps
+item.teslathingies.lump_iron.name=特斯拉铁碎块
+item.teslathingies.lump_gold.name=特斯拉金锁块
+item.teslathingies.lump_coal.name=特斯拉煤炭碎块
+item.teslathingies.lump_diamond.name=特斯拉钻石碎块
+item.teslathingies.lump_emerald.name=特斯拉绿宝石碎块
+item.teslathingies.lump_lapis.name=特斯拉青金石碎块
+item.teslathingies.lump_redstone.name=特斯拉红石碎块
 
-item.teslathingies.lump_copper.name=铜碎块
-item.teslathingies.lump_tin.name=锡碎块
-item.teslathingies.lump_silver.name=银碎块
-item.teslathingies.lump_lead.name=铅碎块
-item.teslathingies.lump_aluminum.name=铝碎块
-item.teslathingies.lump_nickel.name=镍碎块
-item.teslathingies.lump_platinum.name=铂碎块
-item.teslathingies.lump_iridium.name=铱碎块
+#Base Metals Lumps
+item.teslathingies.lump_adamantine.name=特斯拉艾德曼金属碎块
+item.teslathingies.lump_antimony.name=特斯拉锑碎块
+item.teslathingies.lump_aquarium.name=特斯拉海洋合金碎块
+item.teslathingies.lump_bismuth.name=特斯拉铋碎块
+item.teslathingies.lump_brass.name=特斯拉黄铜碎块
+item.teslathingies.lump_bronze.name=特斯拉青铜碎块
+item.teslathingies.lump_coldiron.name=特斯拉寒铁碎块
+item.teslathingies.lump_copper.name=特斯拉铜碎块
+item.teslathingies.lump_cupronickel.name=特斯拉白铜碎块
+item.teslathingies.lump_electrum.name=特斯拉琥珀金碎块
+item.teslathingies.lump_invar.name=特斯拉因瓦合金碎块
+item.teslathingies.lump_lead.name=特斯拉铅碎块
+item.teslathingies.lump_mercury.name=特斯拉汞碎块
+item.teslathingies.lump_mithril.name=特斯拉秘银碎块
+item.teslathingies.lump_nickel.name=特斯拉镍碎块
+item.teslathingies.lump_pewter.name=特斯拉白镴碎块
+item.teslathingies.lump_platinum.name=特斯拉铂碎块
+item.teslathingies.lump_silver.name=特斯拉银碎块
+item.teslathingies.lump_starsteel.name=特斯拉星钢碎块
+item.teslathingies.lump_steel.name=特斯拉钢碎块
+item.teslathingies.lump_tin.name=特斯拉锡碎块
+item.teslathingies.lump_zinc.name=特斯拉锌碎块
+
+#Modern Metals Lumps
+item.teslathingies.lump_aluminum.name=特斯拉铝碎块
+item.teslathingies.lump_aluminum_brass.name=特斯拉铝黄铜碎块
+item.teslathingies.lump_cadmium.name=特斯拉镉碎块
+item.teslathingies.lump_chromium.name=特斯拉铬碎块
+item.teslathingies.lump_galvanized_steel.name=特斯拉镀锌钢碎块
+item.teslathingies.lump_iridium.name=特斯拉铱碎块
+item.teslathingies.lump_magnesium.name=特斯拉镁碎块
+item.teslathingies.lump_manganese.name=特斯拉锰碎块
+item.teslathingies.lump_nichrome.name=特斯拉镍铬合金金属碎块
+item.teslathingies.lump_osmium.name=特斯拉锇碎块
+item.teslathingies.lump_plutonium.name=特斯拉钚碎块
+item.teslathingies.lump_rutile.name=特斯拉金红石碎块
+item.teslathingies.lump_stainless_steel.name=特斯拉不锈钢碎块
+item.teslathingies.lump_tantalum.name=特斯拉钽碎块
+item.teslathingies.lump_titanium.name=特斯拉钛碎块
+item.teslathingies.lump_tungsten.name=特斯拉钨碎块
+item.teslathingies.lump_uranium.name=特斯拉铀碎块
+item.teslathingies.lump_zirconium.name=特斯拉锆碎块
+
+#Standard Augmented Lumps
+item.teslathingies.augmented_iron.name=加强铁碎块
+item.teslathingies.augmented_gold.name=加强金碎块
+item.teslathingies.augmented_coal.name=加强煤炭碎块
+item.teslathingies.augmented_diamond.name=加强钻石碎块
+item.teslathingies.augmented_emerald.name=加强绿宝石碎块
+item.teslathingies.augmented_lapis.name=加强青金石碎块
+item.teslathingies.augmented_redstone.name=加强红石碎块
+
+#Base Metals Augmented Lumps
+item.teslathingies.augmented_adamantine.name=加强艾德曼金属碎块
+item.teslathingies.augmented_antimony.name=加强锑碎块
+item.teslathingies.augmented_aquarium.name=加强海洋合金碎块
+item.teslathingies.augmented_bismuth.name=加强铋碎块
+item.teslathingies.augmented_brass.name=加强黄铜碎块
+item.teslathingies.augmented_bronze.name=加强青铜碎块
+item.teslathingies.augmented_coldiron.name=加强寒铁碎块
+item.teslathingies.augmented_copper.name=加强铜碎块
+item.teslathingies.augmented_cupronickel.name=加强白铜碎块
+item.teslathingies.augmented_electrum.name=加强琥珀金碎块
+item.teslathingies.augmented_invar.name=加强因瓦合金
+item.teslathingies.augmented_lead.name=加强铅碎块
+item.teslathingies.augmented_mercury.name=加强汞碎块
+item.teslathingies.augmented_mithril.name=加强秘银碎块
+item.teslathingies.augmented_nickel.name=加强镍碎块
+item.teslathingies.augmented_pewter.name=加强白镴碎块
+item.teslathingies.augmented_platinum.name=加强铂碎块
+item.teslathingies.augmented_silver.name=加强银碎块
+item.teslathingies.augmented_starsteel.name=加强星钢碎块
+item.teslathingies.augmented_steel.name=加强钢碎块
+item.teslathingies.augmented_tin.name=加强锡碎块
+item.teslathingies.augmented_zinc.name=加强锌碎块
+
+#Modern Metals Augmented Lumps
+item.teslathingies.augmented_aluminum.name=加强铝碎块
+item.teslathingies.augmented_aluminum_brass.name=加强铝黄铜碎块
+item.teslathingies.augmented_cadmium.name=加强镉碎块
+item.teslathingies.augmented_chromium.name=加强铬碎块
+item.teslathingies.augmented_galvanized_steel.name=加强镀锌钢碎块
+item.teslathingies.augmented_iridium.name=加强铱碎块
+item.teslathingies.augmented_magnesium.name=加强镁碎块
+item.teslathingies.augmented_manganese.name=加强锰碎块
+item.teslathingies.augmented_nichrome.name=加强镍铬合金碎块
+item.teslathingies.augmented_osmium.name=加强锇碎块
+item.teslathingies.augmented_plutonium.name=加强钚碎块
+item.teslathingies.augmented_rutile.name=加强金红石碎块
+item.teslathingies.augmented_stainless_steel.name=加强不锈钢碎块
+item.teslathingies.augmented_tantalum.name=加强钽碎块
+item.teslathingies.augmented_titanium.name=加强钛碎块
+item.teslathingies.augmented_tungsten.name=加强钨碎块
+item.teslathingies.augmented_uranium.name=加强铀碎块
+item.teslathingies.augmented_zirconium.name=加强锆碎块
+
 
 tile.teslathingies.animal_farm.name=动物农场
 tile.teslathingies.animal_releaser.name=动物放生机
@@ -50,6 +146,7 @@ tile.teslathingies.animal_gym.name=动物健身机
 tile.teslathingies.tree_farm.name=伐木场
 tile.teslathingies.sewer.name=污水收集器
 tile.teslathingies.liquidxp_storage.name=液态经验储罐
+tile.teslathingies.misc_farmer.name=农场机器
 
 tile.teslathingies.dung_block.name=肥料块
 tile.teslathingies.dung_bricks.name=肥料砖
@@ -102,6 +199,8 @@ gui.teslathingies.side_config.input_liquid_containers=液体输入容器交互�
 gui.teslathingies.side_config.liquid_xp=液态经验存储槽
 gui.teslathingies.side_config.output_liquid_containers=液体输出容器交互槽
 
+gui.teslathingies.side_config.blocks_buffer=方块缓存
+
 
 #generator burn piece
 gui.teslathingies.generator_burn.total_for_fuel=燃料产能总量：%s
@@ -145,3 +244,27 @@ gui.teslathingies.player_liquid_xp.give_1=给予玩家1级经验
 gui.teslathingies.player_liquid_xp.give_10=给予玩家10级经验
 gui.teslathingies.player_liquid_xp.give_max=给予玩家所有经验
 
+
+#compound maker
+gui.teslathingies.compound_maker.recipe=%s
+gui.teslathingies.compound_maker.recipe_making=制作: %s
+gui.teslathingies.compound_maker.no_recipe=无可用配方
+gui.teslathingies.compound_maker.toggle=点击切换
+gui.teslathingies.compound_maker.machine_paused=机器已暂停
+gui.teslathingies.compound_maker.make_single_item=制作单一物品
+gui.teslathingies.compound_maker.make_maximum_items=制作最大数量物品
+gui.teslathingies.compound_maker.lock_recipe=锁定合成表
+gui.teslathingies.side_config.left_tank左输入罐
+gui.teslathingies.side_config.top_inputs=上输入栏
+gui.teslathingies.side_config.right_tank=右输入罐
+gui.teslathingies.side_config.bottom_inputs=下输入栏
+gui.teslathingies.side_config.output=输出插槽
+
+
+#pump
+gui.teslathingies.pump.no_scanner=不在扫描
+gui.teslathingies.pump.scanned=已扫描%s个方块
+gui.teslathingies.side_config.blocks_buffer=方块缓存
+gui.teslathingies.pump.mode_auto=自动
+gui.teslathingies.pump.mode_fluid=提取液体
+gui.teslathingies.pump.mode_blocks=用方块替换
