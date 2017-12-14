@@ -13,7 +13,11 @@
 - add CT and API support to all non-farming machines (including the ones with Secondary Outputs, might be dependent on the support for that being added to TCL)
 - add power cost to item liquefier recipes
 
+#1.0.13
+
 #1.0.12
+- new TCL version
+- new forgelin
 
 #1.0.11
 - fixed crop cloner seed duplication bug
