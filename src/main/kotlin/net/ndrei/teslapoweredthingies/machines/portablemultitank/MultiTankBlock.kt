@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.block.model.BakedQuad
 import net.minecraft.client.renderer.texture.TextureAtlasSprite
 import net.minecraft.client.renderer.texture.TextureMap
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
+import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.tileentity.TileEntity
 import net.minecraft.util.BlockRenderLayer
@@ -26,6 +27,7 @@ import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fluids.FluidStack
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import net.minecraftforge.registries.IForgeRegistry
 import net.ndrei.teslacorelib.annotations.AutoRegisterBlock
 import net.ndrei.teslacorelib.blocks.AxisAlignedBlock
 import net.ndrei.teslacorelib.render.selfrendering.*
@@ -47,6 +49,10 @@ object MultiTankBlock
     lateinit var FLUID_4_PROP: UnlistedFluidProperty private set
 
     lateinit var FLUID_PROPS: Array<UnlistedFluidProperty>
+
+    override fun registerItem(registry: IForgeRegistry<Item>) {
+        registry.register(MultiTankItem)
+    }
 
     //#region Block Overrides
 

@@ -14,13 +14,12 @@ import net.ndrei.teslapoweredthingies.render.bakery.SelfRenderingTESR
  */
 class SimpleTankEntity
     : SidedTileEntity(SimpleTankEntity::class.java.name.hashCode()), IFluidStorageMachine {
-
     private lateinit var tank: IFluidTank
 
     override fun initializeInventories() {
         super.initializeInventories()
 
-        this.tank = this.addSimpleFluidTank(24000, "Fluid Tank", EnumDyeColor.BLUE, 20, 24)
+        this.tank = this.addSimpleFluidTank(TANK_CAPACITY, "Fluid Tank", EnumDyeColor.BLUE, 20, 24)
     }
 
     override fun canBePaused() = false
@@ -35,5 +34,9 @@ class SimpleTankEntity
 
     override fun innerUpdate() {
         // TODO: maybe blow up if the liquid is too hot or something? :S
+    }
+
+    companion object {
+        const val TANK_CAPACITY = 24000
     }
 }
