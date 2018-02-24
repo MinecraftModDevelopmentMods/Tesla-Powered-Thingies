@@ -4,17 +4,22 @@ buildscript {
         mavenCentral()
         maven { url = "http://files.minecraftforge.net/maven" }
         maven { url = "http://repo.maven.apache.org/maven2" }
+        maven { url = "https://plugins.gradle.org/m2/" }
         maven { url = "https://oss.sonatype.org/content/repositories/snapshots/" }
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${project.kotlin_version}"
+        classpath 'gradle.plugin.com.matthewprenger:CurseGradle:1.0.10'
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:0.9.16"
     }
 }
 apply plugin: "net.minecraftforge.gradle.forge"
+apply plugin: 'com.matthewprenger.cursegradle'
 apply plugin: 'kotlin'
 apply plugin: "maven-publish"
 apply plugin: "maven"
+apply plugin: 'org.jetbrains.dokka'
 
 archivesBaseName = project.mod_name.replace(' ', '-').toLowerCase()
 group = "net.ndrei"
@@ -39,8 +44,33 @@ minecraft {
     replace '@FORGELIN-VERSION@', project.forgelin_version
     replace '@FORGE-VERSION@', project.forge_version
     replace '@TESLA-CORE-LIB-VERSION@', project.teslacorelib_version
+    replace '@FINGERPRINT@', project.findProperty('signSHA1')
 
     replaceIn 'constants.kt'
+}
+
+class Secrets {
+    def data = null
+
+    def getProperty(String key) {
+        return data ? data[key] : ''
+    }
+}
+
+import groovy.json.JsonSlurper
+
+def secretFile
+if (System.getenv().SECRET_FILE) {
+    secretFile = file System.getenv().SECRET_FILE
+} else {
+    secretFile = file 'secret.json'
+}
+
+project.ext.secret = new Secrets()
+if (secretFile.exists()) {
+    secretFile.withReader {
+        project.ext.secret.data = new JsonSlurper().parse it
+    }
 }
 
 // Mad hacks to make source replacements work for Kotlin
@@ -74,7 +104,7 @@ repositories {
     mavenCentral()
     mavenLocal()
     jcenter()
-    maven { name='mine'; url='https://maven.modcrafters.net' }
+    maven { name='mmd'; url='https://maven.mcmoddev.com' }
     maven { name='forgelin'; url='http://maven.shadowfacts.net/' }
 
     maven { name='jei'; url="http://dvs1.progwml6.com/files/maven" }
@@ -83,23 +113,17 @@ repositories {
 
 dependencies {
     deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:${project.kotlin_version}"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${project.kotlin_version}"
     compile "net.shadowfacts:Forgelin:${project.forgelin_version}"
 
-    if (file("ci-lib/tesla-core-lib-${project.teslacorelib_mc_version}-${project.teslacorelib_version}-deobf.jar").exists()) {
-        compile files("ci-lib/tesla-core-lib-${project.teslacorelib_mc_version}-${project.teslacorelib_version}-deobf.jar")
-    }
-    else if (file("Tesla-Core-Lib/build.gradle").exists()) {
+    if ((null == System.getenv("BUILD_TAG")) && file("Tesla-Core-Lib/build.gradle").exists()) {
         compile project(':Tesla-Core-Lib')
     }
     else {
         compile("net.ndrei:tesla-core-lib:${project.teslacorelib_mc_version}-${project.teslacorelib_version}:deobf") { changing = true }
     }
 
-    if (file("ci-lib/bush-master-core-${project.minecraft_version}-${project.bushmaster_version}-deobf.jar").exists()) {
-        compile files("ci-lib/bush-master-core-${project.minecraft_version}-${project.bushmaster_version}-deobf.jar")
-    }
-    else if (file("Bush-Master-Core/build.gradle").exists()) {
+    if ((null == System.getenv("BUILD_TAG")) && file("Bush-Master-Core/build.gradle").exists()) {
         compile project(path: ':Bush-Master-Core')
     }
     else {
@@ -153,22 +177,114 @@ task apiJar(type: Jar) {
     classifier = 'api'
 }
 
-artifacts {
-    archives apiJar, sourceJar, deobfJar
+task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
+    outputFormat = "javadoc"
+    kotlinTasks {
+        [':compileApiKotlin']
+    }
+    outputDirectory = "$buildDir/dokkaJavadoc"
 }
 
-if (project.hasProperty('mavenFTPServer') && project.hasProperty('mavenFTPUser') && project.hasProperty('mavenFTPPassword')) {
-    uploadArchives {
-        repositories.mavenDeployer {
-            dependsOn build, apiJar, deobfJar, sourcesJar
+task signJar(type: SignJar, dependsOn: reobfJar) {
+    // Skips if the keyStore property is missing.
+    onlyIf {
+        project.hasProperty('keyStore')
+    }
 
-            configuration = configurations.deployerJars
-            repository(url: project.mavenFTPServer) {
-                authentication(userName: project.mavenFTPUser, password: mavenFTPPassword)
+    // findProperty allows us to reference the property without it existing.
+    // Using project.propName would cause the script to fail validation if
+    // the property did not exist.
+    keyStore = project.findProperty('keyStore')
+    alias = project.findProperty('keyStoreAlias')
+    storePass = project.findProperty('keyStorePass')
+    keyPass = project.findProperty('keyStoreKeyPass')
+    inputFile = jar.archivePath
+    outputFile = jar.archivePath
+}
+
+build.dependsOn signJar
+
+task javadocJar(type: Jar, dependsOn: dokkaJavadoc) {
+    classifier = 'javadoc'
+    from dokkaJavadoc.outputDirectory
+}
+
+artifacts {
+    archives apiJar, sourceJar, deobfJar, javadocJar
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId project.group
+            artifactId project.archivesBaseName
+            def versionForMaven = "$project.minecraft_version-$project.mod_version"
+            if (System.getenv().BUILD_NUMBER) {
+                versionForMaven += '.' + System.getenv().BUILD_NUMBER
+            }
+            version versionForMaven
+            from components.java
+            artifact sourceJar {
+                classifier 'sources'
+            }
+            artifact deobfJar {
+                classifier 'deobf'
+            }
+            artifact javadocJar {
+                classifier 'javadoc'
+            }
+            artifact apiJar {
+                classifier 'api'
             }
         }
     }
-    uploadArchives.dependsOn build, apiJar, sourcesJar, deobfJar
+    repositories {
+        maven {
+            credentials {
+                username secret.username
+                password secret.password
+            }
+            url secret.url
+        }
+    }
+}
+
+curseforge {
+    if (project.hasProperty('cf_release_type') && (project.cf_release_type != "none")) {
+        //println("CURSE FORGE RELEASE :: $project.cf_release_type")
+        apiKey = secret.curseforgeAPIKey
+        project {
+            id = "$project.cf_project_id"
+            changelog = file('current-changelog.txt')
+            releaseType = project.cf_release_type
+            addGameVersion(project.minecraft_version)
+            def projectName = project.mod_name
+            def displayVersion = project.mod_version
+            if (System.getenv().BUILD_NUMBER) {
+                displayVersion += '.' + System.getenv().BUILD_NUMBER
+            }
+            mainArtifact(jar) {
+                displayName = "$project.mod_name : $displayVersion"
+                relations {
+                    requiredLibrary 'shadowfacts-forgelin'
+                    requiredLibrary 'tesla-core-lib'
+                    optionalLibrary 'bush-master-core'
+                }
+            }
+            addArtifact(sourceJar) {
+                displayName = "$project.mod_name : $displayVersion : Sources"
+            }
+            addArtifact(deobfJar) {
+                displayName = "$project.mod_name : $displayVersion : Development"
+            }
+            addArtifact(apiJar) {
+                displayName = "$project.mod_name : $displayVersion : API"
+            }
+            addArtifact(javadocJar) {
+                displayName = "$project.mod_name : $displayVersion : API Javadoc"
+            }
+        }
+    }
 }
 
 if (System.getProperty("runClient.jvmArgs") != null) {

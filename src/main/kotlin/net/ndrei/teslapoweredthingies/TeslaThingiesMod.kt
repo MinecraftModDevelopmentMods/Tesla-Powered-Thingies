@@ -24,8 +24,9 @@ import org.apache.logging.log4j.Logger
  * Created by CF on 2017-06-30.
  */
 @Mod(modid = MOD_ID, version = MOD_VERSION, name = MOD_NAME,
-        dependencies = "$MOD_DEPENDENCIES;after:basemetals;after:modernmetals;", acceptedMinecraftVersions = MOD_MC_VERSION,
-        useMetadata = true, modLanguage = "kotlin", modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter")
+    dependencies = "$MOD_DEPENDENCIES;after:basemetals;after:modernmetals;", acceptedMinecraftVersions = MOD_MC_VERSION,
+    certificateFingerprint = net.ndrei.teslacorelib.MOD_SIGN_FINGERPRINT,
+    useMetadata = true, modLanguage = "kotlin", modLanguageAdapter = "net.shadowfacts.forgelin.KotlinAdapter")
 object TeslaThingiesMod {
     const val MODID = MOD_ID
 

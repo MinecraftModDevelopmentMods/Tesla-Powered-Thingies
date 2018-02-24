@@ -14,6 +14,9 @@
 - add power cost to item liquefier recipes
 
 #1.0.13
+- simple and multi tanks now have fluid caps in item mode
+- moved to MMD servers
+- jar should now be signed
 
 #1.0.12
 - new TCL version

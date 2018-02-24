@@ -1,0 +1,4 @@
+- simple and multi tanks now have fluid caps in item mode
+
+- moved to MMD servers
+- jar should now be signed

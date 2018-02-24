@@ -5,3 +5,4 @@
 /libs
 /run
 *.iml
+/secret.json
