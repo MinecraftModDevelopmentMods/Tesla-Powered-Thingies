@@ -120,20 +120,20 @@ dependencies {
         compile project(':Tesla-Core-Lib')
     }
     else {
-        compile("net.ndrei:tesla-core-lib:${project.teslacorelib_mc_version}-${project.teslacorelib_version}:deobf") { changing = true }
+        compile("net.ndrei:tesla-core-lib:${project.teslacorelib_mc_version}-${project.teslacorelib_version}+:deobf") { changing = true }
     }
 
     if ((null == System.getenv("BUILD_TAG")) && file("Bush-Master-Core/build.gradle").exists()) {
         compile project(path: ':Bush-Master-Core')
     }
     else {
-        compile("net.ndrei:bush-master-core:${project.minecraft_version}-${project.bushmaster_version}:deobf") { changing = true }
+        compile("net.ndrei:bush-master-core:${project.minecraft_version}-${project.bushmaster_version}+:deobf") { changing = true }
     }
 
-    compileOnly "mezz.jei:jei_${project.minecraft_version}:${project.jei_version}:api"
-    runtime "mezz.jei:jei_${project.minecraft_version}:${project.jei_version}"
+    deobfProvided "mezz.jei:jei_${project.minecraft_version}:${project.jei_version}+:api"
+    runtime "mezz.jei:jei_${project.minecraft_version}:${project.jei_version}+"
 
-    compileOnly "CraftTweaker2:CraftTweaker2-API:${project.ct_version}"
+    deobfProvided "CraftTweaker2:CraftTweaker2-API:${project.ct_version}"
     runtime "CraftTweaker2:CraftTweaker2-MC1120-Main:${project.ct_mc_version}-${project.ct_version}"
 }
 
