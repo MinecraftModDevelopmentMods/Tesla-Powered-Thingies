@@ -12,5 +12,8 @@
     "a": { "item": "teslacorelib:base_addon" },
     "s": { "type": "forge:ore_dict", "ore": "stickWood" },
     "h": { "item": "minecraft:hopper" }
-  }
+  },
+  "conditions": [
+    { "type": "minecraft:item_exists", "item": "teslathingies:bush_master_addon" }
+  ]
 }

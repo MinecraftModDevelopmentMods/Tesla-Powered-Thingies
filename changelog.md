@@ -17,6 +17,7 @@
 - simple and multi tanks now have fluid caps in item mode
 - moved to MMD servers
 - jar should now be signed
+- removed a bit of log spam
 
 #1.0.12
 - new TCL version
