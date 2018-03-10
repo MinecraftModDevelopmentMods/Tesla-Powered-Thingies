@@ -14,6 +14,8 @@
 - add power cost to item liquefier recipes
 
 #1.0.14
+- acacia trees should not leave blocks behind anymore
+- tree farm now handles IC2 rubber trees
 
 #1.0.13
 - simple and multi tanks now have fluid caps in item mode

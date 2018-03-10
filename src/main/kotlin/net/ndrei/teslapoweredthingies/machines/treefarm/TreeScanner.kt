@@ -63,18 +63,6 @@ class TreeScanner /*implements INBTSerializable<NBTTagCompound>*/ {
                     }
                 }
             }
-//            for (facing in EnumFacing.VALUES) {
-//                val nb = pos.offset(facing)
-//                if (!this.scanned!!.contains(nb) && !this.toScan!!.contains(nb)
-//                        && TreeWrapperFactory.isHarvestable(world, nb, null)) {
-//                    this.toScan!!.add(nb)
-//
-//                    result += perBlockValue
-//                    if (result >= maxValue) {
-//                        return result
-//                    }
-//                }
-//            }
 
             this.toScan!!.removeAt(0)
             this.scanned!!.add(pos)
