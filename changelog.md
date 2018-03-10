@@ -13,6 +13,8 @@
 - add CT and API support to all non-farming machines (including the ones with Secondary Outputs, might be dependent on the support for that being added to TCL)
 - add power cost to item liquefier recipes
 
+#1.0.15
+
 #1.0.14
 - acacia trees should not leave blocks behind anymore
 - tree farm now handles IC2 rubber trees
