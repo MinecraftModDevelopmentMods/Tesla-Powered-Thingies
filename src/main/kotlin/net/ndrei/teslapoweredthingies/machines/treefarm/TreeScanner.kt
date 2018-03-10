@@ -1,7 +1,6 @@
 package net.ndrei.teslapoweredthingies.machines.treefarm
 
 import com.google.common.collect.Lists
-import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.ndrei.teslacorelib.utils.BlockCube
@@ -44,18 +43,38 @@ class TreeScanner /*implements INBTSerializable<NBTTagCompound>*/ {
         while (toScan!!.size > 0) {
             val pos = this.toScan!![0]
 
-            for (facing in EnumFacing.VALUES) {
-                val nb = pos.offset(facing)
-                if (!this.scanned!!.contains(nb) && !this.toScan!!.contains(nb)
-                        && TreeWrapperFactory.isHarvestable(world, nb, null)) {
-                    this.toScan!!.add(nb)
+            for (ox in -1..1) {
+                for (oy in -1..1) {
+                    for (oz in -1..1) {
+                        if ((ox == 0) && (oy == 0) && (oz == 0)) {
+                            continue
+                        }
 
-                    result += perBlockValue
-                    if (result >= maxValue) {
-                        return result
+                        val nb = pos.add(ox, oy, oz)
+                        if (!this.scanned!!.contains(nb) && !this.toScan!!.contains(nb)
+                            && TreeWrapperFactory.isHarvestable(world, nb, null)) {
+                            this.toScan!!.add(nb)
+
+                            result += perBlockValue
+                            if (result >= maxValue) {
+                                return result
+                            }
+                        }
                     }
                 }
             }
+//            for (facing in EnumFacing.VALUES) {
+//                val nb = pos.offset(facing)
+//                if (!this.scanned!!.contains(nb) && !this.toScan!!.contains(nb)
+//                        && TreeWrapperFactory.isHarvestable(world, nb, null)) {
+//                    this.toScan!!.add(nb)
+//
+//                    result += perBlockValue
+//                    if (result >= maxValue) {
+//                        return result
+//                    }
+//                }
+//            }
 
             this.toScan!!.removeAt(0)
             this.scanned!!.add(pos)
