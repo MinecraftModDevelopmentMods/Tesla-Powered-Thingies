@@ -8,7 +8,11 @@
     "pxp"
   ],
   "key": {
-    "g": { "type": "forge:ore_dict", "ore": "glass" },
+    "g":[
+      { "type": "forge:ore_dict", "ore": "glass" },
+      { "type": "forge:ore_dict", "ore": "blockGlass" },
+      { "type": "forge:ore_dict", "ore": "blockGlassColorless" }
+    ],
     "b": { "item": "minecraft:bucket" },
     "c": { "item": "teslacorelib:machine_case" },
     "x": { "type": "forge:ore_dict", "ore": "gearGold" },

@@ -16,6 +16,8 @@
 #1.0.14
 - acacia trees should not leave blocks behind anymore
 - tree farm now handles IC2 rubber trees
+- fixed #33: Pump recipe error 
+- fixed #21: Tree compat: Integrated Dynamics
 
 #1.0.13
 - simple and multi tanks now have fluid caps in item mode
