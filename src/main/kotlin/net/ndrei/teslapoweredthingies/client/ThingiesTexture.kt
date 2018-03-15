@@ -1,15 +1,14 @@
 package net.ndrei.teslapoweredthingies.client
 
 import net.minecraft.util.ResourceLocation
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 import net.ndrei.teslacorelib.gui.IGuiTexture
 import net.ndrei.teslapoweredthingies.TeslaThingiesMod
 
 /**
  * Created by CF on 2017-07-07.
  */
-@SideOnly(Side.CLIENT)
+// TODO: do this after the damn pump is fixed
+//@SideOnly(Side.CLIENT)
 enum class ThingiesTexture(path: String): IGuiTexture {
     MACHINES_TEXTURES("textures/gui/machines.png"),
     FARM_TEXTURES("textures/gui/farm_machines.png"),

@@ -20,6 +20,7 @@
 - tree farm now handles IC2 rubber trees
 - fixed #33: Pump recipe error 
 - fixed #21: Tree compat: Integrated Dynamics
+- fixed ugly crash with pump on server side
 
 #1.0.13
 - simple and multi tanks now have fluid caps in item mode
