@@ -16,6 +16,7 @@
 #1.0.15
 - fixed #42: Electric Butcher
 - fixed #39: Butcher has no drops
+- fixed #36: Powered Pump consumes Fluids
 
 #1.0.14
 - acacia trees should not leave blocks behind anymore

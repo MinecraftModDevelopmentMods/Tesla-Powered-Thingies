@@ -90,20 +90,44 @@ open class PumpScanner(private val entity: PumpEntity) {
         return this.visited.size - original
     }
 
-    fun getBlocks(max: Int = 1, onlyDrainable: Boolean = true): Map<BlockPos, IFluidBlock> {
-        var changed = false
-        val picked = mutableMapOf<BlockPos, IFluidBlock>()
-        while ((picked.size < max) && (this.visited.size > 0)) {
-            changed = true
-            val current = this.visited.removeAt(this.visited.size - 1)
-            val fluid = this.entity.world.getBlockState(current).getFluidWrapper()
-            if ((fluid != null) && (!onlyDrainable || fluid.canDrain(this.entity.world, current))) {
-                picked.put(current, fluid)
-            }
+    fun peekBlocks(max: Int = 1, onlyDrainable: Boolean = true) = this.visited
+        .asReversedSequence()
+        .filter {
+            val fluid = this.entity.world.getBlockState(it).getFluidWrapper()
+            (fluid != null) && (!onlyDrainable || fluid.canDrain(this.entity.world, it))
+        }
+        .take(max)
+        .fold(mutableMapOf<BlockPos, IFluidBlock>()) { map, pos ->
+            map.put(pos, this.entity.world.getBlockState(pos).getFluidWrapper()!!)
+            map
         }
 
-        if (changed) this.onChanged()
-        return picked
+    fun <T> List<T>.asReversedSequence(): Sequence<T> = ReversedSequence(this)
+
+    private class ReversedSequence<T>(private val list: List<T>): Sequence<T> {
+        override fun iterator(): Iterator<T> = ReversedIterator()
+
+        private inner class ReversedIterator(): Iterator<T> {
+            private var currentIndex: Int
+
+            init {
+                this.currentIndex = this@ReversedSequence.list.size
+            }
+
+            override fun hasNext() = (this.currentIndex > 0)
+
+            override fun next(): T = this@ReversedSequence.list[--this.currentIndex]
+        }
+    }
+
+    fun removeBlocks(picked: Map<BlockPos, IFluidBlock>)=
+        picked.forEach { this.removeBlock(it.key) }
+
+    fun removeBlock(pos: BlockPos) {
+        val index = this.visited.indexOfLast { it.equals(pos) }
+        if (index > -1) {
+            this.visited.removeAt(index);
+        }
     }
 
     companion object {

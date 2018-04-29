@@ -193,34 +193,37 @@ class PumpEntity: ElectricMachine(SidedTileEntity::class.java.name.hashCode()) {
 
                     if (scanned == 0) {
                         if ((stack >= 0) || (this.mode != PumpMode.BLOCKS)) {
-                            val picked = this.scanner!!.getBlocks() // onlyDrainable = (stack < 0))
+                            val picked = this.scanner!!.peekBlocks() // onlyDrainable = (stack < 0))
+                            var actuallyPicked = false
                             if (picked.isNotEmpty()) {
                                 picked.forEach { pos, fluid ->
                                     val drained = fluid.drain(this.getWorld(), pos, false)
                                     if ((drained != null) && (this.tank.fill(drained, false) == drained.amount)) {
                                         this.tank.fill(fluid.drain(this.getWorld(), pos, true), true)
-                                    }
 
-                                    val thing = if ((stack < 0) || (this.mode == PumpMode.FLUID)) {
-                                        ItemStack.EMPTY
-                                    }
-                                    else {
-                                        this.storage.getStackInSlot(stack)
-                                    }
-                                    if (thing.isEmpty || (thing.item !is ItemBlock)) {
-                                        this.getWorld().setBlockToAir(pos)
-                                    } else {
-                                        val block = (thing.item as ItemBlock).block
-                                        this.getWorld().setBlockState(pos, block.getStateFromMeta(thing.metadata))
-                                        this.storage.setStackInSlot(stack, thing.copy().also { it.shrink(1) })
+                                        val thing = if ((stack < 0) || (this.mode == PumpMode.FLUID)) {
+                                            ItemStack.EMPTY
+                                        } else {
+                                            this.storage.getStackInSlot(stack)
+                                        }
+                                        if (thing.isEmpty || (thing.item !is ItemBlock)) {
+                                            this.getWorld().setBlockToAir(pos)
+                                        } else {
+                                            val block = (thing.item as ItemBlock).block
+                                            this.getWorld().setBlockState(pos, block.getStateFromMeta(thing.metadata))
+                                            this.storage.setStackInSlot(stack, thing.copy().also { it.shrink(1) })
+                                        }
+
+                                        this.scanner!!.removeBlock(pos)
+                                        actuallyPicked = true
                                     }
                                 }
-                                return 1.0f
+                                if (actuallyPicked) return 1.0f
                             }
                         }
                     }
                     else {
-                        return .5f
+                        return .75f
                     }
                 }
             }
