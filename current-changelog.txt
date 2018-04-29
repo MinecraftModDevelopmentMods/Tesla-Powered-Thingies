@@ -1,0 +1,2 @@
+- fixed #42: Electric Butcher
+- fixed #39: Butcher has no drops

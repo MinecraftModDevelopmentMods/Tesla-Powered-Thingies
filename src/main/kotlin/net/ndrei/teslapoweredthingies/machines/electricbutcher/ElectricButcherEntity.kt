@@ -1,6 +1,7 @@
 package net.ndrei.teslapoweredthingies.machines.electricbutcher
 
 import net.minecraft.entity.SharedMonsterAttributes
+import net.minecraft.entity.ai.attributes.IAttributeInstance
 import net.minecraft.entity.item.EntityItem
 import net.minecraft.entity.passive.EntityAnimal
 import net.minecraft.inventory.EntityEquipmentSlot
@@ -77,16 +78,22 @@ class ElectricButcherEntity
             if (animalToHurt != null) {
                 val player = TeslaThingiesMod.getFakePlayer(this.getWorld())
                 if (player != null) {
-                    player.setItemInUse(stack.copy())
-                    val health = animalToHurt.health
-                    player.attackTargetEntityWithCurrentItem(animalToHurt)
-                    animalToHurt.health -= (health - animalToHurt.health) * 4 // to speed things up
+                    val attr: IAttributeInstance? = player.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE)
+                    val originalDamage = attr?.baseValue
+                    try {
+                        player.setItemInUse(stack.copy())
+                        attr?.baseValue = 4.2
+                        val health = animalToHurt.health
+                        player.attackTargetEntityWithCurrentItem(animalToHurt)
 
-                    val weapon = player.getHeldItem(EnumHand.MAIN_HAND)
-                    this.inStackHandler!!.setStackInSlot(0, if (weapon.isEmpty) ItemStack.EMPTY else weapon.copy())
-
-                    player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY)
-                    result += .9f
+                        val weapon = player.getHeldItem(EnumHand.MAIN_HAND)
+                        this.inStackHandler!!.setStackInSlot(0, if (weapon.isEmpty) ItemStack.EMPTY else weapon.copy())
+                        result += .9f
+                    }
+                    finally {
+                        player.setHeldItem(EnumHand.MAIN_HAND, ItemStack.EMPTY)
+                        attr?.baseValue = originalDamage ?: 1.0
+                    }
                 }
             }
         }

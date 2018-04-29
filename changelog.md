@@ -14,6 +14,8 @@
 - add power cost to item liquefier recipes
 
 #1.0.15
+- fixed #42: Electric Butcher
+- fixed #39: Butcher has no drops
 
 #1.0.14
 - acacia trees should not leave blocks behind anymore
