@@ -46,7 +46,7 @@ configurations {
 
 repositories {
     mavenCentral()
-    maven { url 'http://maven.epoxide.xyz' }
+    maven { url 'http://maven.mcmoddev.com' }
     if (project.hasProperty('mavenLocalPath')) {
         maven { url project.mavenLocalPath }
     } else {
