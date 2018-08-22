@@ -1,6 +1,6 @@
 [submodule "Tesla-Core-Lib"]
 	path = Tesla-Core-Lib
-	url = https://github.com/faceofcat/tesla-core-lib
+	url = https://github.com/MinecraftModDevelopmentMods/Tesla-Core-Lib.git
 [submodule "Wiki"]
 	path = Wiki
 	url = https://github.com/faceofcat/Tesla-Powered-Thingies.wiki.git
