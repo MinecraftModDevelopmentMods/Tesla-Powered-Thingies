@@ -26,7 +26,7 @@ object FluidCompoundProducerRegistry
     }
 
     override fun registerRecipes(asm: ASMDataTable, registry: IForgeRegistry<IRecipe>) {
-        readExtraRecipesFile(FluidCompoundProducerBlock.registryName!!.resourcePath) { json ->
+        readExtraRecipesFile(FluidCompoundProducerBlock.registryName!!.path) { json ->
             val inputA = json.readFluidStack("input_a") ?: return@readExtraRecipesFile
             val inputB = json.readFluidStack("input_b") ?: return@readExtraRecipesFile
             val output = json.readFluidStack("output") ?: return@readExtraRecipesFile

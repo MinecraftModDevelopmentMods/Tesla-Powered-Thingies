@@ -28,7 +28,7 @@ object IncineratorRegistry : BaseTeslaRegistry<IncineratorRecipe>("incinerator_r
     override fun registerRecipes(asm: ASMDataTable, registry: IForgeRegistry<IRecipe>) {
         this.registerForcedRecipes()
 
-        readExtraRecipesFile(IncineratorBlock.registryName!!.resourcePath) { json ->
+        readExtraRecipesFile(IncineratorBlock.registryName!!.path) { json ->
             val input = json.readItemStacks("input_stack")
             if (input.isNotEmpty()) {
                 val power = json.getLong("power", 0)

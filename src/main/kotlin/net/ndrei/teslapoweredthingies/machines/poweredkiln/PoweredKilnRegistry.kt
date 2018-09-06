@@ -25,7 +25,7 @@ object PoweredKilnRegistry
     }
 
     override fun registerRecipes(asm: ASMDataTable, registry: IForgeRegistry<IRecipe>) {
-        readExtraRecipesFile(PoweredKilnBlock.registryName!!.resourcePath) { json ->
+        readExtraRecipesFile(PoweredKilnBlock.registryName!!.path) { json ->
             val input = json.readItemStacks("input_stack")
             if (input.isNotEmpty()) {
                 val output = json.readItemStacks("output_stack").firstOrNull()

@@ -27,7 +27,7 @@ abstract class FiniteFluidThingyBlock(fluid: Fluid, color: MapColor)
     :  BlockFluidFinite(fluid, MaterialLiquid(color)), ISelfRegisteringBlock, ISelfRegisteringRenderer {
     init {
         this.setRegistryName(TeslaThingiesMod.MODID, "${this.fluid.name}_block")
-        this.unlocalizedName = "${TeslaThingiesMod.MODID}.${this.fluid.name}.block"
+        this.translationKey = "${TeslaThingiesMod.MODID}.${this.fluid.name}.block"
 
         this.setCreativeTab(TeslaThingiesMod.creativeTab)
         this.setRenderLayer(BlockRenderLayer.SOLID)

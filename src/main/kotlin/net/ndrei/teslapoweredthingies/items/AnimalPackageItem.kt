@@ -30,11 +30,11 @@ object AnimalPackageItem : BaseThingyItem("animal_package") {
         })
     }
 
-    override fun getUnlocalizedName(stack: ItemStack): String {
+    override fun getTranslationKey(stack: ItemStack): String {
         if (this.hasAnimal(stack)) {
-            return this.unlocalizedName + "_full"
+            return this.translationKey + "_full"
         }
-        return this.unlocalizedName
+        return this.translationKey
     }
 
     override fun addInformation(stack: ItemStack?, worldIn: World?, tooltip: MutableList<String>?, flagIn: ITooltipFlag?) {

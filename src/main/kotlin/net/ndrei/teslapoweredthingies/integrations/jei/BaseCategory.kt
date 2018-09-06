@@ -23,7 +23,7 @@ abstract class BaseCategory<T: IRecipeWrapper>(val block: Block) : IRecipeCatego
     }
 
     override fun getUid(): String {
-        return this.block.registryName?.resourcePath ?: this.block.javaClass.canonicalName
+        return this.block.registryName?.path ?: this.block.javaClass.canonicalName
     }
 
     override fun getTitle(): String {

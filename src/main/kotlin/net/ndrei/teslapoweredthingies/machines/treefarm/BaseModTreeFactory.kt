@@ -17,7 +17,7 @@ open class BaseModTreeFactory(val modId: String) : ITreeFactory {
     override fun getHarvestableLog(world: World, pos: BlockPos, block: IBlockState): ITreeLogWrapper? {
         val stack = ItemStack(block.block)
         return if (!stack.isEmpty
-                && (this.modId.isNullOrEmpty() || (block.block.registryName?.resourceDomain == this.modId))
+                && (this.modId.isNullOrEmpty() || (block.block.registryName?.namespace == this.modId))
                 && OreDictionary.getOreIDs(stack).any { OreDictionary.getOreName(it) == this.logOreName })
             VanillaTreeLog(world, pos)
         else
@@ -27,7 +27,7 @@ open class BaseModTreeFactory(val modId: String) : ITreeFactory {
     override fun getHarvestableLeaf(world: World, pos: BlockPos, block: IBlockState): ITreeLeafWrapper? {
         val stack = ItemStack(block.block)
         return if (!stack.isEmpty
-                && (this.modId.isNullOrEmpty() || (block.block.registryName?.resourceDomain == this.modId))
+                && (this.modId.isNullOrEmpty() || (block.block.registryName?.namespace == this.modId))
                 && OreDictionary.getOreIDs(stack).any { OreDictionary.getOreName(it) == this.leavesOreName })
             VanillaTreeLeaf(world, pos)
         else
@@ -36,7 +36,7 @@ open class BaseModTreeFactory(val modId: String) : ITreeFactory {
 
     override fun getPlantableSapling(stack: ItemStack): ITreeSaplingWrapper? {
         if (!stack.isEmpty
-                && (this.modId.isNullOrEmpty() || (stack.item.registryName?.resourceDomain == this.modId))
+                && (this.modId.isNullOrEmpty() || (stack.item.registryName?.namespace == this.modId))
                 && (OreDictionary.getOreIDs(stack).any { OreDictionary.getOreName(it) == this.saplingOreName })) {
             return VanillaSapling(stack)
         }

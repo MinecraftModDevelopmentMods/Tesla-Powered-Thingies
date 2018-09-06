@@ -37,8 +37,7 @@ object TeslaThingiesMod {
     lateinit var config: ModConfigHandler
 
     val creativeTab: CreativeTabs = object : CreativeTabs("Tesla Powered Thingies") {
-        override fun getIconItemStack() = ItemStack(FluidBurnerBlock)
-        override fun getTabIconItem() = this.iconItemStack
+        override fun createIcon()= ItemStack(FluidBurnerBlock)
     }
 
     @Mod.EventHandler

@@ -32,5 +32,5 @@ object FluidSolidifierBlock
                 'g', GearRegistry.getMaterial("iron")?.oreDictName ?: "gearIron"
         )
 
-    override fun getBlockLayer() = BlockRenderLayer.TRANSLUCENT
+    override fun getRenderLayer() = BlockRenderLayer.TRANSLUCENT
 }

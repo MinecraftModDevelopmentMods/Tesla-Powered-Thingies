@@ -18,11 +18,11 @@ import net.ndrei.teslapoweredthingies.fluids.LiquidXPFluid
 object LiquidXpBlock
     : FiniteFluidThingyBlock(LiquidXPFluid, MapColor.LIME) {
 
-    override fun onEntityCollidedWithBlock(world: World?, pos: BlockPos?, state: IBlockState?, entity: Entity?) {
-        if ((world != null) && (pos != null) && (entity is EntityLivingBase)) {
-            val quanta = this.getQuantaValue(world, pos)
+    override fun onEntityCollision(worldIn: World?, pos: BlockPos?, state: IBlockState, entityIn: Entity?) {
+        if ((worldIn != null) && (pos != null) && (entityIn is EntityLivingBase)) {
+            val quanta = this.getQuantaValue(worldIn, pos)
             if (quanta > 0) {
-                entity.addPotionEffect(PotionEffect(MobEffects.REGENERATION, quanta * 100 / 15))
+                entityIn.addPotionEffect(PotionEffect(MobEffects.REGENERATION, quanta * 100 / 15))
             }
         }
     }

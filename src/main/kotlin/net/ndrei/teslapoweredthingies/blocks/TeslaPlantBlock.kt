@@ -58,7 +58,7 @@ object TeslaPlantBlock
 
     init {
         this.setRegistryName(TeslaThingiesMod.MODID, "tesla_plant")
-        this.unlocalizedName = "${TeslaThingiesMod.MODID}.tesla_plant"
+        this.translationKey = "${TeslaThingiesMod.MODID}.tesla_plant"
         this.setCreativeTab(null) // TeslaThingiesMod.creativeTab)
 
         this.defaultState = this.blockState.baseState.withProperty(AGE, Integer.valueOf(0)!!)

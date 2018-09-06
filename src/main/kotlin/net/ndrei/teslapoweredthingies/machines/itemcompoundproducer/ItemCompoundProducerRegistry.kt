@@ -50,8 +50,8 @@ object ItemCompoundProducerRegistry
         arrayOf("basemetals", "modernmetals").forEach { modId ->
             if (Loader.isModLoaded(modId)) {
                 Block.REGISTRY.keys
-                    .filter { (it.resourceDomain == modId) && it.resourcePath.endsWith("_ore") }
-                    .map { it.resourcePath }
+                    .filter { (it.namespace == modId) && it.path.endsWith("_ore") }
+                    .map { it.path }
                     .mapTo(lumpNames) { it.substring(0, it.length - 4) }
             }
         }
@@ -108,7 +108,7 @@ object ItemCompoundProducerRegistry
             }
         }
 
-        readExtraRecipesFile(ItemCompoundProducerBlock.registryName!!.resourcePath) { json ->
+        readExtraRecipesFile(ItemCompoundProducerBlock.registryName!!.path) { json ->
             val stacks = json.readItemStacks("input_stack")
             if (stacks.isNotEmpty()) {
                 val fluid = json.readFluidStack("input_fluid") ?: return@readExtraRecipesFile

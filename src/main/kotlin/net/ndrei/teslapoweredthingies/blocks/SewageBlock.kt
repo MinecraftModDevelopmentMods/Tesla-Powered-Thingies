@@ -18,7 +18,7 @@ import net.ndrei.teslapoweredthingies.fluids.SewageFluid
 object SewageBlock
     : FiniteFluidThingyBlock(SewageFluid, MapColor.BROWN) {
 
-    override fun onEntityCollidedWithBlock(world: World?, pos: BlockPos?, state: IBlockState?, entity: Entity?) {
+    override fun onEntityCollision(world: World?, pos: BlockPos?, state: IBlockState?, entity: Entity?) {
         if ((world != null) && (pos != null) && (entity is EntityLivingBase)) {
             val quanta = this.getQuantaValue(world, pos)
             if (quanta > 0) {

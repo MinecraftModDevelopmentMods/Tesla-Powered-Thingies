@@ -16,7 +16,7 @@ interface IPoweredRegistry<T: IPoweredRecipe<T>> {
             var newName: ResourceLocation
             do {
                 index++
-                newName = ResourceLocation(name.resourceDomain, "${name.resourcePath}_$index")
+                newName = ResourceLocation(name.namespace, "${name.path}_$index")
             } while (this.getRecipe(newName) != null)
             recipe.registryName = newName
         }
@@ -24,19 +24,19 @@ interface IPoweredRegistry<T: IPoweredRecipe<T>> {
     }
 
     fun hasRecipe(filter: (T) -> Boolean) =
-        this.registry?.values?.any(filter) ?: false
+        this.registry?.valuesCollection?.any(filter) ?: false
 
     fun findRecipes(filter: (T) -> Boolean) =
-        this.registry?.values?.filter(filter) ?: listOf()
+        this.registry?.valuesCollection?.filter(filter) ?: listOf()
 
     fun findRecipe(filter: (T) -> Boolean) =
-        this.registry?.values?.firstOrNull(filter)
+        this.registry?.valuesCollection?.firstOrNull(filter)
 
     fun getRecipe(name: ResourceLocation) =
         this.registry?.getValue(name)
 
     fun getAllRecipes(): List<T> =
-        this.registry?.values ?: listOf()
+        this.registry?.valuesCollection?.toList() ?: listOf()
 
     fun removeRecipe(registration: ResourceLocation) {
         this.registry?.remove(registration)

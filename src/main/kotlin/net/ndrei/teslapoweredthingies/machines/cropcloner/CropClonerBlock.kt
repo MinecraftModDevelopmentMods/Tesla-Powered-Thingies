@@ -73,7 +73,7 @@ object CropClonerBlock
 
     override fun getStateFromMeta(meta: Int): IBlockState {
         val state = meta and 1
-        var enumfacing = EnumFacing.getFront(meta shr 1)
+        var enumfacing = EnumFacing.byIndex(meta shr 1)
         if (enumfacing.axis == EnumFacing.Axis.Y) {
             enumfacing = EnumFacing.NORTH
         }

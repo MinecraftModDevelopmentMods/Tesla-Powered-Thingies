@@ -20,7 +20,7 @@ import net.ndrei.teslapoweredthingies.blocks.TeslaPlantBlock
 object TeslaPlantSeeds: ItemSeeds(TeslaPlantBlock, Blocks.REDSTONE_BLOCK), ISelfRegisteringRenderer {
     init {
         this.setRegistryName(TeslaThingiesMod.MODID, "tesla_plant_seeds")
-        this.unlocalizedName = "${TeslaThingiesMod.MODID}.tesla_plant_seeds"
+        this.translationKey = "${TeslaThingiesMod.MODID}.tesla_plant_seeds"
         this.creativeTab = TeslaThingiesMod.creativeTab
     }
 

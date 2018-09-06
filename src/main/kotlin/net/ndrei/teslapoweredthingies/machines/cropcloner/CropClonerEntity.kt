@@ -148,8 +148,8 @@ class CropClonerEntity : ElectricFarmMachine(CropClonerEntity::class.java.name.h
 
         if (this.plantedThing != null) {
             val resource = this.plantedThing!!.block.registryName
-            nbt.setString("plantDomain", resource!!.resourceDomain)
-            nbt.setString("plantPath", resource.resourcePath)
+            nbt.setString("plantDomain", resource!!.namespace)
+            nbt.setString("plantPath", resource.path)
             val ageProperty = CropClonerPlantFactory.getPlant(this.plantedThing!!).getAgeProperty(this.plantedThing!!)
             if (ageProperty != null) {
                 nbt.setInteger("plantAge", this.plantedThing!!.getValue(ageProperty))

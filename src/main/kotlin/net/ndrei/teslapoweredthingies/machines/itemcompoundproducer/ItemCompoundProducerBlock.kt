@@ -11,5 +11,5 @@ import net.ndrei.teslapoweredthingies.machines.BaseThingyBlock
 object ItemCompoundProducerBlock
     : BaseThingyBlock<ItemCompoundProducerEntity>("item_compound_producer", ItemCompoundProducerEntity::class.java) {
 
-    override fun getBlockLayer() = BlockRenderLayer.TRANSLUCENT
+    override fun getRenderLayer() = BlockRenderLayer.TRANSLUCENT
 }

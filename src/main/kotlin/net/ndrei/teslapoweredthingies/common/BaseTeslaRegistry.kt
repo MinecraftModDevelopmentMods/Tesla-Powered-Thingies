@@ -74,7 +74,7 @@ abstract class BaseTeslaRegistry<T: IPoweredRecipe<T>>(registryName: String, pri
 //            var newName: ResourceLocation
 //            do {
 //                index++
-//                newName = ResourceLocation(name.resourceDomain, "${name.resourcePath}_${index}")
+//                newName = ResourceLocation(name.namespace, "${name.path}_${index}")
 //            } while (this.getRecipe(newName) != null)
 //            recipe.registryName = newName
 //        }

@@ -51,8 +51,8 @@ object CompoundMakerRegistry
         arrayOf("basemetals", "modernmetals").forEach { modId ->
             if (Loader.isModLoaded(modId)) {
                 Block.REGISTRY.keys
-                    .filter { (it.resourceDomain == modId) && it.resourcePath.endsWith("_ore") }
-                    .map { it.resourcePath }
+                    .filter { (it.namespace == modId) && it.path.endsWith("_ore") }
+                    .map { it.path }
                     .mapTo(lumpNames) { it.substring(0, it.length - 4) }
             }
         }
@@ -97,7 +97,7 @@ object CompoundMakerRegistry
                 )))
         }
 
-        readExtraRecipesFile(CompoundMakerBlock.registryName!!.resourcePath) { json ->
+        readExtraRecipesFile(CompoundMakerBlock.registryName!!.path) { json ->
             val topStacks = (if (json.has("top_stacks"))
                 json.getAsJsonArray("top_stacks").map { it.asJsonObject.readItemStack() }
             else listOf()).filterNotNull()

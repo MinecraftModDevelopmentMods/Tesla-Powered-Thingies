@@ -18,13 +18,13 @@ import net.ndrei.teslacorelib.PowderRegistry
 import net.ndrei.teslacorelib.TeslaCoreLib
 import net.ndrei.teslacorelib.annotations.AutoRegisterRecipesHandler
 import net.ndrei.teslacorelib.annotations.RegistryHandler
-import net.ndrei.teslacorelib.items.powders.ColoredPowderItem
-import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
 import net.ndrei.teslacorelib.config.readItemStack
 import net.ndrei.teslacorelib.config.readItemStacks
+import net.ndrei.teslacorelib.items.powders.ColoredPowderItem
 import net.ndrei.teslacorelib.utils.copyWithSize
 import net.ndrei.teslapoweredthingies.MOD_ID
 import net.ndrei.teslapoweredthingies.common.*
+import net.ndrei.teslapoweredthingies.config.readExtraRecipesFile
 
 /**
  * Created by CF on 2017-07-06.
@@ -125,7 +125,7 @@ object PowderMakerRegistry : BaseTeslaRegistry<PowderMakerRecipe>("powder_maker_
                 this.registerDefaultOreRecipe(it)
             }
 
-        readExtraRecipesFile(PowderMakerBlock.registryName!!.resourcePath) { json ->
+        readExtraRecipesFile(PowderMakerBlock.registryName!!.path) { json ->
             val inputs = json.readItemStacks("input_stack")
             if (inputs.isNotEmpty() && json.has("outputs")) {
                 val secondary = json.getAsJsonArray("outputs").mapNotNull<JsonElement, SecondaryOutput> {

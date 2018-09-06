@@ -37,7 +37,7 @@ object LiquidXPStorageBlock
 //        @SideOnly(Side.CLIENT)
 //        get() = LiquidXPStorageSpecialRenderer()
 //
-    override fun getBlockLayer() = BlockRenderLayer.TRANSLUCENT
+    override fun getRenderLayer() = BlockRenderLayer.TRANSLUCENT
 
     override fun doesSideBlockRendering(state: IBlockState, world: IBlockAccess, pos: BlockPos, face: EnumFacing)
             = (face == EnumFacing.DOWN)

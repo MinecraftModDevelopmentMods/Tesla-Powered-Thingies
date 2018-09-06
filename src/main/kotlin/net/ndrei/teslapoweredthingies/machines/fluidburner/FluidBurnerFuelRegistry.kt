@@ -24,7 +24,7 @@ object FluidBurnerFuelRegistry
     }
 
     override fun registerRecipes(asm: ASMDataTable, registry: IForgeRegistry<IRecipe>) {
-        readExtraRecipesFile(FluidBurnerBlock.registryName!!.resourcePath + "_fuel") { json ->
+        readExtraRecipesFile(FluidBurnerBlock.registryName!!.path + "_fuel") { json ->
             val fluid = json.readFluidStack() ?: return@readExtraRecipesFile
 
             this.addRecipe(FluidBurnerFuelRecipe(fluid, JsonUtils.getInt(json, "ticks", 100)))

@@ -11,5 +11,5 @@ import net.ndrei.teslapoweredthingies.machines.BaseThingyBlock
 object FluidCompoundProducerBlock
     : BaseThingyBlock<FluidCompoundProducerEntity>("fluid_compound_producer", FluidCompoundProducerEntity::class.java) {
 
-    override fun getBlockLayer() = BlockRenderLayer.TRANSLUCENT
+    override fun getRenderLayer() = BlockRenderLayer.TRANSLUCENT
 }

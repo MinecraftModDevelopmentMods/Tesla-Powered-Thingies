@@ -23,7 +23,7 @@ object TreeFarmRegistry
     override fun registerRecipes(asm: ASMDataTable, registry: IForgeRegistry<IRecipe>) {
         super.registerRecipes(asm, registry)
 
-        readExtraRecipesFile(TreeFarmBlock.registryName!!.resourcePath) { json ->
+        readExtraRecipesFile(TreeFarmBlock.registryName!!.path) { json ->
             val modId = JsonUtils.getString(json, "mod_id", "no_mod")
 
             val logs = JsonUtils.getJsonArray(json, "logs").map {

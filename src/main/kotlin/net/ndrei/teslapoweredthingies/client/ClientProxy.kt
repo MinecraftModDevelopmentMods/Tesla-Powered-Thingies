@@ -24,7 +24,7 @@ class ClientProxy : CommonProxy(Side.CLIENT) {
 //            override fun onResourceManagerReload(resourceManager: IResourceManager) {}
 //
 //            override fun accepts(modelLocation: ResourceLocation): Boolean {
-//                if (modelLocation.resourceDomain == TeslaThingiesMod.MODID && modelLocation.resourcePath.contains("multi_tank")) {
+//                if (modelLocation.namespace == TeslaThingiesMod.MODID && modelLocation.path.contains("multi_tank")) {
 //                    return true
 //                }
 //                return false

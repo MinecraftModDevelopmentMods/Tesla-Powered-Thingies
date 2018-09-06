@@ -33,7 +33,7 @@ object ItemLiquefierRegistry
     override fun registerRecipes(asm: ASMDataTable, registry: IForgeRegistry<IRecipe>) {
         this.registerForcedRecipes()
 
-        readExtraRecipesFile(ItemLiquefierBlock.registryName!!.resourcePath) { json ->
+        readExtraRecipesFile(ItemLiquefierBlock.registryName!!.path) { json ->
             val input = json.readItemStacks("input_stack")
             if (input.isNotEmpty()) {
                 val output = json.readFluidStack("output_fluid") ?: return@readExtraRecipesFile

@@ -30,5 +30,5 @@ object FluidBurnerBlock
                 'g', GearIronItem.oreDictName()
         )
 
-    override fun getBlockLayer() = BlockRenderLayer.TRANSLUCENT
+    override fun getRenderLayer() = BlockRenderLayer.TRANSLUCENT
 }
